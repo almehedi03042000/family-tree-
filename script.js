@@ -1,8 +1,12 @@
 const tree = document.getElementById("tree");
 const profile = document.getElementById("profile");
 const search = document.getElementById("search");
+const suggestions = document.getElementById("suggestions");
 
-/* always use full dataset */
+/* =========================
+   DATA HELPERS
+========================= */
+
 function getPerson(id) {
   return family.find(p => p.id === id);
 }
@@ -11,8 +15,11 @@ function getChildren(id) {
   return family.filter(p => p.father === id || p.mother === id);
 }
 
-/* GLOBAL SAFE RENDER */
-function render(data = family) {
+/* =========================
+   TREE RENDER (SAFE)
+========================= */
+
+function render(list = family) {
   tree.innerHTML = "";
 
   const roots = family.filter(p => !p.father && !p.mother);
@@ -40,7 +47,7 @@ function render(data = family) {
   /* LEVEL 1 */
   makeLevel(roots);
 
-  /* LEVEL 2 (children) */
+  /* LEVEL 2 */
   roots.forEach(r => {
     secondLevel = secondLevel.concat(getChildren(r.id));
   });
@@ -48,7 +55,10 @@ function render(data = family) {
   if (secondLevel.length) makeLevel(secondLevel);
 }
 
-/* PROFILE */
+/* =========================
+   PROFILE
+========================= */
+
 function showProfile(p) {
   const father = getPerson(p.father);
   const mother = getPerson(p.mother);
@@ -63,21 +73,46 @@ function showProfile(p) {
   `;
 }
 
-/* 🔍 SEARCH (SAFE + STABLE) */
+/* =========================
+   LIVE SEARCH + SUGGESTION
+========================= */
+
 search.addEventListener("input", (e) => {
   const val = e.target.value.toLowerCase().trim();
 
+  suggestions.innerHTML = "";
+
   if (!val) {
+    suggestions.style.display = "none";
     render(family);
     return;
   }
 
-  const filtered = family.filter(p =>
+  const matches = family.filter(p =>
     p.name.toLowerCase().includes(val)
   );
 
-  render(filtered);
+  suggestions.style.display = "block";
+
+  matches.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "suggestion-item";
+    item.innerText = p.name;
+
+    item.onclick = () => {
+      search.value = p.name;
+      suggestions.style.display = "none";
+      render([p]); // focus only selected
+    };
+
+    suggestions.appendChild(item);
+  });
+
+  render(matches.length ? matches : family);
 });
 
-/* INIT */
+/* =========================
+   INIT
+========================= */
+
 render(family);
