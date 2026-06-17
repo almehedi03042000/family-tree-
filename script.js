@@ -3,8 +3,6 @@ const profile = document.getElementById("profile");
 const search = document.getElementById("search");
 const svg = document.getElementById("lines");
 
-let currentData = family;
-
 function getPerson(id) {
   return family.find(p => p.id === id);
 }
@@ -13,28 +11,28 @@ function getChildren(id) {
   return family.filter(p => p.father === id || p.mother === id);
 }
 
-function render(data) {
+function render() {
   tree.innerHTML = "";
   svg.innerHTML = "";
 
-  const roots = data.filter(p => !p.father && !p.mother);
+  const roots = family.filter(p => !p.father && !p.mother);
 
-  let used = new Set();
+  let allCards = [];
 
   function makeLevel(list) {
     const level = document.createElement("div");
     level.className = "level";
 
     list.forEach(p => {
-      if (used.has(p.id)) return;
-      used.add(p.id);
-
       const card = document.createElement("div");
       card.className = "card";
+      card.setAttribute("data-name", p.name.toLowerCase());
 
       card.innerHTML = `<h3>${p.name}</h3>`;
 
       card.onclick = () => showProfile(p);
+
+      allCards.push({ person: p, element: card });
 
       level.appendChild(card);
     });
@@ -49,40 +47,39 @@ function render(data) {
     children = children.concat(getChildren(r.id));
   });
 
-  if (children.length) makeLevel(children);
+  makeLevel(children);
 
-  setTimeout(drawLines, 150);
+  setTimeout(() => drawLines(allCards), 150);
 }
 
-function drawLines() {
-  const cards = document.querySelectorAll(".card");
+function drawLines(allCards) {
   svg.innerHTML = "";
 
-  cards.forEach((card, i) => {
-    const person = currentData[i];
-    if (!person) return;
+  allCards.forEach(item => {
+    const child = item.person;
 
-    if (person.father) {
-      const parentIndex = currentData.findIndex(p => p.id === person.father);
-      const parentCard = cards[parentIndex];
+    if (!child.father) return;
 
-      if (parentCard) {
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const parentItem = allCards.find(x => x.person.id === child.father);
+    if (!parentItem) return;
 
-        const r1 = parentCard.getBoundingClientRect();
-        const r2 = card.getBoundingClientRect();
+    const parentEl = parentItem.element;
+    const childEl = item.element;
 
-        line.setAttribute("x1", r1.left + r1.width / 2);
-        line.setAttribute("y1", r1.top + r1.height);
-        line.setAttribute("x2", r2.left + r2.width / 2);
-        line.setAttribute("y2", r2.top);
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
-        line.setAttribute("stroke", "white");
-        line.setAttribute("stroke-width", "2");
+    const r1 = parentEl.getBoundingClientRect();
+    const r2 = childEl.getBoundingClientRect();
 
-        svg.appendChild(line);
-      }
-    }
+    line.setAttribute("x1", r1.left + r1.width / 2);
+    line.setAttribute("y1", r1.top + r1.height);
+    line.setAttribute("x2", r2.left + r2.width / 2);
+    line.setAttribute("y2", r2.top);
+
+    line.setAttribute("stroke", "white");
+    line.setAttribute("stroke-width", "2");
+
+    svg.appendChild(line);
   });
 }
 
@@ -100,18 +97,19 @@ function showProfile(p) {
   `;
 }
 
+/* 🔥 REAL SEARCH FIX */
 search.addEventListener("input", (e) => {
   const val = e.target.value.toLowerCase();
 
-  if (!val) {
-    currentData = family;
-  } else {
-    currentData = family.filter(p =>
-      p.name.toLowerCase().includes(val)
-    );
-  }
+  document.querySelectorAll(".card").forEach(card => {
+    const name = card.getAttribute("data-name");
 
-  render(currentData);
+    if (name.includes(val)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = val ? "none" : "block";
+    }
+  });
 });
 
-render(family);
+render();
