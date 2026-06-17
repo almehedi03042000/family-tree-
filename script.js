@@ -2,6 +2,9 @@ const tree = document.getElementById("tree");
 const profile = document.getElementById("profile");
 const search = document.getElementById("search");
 
+/* ALWAYS USE FULL FAMILY AS SOURCE */
+let sourceData = family;
+
 function getPerson(id) {
   return family.find(p => p.id === id);
 }
@@ -22,7 +25,11 @@ function render(list = family) {
     items.forEach(p => {
       const card = document.createElement("div");
       card.className = "card";
-      card.innerText = p.name;
+
+      /* BOX STYLE OUTPUT */
+      card.innerHTML = `
+        <div><b>${p.name}</b></div>
+      `;
 
       card.onclick = () => showProfile(p);
 
@@ -32,8 +39,10 @@ function render(list = family) {
     tree.appendChild(level);
   }
 
+  /* ROOT LEVEL */
   makeLevel(roots);
 
+  /* CHILD LEVEL */
   let children = [];
   roots.forEach(r => {
     children = children.concat(getChildren(r.id));
@@ -43,17 +52,20 @@ function render(list = family) {
 }
 
 function showProfile(p) {
+  const father = getPerson(p.father);
+  const mother = getPerson(p.mother);
+
   profile.classList.remove("hidden");
 
   profile.innerHTML = `
     <h2>${p.name}</h2>
-    <p>বাবা: ${getPerson(p.father)?.name || "অজানা"}</p>
-    <p>মা: ${getPerson(p.mother)?.name || "অজানা"}</p>
-    <button onclick="profile.classList.add('hidden')">Close</button>
+    <p>👨 বাবা: ${father ? father.name : "অজানা"}</p>
+    <p>👩 মা: ${mother ? mother.name : "অজানা"}</p>
+    <button onclick="profile.classList.add('hidden')">বন্ধ করুন</button>
   `;
 }
 
-/* 🔥 GUARANTEED WORKING SEARCH */
+/* 🔥 SIMPLE WORKING SEARCH */
 search.addEventListener("input", (e) => {
   const val = e.target.value.toLowerCase().trim();
 
@@ -69,4 +81,5 @@ search.addEventListener("input", (e) => {
   render(filtered);
 });
 
-render();
+/* INIT */
+render(family);
