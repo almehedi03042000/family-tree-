@@ -13,86 +13,60 @@ function getChildren(id) {
 
 /* ================= SIMPLE TREE ================= */
 
-function render(list = family) {
+function render() {
   tree.innerHTML = "";
 
-  const roots = family.filter(p => !p.father && !p.mother);
+  const parents = family.filter(p => !p.father && !p.mother);
 
-  let secondLevel = [];
+  parents.forEach(parent => {
 
-  function makeLevel(items) {
-    const level = document.createElement("div");
-    level.className = "level";
+    // children collect
+    let children = family.filter(c => c.father === parent.id);
 
-    items.forEach(p => {
+    // 👉 sorting (old → young assumption via id reverse)
+    children = children.sort((a, b) => b.id - a.id);
+
+    const block = document.createElement("div");
+    block.className = "family-block";
+
+    // 👨‍👩‍👧 PARENT BOX (father - mother)
+    const parentBox = document.createElement("div");
+    parentBox.className = "parent-box";
+
+    const mother = family.find(p => p.id === 2); // static mother (as per your data)
+
+    parentBox.innerHTML = `
+      <b>${parent.name} - ${mother?.name || "মা নেই"}</b>
+    `;
+
+    parentBox.onclick = () => showProfile(parent);
+
+    block.appendChild(parentBox);
+
+    // ⬇ arrow
+    if (children.length > 0) {
+      const arrow = document.createElement("div");
+      arrow.innerText = "⬇";
+      arrow.style.margin = "6px";
+      block.appendChild(arrow);
+    }
+
+    // 👶 CHILDREN ROW (left → right)
+    const childRow = document.createElement("div");
+    childRow.className = "level";
+
+    children.forEach(child => {
       const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<b>${p.name}</b>`;
+      card.className = "card child-card";
+      card.innerText = child.name;
 
-      card.onclick = () => showProfile(p);
+      card.onclick = () => showProfile(child);
 
-      level.appendChild(card);
+      childRow.appendChild(card);
     });
 
-    tree.appendChild(level);
-  }
+    block.appendChild(childRow);
 
-  makeLevel(roots);
-
-  roots.forEach(r => {
-    secondLevel = secondLevel.concat(getChildren(r.id));
+    tree.appendChild(block);
   });
-
-  if (secondLevel.length) makeLevel(secondLevel);
 }
-
-/* ================= PROFILE ================= */
-
-function showProfile(p) {
-  profile.classList.remove("hidden");
-
-  profile.innerHTML = `
-    <h2>${p.name}</h2>
-    <p>👨 বাবা: ${getPerson(p.father)?.name || "অজানা"}</p>
-    <p>👩 মা: ${getPerson(p.mother)?.name || "অজানা"}</p>
-    <button onclick="profile.classList.add('hidden')">বন্ধ করুন</button>
-  `;
-}
-
-/* ================= BASIC SEARCH ================= */
-
-search.addEventListener("input", (e) => {
-  const val = e.target.value.toLowerCase().trim();
-
-  if (!val) {
-    suggestions.style.display = "none";
-    render(family);
-    return;
-  }
-
-  const matches = family.filter(p =>
-    p.name.toLowerCase().includes(val)
-  );
-
-  suggestions.innerHTML = "";
-  suggestions.style.display = "block";
-
-  matches.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "suggestion-item";
-    div.innerText = p.name;
-
-    div.onclick = () => {
-      search.value = p.name;
-      suggestions.style.display = "none";
-      render([p]);
-    };
-
-    suggestions.appendChild(div);
-  });
-
-  render(matches.length ? matches : family);
-});
-
-/* INIT */
-render(family);
