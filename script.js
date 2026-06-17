@@ -1,6 +1,7 @@
 const tree = document.getElementById("tree");
 const profile = document.getElementById("profile");
 const search = document.getElementById("search");
+const svg = document.getElementById("lines");
 
 function getPerson(id) {
   return family.find(p => p.id === id);
@@ -12,6 +13,7 @@ function getChildren(id) {
 
 function render(data = family) {
   tree.innerHTML = "";
+  svg.innerHTML = "";
 
   const roots = data.filter(p => !p.father && !p.mother);
 
@@ -38,16 +40,51 @@ function render(data = family) {
     tree.appendChild(level);
   }
 
-  // root generation
+  // Level 1
   makeLevel(roots);
 
-  // children generation
+  // Level 2
   let children = [];
   roots.forEach(r => {
     children = children.concat(getChildren(r.id));
   });
 
   if (children.length) makeLevel(children);
+
+  // draw lines after render
+  setTimeout(drawLines, 200);
+}
+
+function drawLines() {
+  const cards = document.querySelectorAll(".card");
+  svg.innerHTML = "";
+
+  cards.forEach((card, i) => {
+    const person = family[i];
+    if (!person) return;
+
+    if (person.father) {
+      const parentIndex = family.findIndex(p => p.id === person.father);
+      const parentCard = cards[parentIndex];
+
+      if (parentCard) {
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+
+        const r1 = parentCard.getBoundingClientRect();
+        const r2 = card.getBoundingClientRect();
+
+        line.setAttribute("x1", r1.left + r1.width / 2);
+        line.setAttribute("y1", r1.top + r1.height);
+        line.setAttribute("x2", r2.left + r2.width / 2);
+        line.setAttribute("y2", r2.top);
+
+        line.setAttribute("stroke", "white");
+        line.setAttribute("stroke-width", "2");
+
+        svg.appendChild(line);
+      }
+    }
+  });
 }
 
 function showProfile(p) {
