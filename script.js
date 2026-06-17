@@ -16,8 +16,7 @@ function getChildren(id) {
 function render() {
   tree.innerHTML = "";
 
-  const parents = family.filter(p => !p.father && !p.mother);
-
+ const parents = family.filter(p => p.id === 1);
   parents.forEach(parent => {
 
     // children collect
