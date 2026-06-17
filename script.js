@@ -1,69 +1,29 @@
 const tree = document.getElementById("tree");
-const profile = document.getElementById("profile");
 const search = document.getElementById("search");
 const suggestions = document.getElementById("suggestions");
+const profile = document.getElementById("profile");
 
-function getPerson(id) {
-  return family.find(p => p.id === id);
-}
-
-function getChildren(id) {
-  return family.filter(p => p.father === id || p.mother === id);
-}
-
-/* ================= TREE ================= */
-
-function render(list = family) {
+function render(data = family) {
   tree.innerHTML = "";
 
-  const roots = family.filter(p => !p.father && !p.mother);
+  data.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerText = p.name;
 
-  function makeLevel(items) {
-    const level = document.createElement("div");
-    level.className = "level";
+    card.onclick = () => {
+      profile.innerHTML = `
+        <h2>${p.name}</h2>
+        <p>Father ID: ${p.father || "N/A"}</p>
+        <p>Mother ID: ${p.mother || "N/A"}</p>
+      `;
+    };
 
-    items.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `<b>${p.name}</b>`;
-
-      card.onclick = () => showProfile(p);
-
-      level.appendChild(card);
-    });
-
-    tree.appendChild(level);
-  }
-
-  makeLevel(roots);
-
-  let children = [];
-  roots.forEach(r => {
-    children = children.concat(getChildren(r.id));
+    tree.appendChild(card);
   });
-
-  if (children.length) makeLevel(children);
 }
 
-/* ================= PROFILE ================= */
-
-function showProfile(p) {
-  const father = getPerson(p.father);
-  const mother = getPerson(p.mother);
-
-  profile.classList.remove("hidden");
-
-  profile.innerHTML = `
-    <h2>${p.name}</h2>
-    <p>👨 বাবা: ${father ? father.name : "অজানা"}</p>
-    <p>👩 মা: ${mother ? mother.name : "অজানা"}</p>
-    <button onclick="profile.classList.add('hidden')">বন্ধ করুন</button>
-  `;
-}
-
-/* ================= LIVE SEARCH ================= */
-
+/* 🔥 LIVE SEARCH (GUARANTEED) */
 search.addEventListener("input", (e) => {
   const val = e.target.value.toLowerCase().trim();
 
@@ -82,22 +42,21 @@ search.addEventListener("input", (e) => {
   suggestions.style.display = "block";
 
   matches.forEach(p => {
-    const item = document.createElement("div");
-    item.className = "suggestion-item";
-    item.innerText = p.name;
+    const div = document.createElement("div");
+    div.innerText = p.name;
+    div.style.padding = "8px";
+    div.style.cursor = "pointer";
 
-    item.onclick = () => {
+    div.onclick = () => {
       search.value = p.name;
       suggestions.style.display = "none";
       render([p]);
     };
 
-    suggestions.appendChild(item);
+    suggestions.appendChild(div);
   });
 
-  render(matches.length ? matches : family);
+  render(matches.length ? matches : []);
 });
-
-/* ================= INIT ================= */
 
 render(family);
