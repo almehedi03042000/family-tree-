@@ -3,10 +3,6 @@ const profile = document.getElementById("profile");
 const search = document.getElementById("search");
 const suggestions = document.getElementById("suggestions");
 
-/* =========================
-   DATA HELPERS
-========================= */
-
 function getPerson(id) {
   return family.find(p => p.id === id);
 }
@@ -15,16 +11,12 @@ function getChildren(id) {
   return family.filter(p => p.father === id || p.mother === id);
 }
 
-/* =========================
-   TREE RENDER (SAFE)
-========================= */
+/* ================= TREE ================= */
 
 function render(list = family) {
   tree.innerHTML = "";
 
   const roots = family.filter(p => !p.father && !p.mother);
-
-  let secondLevel = [];
 
   function makeLevel(items) {
     const level = document.createElement("div");
@@ -44,20 +36,17 @@ function render(list = family) {
     tree.appendChild(level);
   }
 
-  /* LEVEL 1 */
   makeLevel(roots);
 
-  /* LEVEL 2 */
+  let children = [];
   roots.forEach(r => {
-    secondLevel = secondLevel.concat(getChildren(r.id));
+    children = children.concat(getChildren(r.id));
   });
 
-  if (secondLevel.length) makeLevel(secondLevel);
+  if (children.length) makeLevel(children);
 }
 
-/* =========================
-   PROFILE
-========================= */
+/* ================= PROFILE ================= */
 
 function showProfile(p) {
   const father = getPerson(p.father);
@@ -73,9 +62,7 @@ function showProfile(p) {
   `;
 }
 
-/* =========================
-   LIVE SEARCH + SUGGESTION
-========================= */
+/* ================= LIVE SEARCH ================= */
 
 search.addEventListener("input", (e) => {
   const val = e.target.value.toLowerCase().trim();
@@ -102,7 +89,7 @@ search.addEventListener("input", (e) => {
     item.onclick = () => {
       search.value = p.name;
       suggestions.style.display = "none";
-      render([p]); // focus only selected
+      render([p]);
     };
 
     suggestions.appendChild(item);
@@ -111,8 +98,6 @@ search.addEventListener("input", (e) => {
   render(matches.length ? matches : family);
 });
 
-/* =========================
-   INIT
-========================= */
+/* ================= INIT ================= */
 
 render(family);
