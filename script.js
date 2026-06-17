@@ -3,6 +3,8 @@ const profile = document.getElementById("profile");
 const search = document.getElementById("search");
 const svg = document.getElementById("lines");
 
+let currentData = family;
+
 function getPerson(id) {
   return family.find(p => p.id === id);
 }
@@ -11,7 +13,7 @@ function getChildren(id) {
   return family.filter(p => p.father === id || p.mother === id);
 }
 
-function render(data = family) {
+function render(data) {
   tree.innerHTML = "";
   svg.innerHTML = "";
 
@@ -40,10 +42,8 @@ function render(data = family) {
     tree.appendChild(level);
   }
 
-  // Level 1
   makeLevel(roots);
 
-  // Level 2
   let children = [];
   roots.forEach(r => {
     children = children.concat(getChildren(r.id));
@@ -51,8 +51,7 @@ function render(data = family) {
 
   if (children.length) makeLevel(children);
 
-  // draw lines after render
-  setTimeout(drawLines, 200);
+  setTimeout(drawLines, 150);
 }
 
 function drawLines() {
@@ -60,11 +59,11 @@ function drawLines() {
   svg.innerHTML = "";
 
   cards.forEach((card, i) => {
-    const person = family[i];
+    const person = currentData[i];
     if (!person) return;
 
     if (person.father) {
-      const parentIndex = family.findIndex(p => p.id === person.father);
+      const parentIndex = currentData.findIndex(p => p.id === person.father);
       const parentCard = cards[parentIndex];
 
       if (parentCard) {
@@ -104,11 +103,15 @@ function showProfile(p) {
 search.addEventListener("input", (e) => {
   const val = e.target.value.toLowerCase();
 
-  const filtered = family.filter(p =>
-    p.name.toLowerCase().includes(val)
-  );
+  if (!val) {
+    currentData = family;
+  } else {
+    currentData = family.filter(p =>
+      p.name.toLowerCase().includes(val)
+    );
+  }
 
-  render(filtered);
+  render(currentData);
 });
 
-render();
+render(family);
