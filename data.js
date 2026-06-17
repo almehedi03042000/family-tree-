@@ -1,21 +1,10 @@
-const family = [
-  {
-    id: 1,
-    name: "মেহেদী",
-    father: null,
-    mother: null
-  },
-  {
-    id: 2,
-    name: "সাওদা",
-    father: null,
-    mother: null
-  },
-  {
-    id: 3,
-    name: "সায়ন",
-    father: 1,
-    mother: 2
-  }
-];
+{
+  id: 25,
+  name: "আব্দুল করিম",
+  gender: "male",
+  father: 10,
+  mother: 11,
+  birthYear: 1965,
+  photo: "images/karim.jpg"
+}
 ];
