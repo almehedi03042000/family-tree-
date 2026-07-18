@@ -1,1 +1,9 @@
-
+{
+  "project": {
+    "name": "Sardar Family Tree",
+    "version": "0.2",
+    "createdBy": "AL Mehedi",
+    "rootPerson": "P0001"
+  },
+  "members": []
+}
