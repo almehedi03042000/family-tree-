@@ -1,9 +1,103 @@
 {
   "project": {
     "name": "Sardar Family Tree",
-    "version": "0.2",
+    "version": "0.2.1",
     "createdBy": "AL Mehedi",
-    "rootPerson": "P0001"
+    "rootPerson": "P00001"
   },
-  "members": []
+
+  "members": [
+    {
+      "id": "P00001",
+      "name": "পদ্মাশী সর্দার",
+      "gender": "male",
+      "deceased": false,
+
+      "father": null,
+      "mother": null,
+
+      "spouses": [],
+
+      "children": [
+        "P00002"
+      ],
+
+      "photo": "",
+      "birthDate": "",
+      "deathDate": "",
+      "occupation": "",
+      "phone": "",
+      "address": "",
+      "notes": ""
+    },
+
+    {
+      "id": "P00002",
+      "name": "আকালি সর্দার",
+      "gender": "male",
+      "deceased": false,
+
+      "father": "P00001",
+      "mother": null,
+
+      "spouses": [],
+
+      "children": [
+        "P00003",
+        "P00004"
+      ],
+
+      "photo": "",
+      "birthDate": "",
+      "deathDate": "",
+      "occupation": "",
+      "phone": "",
+      "address": "",
+      "notes": ""
+    },
+
+    {
+      "id": "P00003",
+      "name": "ইসু সর্দার",
+      "gender": "male",
+      "deceased": false,
+
+      "father": "P00002",
+      "mother": null,
+
+      "spouses": [],
+
+      "children": [],
+
+      "photo": "",
+      "birthDate": "",
+      "deathDate": "",
+      "occupation": "",
+      "phone": "",
+      "address": "",
+      "notes": ""
+    },
+
+    {
+      "id": "P00004",
+      "name": "কেসু সর্দার",
+      "gender": "male",
+      "deceased": false,
+
+      "father": "P00002",
+      "mother": null,
+
+      "spouses": [],
+
+      "children": [],
+
+      "photo": "",
+      "birthDate": "",
+      "deathDate": "",
+      "occupation": "",
+      "phone": "",
+      "address": "",
+      "notes": ""
+    }
+  ]
 }
