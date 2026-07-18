@@ -123,7 +123,9 @@ async function renderTree() {
         </div>
     `;
 
-    treeContainer.innerHTML = html;
+  treeContainer.innerHTML = createTree(
+    familyData.project.rootPerson
+);
 
 }
 
@@ -223,5 +225,36 @@ async function renderTree() {
         </div>
     `;
 }
+function createTree(personId) {
 
+    const person = familyData.members.find(
+        member => member.id === personId
+    );
+
+    if (!person) return "";
+
+    const children = familyData.members.filter(
+        member => member.father === person.id
+    );
+
+    return `
+        <div class="tree-node">
+
+            <div class="member-card">
+                <h2>${person.name}</h2>
+            </div>
+
+            ${
+                children.length > 0
+                ? `
+                    <div class="children-row">
+                        ${children.map(child => createTree(child.id)).join("")}
+                    </div>
+                  `
+                : ""
+            }
+
+        </div>
+    `;
+}
 renderTree();
