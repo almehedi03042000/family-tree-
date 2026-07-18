@@ -110,21 +110,23 @@ function createTree(personId) {
 
             </div>
 <div class="tree-line"></div>
-            ${children.length > 0 ? `
+           ${children.length > 0 ? `
 
-                <div class="children-row">
+    <div class="tree-connector">
 
-                    ${children.map(child => createTree(child.id)).join("")}
+        <div class="vertical-line"></div>
 
-                </div>
+        <div class="horizontal-line"></div>
 
-            ` : ""}
+    </div>
 
-        </div>
+    <div class="children-row">
 
-    `;
+        ${children.map(child => createTree(child.id)).join("")}
 
-}
+    </div>
+
+` : ""}
 
 // ==========================================
 // Render Tree
