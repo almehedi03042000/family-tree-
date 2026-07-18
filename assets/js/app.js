@@ -92,6 +92,21 @@ function getChildren(id) {
 // Recursive Tree
 // ==========================================
 
+
+// ==========================================
+// Render Tree
+// ==========================================
+
+async function renderTree() {
+
+    await loadFamilyData();
+
+    if (!familyData) return;
+
+    treeContainer.innerHTML = createTree(
+        familyData.project.rootPerson
+    );
+
 function createTree(personId) {
 
     const person = getMember(personId);
@@ -145,20 +160,8 @@ function createTree(personId) {
     </div>
 
 ` : ""}
-
-// ==========================================
-// Render Tree
-// ==========================================
-
-async function renderTree() {
-
-    await loadFamilyData();
-
-    if (!familyData) return;
-
-    treeContainer.innerHTML = createTree(
-        familyData.project.rootPerson
-    );
+    </div>
+    `;
 
 }
 
