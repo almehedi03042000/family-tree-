@@ -190,10 +190,9 @@ async function renderTree() {
         member => member.id === familyData.project.rootPerson
     );
 
-    const akali = familyData.members.find(member => member.id === "P00002");
-    const isu    = familyData.members.find(member => member.id === "P00003");
-    const kesu   = familyData.members.find(member => member.id === "P00004");
-
+    const children = familyData.members.filter(
+    member => member.father === root.id
+);
     treeContainer.innerHTML = `
         <div class="tree-home">
 
