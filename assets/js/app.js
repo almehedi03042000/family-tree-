@@ -91,7 +91,8 @@ function getChildren(id) {
    return (person.children || [])
     .map(childId => getMember(childId))
     .filter(Boolean);
-
+   
+ }
 function getFather(id) {
 
     const person = getMember(id);
