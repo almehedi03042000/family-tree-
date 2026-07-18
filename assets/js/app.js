@@ -1,24 +1,24 @@
 /* ==========================================
    Sardar Family Tree
-   Version 0.1
+   Version 0.3.1
 ========================================== */
 
 "use strict";
 
-// =============================
-// Project Information
-// =============================
+// ==========================================
+// App Information
+// ==========================================
 
 const APP = {
     name: "Sardar Family Tree",
-    version: "0.1"
+    version: "0.3.1"
 };
 
 console.log(`${APP.name} v${APP.version} Loaded`);
 
-// =============================
+// ==========================================
 // DOM Elements
-// =============================
+// ==========================================
 
 const treeContainer = document.getElementById("treeContainer");
 const searchBox = document.getElementById("searchBox");
@@ -29,20 +29,76 @@ const resetZoomBtn = document.getElementById("resetZoom");
 
 const darkModeBtn = document.getElementById("darkModeBtn");
 
-// =============================
-// Placeholder Functions
-// =============================
+// ==========================================
+// Global Variables
+// ==========================================
 
-function loadFamilyData() {
-    console.log("Family Database will load here...");
+let familyData = null;
+
+// ==========================================
+// Core Functions
+// ==========================================
+
+async function loadFamilyData() {
+
+    try {
+
+        const response = await fetch("data/family.json");
+
+        if (!response.ok) {
+            throw new Error("family.json not found");
+        }
+
+        familyData = await response.json();
+
+        console.log("✅ Family Database Loaded");
+
+    } catch (error) {
+
+        console.error(error);
+
+        treeContainer.innerHTML = `
+            <h2>❌ Database Load Failed</h2>
+            <p>family.json লোড করা যায়নি।</p>
+        `;
+    }
+
 }
 
-function renderTree() {
-    console.log("Tree Rendering...");
+async function renderTree() {
+
+    await loadFamilyData();
+
+    if (!familyData) return;
+
+    treeContainer.innerHTML = `
+
+        <div class="tree-home">
+
+            <h2>🌳 সর্দার পরিবারের বংশবৃক্ষ</h2>
+
+            <p><strong>মোট সদস্য:</strong> ${familyData.members.length}</p>
+
+            <p><strong>Database Version:</strong> ${familyData.project.version}</p>
+
+            <hr>
+
+            <p>✅ Tree Engine প্রস্তুত।</p>
+
+            <p>পরবর্তী Version থেকে বংশবৃক্ষ দেখা যাবে।</p>
+
+        </div>
+
+    `;
+
 }
+
+// ==========================================
+// Feature Functions
+// ==========================================
 
 function searchMember() {
-    console.log("Searching...");
+    console.log("Search:", searchBox.value);
 }
 
 function zoomIn() {
@@ -58,100 +114,23 @@ function resetZoom() {
 }
 
 function toggleDarkMode() {
-    console.log("Dark Mode");
+    document.body.classList.toggle("dark");
 }
 
-// =============================
+// ==========================================
 // Events
-// =============================
+// ==========================================
 
 zoomInBtn.addEventListener("click", zoomIn);
-
 zoomOutBtn.addEventListener("click", zoomOut);
-
 resetZoomBtn.addEventListener("click", resetZoom);
 
 darkModeBtn.addEventListener("click", toggleDarkMode);
 
 searchBox.addEventListener("input", searchMember);
 
-// =============================
-// Start Application
-// =============================
+// ==========================================
+// Initialize App
+// ==========================================
 
-loadFamilyData();
-let familyData = null;
-
-async function loadFamilyData() {
-
-    try {
-
-        const response = await fetch("data/family.json");
-
-        familyData = await response.json();
-
-        console.log("Database Loaded");
-
-        console.log(familyData);
-
-    } catch (error) {
-
-        console.error("Database Load Failed", error);
-
-    }
-
-}
-
-async function renderTree() {
-
-    await loadFamilyData();
-
-    if (!familyData) return;
-
-    treeContainer.innerHTML = `
-        <h2>🌳 Family Tree Database</h2>
-
-        <p>Total Members : <strong>${familyData.members.length}</strong></p>
-
-        <p>Project Version : ${familyData.project.version}</p>
-    `;
-
-}
 renderTree();
-let familyData = null;
-
-async function loadFamilyData() {
-
-    try {
-
-        const response = await fetch("data/family.json");
-
-        familyData = await response.json();
-
-        console.log("Database Loaded");
-
-        console.log(familyData);
-
-    } catch (error) {
-
-        console.error("Database Load Failed", error);
-
-    }
-
-}
-
-async function renderTree() {
-
-    await loadFamilyData();
-
-    if (!familyData) return;
-
-    treeContainer.innerHTML = `
-        <h2>🌳 Family Tree Database</h2>
-
-        <p>Total Members : <strong>${familyData.members.length}</strong></p>
-
-        <p>Project Version : ${familyData.project.version}</p>
-    `;
-
-}
