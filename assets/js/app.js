@@ -179,4 +179,50 @@ searchBox.addEventListener("input", searchMember);
 // Initialize
 // ==========================================
 
+
+async function renderTree() {
+
+    await loadFamilyData();
+
+    if (!familyData) return;
+
+    const root = familyData.members.find(
+        member => member.id === familyData.project.rootPerson
+    );
+
+    const akali = familyData.members.find(member => member.id === "P00002");
+    const isu    = familyData.members.find(member => member.id === "P00003");
+    const kesu   = familyData.members.find(member => member.id === "P00004");
+
+    treeContainer.innerHTML = `
+        <div class="tree-home">
+
+            <div class="member-card">
+                <h2>${root.name}</h2>
+            </div>
+
+            <div style="font-size:40px;">↓</div>
+
+            <div class="member-card">
+                <h2>${akali.name}</h2>
+            </div>
+
+            <div style="font-size:40px;">↓</div>
+
+            <div class="children-row">
+
+                <div class="member-card">
+                    <h2>${isu.name}</h2>
+                </div>
+
+                <div class="member-card">
+                    <h2>${kesu.name}</h2>
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
 renderTree();
