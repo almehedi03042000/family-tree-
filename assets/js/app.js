@@ -80,5 +80,78 @@ searchBox.addEventListener("input", searchMember);
 // =============================
 
 loadFamilyData();
+let familyData = null;
 
+async function loadFamilyData() {
+
+    try {
+
+        const response = await fetch("data/family.json");
+
+        familyData = await response.json();
+
+        console.log("Database Loaded");
+
+        console.log(familyData);
+
+    } catch (error) {
+
+        console.error("Database Load Failed", error);
+
+    }
+
+}
+
+async function renderTree() {
+
+    await loadFamilyData();
+
+    if (!familyData) return;
+
+    treeContainer.innerHTML = `
+        <h2>🌳 Family Tree Database</h2>
+
+        <p>Total Members : <strong>${familyData.members.length}</strong></p>
+
+        <p>Project Version : ${familyData.project.version}</p>
+    `;
+
+}
 renderTree();
+let familyData = null;
+
+async function loadFamilyData() {
+
+    try {
+
+        const response = await fetch("data/family.json");
+
+        familyData = await response.json();
+
+        console.log("Database Loaded");
+
+        console.log(familyData);
+
+    } catch (error) {
+
+        console.error("Database Load Failed", error);
+
+    }
+
+}
+
+async function renderTree() {
+
+    await loadFamilyData();
+
+    if (!familyData) return;
+
+    treeContainer.innerHTML = `
+        <h2>🌳 Family Tree Database</h2>
+
+        <p>Total Members : <strong>${familyData.members.length}</strong></p>
+
+        <p>Project Version : ${familyData.project.version}</p>
+    `;
+
+}
