@@ -71,25 +71,31 @@ async function renderTree() {
 
     if (!familyData) return;
 
-    treeContainer.innerHTML = `
+treeContainer.innerHTML = `
+<div class="tree-home">
 
-        <div class="tree-home">
+    <div class="member-card">
+        <h2>${root.name}</h2>
+    </div>
 
-            <h2>🌳 সর্দার পরিবারের বংশবৃক্ষ</h2>
+    <div class="member-card">
+        <h2>${akali.name}</h2>
+    </div>
 
-            <p><strong>মোট সদস্য:</strong> ${familyData.members.length}</p>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
 
-            <p><strong>Database Version:</strong> ${familyData.project.version}</p>
-
-            <hr>
-
-            <p>✅ Tree Engine প্রস্তুত।</p>
-
-            <p>পরবর্তী Version থেকে বংশবৃক্ষ দেখা যাবে।</p>
-
+        <div class="member-card">
+            <h2>${isu.name}</h2>
         </div>
 
-    `;
+        <div class="member-card">
+            <h2>${kesu.name}</h2>
+        </div>
+
+    </div>
+
+</div>
+`;
 
 }
 
@@ -142,7 +148,9 @@ async function renderTree() {
     const root = familyData.members.find(
         member => member.id === familyData.project.rootPerson
     );
-
+const akali = familyData.members.find(member => member.id === "P00002");
+const isu = familyData.members.find(member => member.id === "P00003");
+const kesu = familyData.members.find(member => member.id === "P00004");
     treeContainer.innerHTML = `
         <div class="tree-home">
 
