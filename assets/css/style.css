@@ -1,7 +1,9 @@
 /* ==========================================
    Sardar Family Tree
-   Version 0.1
+   Version 2.0.0
 ========================================== */
+
+/* ========= Reset ========= */
 
 *{
     margin:0;
@@ -9,79 +11,188 @@
     box-sizing:border-box;
 }
 
-body{
-    font-family: "Segoe UI", Arial, sans-serif;
-    background:#f4f6fb;
-    color:#222;
+html{
+    scroll-behavior:smooth;
 }
 
-/* Header */
+body{
+
+    font-family:
+        "Noto Sans Bengali",
+        "Hind Siliguri",
+        sans-serif;
+
+    background:#0f172a;
+
+    color:#ffffff;
+
+    min-height:100vh;
+
+    overflow-x:auto;
+
+}
+
+/* ========= Variables ========= */
+
+:root{
+
+    --bg:#0f172a;
+    --card:#1e293b;
+    --card-hover:#26364d;
+
+    --primary:#22c55e;
+    --secondary:#3b82f6;
+
+    --text:#ffffff;
+    --text2:#cbd5e1;
+
+    --shadow:
+        0 10px 30px rgba(0,0,0,.35);
+
+    --radius:18px;
+
+}
+
+/* ========= Scrollbar ========= */
+
+::-webkit-scrollbar{
+
+    width:10px;
+    height:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111827;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#22c55e;
+
+    border-radius:20px;
+
+}
+
+/* ========= Header ========= */
 
 .header{
-    background:#1565c0;
-    color:#fff;
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
-    padding:15px 30px;
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    padding:18px 30px;
+
+    background:#111827;
+
+    border-bottom:1px solid #1f2937;
 
     position:sticky;
+
     top:0;
-    z-index:1000;
+
+    z-index:999;
+
 }
 
 .logo{
-    font-size:24px;
+
+    font-size:28px;
+
     font-weight:bold;
+
+    color:#22c55e;
+
 }
 
 .header-tools{
+
     display:flex;
-    gap:10px;
+
+    align-items:center;
+
+    gap:12px;
+
 }
 
 #searchBox{
 
     width:260px;
 
-    padding:10px 15px;
+    padding:12px 16px;
 
     border:none;
-    border-radius:8px;
+
+    border-radius:12px;
 
     outline:none;
 
+    background:#1e293b;
+
+    color:#fff;
+
+    font-size:16px;
+
 }
 
-#darkModeBtn{
+#searchBox::placeholder{
 
-    padding:10px 14px;
+    color:#94a3b8;
+
+}
+
+/* ========= Button ========= */
+
+button{
+
+    padding:10px 16px;
 
     border:none;
 
-    border-radius:8px;
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
 
     cursor:pointer;
 
+    transition:.25s;
+
+    font-size:15px;
+
 }
 
-/* Hero */
+button:hover{
+
+    transform:translateY(-2px);
+
+    background:#1d4ed8;
+
+}
+
+/* ========= Hero ========= */
 
 .hero{
 
     text-align:center;
 
-    padding:40px 20px;
-
-    background:white;
+    padding:45px 20px;
 
 }
 
 .hero h1{
 
-    font-size:34px;
+    font-size:42px;
 
     margin-bottom:10px;
 
@@ -89,11 +200,13 @@ body{
 
 .hero p{
 
-    color:#666;
+    color:#cbd5e1;
+
+    font-size:18px;
 
 }
 
-/* Toolbar */
+/* ========= Toolbar ========= */
 
 .toolbar{
 
@@ -101,365 +214,415 @@ body{
 
     justify-content:center;
 
-    gap:12px;
+    gap:15px;
 
-    margin:20px;
-
-}
-
-.toolbar button{
-
-    padding:10px 18px;
-
-    cursor:pointer;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#1565c0;
-
-    color:white;
-
-    font-size:16px;
+    margin-bottom:40px;
 
 }
+/* ==========================================
+   TREE LAYOUT
+========================================== */
 
-/* Tree */
+main{
 
-#treeContainer{
+    width:100%;
 
-    width:95%;
-
-    min-height:600px;
-
-    margin:auto;
-
-    background:white;
-
-    border-radius:15px;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    overflow:auto;
 
     padding:30px;
 
 }
 
-.loading{
+#treeContainer{
 
-    text-align:center;
-
-    color:#888;
-
-    font-size:22px;
-
-    padding:120px 0;
-
-}
-
-/* Footer */
-
-footer{
-
-    margin-top:40px;
-
-    background:#1565c0;
-
-    color:white;
-
-    text-align:center;
-
-    padding:18px;
-
-}
-
-/* Responsive */
-
-@media(max-width:768px){
-
-.header{
-
-flex-direction:column;
-
-gap:15px;
-
-}
-
-#searchBox{
-
-width:100%;
-
-}
-
-.hero h1{
-
-font-size:26px;
-
-}
-
-.toolbar{
-
-flex-wrap:wrap;
-
-}
-
-}
-/* ==========================
-   Member Card
-========================== */
-
-.tree-home{
     display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:40px;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    min-width:max-content;
+
     padding:40px;
+
 }
+
+/* ==========================================
+   TREE NODE
+========================================== */
+
+.tree-node{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    position:relative;
+
+    margin:0 20px;
+
+}
+
+/* ==========================================
+   CHILDREN
+========================================== */
+
+.children-row{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    gap:50px;
+
+    margin-top:35px;
+
+}
+
+/* ==========================================
+   MEMBER CARD
+========================================== */
 
 .member-card{
 
-    min-width:260px;
+    width:220px;
 
-    background:#1e293b;
+    background:var(--card);
 
-    color:white;
+    border:2px solid #334155;
 
-    border:2px solid #3b82f6;
-
-    border-radius:16px;
+    border-radius:var(--radius);
 
     padding:20px;
 
     text-align:center;
 
-    box-shadow:0 10px 25px rgba(0,0,0,.35);
+    box-shadow:var(--shadow);
 
     transition:.3s;
+
+    cursor:pointer;
+
 }
 
 .member-card:hover{
 
-    transform:translateY(-5px);
+    transform:translateY(-6px);
 
-    border-color:#22c55e;
+    border-color:var(--primary);
+
+    background:var(--card-hover);
 
 }
+
+/* ==========================================
+   PHOTO
+========================================== */
+
+.member-photo{
+
+    width:85px;
+
+    height:85px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    border:4px solid var(--primary);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    background:#111827;
+
+    font-size:40px;
+
+}
+
+.member-photo img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+/* ==========================================
+   TEXT
+========================================== */
 
 .member-card h2{
 
-    margin:0;
+    margin-top:15px;
 
-    font-size:28px;
+    font-size:24px;
 
-}
-
-.children-row{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:30px;
-
-    flex-wrap:wrap;
-
-}
-/* ===========================
-   Tree Layout v0.7.0
-=========================== */
-
-.tree-node{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    position:relative;
-    margin:20px;
-}
-
-.children-row{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    margin-top:50px;
-    position:relative;
-}
-
-.children-row::before{
-    content:"";
-    position:absolute;
-    top:-25px;
-    left:50%;
-    width:2px;
-    height:25px;
-    background:#00e676;
-    transform:translateX(-50%);
-}
-
-.children-row::after{
-    content:"";
-    position:absolute;
-    top:-25px;
-    left:15%;
-    right:15%;
-    height:2px;
-    background:#00e676;
-}
-.tree-line{
-    width:2px;
-    height:25px;
-    background:#00e676;
-    margin:auto;
-}
-.tree-connector{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    margin:10px 0;
-}
-
-.vertical-line{
-    width:3px;
-    height:28px;
-    background:#00e676;
-}
-
-.horizontal-line{
-    width:220px;
-    height:3px;
-    background:#00e676;
-}
-
-.children-row{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    margin-top:20px;
-    flex-wrap:wrap;
-}
-.member-photo{
-
-    width:70px;
-    height:70px;
-
-    margin:0 auto 12px;
-
-    border-radius:50%;
-
-    background:#101826;
-
-    border:3px solid #00e676;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-
-    font-size:34px;
-
-}
-
-.member-photo img{
-
-    width:100%;
-    height:100%;
-    object-fit:cover;
+    color:#fff;
 
 }
 
 .member-id{
 
-    color:#b8c2d8;
+    margin-top:8px;
+
+    color:var(--text2);
+
     font-size:14px;
 
-    margin-top:8px;
-
 }
 
 .member-gender{
 
-    color:#00e676;
+    margin-top:10px;
+
+    color:var(--primary);
 
     font-weight:bold;
 
-    margin-top:6px;
-
 }
 /* ==========================================
-   Version 0.8.0 Member Card
+   TREE CONNECTOR
 ========================================== */
 
-.member-photo{
-    width:70px;
-    height:70px;
-    margin:0 auto 12px;
-    border-radius:50%;
-    background:#0f172a;
-    border:3px solid #00e676;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    font-size:34px;
+/* Parent থেকে নিচে নামা লাইন */
+
+.tree-line{
+
+    width:3px;
+
+    height:30px;
+
+    background:var(--primary);
+
+    margin:auto;
+
 }
 
-.member-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+/* Parent + Children Connector */
+
+.tree-node>.children-row{
+
+    position:relative;
+
+    padding-top:35px;
+
 }
 
-.member-id{
-    margin-top:8px;
-    color:#9ca3af;
-    font-size:13px;
+/* Horizontal Line */
+
+.tree-node>.children-row::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:calc(100% - 120px);
+
+    height:3px;
+
+    background:var(--primary);
+
 }
 
-.member-gender{
-    margin-top:6px;
-    color:#00e676;
-    font-weight:bold;
+/* Vertical Line (প্রতিটি সন্তানের উপরে) */
+
+.tree-node>.children-row>.tree-node::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-35px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:3px;
+
+    height:35px;
+
+    background:var(--primary);
+
+}
+
+/* প্রথম ও শেষ সন্তানের লাইনের সৌন্দর্য */
+
+.tree-node>.children-row>.tree-node:first-child::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-35px;
+
+    left:50%;
+
+    width:50%;
+
+    height:3px;
+
+    background:var(--bg);
+
+}
+
+.tree-node>.children-row>.tree-node:last-child::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-35px;
+
+    right:50%;
+
+    width:50%;
+
+    height:3px;
+
+    background:var(--bg);
+
 }
 
 /* ==========================================
-   Tree Connector
+   TREE SPACING
 ========================================== */
 
 .tree-node{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    margin:20px;
-}
 
-.tree-line{
-    width:2px;
-    height:20px;
-    background:#00e676;
-}
+    padding-bottom:20px;
 
-.tree-connector{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-.vertical-line{
-    width:2px;
-    height:20px;
-    background:#00e676;
-}
-
-.horizontal-line{
-    width:180px;
-    height:2px;
-    background:#00e676;
 }
 
 .children-row{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    margin-top:20px;
-    flex-wrap:wrap;
+
+    margin-top:10px;
+
+}
+/* ==========================================
+   ANIMATION
+========================================== */
+
+.member-card{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   BUTTON EFFECT
+========================================== */
+
+button{
+
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+
+}
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+/* ==========================================
+   TREE HOVER
+========================================== */
+
+.tree-node:hover>.member-card{
+
+    border-color:#22c55e;
+
+    box-shadow:0 0 20px rgba(34,197,94,.4);
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:768px){
+
+    .children-row{
+
+        flex-direction:column;
+
+        gap:35px;
+
+    }
+
+    .member-card{
+
+        width:180px;
+
+    }
+
+    .hero h1{
+
+        font-size:30px;
+
+    }
+
+    .logo{
+
+        font-size:22px;
+
+    }
+
+    #searchBox{
+
+        width:180px;
+
+    }
+
+}
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.loading{
+
+    font-size:24px;
+
+    color:#22c55e;
+
+    text-align:center;
+
+    padding:80px;
+
 }
