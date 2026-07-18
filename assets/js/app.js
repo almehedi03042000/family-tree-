@@ -1,6 +1,6 @@
 /* ==========================================
    Sardar Family Tree
-   Version 0.6.0
+   Version 0.6.1
 ========================================== */
 
 "use strict";
@@ -11,7 +11,7 @@
 
 const APP = {
     name: "Sardar Family Tree",
-    version: "0.6.0"
+    version: "0.6.1"
 };
 
 console.log(`${APP.name} v${APP.version} Loaded`);
@@ -36,7 +36,7 @@ const darkModeBtn = document.getElementById("darkModeBtn");
 let familyData = null;
 
 // ==========================================
-// Database
+// Load Database
 // ==========================================
 
 async function loadFamilyData() {
@@ -61,12 +61,13 @@ async function loadFamilyData() {
             <h2>❌ Database Load Failed</h2>
             <p>family.json লোড করা যায়নি।</p>
         `;
+
     }
 
 }
 
 // ==========================================
-// Data Helper Functions
+// Helper Functions
 // ==========================================
 
 function getMember(id) {
@@ -88,7 +89,45 @@ function getChildren(id) {
 }
 
 // ==========================================
-// Tree Rendering
+// Recursive Tree
+// ==========================================
+
+function createTree(personId) {
+
+    const person = getMember(personId);
+
+    if (!person) return "";
+
+    const children = getChildren(person.id);
+
+    return `
+
+        <div class="tree-node">
+
+            <div class="member-card">
+
+                <h2>${person.name}</h2>
+
+            </div>
+
+            ${children.length > 0 ? `
+
+                <div class="children-row">
+
+                    ${children.map(child => createTree(child.id)).join("")}
+
+                </div>
+
+            ` : ""}
+
+        </div>
+
+    `;
+
+}
+
+// ==========================================
+// Render Tree
 // ==========================================
 
 async function renderTree() {
@@ -97,45 +136,19 @@ async function renderTree() {
 
     if (!familyData) return;
 
-    const root = getMember(familyData.project.rootPerson);
-
-    const children = getChildren(root.id);
-
-    let html = `
-        <div class="tree-home">
-
-            <div class="member-card">
-                <h2>${root.name}</h2>
-            </div>
-    `;
-
-    children.forEach(child => {
-
-        html += `
-            <div class="member-card">
-                <h2>${child.name}</h2>
-            </div>
-        `;
-
-    });
-
-    html += `
-        </div>
-    `;
-
-  treeContainer.innerHTML = createTree(
-    familyData.project.rootPerson
-);
+    treeContainer.innerHTML = createTree(
+        familyData.project.rootPerson
+    );
 
 }
 
 // ==========================================
-// Feature Functions
+// Features
 // ==========================================
 
 function searchMember() {
 
-    console.log("Search :", searchBox.value);
+    console.log(searchBox.value);
 
 }
 
@@ -178,83 +191,7 @@ darkModeBtn.addEventListener("click", toggleDarkMode);
 searchBox.addEventListener("input", searchMember);
 
 // ==========================================
-// Initialize
+// Start App
 // ==========================================
 
-
-async function renderTree() {
-
-    await loadFamilyData();
-
-    if (!familyData) return;
-
-    const root = familyData.members.find(
-        member => member.id === familyData.project.rootPerson
-    );
-
-    const children = familyData.members.filter(
-    member => member.father === root.id
-);
-    treeContainer.innerHTML = `
-        <div class="tree-home">
-
-            <div class="member-card">
-                <h2>${root.name}</h2>
-            </div>
-
-            <div style="font-size:40px;">↓</div>
-
-            <div class="member-card">
-                <h2>${akali.name}</h2>
-            </div>
-
-            <div style="font-size:40px;">↓</div>
-
-            <div class="children-row">
-
-                <div class="member-card">
-                    <h2>${isu.name}</h2>
-                </div>
-
-                <div class="member-card">
-                    <h2>${kesu.name}</h2>
-                </div>
-
-            </div>
-
-        </div>
-    `;
-}
-function createTree(personId) {
-
-    const person = familyData.members.find(
-        member => member.id === personId
-    );
-
-    if (!person) return "";
-
-    const children = familyData.members.filter(
-        member => member.father === person.id
-    );
-
-    return `
-        <div class="tree-node">
-
-            <div class="member-card">
-                <h2>${person.name}</h2>
-            </div>
-
-            ${
-                children.length > 0
-                ? `
-                    <div class="children-row">
-                        ${children.map(child => createTree(child.id)).join("")}
-                    </div>
-                  `
-                : ""
-            }
-
-        </div>
-    `;
-}
 renderTree();
