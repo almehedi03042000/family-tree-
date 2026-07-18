@@ -1,25 +1,26 @@
 /* ==========================================
    Sardar Family Tree
-   Version 1.0.0
+   Version 2.0.0
+   Author : AL Mehedi
 ========================================== */
 
 "use strict";
 
-// ==========================================
-// App Information
-// ==========================================
+/* ==========================================
+   APP INFO
+========================================== */
 
 const APP = {
     name: "Sardar Family Tree",
-    version: "1.0.0",
+    version: "2.0.0",
     author: "AL Mehedi"
 };
 
 console.log(`${APP.name} v${APP.version} Loaded`);
 
-// ==========================================
-// DOM Elements
-// ==========================================
+/* ==========================================
+   DOM ELEMENTS
+========================================== */
 
 const treeContainer = document.getElementById("treeContainer");
 const searchBox = document.getElementById("searchBox");
@@ -30,17 +31,17 @@ const resetZoomBtn = document.getElementById("resetZoom");
 
 const darkModeBtn = document.getElementById("darkModeBtn");
 
-// ==========================================
-// Global Variables
-// ==========================================
+/* ==========================================
+   GLOBAL VARIABLES
+========================================== */
 
 let familyData = null;
 let currentZoom = 1;
 let selectedMember = null;
 
-// ==========================================
-// Database
-// ==========================================
+/* ==========================================
+   LOAD DATABASE
+========================================== */
 
 async function loadFamilyData() {
 
@@ -54,7 +55,7 @@ async function loadFamilyData() {
 
         familyData = await response.json();
 
-        console.log("✅ Database Loaded");
+        console.log("✅ Family Database Loaded");
 
     } catch (error) {
 
@@ -71,9 +72,9 @@ async function loadFamilyData() {
 
 }
 
-// ==========================================
-// Data Helper Functions
-// ==========================================
+/* ==========================================
+   DATA HELPERS
+========================================== */
 
 function getMember(id) {
 
@@ -87,11 +88,9 @@ function getChildren(id) {
 
     if (!person) return [];
 
-    return person.children
-        .map(childId => getMember(childId))
-        .filter(Boolean);
-
-}
+   return (person.children || [])
+    .map(childId => getMember(childId))
+    .filter(Boolean);
 
 function getFather(id) {
 
@@ -126,14 +125,18 @@ function getGenderIcon(gender) {
         : "♀";
 
 }
-// ==========================================
-// Member Card
-// ==========================================
+
+/* ==========================================
+   MEMBER CARD
+========================================== */
 
 function createMemberCard(person) {
 
     return `
-        <div class="member-card" data-id="${person.id}">
+
+        <div class="member-card"
+
+             data-id="${person.id}">
 
             <div class="member-photo">
 
@@ -147,21 +150,28 @@ function createMemberCard(person) {
 
             <h2>${person.name}</h2>
 
-            <p class="member-id">${person.id}</p>
+            <p class="member-id">
+                ${person.id}
+            </p>
 
             <p class="member-gender">
+
                 ${getGenderIcon(person.gender)}
-                ${person.gender === "male" ? "পুরুষ" : "মহিলা"}
+
+                ${person.gender === "male"
+                    ? "পুরুষ"
+                    : "মহিলা"}
+
             </p>
 
         </div>
+
     `;
 
 }
-
-// ==========================================
-// Recursive Tree
-// ==========================================
+/* ==========================================
+   RECURSIVE TREE
+========================================== */
 
 function createTree(personId) {
 
@@ -172,34 +182,34 @@ function createTree(personId) {
     const children = getChildren(person.id);
 
     return `
+
         <div class="tree-node">
 
             ${createMemberCard(person)}
 
-            ${
-                children.length > 0
-                ? `
-                    <div class="tree-line"></div>
+            ${children.length > 0 ? `
 
-                    <div class="children-row">
+                <div class="tree-line"></div>
 
-                        ${children
-                            .map(child => createTree(child.id))
-                            .join("")}
+                <div class="children-row">
 
-                    </div>
-                `
-                : ""
-            }
+                    ${children
+                        .map(child => createTree(child.id))
+                        .join("")}
+
+                </div>
+
+            ` : ""}
 
         </div>
+
     `;
 
 }
 
-// ==========================================
-// Render Tree
-// ==========================================
+/* ==========================================
+   RENDER TREE
+========================================== */
 
 async function renderTree() {
 
@@ -207,19 +217,64 @@ async function renderTree() {
 
     if (!familyData) return;
 
-    treeContainer.innerHTML =
-        createTree(familyData.project.rootPerson);
+    treeContainer.innerHTML = createTree(
+        familyData.project.rootPerson
+    );
+
+    updateZoom();
 
 }
-// ==========================================
-// Search
-// ==========================================
+
+/* ==========================================
+   MEMBER PROFILE
+========================================== */
+
+function showMemberProfile(memberId) {
+
+    const person = getMember(memberId);
+
+    if (!person) return;
+
+    selectedMember = person;
+
+    alert(
+`${person.name}
+
+ID : ${person.id}
+
+Gender : ${person.gender}
+
+Father : ${person.father || "-"}
+
+Mother : ${person.mother || "-"}`
+    );
+
+}
+
+/* ==========================================
+   CARD CLICK
+========================================== */
+
+treeContainer.addEventListener("click", function(e){
+
+    const card = e.target.closest(".member-card");
+
+    if(!card) return;
+
+    showMemberProfile(card.dataset.id);
+
+});
+/* ==========================================
+   SEARCH
+========================================== */
 
 function searchMember() {
 
     const keyword = searchBox.value.trim().toLowerCase();
 
-    if (!keyword) {
+    if (!familyData) return;
+
+    if (keyword === "") {
 
         renderTree();
 
@@ -235,7 +290,7 @@ function searchMember() {
 
         treeContainer.innerHTML = `
             <div class="no-result">
-                <h2>কোন সদস্য পাওয়া যায়নি</h2>
+                <h2>No Member Found</h2>
             </div>
         `;
 
@@ -249,9 +304,9 @@ function searchMember() {
 
 }
 
-// ==========================================
-// Zoom
-// ==========================================
+/* ==========================================
+   ZOOM
+========================================== */
 
 function updateZoom() {
 
@@ -284,9 +339,9 @@ function resetZoom() {
 
 }
 
-// ==========================================
-// Dark Mode
-// ==========================================
+/* ==========================================
+   DARK MODE
+========================================== */
 
 function toggleDarkMode() {
 
@@ -294,22 +349,26 @@ function toggleDarkMode() {
 
 }
 
-// ==========================================
-// Events
-// ==========================================
+/* ==========================================
+   EVENTS
+========================================== */
 
-zoomInBtn.addEventListener("click", zoomIn);
+zoomInBtn?.addEventListener("click", zoomIn);
 
-zoomOutBtn.addEventListener("click", zoomOut);
+zoomOutBtn?.addEventListener("click", zoomOut);
 
-resetZoomBtn.addEventListener("click", resetZoom);
+resetZoomBtn?.addEventListener("click", resetZoom);
 
-darkModeBtn.addEventListener("click", toggleDarkMode);
+darkModeBtn?.addEventListener("click", toggleDarkMode);
 
-searchBox.addEventListener("input", searchMember);
+searchBox?.addEventListener("input", searchMember);
 
-// ==========================================
-// Initialize
-// ==========================================
+/* ==========================================
+   INITIALIZE
+========================================== */
 
-renderTree();
+window.addEventListener("DOMContentLoaded", () => {
+
+    renderTree();
+
+});
