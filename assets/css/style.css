@@ -264,3 +264,43 @@ flex-wrap:wrap;
     flex-wrap:wrap;
 
 }
+/* ===========================
+   Tree Layout v0.7.0
+=========================== */
+
+.tree-node{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    margin:20px;
+}
+
+.children-row{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:50px;
+    position:relative;
+}
+
+.children-row::before{
+    content:"";
+    position:absolute;
+    top:-25px;
+    left:50%;
+    width:2px;
+    height:25px;
+    background:#00e676;
+    transform:translateX(-50%);
+}
+
+.children-row::after{
+    content:"";
+    position:absolute;
+    top:-25px;
+    left:15%;
+    right:15%;
+    height:2px;
+    background:#00e676;
+}
