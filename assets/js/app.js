@@ -133,7 +133,6 @@ searchBox.addEventListener("input", searchMember);
 // Initialize App
 // ==========================================
 
-renderTree();
 async function renderTree() {
 
     await loadFamilyData();
