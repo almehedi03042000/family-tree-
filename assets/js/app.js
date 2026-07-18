@@ -134,3 +134,25 @@ searchBox.addEventListener("input", searchMember);
 // ==========================================
 
 renderTree();
+async function renderTree() {
+
+    await loadFamilyData();
+
+    if (!familyData) return;
+
+    const root = familyData.members.find(
+        member => member.id === familyData.project.rootPerson
+    );
+
+    treeContainer.innerHTML = `
+        <div class="tree-home">
+
+            <div class="member-card">
+                <h2>${root.name}</h2>
+                <p>ID : ${root.id}</p>
+                <p>Gender : ${root.gender}</p>
+            </div>
+
+        </div>
+    `;
+}
