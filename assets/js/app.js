@@ -1,6 +1,6 @@
 /* ==========================================
    Sardar Family Tree
-   Version 0.3.1
+   Version 0.6.0
 ========================================== */
 
 "use strict";
@@ -11,7 +11,7 @@
 
 const APP = {
     name: "Sardar Family Tree",
-    version: "0.3.1"
+    version: "0.6.0"
 };
 
 console.log(`${APP.name} v${APP.version} Loaded`);
@@ -36,7 +36,7 @@ const darkModeBtn = document.getElementById("darkModeBtn");
 let familyData = null;
 
 // ==========================================
-// Core Functions
+// Database
 // ==========================================
 
 async function loadFamilyData() {
@@ -65,37 +65,65 @@ async function loadFamilyData() {
 
 }
 
+// ==========================================
+// Data Helper Functions
+// ==========================================
+
+function getMember(id) {
+
+    return familyData.members.find(member => member.id === id);
+
+}
+
+function getChildren(id) {
+
+    const member = getMember(id);
+
+    if (!member) return [];
+
+    return member.children
+        .map(childId => getMember(childId))
+        .filter(child => child);
+
+}
+
+// ==========================================
+// Tree Rendering
+// ==========================================
+
 async function renderTree() {
 
     await loadFamilyData();
 
     if (!familyData) return;
 
-treeContainer.innerHTML = `
-<div class="tree-home">
+    const root = getMember(familyData.project.rootPerson);
 
-    <div class="member-card">
-        <h2>${root.name}</h2>
-    </div>
+    const children = getChildren(root.id);
 
-    <div class="member-card">
-        <h2>${akali.name}</h2>
-    </div>
+    let html = `
+        <div class="tree-home">
 
-    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+            <div class="member-card">
+                <h2>${root.name}</h2>
+            </div>
+    `;
 
-        <div class="member-card">
-            <h2>${isu.name}</h2>
+    children.forEach(child => {
+
+        html += `
+            <div class="member-card">
+                <h2>${child.name}</h2>
+            </div>
+        `;
+
+    });
+
+    html += `
         </div>
+    `;
 
-        <div class="member-card">
-            <h2>${kesu.name}</h2>
-        </div>
-
-    </div>
-
-</div>
-`;
+    treeContainer.innerHTML = html;
 
 }
 
@@ -104,23 +132,33 @@ treeContainer.innerHTML = `
 // ==========================================
 
 function searchMember() {
-    console.log("Search:", searchBox.value);
+
+    console.log("Search :", searchBox.value);
+
 }
 
 function zoomIn() {
+
     console.log("Zoom In");
+
 }
 
 function zoomOut() {
+
     console.log("Zoom Out");
+
 }
 
 function resetZoom() {
+
     console.log("Reset Zoom");
+
 }
 
 function toggleDarkMode() {
+
     document.body.classList.toggle("dark");
+
 }
 
 // ==========================================
@@ -128,7 +166,9 @@ function toggleDarkMode() {
 // ==========================================
 
 zoomInBtn.addEventListener("click", zoomIn);
+
 zoomOutBtn.addEventListener("click", zoomOut);
+
 resetZoomBtn.addEventListener("click", resetZoom);
 
 darkModeBtn.addEventListener("click", toggleDarkMode);
@@ -136,31 +176,7 @@ darkModeBtn.addEventListener("click", toggleDarkMode);
 searchBox.addEventListener("input", searchMember);
 
 // ==========================================
-// Initialize App
+// Initialize
 // ==========================================
 
-async function renderTree() {
-
-    await loadFamilyData();
-
-    if (!familyData) return;
-
-    const root = familyData.members.find(
-        member => member.id === familyData.project.rootPerson
-    );
-const akali = familyData.members.find(member => member.id === "P00002");
-const isu = familyData.members.find(member => member.id === "P00003");
-const kesu = familyData.members.find(member => member.id === "P00004");
-    treeContainer.innerHTML = `
-        <div class="tree-home">
-
-            <div class="member-card">
-                <h2>${root.name}</h2>
-                <p>ID : ${root.id}</p>
-                <p>Gender : ${root.gender}</p>
-            </div>
-
-        </div>
-    `;
-}
 renderTree();
