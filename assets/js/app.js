@@ -195,9 +195,4 @@ searchBox.addEventListener("input", searchMember);
 // ==========================================
 
 renderTree();
-.tree-line{
-    width:2px;
-    height:25px;
-    background:#00e676;
-    margin:auto;
-}
+
