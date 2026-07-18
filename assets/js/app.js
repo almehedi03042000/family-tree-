@@ -1,6 +1,6 @@
 /* ==========================================
    Sardar Family Tree
-   Version 0.6.1
+   Version 1.0.0
 ========================================== */
 
 "use strict";
@@ -11,7 +11,8 @@
 
 const APP = {
     name: "Sardar Family Tree",
-    version: "0.6.1"
+    version: "1.0.0",
+    author: "AL Mehedi"
 };
 
 console.log(`${APP.name} v${APP.version} Loaded`);
@@ -34,9 +35,11 @@ const darkModeBtn = document.getElementById("darkModeBtn");
 // ==========================================
 
 let familyData = null;
+let currentZoom = 1;
+let selectedMember = null;
 
 // ==========================================
-// Load Database
+// Database
 // ==========================================
 
 async function loadFamilyData() {
@@ -51,15 +54,17 @@ async function loadFamilyData() {
 
         familyData = await response.json();
 
-        console.log("✅ Family Database Loaded");
+        console.log("✅ Database Loaded");
 
     } catch (error) {
 
         console.error(error);
 
         treeContainer.innerHTML = `
-            <h2>❌ Database Load Failed</h2>
-            <p>family.json লোড করা যায়নি।</p>
+            <div class="error-box">
+                <h2>Database Load Failed</h2>
+                <p>family.json পাওয়া যায়নি।</p>
+            </div>
         `;
 
     }
@@ -67,7 +72,7 @@ async function loadFamilyData() {
 }
 
 // ==========================================
-// Helper Functions
+// Data Helper Functions
 // ==========================================
 
 function getMember(id) {
@@ -78,13 +83,79 @@ function getMember(id) {
 
 function getChildren(id) {
 
-    const member = getMember(id);
+    const person = getMember(id);
 
-    if (!member) return [];
+    if (!person) return [];
 
-    return member.children
+    return person.children
         .map(childId => getMember(childId))
-        .filter(child => child);
+        .filter(Boolean);
+
+}
+
+function getFather(id) {
+
+    const person = getMember(id);
+
+    if (!person || !person.father) return null;
+
+    return getMember(person.father);
+
+}
+
+function getMother(id) {
+
+    const person = getMember(id);
+
+    if (!person || !person.mother) return null;
+
+    return getMember(person.mother);
+
+}
+
+function hasChildren(id) {
+
+    return getChildren(id).length > 0;
+
+}
+
+function getGenderIcon(gender) {
+
+    return gender === "male"
+        ? "♂"
+        : "♀";
+
+}
+// ==========================================
+// Member Card
+// ==========================================
+
+function createMemberCard(person) {
+
+    return `
+        <div class="member-card" data-id="${person.id}">
+
+            <div class="member-photo">
+
+                ${
+                    person.photo
+                        ? `<img src="${person.photo}" alt="${person.name}">`
+                        : "👤"
+                }
+
+            </div>
+
+            <h2>${person.name}</h2>
+
+            <p class="member-id">${person.id}</p>
+
+            <p class="member-gender">
+                ${getGenderIcon(person.gender)}
+                ${person.gender === "male" ? "পুরুষ" : "মহিলা"}
+            </p>
+
+        </div>
+    `;
 
 }
 
@@ -92,6 +163,39 @@ function getChildren(id) {
 // Recursive Tree
 // ==========================================
 
+function createTree(personId) {
+
+    const person = getMember(personId);
+
+    if (!person) return "";
+
+    const children = getChildren(person.id);
+
+    return `
+        <div class="tree-node">
+
+            ${createMemberCard(person)}
+
+            ${
+                children.length > 0
+                ? `
+                    <div class="tree-line"></div>
+
+                    <div class="children-row">
+
+                        ${children
+                            .map(child => createTree(child.id))
+                            .join("")}
+
+                    </div>
+                `
+                : ""
+            }
+
+        </div>
+    `;
+
+}
 
 // ==========================================
 // Render Tree
@@ -103,95 +207,86 @@ async function renderTree() {
 
     if (!familyData) return;
 
-    treeContainer.innerHTML = createTree(
-        familyData.project.rootPerson
-    );
-
-function createTree(personId) {
-
-    const person = getMember(personId);
-
-    if (!person) return "";
-
-    const children = getChildren(person.id);
-
-    return `
-
-        <div class="tree-node">
-
-           <div class="member-card">
-
-    <div class="member-photo">
-
-        ${
-            person.photo
-                ? `<img src="${person.photo}" alt="${person.name}">`
-                : "👤"
-        }
-
-    </div>
-
-    <h2>${person.name}</h2>
-
-    <p class="member-id">${person.id}</p>
-
-    <p class="member-gender">
-
-        ${person.gender === "male" ? "♂ পুরুষ" : "♀ মহিলা"}
-
-    </p>
-
-</div>
-<div class="tree-line"></div>
-           ${children.length > 0 ? `
-
-    <div class="tree-connector">
-
-        <div class="vertical-line"></div>
-
-        <div class="horizontal-line"></div>
-
-    </div>
-
-    <div class="children-row">
-
-        ${children.map(child => createTree(child.id)).join("")}
-
-    </div>
-
-` : ""}
-    </div>
-    `;
+    treeContainer.innerHTML =
+        createTree(familyData.project.rootPerson);
 
 }
-
 // ==========================================
-// Features
+// Search
 // ==========================================
 
 function searchMember() {
 
-    console.log(searchBox.value);
+    const keyword = searchBox.value.trim().toLowerCase();
+
+    if (!keyword) {
+
+        renderTree();
+
+        return;
+
+    }
+
+    const results = familyData.members.filter(member =>
+        member.name.toLowerCase().includes(keyword)
+    );
+
+    if (results.length === 0) {
+
+        treeContainer.innerHTML = `
+            <div class="no-result">
+                <h2>কোন সদস্য পাওয়া যায়নি</h2>
+            </div>
+        `;
+
+        return;
+
+    }
+
+    treeContainer.innerHTML = results
+        .map(member => createMemberCard(member))
+        .join("");
+
+}
+
+// ==========================================
+// Zoom
+// ==========================================
+
+function updateZoom() {
+
+    treeContainer.style.transform = `scale(${currentZoom})`;
+    treeContainer.style.transformOrigin = "top center";
 
 }
 
 function zoomIn() {
 
-    console.log("Zoom In");
+    currentZoom += 0.1;
+
+    updateZoom();
 
 }
 
 function zoomOut() {
 
-    console.log("Zoom Out");
+    currentZoom = Math.max(0.5, currentZoom - 0.1);
+
+    updateZoom();
 
 }
 
 function resetZoom() {
 
-    console.log("Reset Zoom");
+    currentZoom = 1;
+
+    updateZoom();
 
 }
+
+// ==========================================
+// Dark Mode
+// ==========================================
 
 function toggleDarkMode() {
 
@@ -214,8 +309,7 @@ darkModeBtn.addEventListener("click", toggleDarkMode);
 searchBox.addEventListener("input", searchMember);
 
 // ==========================================
-// Start App
+// Initialize
 // ==========================================
 
 renderTree();
-
