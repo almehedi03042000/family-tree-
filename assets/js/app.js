@@ -104,11 +104,29 @@ function createTree(personId) {
 
         <div class="tree-node">
 
-            <div class="member-card">
+           <div class="member-card">
 
-                <h2>${person.name}</h2>
+    <div class="member-photo">
 
-            </div>
+        ${
+            person.photo
+                ? `<img src="${person.photo}" alt="${person.name}">`
+                : "👤"
+        }
+
+    </div>
+
+    <h2>${person.name}</h2>
+
+    <p class="member-id">${person.id}</p>
+
+    <p class="member-gender">
+
+        ${person.gender === "male" ? "♂ পুরুষ" : "♀ মহিলা"}
+
+    </p>
+
+</div>
 <div class="tree-line"></div>
            ${children.length > 0 ? `
 
