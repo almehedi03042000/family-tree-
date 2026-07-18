@@ -109,7 +109,7 @@ function createTree(personId) {
                 <h2>${person.name}</h2>
 
             </div>
-
+<div class="tree-line"></div>
             ${children.length > 0 ? `
 
                 <div class="children-row">
@@ -195,3 +195,9 @@ searchBox.addEventListener("input", searchMember);
 // ==========================================
 
 renderTree();
+.tree-line{
+    width:2px;
+    height:25px;
+    background:#00e676;
+    margin:auto;
+}
