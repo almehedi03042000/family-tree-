@@ -128,49 +128,7 @@ function getGenderIcon(gender) {
 
 }
 
-/* ==========================================
-   MEMBER CARD
-========================================== */
 
-function createMemberCard(person) {
-
-    return `
-
-        <div class="member-card"
-
-             data-id="${person.id}">
-
-            <div class="member-photo">
-
-                ${
-                    person.photo
-                        ? `<img src="${person.photo}" alt="${person.name}">`
-                        : "👤"
-                }
-
-            </div>
-
-            <h2>${person.name}</h2>
-
-            <p class="member-id">
-                ${person.id}
-            </p>
-
-            <p class="member-gender">
-
-                ${getGenderIcon(person.gender)}
-
-                ${person.gender === "male"
-                    ? "পুরুষ"
-                    : "মহিলা"}
-
-            </p>
-
-        </div>
-
-    `;
-
-}
 /* ==========================================
    RECURSIVE TREE
 ========================================== */
