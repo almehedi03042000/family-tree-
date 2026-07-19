@@ -2,91 +2,375 @@
 <html lang="bn">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>সর্দার পরিবারের বংশবৃক্ষ</title>
 
-    <meta name="description" content="Sardar Family Tree Website">
+    <meta name="description"
+          content="সর্দার পরিবারের বংশবৃক্ষ">
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="author"
+          content="AL Mehedi">
+
+    <meta name="theme-color"
+          content="#0f172a">
+
+    <meta name="color-scheme"
+          content="dark light">
+
+    <link rel="icon"
+          type="image/png"
+          href="assets/images/favicon.png">
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header class="header">
+<!-- ===========================
+HEADER
+=========================== -->
 
-        <div class="logo">
-            🌳 সর্দার পরিবারের বংশবৃক্ষ
-        </div>
+<header class="header">
 
-        <div class="header-tools">
+    <div class="logo">
+
+        🌳 সর্দার পরিবারের বংশবৃক্ষ
+
+    </div>
+
+    <div class="header-tools">
+
+        <!-- Search -->
+
+        <div class="search-wrapper">
 
             <input
                 id="searchBox"
                 type="text"
+                autocomplete="off"
+                spellcheck="false"
                 placeholder="সদস্যের নাম লিখুন...">
 
-            <button id="darkModeBtn" title="Dark Mode">
-                🌙
-            </button>
-
-        </div>
-
-    </header>
-
-    <!-- Hero -->
-
-    <section class="hero">
-
-        <h1>সর্দার পরিবারের বংশবৃক্ষ</h1>
-
-        <p>
-
-            প্রতিষ্ঠাতা : <strong>পদ্মাশী সর্দার</strong>
-
-        </p>
-
-    </section>
-
-    <!-- Toolbar -->
-
-    <section class="toolbar">
-
-        <button id="zoomIn">＋</button>
-
-        <button id="zoomOut">－</button>
-
-        <button id="resetZoom">Reset</button>
-
-    </section>
-
-    <!-- Tree -->
-
-    <main>
-
-        <div id="treeContainer">
-
-            <div class="loading">
-
-                Family Tree Loading...
+            <div
+                id="searchSuggestions"
+                class="search-suggestions">
 
             </div>
 
         </div>
 
-    </main>
+        <!-- Theme -->
 
-    <!-- Footer -->
+        <button
+            type="button"
+            id="darkModeBtn"
+            class="icon-btn"
+            title="থিম পরিবর্তন">
 
-    <footer>
+            🌙
 
-        © 2026 Sardar Family Tree
+        </button>
 
-    </footer>
+    </div>
+
+</header>
+<!-- ===========================
+HERO
+=========================== -->
+
+<section class="hero">
+
+    <h1>
+
+        সর্দার পরিবারের বংশবৃক্ষ
+
+    </h1>
+
+</section>
+
+<!-- ===========================
+TOOLBAR
+=========================== -->
+
+<section class="toolbar">
+
+    <button
+        type="button"
+        id="zoomIn">
+
+        ＋
+
+    </button>
+
+    <button
+        type="button"
+        id="zoomOut">
+
+        －
+
+    </button>
+
+    <button
+        type="button"
+        id="resetZoom">
+
+        Reset
+
+    </button>
+
+</section>
+
+<!-- ===========================
+STATISTICS
+=========================== -->
+
+<section
+    id="statisticsBar"
+    class="statistics">
+
+    <div class="stat-item">
+
+        <span id="totalMembers">0</span>
+
+        <label>মোট সদস্য</label>
+
+    </div>
+
+    <div class="stat-item">
+
+        <span id="maleMembers">0</span>
+
+        <label>পুরুষ</label>
+
+    </div>
+
+    <div class="stat-item">
+
+        <span id="femaleMembers">0</span>
+
+        <label>মহিলা</label>
+
+    </div>
+
+    <div class="stat-item">
+
+        <span id="generationCount">0</span>
+
+        <label>প্রজন্ম</label>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+TREE AREA
+=========================== -->
+
+<main
+    id="treeArea"
+    class="tree-area">
+
+    <div id="treeContainer">
+
+        <div class="loading">
+
+            <div class="loader"></div>
+
+            <p>
+
+                Family Tree Loading...
+
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+<!-- ===========================
+PROFILE MODAL
+=========================== -->
+
+<div
+    id="profileModal"
+    class="modal hidden">
+
+    <div class="modal-overlay"></div>
+
+    <div class="modal-content">
+
+        <button
+            type="button"
+            id="closeProfile"
+            class="close-btn"
+            aria-label="Close">
+
+            ✕
+
+        </button>
+
+        <div id="profileBody">
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+IMAGE VIEWER
+=========================== -->
+
+<div
+    id="imageViewer"
+    class="image-viewer hidden">
+
+    <button
+        type="button"
+        id="viewerClose"
+        class="viewer-close"
+        aria-label="Close Image">
+
+        ✕
+
+    </button>
+
+    <button
+        type="button"
+        id="viewerPrev"
+        class="viewer-prev"
+        aria-label="Previous Image">
+
+        ❮
+
+    </button>
+
+    <img
+        id="viewerImage"
+        src=""
+        alt="Member Photo">
+
+    <button
+        type="button"
+        id="viewerNext"
+        class="viewer-next"
+        aria-label="Next Image">
+
+        ❯
+
+    </button>
+
+</div>
+
+<!-- ===========================
+ADMIN LOGIN
+=========================== -->
+
+<div
+    id="adminLoginModal"
+    class="modal hidden">
+
+    <div class="modal-overlay"></div>
+
+    <div class="modal-content admin-login">
+
+        <h2>Admin Login</h2>
+
+        <input
+            id="adminPassword"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Password">
+
+        <div class="admin-buttons">
+
+            <button
+                type="button"
+                id="adminLoginBtn">
+
+                Login
+
+            </button>
+
+            <button
+                type="button"
+                id="adminCancelBtn">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+ADMIN PANEL
+=========================== -->
+
+<div
+    id="adminPanel"
+    class="admin-panel hidden">
+
+    <button
+        type="button"
+        id="editMemberBtn">
+
+        ✏ Edit Profile
+
+    </button>
+
+    <button
+        type="button"
+        id="addMemberBtn">
+
+        ➕ Add Member
+
+    </button>
+
+    <button
+        type="button"
+        id="exportJsonBtn">
+
+        📥 Export JSON
+
+    </button>
+
+    <button
+        type="button"
+        id="logoutBtn">
+
+        🚪 Logout
+
+    </button>
+
+</div>
+
+<!-- ===========================
+FOOTER
+=========================== -->
+
+<footer class="footer">
+
+    © 2026 Sardar Family Tree
+
+</footer>
+
+<!-- ===========================
+JAVASCRIPT
+=========================== -->
+
 <script src="assets/js/components.js"></script>
-    <script src="assets/js/app.js"></script>
+<script src="assets/js/app.js"></script>
 
 </body>
 
