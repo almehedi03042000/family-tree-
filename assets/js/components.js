@@ -578,7 +578,7 @@ function closeProfile(){
 
 function statisticsComponent(){
 
-    if(!familyData) return;
+   if(!window.familyData) return;
 
     const total=familyData.members.length;
 
@@ -804,7 +804,7 @@ function searchMembers(keyword){
 
     const result=familyData.members.filter(member=>
 
-        member.name.toLowerCase().includes(keyword)
+        (member.name || "").toLowerCase().includes(keyword)
 
     );
 
