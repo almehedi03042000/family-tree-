@@ -321,7 +321,19 @@ resetZoomBtn?.addEventListener("click", resetZoom);
 darkModeBtn?.addEventListener("click", toggleDarkMode);
 
 searchBox?.addEventListener("input", searchMember);
+/* ==========================================
+   TREE CLICK EVENT
+========================================== */
 
+treeContainer.addEventListener("click", (e) => {
+
+    const card = e.target.closest(".member-card");
+
+    if (!card) return;
+
+    showMemberProfile(card.dataset.id);
+
+});
 /* ==========================================
    INITIALIZE
 ========================================== */
