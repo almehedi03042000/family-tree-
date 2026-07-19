@@ -173,13 +173,23 @@ function createTree(personId) {
 
 async function renderTree() {
 
-    await loadFamilyData();
+    if (!familyData) {
 
-    if (!familyData) return;
+        await loadFamilyData();
 
-    treeContainer.innerHTML = createTree(
-        familyData.project.rootPerson
-    );
+    }
+
+    if (!familyData) {
+
+        treeContainer.innerHTML =
+            errorComponent("Family database load failed.");
+
+        return;
+
+    }
+
+    treeContainer.innerHTML =
+        createTree(familyData.project.rootPerson);
 
     updateZoom();
 
