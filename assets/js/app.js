@@ -189,28 +189,17 @@ async function renderTree() {
    MEMBER PROFILE
 ========================================== */
 
-function showMemberProfile(memberId) {
+function showMemberProfile(memberId){
 
     const person = getMember(memberId);
 
-    if (!person) return;
+    if(!person) return;
 
     selectedMember = person;
 
-    alert(
-`${person.name}
-
-ID : ${person.id}
-
-Gender : ${person.gender}
-
-Father : ${person.father || "-"}
-
-Mother : ${person.mother || "-"}`
-    );
+    openProfile(person);
 
 }
-
 /* ==========================================
    CARD CLICK
 ========================================== */
