@@ -1,18 +1,27 @@
 /* ==========================================
    Sardar Family Tree
-   Version 2.0.0
+   Version : 5.0 FINAL
+   Author  : AL Mehedi
 ========================================== */
 
-/* ========= Reset ========= */
+/* ==========================================
+RESET
+========================================== */
 
-*{
+*,
+*::before,
+*::after{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
+
 }
 
 html{
+
     scroll-behavior:smooth;
+
 }
 
 body{
@@ -22,42 +31,65 @@ body{
         "Hind Siliguri",
         sans-serif;
 
-    background:#0f172a;
+    background:var(--bg);
 
-    color:#ffffff;
+    color:var(--text);
 
     min-height:100vh;
 
     overflow-x:auto;
 
+    overflow-y:auto;
+
+    transition:.30s;
+
 }
 
-/* ========= Variables ========= */
+/* ==========================================
+ROOT VARIABLES
+========================================== */
 
 :root{
 
     --bg:#0f172a;
+
+    --surface:#111827;
+
     --card:#1e293b;
-    --card-hover:#26364d;
+
+    --cardHover:#26364c;
 
     --primary:#22c55e;
+
     --secondary:#3b82f6;
 
+    --danger:#ef4444;
+
+    --warning:#f59e0b;
+
     --text:#ffffff;
-    --text2:#cbd5e1;
+
+    --textSoft:#cbd5e1;
+
+    --border:#334155;
 
     --shadow:
-        0 10px 30px rgba(0,0,0,.35);
+        0 12px 28px rgba(0,0,0,.35);
 
     --radius:18px;
 
+    --speed:.30s;
+
 }
 
-/* ========= Scrollbar ========= */
+/* ==========================================
+SCROLLBAR
+========================================== */
 
 ::-webkit-scrollbar{
 
     width:10px;
+
     height:10px;
 
 }
@@ -70,15 +102,65 @@ body{
 
 ::-webkit-scrollbar-thumb{
 
-    background:#22c55e;
+    background:var(--primary);
 
-    border-radius:20px;
+    border-radius:30px;
 
 }
 
-/* ========= Header ========= */
+::-webkit-scrollbar-thumb:hover{
+
+    background:#16a34a;
+
+}
+
+/* ==========================================
+COMMON
+========================================== */
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+    transition:var(--speed);
+
+    font-family:inherit;
+
+}
+
+input{
+
+    font-family:inherit;
+
+}
+
+.hidden{
+
+    display:none !important;
+
+}
+
+/* ==========================================
+HEADER
+========================================== */
 
 .header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:9999;
 
     display:flex;
 
@@ -86,21 +168,15 @@ body{
 
     align-items:center;
 
-    flex-wrap:wrap;
+    gap:20px;
 
-    gap:15px;
+    flex-wrap:wrap;
 
     padding:18px 30px;
 
-    background:#111827;
+    background:var(--surface);
 
-    border-bottom:1px solid #1f2937;
-
-    position:sticky;
-
-    top:0;
-
-    z-index:999;
+    border-bottom:1px solid var(--border);
 
 }
 
@@ -110,9 +186,13 @@ body{
 
     font-weight:bold;
 
-    color:#22c55e;
+    color:var(--primary);
 
 }
+
+/* ==========================================
+HEADER TOOLS
+========================================== */
 
 .header-tools{
 
@@ -120,27 +200,37 @@ body{
 
     align-items:center;
 
-    gap:12px;
+    gap:15px;
+
+}
+
+/* ==========================================
+SEARCH
+========================================== */
+
+.search-wrapper{
+
+    position:relative;
 
 }
 
 #searchBox{
 
-    width:260px;
+    width:320px;
 
-    padding:12px 16px;
+    padding:12px 15px;
 
     border:none;
 
-    border-radius:12px;
-
     outline:none;
 
-    background:#1e293b;
+    border-radius:12px;
+
+    background:var(--card);
 
     color:#fff;
 
-    font-size:16px;
+    font-size:15px;
 
 }
 
@@ -150,43 +240,103 @@ body{
 
 }
 
-/* ========= Button ========= */
+.search-suggestions{
 
-button{
+    position:absolute;
 
-    padding:10px 16px;
+    left:0;
 
-    border:none;
+    top:105%;
 
-    border-radius:10px;
+    width:100%;
 
-    background:#2563eb;
+    background:var(--card);
 
-    color:white;
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+    display:none;
+
+    z-index:99999;
+
+}
+
+.search-suggestions.show{
+
+    display:block;
+
+}
+
+.search-item{
+
+    padding:12px 15px;
 
     cursor:pointer;
 
     transition:.25s;
 
-    font-size:15px;
+}
+
+.search-item:hover,
+
+.search-item.active{
+
+    background:var(--secondary);
+
+    color:#fff;
 
 }
 
-button:hover{
+.no-result{
 
-    transform:translateY(-2px);
+    padding:14px;
 
-    background:#1d4ed8;
+    text-align:center;
+
+    color:var(--textSoft);
 
 }
 
-/* ========= Hero ========= */
+/* ==========================================
+ICON BUTTON
+========================================== */
+
+.icon-btn{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:var(--card);
+
+    color:#fff;
+
+    font-size:20px;
+
+}
+
+.icon-btn:hover{
+
+    background:var(--secondary);
+
+    transform:rotate(15deg);
+
+}
+
+/* ==========================================
+HERO
+========================================== */
 
 .hero{
 
     text-align:center;
 
-    padding:45px 20px;
+    padding:35px 20px 25px;
 
 }
 
@@ -194,19 +344,15 @@ button:hover{
 
     font-size:42px;
 
-    margin-bottom:10px;
+    font-weight:700;
+
+    color:var(--text);
 
 }
 
-.hero p{
-
-    color:#cbd5e1;
-
-    font-size:18px;
-
-}
-
-/* ========= Toolbar ========= */
+/* ==========================================
+TOOLBAR
+========================================== */
 
 .toolbar{
 
@@ -214,22 +360,131 @@ button:hover{
 
     justify-content:center;
 
+    align-items:center;
+
+    flex-wrap:wrap;
+
     gap:15px;
 
-    margin-bottom:40px;
+    margin:20px 0 30px;
 
 }
+
+.toolbar button{
+
+    min-width:95px;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    background:var(--secondary);
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    box-shadow:var(--shadow);
+
+}
+
+.toolbar button:hover{
+
+    background:#2563eb;
+
+    transform:translateY(-3px);
+
+}
+
 /* ==========================================
-   TREE LAYOUT
+STATISTICS
 ========================================== */
 
-main{
+.statistics{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    padding:0 20px 35px;
+
+}
+
+.stat-item{
+
+    width:170px;
+
+    padding:18px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+    transition:var(--speed);
+
+}
+
+.stat-item:hover{
+
+    background:var(--cardHover);
+
+    transform:translateY(-5px);
+
+}
+
+.stat-item span{
+
+    display:block;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    color:var(--primary);
+
+}
+
+.stat-item label{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:var(--textSoft);
+
+}
+
+/* ==========================================
+TREE AREA
+========================================== */
+
+.tree-area{
 
     width:100%;
 
     overflow:auto;
 
-    padding:30px;
+    padding:35px;
+
+    cursor:grab;
+
+}
+
+.tree-area:active{
+
+    cursor:grabbing;
 
 }
 
@@ -245,13 +500,19 @@ main{
 
     padding:40px;
 
+    transform-origin:top center;
+
+    transition:transform .25s ease;
+
 }
 
 /* ==========================================
-   TREE NODE
+TREE
 ========================================== */
 
 .tree-node{
+
+    position:relative;
 
     display:flex;
 
@@ -259,15 +520,19 @@ main{
 
     align-items:center;
 
-    position:relative;
-
-    margin:0 20px;
+    margin:0 22px;
 
 }
 
-/* ==========================================
-   CHILDREN
-========================================== */
+.tree-line{
+
+    width:3px;
+
+    height:32px;
+
+    background:var(--primary);
+
+}
 
 .children-row{
 
@@ -277,152 +542,17 @@ main{
 
     align-items:flex-start;
 
-    gap:50px;
-
-    margin-top:35px;
-
-}
-
-/* ==========================================
-   MEMBER CARD
-========================================== */
-
-.member-card{
-
-    width:220px;
-
-    background:var(--card);
-
-    border:2px solid #334155;
-
-    border-radius:var(--radius);
-
-    padding:20px;
-
-    text-align:center;
-
-    box-shadow:var(--shadow);
-
-    transition:.3s;
-
-    cursor:pointer;
-
-}
-
-.member-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:var(--primary);
-
-    background:var(--card-hover);
-
-}
-
-/* ==========================================
-   PHOTO
-========================================== */
-
-.member-photo{
-
-    width:85px;
-
-    height:85px;
-
-    margin:auto;
-
-    border-radius:50%;
-
-    border:4px solid var(--primary);
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    overflow:hidden;
-
-    background:#111827;
-
-    font-size:40px;
-
-}
-
-.member-photo img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-}
-
-/* ==========================================
-   TEXT
-========================================== */
-
-.member-card h2{
-
-    margin-top:15px;
-
-    font-size:24px;
-
-    color:#fff;
-
-}
-
-.member-id{
+    gap:55px;
 
     margin-top:8px;
 
-    color:var(--text2);
-
-    font-size:14px;
-
-}
-
-.member-gender{
-
-    margin-top:10px;
-
-    color:var(--primary);
-
-    font-weight:bold;
-
-}
-/* ==========================================
-   TREE CONNECTOR
-========================================== */
-
-/* Parent থেকে নিচে নামা লাইন */
-
-.tree-line{
-
-    width:3px;
-
-    height:30px;
-
-    background:var(--primary);
-
-    margin:auto;
-
-}
-
-/* Parent + Children Connector */
-
-.tree-node>.children-row{
+    padding-top:35px;
 
     position:relative;
 
-    padding-top:35px;
-
 }
 
-/* Horizontal Line */
-
-.tree-node>.children-row::before{
+.children-row::before{
 
     content:"";
 
@@ -434,7 +564,7 @@ main{
 
     transform:translateX(-50%);
 
-    width:calc(100% - 120px);
+    width:calc(100% - 110px);
 
     height:3px;
 
@@ -442,9 +572,7 @@ main{
 
 }
 
-/* Vertical Line (প্রতিটি সন্তানের উপরে) */
-
-.tree-node>.children-row>.tree-node::before{
+.children-row>.tree-node::before{
 
     content:"";
 
@@ -464,65 +592,696 @@ main{
 
 }
 
-/* প্রথম ও শেষ সন্তানের লাইনের সৌন্দর্য */
-
-.tree-node>.children-row>.tree-node:first-child::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:-35px;
-
-    left:50%;
-
-    width:50%;
-
-    height:3px;
-
-    background:var(--bg);
-
-}
-
-.tree-node>.children-row>.tree-node:last-child::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:-35px;
-
-    right:50%;
-
-    width:50%;
-
-    height:3px;
-
-    background:var(--bg);
-
-}
-
 /* ==========================================
-   TREE SPACING
-========================================== */
-
-.tree-node{
-
-    padding-bottom:20px;
-
-}
-
-.children-row{
-
-    margin-top:10px;
-
-}
-/* ==========================================
-   ANIMATION
+MEMBER CARD
 ========================================== */
 
 .member-card{
-    animation:fadeUp .5s ease;
+
+    width:220px;
+
+    padding:20px;
+
+    border-radius:var(--radius);
+
+    background:var(--card);
+
+    border:2px solid var(--border);
+
+    text-align:center;
+
+    cursor:pointer;
+
+    box-shadow:var(--shadow);
+
+    transition:var(--speed);
+
+}
+
+.member-card:hover{
+
+    transform:translateY(-6px);
+
+    background:var(--cardHover);
+
+    border-color:var(--primary);
+
+}
+
+/* ==========================================
+MEMBER PHOTO
+========================================== */
+
+.member-photo{
+
+    width:90px;
+
+    height:90px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    border:4px solid var(--primary);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#111827;
+
+    font-size:38px;
+
+}
+
+.member-photo img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+/* ==========================================
+MEMBER TEXT
+========================================== */
+
+.member-card h2{
+
+    margin-top:14px;
+
+    font-size:21px;
+
+    color:var(--text);
+
+}
+
+.member-gender{
+
+    margin-top:10px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+    padding:6px 14px;
+
+    border-radius:50px;
+
+    background:#163a25;
+
+    color:#7dffb2;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.member-id{
+
+    display:none;
+
+}
+
+/* ==========================================
+PROFILE MODAL
+========================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.75);
+
+    backdrop-filter:blur(5px);
+
+    z-index:5000;
+
+}
+
+.modal.hidden{
+
+    display:none;
+
+}
+
+.modal-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+}
+
+.modal-content{
+
+    position:relative;
+
+    width:min(980px,95%);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:var(--card);
+
+    border-radius:22px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    z-index:2;
+
+}
+
+/* ==========================================
+CLOSE BUTTON
+========================================== */
+
+.close-btn{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--danger);
+
+    color:#fff;
+
+    font-size:18px;
+
+}
+
+.close-btn:hover{
+
+    transform:rotate(90deg);
+
+}
+
+/* ==========================================
+PROFILE HEADER
+========================================== */
+
+.profile-header{
+
+    display:flex;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:30px;
+
+}
+
+.profile-photo{
+
+    width:190px;
+
+    height:190px;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    border:5px solid var(--primary);
+
+    background:#0f172a;
+
+}
+
+.profile-photo img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.profile-info{
+
+    flex:1;
+
+    min-width:280px;
+
+}
+
+.profile-info h2{
+
+    font-size:34px;
+
+    margin-bottom:15px;
+
+}
+
+.profile-info table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.profile-info th{
+
+    width:160px;
+
+    text-align:left;
+
+    color:var(--primary);
+
+    padding:10px 0;
+
+    vertical-align:top;
+
+}
+
+.profile-info td{
+
+    padding:10px 0;
+
+    color:var(--textSoft);
+
+    border-bottom:1px solid var(--border);
+
+}
+
+/* ==========================================
+PROFILE SECTIONS
+========================================== */
+
+.profile-section{
+
+    margin-top:35px;
+
+}
+
+.profile-section h3{
+
+    margin-bottom:15px;
+
+    color:var(--primary);
+
+    font-size:22px;
+
+}
+
+/* ==========================================
+GALLERY
+========================================== */
+
+.gallery-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+
+    gap:15px;
+
+}
+
+.gallery-grid img{
+
+    width:100%;
+
+    aspect-ratio:1;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    cursor:zoom-in;
+
+    transition:var(--speed);
+
+}
+
+.gallery-grid img:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* ==========================================
+IMAGE VIEWER
+========================================== */
+
+.image-viewer{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.92);
+
+    z-index:6000;
+
+}
+
+.image-viewer.hidden{
+
+    display:none;
+
+}
+
+.image-viewer img{
+
+    max-width:90%;
+
+    max-height:85vh;
+
+    border-radius:16px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.viewer-close,
+.viewer-prev,
+.viewer-next{
+
+    position:absolute;
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:#ffffff22;
+
+    color:#fff;
+
+    font-size:24px;
+
+}
+
+.viewer-close{
+
+    top:25px;
+
+    right:25px;
+
+}
+
+.viewer-prev{
+
+    left:30px;
+
+}
+
+.viewer-next{
+
+    right:30px;
+
+}
+
+.viewer-close:hover,
+.viewer-prev:hover,
+.viewer-next:hover{
+
+    background:var(--secondary);
+
+}
+
+/* ==========================================
+ADMIN LOGIN
+========================================== */
+
+.admin-login{
+
+    max-width:420px;
+
+}
+
+.admin-login h2{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+
+.admin-login input{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    background:#0f172a;
+
+    color:var(--text);
+
+    margin-bottom:20px;
+
+}
+
+.admin-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.admin-buttons button{
+
+    flex:1;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:var(--secondary);
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+.admin-buttons button:hover{
+
+    background:#2563eb;
+
+}
+
+/* ==========================================
+ADMIN PANEL
+========================================== */
+
+.admin-panel{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    z-index:7000;
+
+}
+
+.admin-panel button{
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    background:var(--secondary);
+
+    color:#fff;
+
+    box-shadow:var(--shadow);
+
+    transition:var(--speed);
+
+}
+
+.admin-panel button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+#logoutBtn{
+
+    background:var(--danger);
+
+}
+
+#exportJsonBtn{
+
+    background:var(--primary);
+
+}
+
+/* ==========================================
+LOADING
+========================================== */
+
+.loading{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:18px;
+
+    padding:80px 20px;
+
+}
+
+.loader{
+
+    width:60px;
+
+    height:60px;
+
+    border:5px solid var(--border);
+
+    border-top:5px solid var(--primary);
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ==========================================
+FOOTER
+========================================== */
+
+.footer{
+
+    margin-top:50px;
+
+    padding:30px 15px;
+
+    text-align:center;
+
+    color:var(--textSoft);
+
+    border-top:1px solid var(--border);
+
+}
+
+/* ==========================================
+DARK MODE
+========================================== */
+
+body.dark{
+
+    --bg:#020617;
+
+    --surface:#0b1220;
+
+    --card:#162032;
+
+    --cardHover:#22324a;
+
+    --text:#ffffff;
+
+    --textSoft:#cbd5e1;
+
+    --border:#334155;
+
+}
+
+/* ==========================================
+UTILITY
+========================================== */
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.mt-20{
+
+    margin-top:20px;
+
+}
+
+.mb-20{
+
+    margin-bottom:20px;
+
+}
+
+.fade{
+
+    animation:fadeUp .35s ease;
+
 }
 
 @keyframes fadeUp{
@@ -530,6 +1289,7 @@ main{
     from{
 
         opacity:0;
+
         transform:translateY(20px);
 
     }
@@ -537,6 +1297,7 @@ main{
     to{
 
         opacity:1;
+
         transform:translateY(0);
 
     }
@@ -544,38 +1305,62 @@ main{
 }
 
 /* ==========================================
-   BUTTON EFFECT
+RESPONSIVE
 ========================================== */
 
-button{
+@media(max-width:992px){
 
-    box-shadow:0 4px 12px rgba(0,0,0,.3);
+    .profile-header{
+
+        flex-direction:column;
+
+        align-items:center;
+
+        text-align:center;
+
+    }
 
 }
 
-button:active{
+@media(max-width:768px){
 
-    transform:scale(.95);
+    .header{
 
-}
+        flex-direction:column;
 
-/* ==========================================
-   TREE HOVER
-========================================== */
+        align-items:stretch;
 
-.tree-node:hover>.member-card{
+    }
 
-    border-color:#22c55e;
+    .header-tools{
 
-    box-shadow:0 0 20px rgba(34,197,94,.4);
+        width:100%;
 
-}
+    }
 
-/* ==========================================
-   RESPONSIVE
-========================================== */
+    .search-wrapper{
 
-@media (max-width:768px){
+        width:100%;
+
+    }
+
+    #searchBox{
+
+        width:100%;
+
+    }
+
+    .statistics{
+
+        gap:12px;
+
+    }
+
+    .stat-item{
+
+        width:145px;
+
+    }
 
     .children-row{
 
@@ -585,9 +1370,17 @@ button:active{
 
     }
 
+    .children-row::before,
+
+    .children-row>.tree-node::before{
+
+        display:none;
+
+    }
+
     .member-card{
 
-        width:180px;
+        width:190px;
 
     }
 
@@ -597,32 +1390,42 @@ button:active{
 
     }
 
-    .logo{
+}
 
-        font-size:22px;
+@media(max-width:480px){
+
+    .profile-photo{
+
+        width:150px;
+
+        height:150px;
 
     }
 
-    #searchBox{
+    .profile-info h2{
 
-        width:180px;
+        font-size:26px;
 
     }
 
 }
 
 /* ==========================================
-   LOADING
+PRINT
 ========================================== */
 
-.loading{
+@media print{
 
-    font-size:24px;
+    .header,
 
-    color:#22c55e;
+    .toolbar,
 
-    text-align:center;
+    .footer,
 
-    padding:80px;
+    .admin-panel{
+
+        display:none !important;
+
+    }
 
 }
