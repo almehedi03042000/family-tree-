@@ -1,80 +1,20 @@
 /* ==========================================
    Sardar Family Tree
    Components
-   Version 2.0.0
+   Version 2.1.0
 ========================================== */
 
 "use strict";
 
 /* ==========================================
-   COMPONENTS
-========================================== */
-
-/**
- * Loading Component
- */
-
-function loadingComponent() {
-
-    return `
-        <div class="loading">
-            🌳 Family Tree Loading...
-        </div>
-    `;
-
-}
-
-/**
- * Error Component
- */
-
-function errorComponent(message) {
-
-    return `
-        <div class="error-box">
-
-            <h2>❌ Error</h2>
-
-            <p>${message}</p>
-
-        </div>
-    `;
-
-}
-
-/**
- * Empty Result Component
- */
-
-function emptyComponent(title = "কোন তথ্য পাওয়া যায়নি") {
-
-    return `
-        <div class="no-result">
-
-            <h2>${title}</h2>
-
-        </div>
-    `;
-
-}
-/* ==========================================
-   Sardar Family Tree
-   Components.js
-   Version 2.0.0
-========================================== */
-
-"use strict";
-
-/* ==========================================
-   MEMBER CARD
+   MEMBER CARD COMPONENT
 ========================================== */
 
 function createMemberCard(person) {
 
     return `
 
-        <div class="member-card"
-             data-id="${person.id}">
+        <div class="member-card" data-id="${person.id}">
 
             <div class="member-photo">
 
@@ -89,7 +29,9 @@ function createMemberCard(person) {
             <h2>${person.name}</h2>
 
             <p class="member-id">
-                ${person.id}
+
+                ID : ${person.id}
+
             </p>
 
             <p class="member-gender">
@@ -109,16 +51,16 @@ function createMemberCard(person) {
 }
 
 /* ==========================================
-   LOADING
+   LOADING COMPONENT
 ========================================== */
 
-function createLoading() {
+function createLoadingComponent() {
 
     return `
 
         <div class="loading">
 
-            Family Tree Loading...
+            🌳 Family Tree Loading...
 
         </div>
 
@@ -127,16 +69,16 @@ function createLoading() {
 }
 
 /* ==========================================
-   ERROR BOX
+   ERROR COMPONENT
 ========================================== */
 
-function createError(message) {
+function createErrorComponent(message) {
 
     return `
 
         <div class="error-box">
 
-            <h2>ত্রুটি</h2>
+            <h2>❌ Error</h2>
 
             <p>${message}</p>
 
@@ -147,16 +89,16 @@ function createError(message) {
 }
 
 /* ==========================================
-   NO RESULT
+   EMPTY COMPONENT
 ========================================== */
 
-function createNoResult() {
+function createEmptyComponent(message) {
 
     return `
 
         <div class="no-result">
 
-            <h2>কোন সদস্য পাওয়া যায়নি</h2>
+            <h2>${message}</h2>
 
         </div>
 
