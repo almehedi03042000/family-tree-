@@ -1,93 +1,120 @@
 /* ==========================================
-   COMPONENTS.JS
    Sardar Family Tree
-   Version 2.0.0
+   Components.js
+   Version : 5.0 FINAL
+   Author  : AL Mehedi
 ========================================== */
 
 "use strict";
 
 /* ==========================================
+   HTML ESCAPE
+========================================== */
+
+function escapeHTML(value){
+
+    if(value===undefined || value===null){
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#39;");
+
+}
+
+/* ==========================================
+   DEFAULT PHOTO
+========================================== */
+
+function getPhoto(member){
+
+    if(member.photo && member.photo.trim()!==""){
+
+        return `
+            <img
+                src="${escapeHTML(member.photo)}"
+                alt="${escapeHTML(member.name)}">
+        `;
+
+    }
+
+    return `
+        <div class="member-photo-placeholder">
+            👤
+        </div>
+    `;
+
+}
+
+/* ==========================================
+   GENDER
+========================================== */
+
+function genderText(gender){
+
+    return gender==="female"
+        ? "মহিলা"
+        : "পুরুষ";
+
+}
+
+function genderIcon(gender){
+
+    return gender==="female"
+        ? "♀"
+        : "♂";
+
+}
+
+/* ==========================================
    MEMBER CARD
 ========================================== */
 
-function createMemberCard(person) {
+function createMemberCard(member){
 
     return `
 
-        <div class="member-card"
-             data-id="${person.id}">
+<div
+    class="member-card fade"
+    data-id="${escapeHTML(member.id)}">
 
-            <div class="member-photo">
+    <div class="member-photo">
 
-                ${
-                    person.photo
-                        ? `<img src="${person.photo}" alt="${person.name}">`
-                        : "👤"
-                }
+        ${getPhoto(member)}
 
-            </div>
+    </div>
 
-            <h2>${person.name}</h2>
+    <h2>
 
-            <p class="member-id">
+        ${escapeHTML(member.name)}
 
-                ${person.id}
+    </h2>
 
-            </p>
+    <div class="member-gender">
 
-            <p class="member-gender">
+        <span>
 
-                ${
-                    person.gender === "male"
-                        ? "♂ পুরুষ"
-                        : "♀ মহিলা"
-                }
+            ${genderIcon(member.gender)}
 
-            </p>
+        </span>
 
-        </div>
+        <span>
 
-    `;
+            ${genderText(member.gender)}
 
-}
+        </span>
 
-/* ==========================================
-   LOADING
-========================================== */
+    </div>
 
-function loadingComponent() {
+</div>
 
-    return `
-
-        <div class="loading">
-
-            <div class="loader"></div>
-
-            <h2>Family Tree Loading...</h2>
-
-        </div>
-
-    `;
-
-}
-
-/* ==========================================
-   ERROR
-========================================== */
-
-function errorComponent(message = "Database Load Failed") {
-
-    return `
-
-        <div class="error-box">
-
-            <h2>❌ Error</h2>
-
-            <p>${message}</p>
-
-        </div>
-
-    `;
+`;
 
 }
 
@@ -95,158 +122,395 @@ function errorComponent(message = "Database Load Failed") {
    EMPTY RESULT
 ========================================== */
 
-function noResultComponent() {
+function emptyResultComponent(){
 
     return `
 
-        <div class="no-result">
+<div class="no-result">
 
-            <h2>
+    <h2>
 
-                কোন সদস্য পাওয়া যায়নি
+        কোনো সদস্য পাওয়া যায়নি
 
-            </h2>
+    </h2>
 
-        </div>
+</div>
 
-    `;
+`;
 
 }
+
 /* ==========================================
-   PROFILE MODAL
+   ERROR
 ========================================== */
 
-function profileModal(person) {
+function errorComponent(message){
 
     return `
 
-    <div class="profile-overlay" id="profileOverlay">
+<div class="no-result">
 
-        <div class="profile-modal">
+    <h2>
 
-            <button
-                class="close-profile"
-                onclick="closeProfile()">
+        Error
 
-                ✕
+    </h2>
 
-            </button>
+    <p>
 
-            <div class="profile-top">
+        ${escapeHTML(message)}
 
-                <div class="profile-photo">
+    </p>
 
-                    ${
-                        person.photo
-                            ? `<img src="${person.photo}" alt="${person.name}">`
-                            : "👤"
-                    }
+</div>
 
-                </div>
+`;
 
-                <div class="profile-name">
+}
 
-                    <h2>${person.name}</h2>
+/* ==========================================
+   LOADING
+========================================== */
 
-                    <p>
+function loadingComponent(){
 
-                        ${
-                            person.gender === "male"
-                                ? "♂ পুরুষ"
-                                : "♀ মহিলা"
-                        }
+    return `
 
-                    </p>
+<div class="loading">
 
-                </div>
+    <div class="loader"></div>
 
-            </div>
+    <p>
 
-            <div class="profile-body">
+        Family Tree Loading...
 
-                <table>
+    </p>
 
-                    <tr>
+</div>
 
-                        <td>ID</td>
+`;
 
-                        <td>${person.id}</td>
+}
 
-                    </tr>
+/* ==========================================
+   TREE NODE
+========================================== */
 
-                    <tr>
+function createTreeNode(member){
 
-                        <td>Father</td>
+    if(!member){
 
-                        <td>${person.father || "-"}</td>
+        return "";
 
-                    </tr>
+    }
 
-                    <tr>
+    let children=[];
 
-                        <td>Mother</td>
+    if(
+        member.gender==="male" &&
+        Array.isArray(member.children)
+    ){
 
-                        <td>${person.mother || "-"}</td>
+        children=member.children
+            .map(id=>getMember(id))
+            .filter(Boolean);
 
-                    </tr>
+    }
 
-                    <tr>
+    return `
 
-                        <td>Birth</td>
+<div class="tree-node">
 
-                        <td>${person.birth || "-"}</td>
+    ${createMemberCard(member)}
 
-                    </tr>
+    ${children.length>0 ? `
 
-                    <tr>
+        <div class="tree-line"></div>
 
-                        <td>Death</td>
+        <div class="children-row">
 
-                        <td>${person.death || "-"}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Occupation</td>
-
-                        <td>${person.occupation || "-"}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Phone</td>
-
-                        <td>${person.phone || "-"}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Address</td>
-
-                        <td>${person.address || "-"}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Notes</td>
-
-                        <td>${person.notes || "-"}</td>
-
-                    </tr>
-
-                </table>
-
-            </div>
+            ${children
+                .map(child=>createTreeNode(child))
+                .join("")}
 
         </div>
+
+    ` : ""}
+
+</div>
+
+`;
+
+}
+
+/* ==========================================
+   TREE BUILDER
+========================================== */
+
+function buildFamilyTree(rootId){
+
+    const root=getMember(rootId);
+
+    if(!root){
+
+        return errorComponent("Root Member Not Found");
+
+    }
+
+    return createTreeNode(root);
+
+}
+
+/* ==========================================
+   SEARCH SUGGESTIONS
+========================================== */
+
+function suggestionItem(member){
+
+    return `
+
+<div
+    class="search-item"
+    data-id="${escapeHTML(member.id)}">
+
+    ${escapeHTML(member.name)}
+
+</div>
+
+`;
+
+}
+
+function renderSuggestions(list){
+
+    const box=document.getElementById(
+        "searchSuggestions"
+    );
+
+    if(!box){
+
+        return;
+
+    }
+
+    if(!list.length){
+
+        box.classList.remove("show");
+
+        box.innerHTML="";
+
+        return;
+
+    }
+
+    box.innerHTML=list
+        .map(suggestionItem)
+        .join("");
+
+    box.classList.add("show");
+
+}
+
+function clearSuggestions(){
+
+    const box=document.getElementById(
+        "searchSuggestions"
+    );
+
+    if(!box){
+
+        return;
+
+    }
+
+    box.classList.remove("show");
+
+    box.innerHTML="";
+
+}
+
+/* ==========================================
+   PROFILE INFO ROW
+========================================== */
+
+function profileRow(title, value){
+
+    if(
+        value===undefined ||
+        value===null ||
+        value===""
+
+    ){
+
+        return "";
+
+    }
+
+    return `
+
+<tr>
+
+    <th>
+
+        ${escapeHTML(title)}
+
+    </th>
+
+    <td>
+
+        ${escapeHTML(value)}
+
+    </td>
+
+</tr>
+
+`;
+
+}
+
+/* ==========================================
+   PROFILE GALLERY
+========================================== */
+
+function profileGallery(images){
+
+    if(
+
+        !Array.isArray(images) ||
+
+        images.length===0
+
+    ){
+
+        return "";
+
+    }
+
+    return `
+
+<div class="profile-section">
+
+    <h3>
+
+        ছবি
+
+    </h3>
+
+    <div class="gallery-grid">
+
+        ${images.map((img,index)=>`
+
+<img
+
+    src="${escapeHTML(img)}"
+
+    class="gallery-image"
+
+    data-index="${index}"
+
+    loading="lazy"
+
+    alt="Gallery">
+
+`).join("")}
 
     </div>
 
-    `;
+</div>
+
+`;
+
+}
+
+/* ==========================================
+   BIOGRAPHY
+========================================== */
+
+function biographySection(text){
+
+    if(!text){
+
+        return "";
+
+    }
+
+    return `
+
+<div class="profile-section">
+
+    <h3>
+
+        পরিচিতি
+
+    </h3>
+
+    <p>
+
+        ${escapeHTML(text)}
+
+    </p>
+
+</div>
+
+`;
+
+}
+
+/* ==========================================
+   PROFILE COMPONENT
+========================================== */
+
+function profileComponent(member){
+
+    return `
+
+<div class="profile-header">
+
+    <div class="profile-photo">
+
+        ${getPhoto(member)}
+
+    </div>
+
+    <div class="profile-info">
+
+        <h2>
+
+            ${escapeHTML(member.name)}
+
+        </h2>
+
+        <table>
+
+            ${profileRow("লিঙ্গ",genderText(member.gender))}
+
+            ${profileRow("পিতা",member.fatherName)}
+
+            ${profileRow("মাতা",member.motherName)}
+
+            ${profileRow("জন্ম",member.birth)}
+
+            ${profileRow("মৃত্যু",member.death)}
+
+            ${profileRow("মোবাইল",member.mobile)}
+
+            ${profileRow("রক্তের গ্রুপ",member.blood)}
+
+            ${profileRow("পেশা",member.profession)}
+
+            ${profileRow("ঠিকানা",member.address)}
+
+        </table>
+
+    </div>
+
+</div>
+
+${biographySection(member.biography)}
+
+${profileGallery(member.gallery)}
+
+`;
 
 }
 
@@ -254,15 +518,37 @@ function profileModal(person) {
    OPEN PROFILE
 ========================================== */
 
-function openProfile(person){
+function openProfile(member){
 
-    document.body.insertAdjacentHTML(
+    const modal=document.getElementById(
 
-        "beforeend",
-
-        profileModal(person)
+        "profileModal"
 
     );
+
+    const body=document.getElementById(
+
+        "profileBody"
+
+    );
+
+    if(
+
+        !modal ||
+
+        !body
+
+    ){
+
+        return;
+
+    }
+
+    body.innerHTML=
+
+        profileComponent(member);
+
+    modal.classList.remove("hidden");
 
 }
 
@@ -272,99 +558,368 @@ function openProfile(person){
 
 function closeProfile(){
 
-    const modal = document.getElementById(
+    const modal=document.getElementById(
 
-        "profileOverlay"
+        "profileModal"
 
     );
 
     if(modal){
 
-        modal.remove();
+        modal.classList.add("hidden");
 
     }
 
 }
+
 /* ==========================================
-   BADGE COMPONENT
+   STATISTICS COMPONENT
 ========================================== */
 
-function createBadge(text, color = "#22c55e") {
+function statisticsComponent(){
 
-    return `
+    if(!familyData) return;
 
-        <span
-            class="member-badge"
-            style="background:${color};">
+    const total=familyData.members.length;
 
-            ${text}
+    const male=familyData.members.filter(
 
-        </span>
+        m=>m.gender==="male"
 
-    `;
+    ).length;
+
+    const female=familyData.members.filter(
+
+        m=>m.gender==="female"
+
+    ).length;
+
+    const generation=Math.max(
+
+        ...familyData.members.map(
+
+            m=>m.generation||1
+
+        )
+
+    );
+
+    document.getElementById("totalMembers").textContent=total;
+
+    document.getElementById("maleMembers").textContent=male;
+
+    document.getElementById("femaleMembers").textContent=female;
+
+    document.getElementById("generationCount").textContent=generation;
 
 }
 
 /* ==========================================
-   INFO ROW COMPONENT
+   IMAGE VIEWER
 ========================================== */
 
-function createInfoRow(label, value) {
+let galleryImages=[];
 
-    return `
+let currentImage=0;
 
-        <div class="info-row">
+function openImageViewer(images,index=0){
 
-            <div class="info-label">
+    const viewer=document.getElementById("imageViewer");
 
-                ${label}
+    const image=document.getElementById("viewerImage");
 
-            </div>
+    if(!viewer || !image) return;
 
-            <div class="info-value">
+    galleryImages=images;
 
-                ${value || "-"}
+    currentImage=index;
 
-            </div>
+    image.src=galleryImages[currentImage];
 
-        </div>
+    viewer.classList.remove("hidden");
 
-    `;
+}
+
+function nextImage(){
+
+    if(!galleryImages.length) return;
+
+    currentImage++;
+
+    if(currentImage>=galleryImages.length){
+
+        currentImage=0;
+
+    }
+
+    document.getElementById("viewerImage").src=
+
+        galleryImages[currentImage];
+
+}
+
+function previousImage(){
+
+    if(!galleryImages.length) return;
+
+    currentImage--;
+
+    if(currentImage<0){
+
+        currentImage=galleryImages.length-1;
+
+    }
+
+    document.getElementById("viewerImage").src=
+
+        galleryImages[currentImage];
+
+}
+
+function closeImageViewer(){
+
+    document
+
+        .getElementById("imageViewer")
+
+        .classList.add("hidden");
 
 }
 
 /* ==========================================
-   CONFIRM DIALOG
+   PROFILE EVENTS
 ========================================== */
 
-function confirmDialog(message) {
+document.addEventListener("click",(e)=>{
 
-    return window.confirm(message);
+    if(e.target.classList.contains("gallery-image")){
 
-}
+        const images=[
+
+            ...document.querySelectorAll(".gallery-image")
+
+        ].map(img=>img.src);
+
+        openImageViewer(
+
+            images,
+
+            Number(e.target.dataset.index)
+
+        );
+
+    }
+
+});
+
+document
+
+.getElementById("viewerNext")
+
+?.addEventListener(
+
+    "click",
+
+    nextImage
+
+);
+
+document
+
+.getElementById("viewerPrev")
+
+?.addEventListener(
+
+    "click",
+
+    previousImage
+
+);
+
+document
+
+.getElementById("viewerClose")
+
+?.addEventListener(
+
+    "click",
+
+    closeImageViewer
+
+);
+
+document
+
+.getElementById("closeProfile")
+
+?.addEventListener(
+
+    "click",
+
+    closeProfile
+
+);
 
 /* ==========================================
-   SUCCESS MESSAGE
+   MEMBER CLICK EVENTS
 ========================================== */
 
-function successMessage(message) {
+document.addEventListener("click",(e)=>{
 
-    console.log("✅ " + message);
+    const card=e.target.closest(".member-card");
 
-}
+    if(!card){
+
+        return;
+
+    }
+
+    const id=card.dataset.id;
+
+    const member=getMember(id);
+
+    if(member){
+
+        openProfile(member);
+
+    }
+
+});
 
 /* ==========================================
-   ERROR MESSAGE
+   SEARCH EVENTS
 ========================================== */
 
-function errorMessage(message) {
+function searchMembers(keyword){
 
-    console.error("❌ " + message);
+    keyword=keyword.trim().toLowerCase();
+
+    if(keyword===""){
+
+        clearSuggestions();
+
+        return;
+
+    }
+
+    const result=familyData.members.filter(member=>
+
+        member.name.toLowerCase().includes(keyword)
+
+    );
+
+    renderSuggestions(result);
 
 }
+
+document
+
+.getElementById("searchBox")
+
+?.addEventListener("input",(e)=>{
+
+    searchMembers(e.target.value);
+
+});
+
+document.addEventListener("click",(e)=>{
+
+    const item=e.target.closest(".search-item");
+
+    if(!item){
+
+        return;
+
+    }
+
+    const member=getMember(item.dataset.id);
+
+    if(member){
+
+        openProfile(member);
+
+    }
+
+    clearSuggestions();
+
+});
+
+/* ==========================================
+   CLOSE MODALS
+========================================== */
+
+document.querySelectorAll(".modal-overlay")
+
+.forEach(overlay=>{
+
+    overlay.addEventListener("click",()=>{
+
+        closeProfile();
+
+        closeImageViewer();
+
+    });
+
+});
+
+/* ==========================================
+   ESC KEY
+========================================== */
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        closeProfile();
+
+        closeImageViewer();
+
+        clearSuggestions();
+
+    }
+
+});
+
+/* ==========================================
+   COMPONENT EXPORTS
+========================================== */
+
+window.Components={
+
+    createMemberCard,
+
+    createTreeNode,
+
+    buildFamilyTree,
+
+    profileComponent,
+
+    openProfile,
+
+    closeProfile,
+
+    statisticsComponent,
+
+    loadingComponent,
+
+    errorComponent,
+
+    emptyResultComponent,
+
+    searchMembers,
+
+    renderSuggestions,
+
+    clearSuggestions
+
+};
 
 /* ==========================================
    COMPONENTS READY
 ========================================== */
 
-console.log("✅ Components.js Loaded");
+console.log(
+
+    "Sardar Family Tree Components Loaded"
+
+);
