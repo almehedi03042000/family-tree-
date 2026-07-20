@@ -571,49 +571,53 @@ function closeProfile(){
     }
 
 }
-
 /* ==========================================
    STATISTICS COMPONENT
 ========================================== */
 
 function statisticsComponent(){
 
-   if(!window.familyData) return;
+    const data = window.familyData;
 
-    const total=familyData.members.length;
+    if(!data){
 
-    const male=familyData.members.filter(
+        return;
 
-        m=>m.gender==="male"
+    }
+
+    const total = data.members.length;
+
+    const male = data.members.filter(
+
+        m => m.gender === "male"
 
     ).length;
 
-    const female=familyData.members.filter(
+    const female = data.members.filter(
 
-        m=>m.gender==="female"
+        m => m.gender === "female"
 
     ).length;
 
-    const generation=Math.max(
+    const generation = Math.max(
 
-        ...familyData.members.map(
+        ...data.members.map(
 
-            m=>m.generation||1
+            m => m.generation || 1
 
         )
 
     );
 
-    document.getElementById("totalMembers").textContent=total;
+    document.getElementById("totalMembers").textContent = total;
 
-    document.getElementById("maleMembers").textContent=male;
+    document.getElementById("maleMembers").textContent = male;
 
-    document.getElementById("femaleMembers").textContent=female;
+    document.getElementById("femaleMembers").textContent = female;
 
-    document.getElementById("generationCount").textContent=generation;
+    document.getElementById("generationCount").textContent = generation;
 
 }
-
 /* ==========================================
    IMAGE VIEWER
 ========================================== */
