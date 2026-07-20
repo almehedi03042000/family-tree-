@@ -1,14 +1,247 @@
 {
+  "project": {
+    "name": "Sardar Family Tree",
+    "version": "5.0 FINAL",
+    "createdBy": "AL Mehedi",
+    "rootPerson": "P00001"
+  },
+
   "members": [
+
     {
       "id": "P00001",
-      "name": "পদ্মশী সর্দার",
+      "name": "পদ্মাশী সর্দার",
       "gender": "male",
       "generation": 1,
       "root": true,
-      "children": ["P00002"],
+
+      "father": null,
+      "mother": null,
+
+      "fatherName": "",
+      "motherName": "",
+
+      "children": [
+        "P00002"
+      ],
+
       "photo": "",
       "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+    {
+      "id": "P00002",
+      "name": "আকালি সর্দার",
+      "gender": "male",
+      "generation": 2,
+      "root": false,
+
+      "father": "P00001",
+      "mother": null,
+
+      "fatherName": "পদ্মাশী সর্দার",
+      "motherName": "",
+
+      "children": [
+        "P00003",
+        "P00004"
+      ],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+    {
+      "id": "P00003",
+      "name": "ইসু সর্দার",
+      "gender": "male",
+      "generation": 3,
+      "root": false,
+
+      "father": "P00002",
+      "mother": null,
+
+      "fatherName": "আকালি সর্দার",
+      "motherName": "",
+
+      "children": [],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+    {
+      "id": "P00004",
+      "name": "কেসু সর্দার",
+      "gender": "male",
+      "generation": 3,
+      "root": false,
+
+      "father": "P00002",
+      "mother": null,
+
+      "fatherName": "আকালি সর্দার",
+      "motherName": "",
+
+      "children": [],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+        {
+      "id": "P00005",
+      "name": "ছকু সর্দার",
+      "gender": "male",
+      "generation": 3,
+      "root": false,
+
+      "father": "P00002",
+      "mother": null,
+
+      "fatherName": "আকালি সর্দার",
+      "motherName": "",
+
+      "children": [],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+    {
+      "id": "P00006",
+      "name": "গোপাল সর্দার",
+      "gender": "male",
+      "generation": 3,
+      "root": false,
+
+      "father": "P00002",
+      "mother": null,
+
+      "fatherName": "আকালি সর্দার",
+      "motherName": "",
+
+      "children": [],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+        {
+      "id": "P00007",
+      "name": "সদস্য ৭",
+      "gender": "male",
+      "generation": 4,
+      "root": false,
+
+      "father": "P00003",
+      "mother": null,
+
+      "fatherName": "ইসু সর্দার",
+      "motherName": "",
+
+      "children": [],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
+      "biography": ""
+    },
+
+    {
+      "id": "P00008",
+      "name": "সদস্য ৮",
+      "gender": "male",
+      "generation": 4,
+      "root": false,
+
+      "father": "P00003",
+      "mother": null,
+
+      "fatherName": "ইসু সর্দার",
+      "motherName": "",
+
+      "children": [],
+
+      "photo": "",
+      "gallery": [],
+
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
+      "address": "",
+
       "biography": ""
     }
   ]
