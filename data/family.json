@@ -1,103 +1,145 @@
 {
   "project": {
     "name": "Sardar Family Tree",
-    "version": "0.2.1",
+    "version": "5.0 FINAL",
     "createdBy": "AL Mehedi",
     "rootPerson": "P00001"
   },
 
   "members": [
+
     {
       "id": "P00001",
+
       "name": "পদ্মাশী সর্দার",
+
       "gender": "male",
-      "deceased": false,
+
+      "generation": 1,
 
       "father": null,
       "mother": null,
 
-      "spouses": [],
+      "fatherName": "",
+      "motherName": "",
 
       "children": [
         "P00002"
       ],
 
-      "photo": "",
-      "birthDate": "",
-      "deathDate": "",
-      "occupation": "",
-      "phone": "",
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
       "address": "",
-      "notes": ""
+
+      "photo": "",
+
+      "gallery": [],
+
+      "biography": ""
     },
 
-    {
+      {
       "id": "P00002",
+
       "name": "আকালি সর্দার",
+
       "gender": "male",
-      "deceased": false,
+
+      "generation": 2,
 
       "father": "P00001",
       "mother": null,
 
-      "spouses": [],
+      "fatherName": "পদ্মাশী সর্দার",
+      "motherName": "",
 
       "children": [
         "P00003",
         "P00004"
       ],
 
-      "photo": "",
-      "birthDate": "",
-      "deathDate": "",
-      "occupation": "",
-      "phone": "",
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
       "address": "",
-      "notes": ""
+
+      "photo": "",
+
+      "gallery": [],
+
+      "biography": ""
     },
 
-    {
+        {
       "id": "P00003",
+
       "name": "ইসু সর্দার",
+
       "gender": "male",
-      "deceased": false,
+
+      "generation": 3,
 
       "father": "P00002",
       "mother": null,
 
-      "spouses": [],
+      "fatherName": "আকালি সর্দার",
+      "motherName": "",
 
       "children": [],
 
-      "photo": "",
-      "birthDate": "",
-      "deathDate": "",
-      "occupation": "",
-      "phone": "",
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
       "address": "",
-      "notes": ""
+
+      "photo": "",
+
+      "gallery": [],
+
+      "biography": ""
     },
 
     {
       "id": "P00004",
+
       "name": "কেসু সর্দার",
+
       "gender": "male",
-      "deceased": false,
+
+      "generation": 3,
 
       "father": "P00002",
       "mother": null,
 
-      "spouses": [],
+      "fatherName": "আকালি সর্দার",
+      "motherName": "",
 
       "children": [],
 
-      "photo": "",
-      "birthDate": "",
-      "deathDate": "",
-      "occupation": "",
-      "phone": "",
+      "birth": "",
+      "death": "",
+
+      "profession": "",
+      "mobile": "",
+      "blood": "",
       "address": "",
-      "notes": ""
+
+      "photo": "",
+
+      "gallery": [],
+
+      "biography": ""
     }
-  ]
+      ]
+
 }
