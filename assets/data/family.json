@@ -1,1 +1,24 @@
+{
+  "id": "P00001",
+  "name": "পদ্মাশী সর্দার",
+  "gender": "male",
+  "generation": 1,
+  "root": true,
 
+  "father": null,
+  "mother": null,
+
+  "spouses": [],
+
+  "children": [
+    "P00002"
+  ],
+
+  "photo": "",
+  "birthDate": "",
+  "deathDate": "",
+  "occupation": "",
+  "phone": "",
+  "address": "",
+  "notes": ""
+}
