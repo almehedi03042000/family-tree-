@@ -1,169 +1,160 @@
 /* ==========================================
    Sardar Family Tree
-   Version 2.0.0
-   Author : AL Mehedi
+   app.js
+   Version : 5.0 FINAL
+   Author  : AL Mehedi
 ========================================== */
 
 "use strict";
 
 /* ==========================================
-   APP INFO
+   GLOBAL STATE
 ========================================== */
 
-const APP = {
-    name: "Sardar Family Tree",
-    version: "2.0.0",
-    author: "AL Mehedi"
-};
+let familyData = null;
 
-console.log(`${APP.name} v${APP.version} Loaded`);
+let currentRootId = null;
+
+let currentScale = 1;
+
+const MIN_SCALE = 0.50;
+
+const MAX_SCALE = 2.50;
+
+const SCALE_STEP = 0.10;
+
+let isDragging = false;
+
+let startX = 0;
+
+let startY = 0;
+
+let scrollLeft = 0;
+
+let scrollTop = 0;
 
 /* ==========================================
-   DOM ELEMENTS
+   DOM
 ========================================== */
 
+const treeArea = document.getElementById("treeArea");
+
 const treeContainer = document.getElementById("treeContainer");
-const searchBox = document.getElementById("searchBox");
 
 const zoomInBtn = document.getElementById("zoomIn");
+
 const zoomOutBtn = document.getElementById("zoomOut");
+
 const resetZoomBtn = document.getElementById("resetZoom");
 
 const darkModeBtn = document.getElementById("darkModeBtn");
 
 /* ==========================================
-   GLOBAL VARIABLES
+   MEMBER HELPERS
 ========================================== */
 
-let familyData = null;
-let currentZoom = 1;
-let selectedMember = null;
+function getMember(id){
 
-/* ==========================================
-   LOAD DATABASE
-========================================== */
+    if(
+        !familyData ||
+        !Array.isArray(familyData.members)
+    ){
 
-async function loadFamilyData() {
-
-    try {
-
-        const response = await fetch("data/family.json");
-
-        if (!response.ok) {
-            throw new Error("family.json not found");
-        }
-
-        familyData = await response.json();
-
-        console.log("✅ Family Database Loaded");
-
-    } catch (error) {
-
-        console.error(error);
-
-        treeContainer.innerHTML = `
-            <div class="error-box">
-                <h2>Database Load Failed</h2>
-                <p>family.json পাওয়া যায়নি।</p>
-            </div>
-        `;
+        return null;
 
     }
 
+    return familyData.members.find(
+
+        member=>member.id===id
+
+    ) || null;
+
+}
+
+function getRootMember(){
+
+    if(!familyData){
+
+        return null;
+
+    }
+
+    if(currentRootId){
+
+        return getMember(currentRootId);
+
+    }
+
+    return familyData.members.find(
+
+        member=>member.root===true
+
+    ) || familyData.members[0];
+
 }
 
 /* ==========================================
-   DATA HELPERS
+   LOAD JSON
 ========================================== */
 
-function getMember(id) {
+async function loadFamilyData(){
 
-    return familyData.members.find(member => member.id === id);
+    try{
 
-}
+        treeContainer.innerHTML=
 
-function getChildren(id) {
+            Components.loadingComponent();
 
-    const person = getMember(id);
+        const response=await fetch(
 
-    if (!person) return [];
+            "assets/data/family.json"
 
-   return (person.children || [])
-    .map(childId => getMember(childId))
-    .filter(Boolean);
+        );
 
-   }
+        if(!response.ok){
 
-function getFather(id) {
+            throw new Error(
 
-    const person = getMember(id);
+                "family.json load failed."
 
-    if (!person || !person.father) return null;
+            );
 
-    return getMember(person.father);
+        }
 
-}
+        familyData=await response.json();
+window.familyData = familyData;
+        const root=getRootMember();
 
-function getMother(id) {
+        if(!root){
 
-    const person = getMember(id);
+            throw new Error(
 
-    if (!person || !person.mother) return null;
+                "Root member not found."
 
-    return getMember(person.mother);
+            );
 
-}
+        }
 
-function hasChildren(id) {
+        currentRootId=root.id;
 
-    return getChildren(id).length > 0;
+        renderTree();
 
-}
+    }
 
-function getGenderIcon(gender) {
+    catch(error){
 
-    return gender === "male"
-        ? "♂"
-        : "♀";
+        console.error(error);
 
-}
+        treeContainer.innerHTML=
 
+            Components.errorComponent(
 
-/* ==========================================
-   RECURSIVE TREE
-========================================== */
+                error.message
 
-function createTree(personId) {
+            );
 
-    const person = getMember(personId);
-
-    if (!person) return "";
-
-    const children = getChildren(person.id);
-
-    return `
-
-        <div class="tree-node">
-
-            ${createMemberCard(person)}
-
-            ${children.length > 0 ? `
-
-                <div class="tree-line"></div>
-
-                <div class="children-row">
-
-                    ${children
-                        .map(child => createTree(child.id))
-                        .join("")}
-
-                </div>
-
-            ` : ""}
-
-        </div>
-
-    `;
+    }
 
 }
 
@@ -171,175 +162,491 @@ function createTree(personId) {
    RENDER TREE
 ========================================== */
 
-async function renderTree() {
+function renderTree(){
 
-    if (!familyData) {
+    if(
 
-        await loadFamilyData();
+        !familyData ||
 
-    }
+        !currentRootId
 
-    if (!familyData) {
-
-        treeContainer.innerHTML =
-            errorComponent("Family database load failed.");
+    ){
 
         return;
 
     }
 
-    treeContainer.innerHTML =
-        createTree(familyData.project.rootPerson);
+    treeContainer.innerHTML=
 
-    updateZoom();
+        Components.buildFamilyTree(
 
-}
+            currentRootId
 
-/* ==========================================
-   MEMBER PROFILE
-========================================== */
+        );
 
-function showMemberProfile(memberId){
+    Components.statisticsComponent();
 
-    const person = getMember(memberId);
-
-    if(!person) return;
-
-    selectedMember = person;
-
-    openProfile(person);
+    applyZoom();
 
 }
+
 /* ==========================================
-   CARD CLICK
+   CHANGE ROOT
 ========================================== */
 
-treeContainer.addEventListener("click", function(e){
+function showMemberTree(id){
 
-    const card = e.target.closest(".member-card");
+    const member=getMember(id);
 
-    if(!card) return;
-
-    showMemberProfile(card.dataset.id);
-
-});
-/* ==========================================
-   SEARCH
-========================================== */
-
-function searchMember() {
-
-    const keyword = searchBox.value.trim().toLowerCase();
-
-    if (!familyData) return;
-
-    if (keyword === "") {
-
-        renderTree();
+    if(!member){
 
         return;
 
     }
 
-    const results = familyData.members.filter(member =>
-        member.name.toLowerCase().includes(keyword)
+    currentRootId=id;
+
+    renderTree();
+
+}
+
+/* ==========================================
+   REFRESH
+========================================== */
+
+function refreshTree(){
+
+    renderTree();
+
+}
+
+/* ==========================================
+   APPLY ZOOM
+========================================== */
+
+function applyZoom(){
+
+    treeContainer.style.transform=
+
+        `scale(${currentScale})`;
+
+}
+
+/* ==========================================
+   ZOOM IN
+========================================== */
+
+function zoomIn(){
+
+    currentScale=Math.min(
+
+        currentScale+SCALE_STEP,
+
+        MAX_SCALE
+
     );
 
-    if (results.length === 0) {
-
-        treeContainer.innerHTML = `
-            <div class="no-result">
-                <h2>No Member Found</h2>
-            </div>
-        `;
-
-        return;
-
-    }
-
-    treeContainer.innerHTML = results
-        .map(member => createMemberCard(member))
-        .join("");
+    applyZoom();
 
 }
 
 /* ==========================================
-   ZOOM
+   ZOOM OUT
 ========================================== */
 
-function updateZoom() {
+function zoomOut(){
 
-    treeContainer.style.transform = `scale(${currentZoom})`;
-    treeContainer.style.transformOrigin = "top center";
+    currentScale=Math.max(
 
-}
+        currentScale-SCALE_STEP,
 
-function zoomIn() {
+        MIN_SCALE
 
-    currentZoom += 0.1;
+    );
 
-    updateZoom();
-
-}
-
-function zoomOut() {
-
-    currentZoom = Math.max(0.5, currentZoom - 0.1);
-
-    updateZoom();
+    applyZoom();
 
 }
 
-function resetZoom() {
+/* ==========================================
+   RESET ZOOM
+========================================== */
 
-    currentZoom = 1;
+function resetZoom(){
 
-    updateZoom();
+    currentScale=1;
+
+    applyZoom();
 
 }
+
+/* ==========================================
+   BUTTON EVENTS
+========================================== */
+
+zoomInBtn?.addEventListener(
+
+    "click",
+
+    zoomIn
+
+);
+
+zoomOutBtn?.addEventListener(
+
+    "click",
+
+    zoomOut
+
+);
+
+resetZoomBtn?.addEventListener(
+
+    "click",
+
+    resetZoom
+
+);
+
+/* ==========================================
+   MOUSE WHEEL ZOOM
+========================================== */
+
+treeArea?.addEventListener(
+
+    "wheel",
+
+    function(e){
+
+        if(!e.ctrlKey){
+
+            return;
+
+        }
+
+        e.preventDefault();
+
+        if(e.deltaY<0){
+
+            zoomIn();
+
+        }
+
+        else{
+
+            zoomOut();
+
+        }
+
+    },
+
+    {
+
+        passive:false
+
+    }
+
+);
+
+/* ==========================================
+   DRAG START
+========================================== */
+
+treeArea?.addEventListener(
+
+    "mousedown",
+
+    function(e){
+
+        isDragging=true;
+
+        startX=e.pageX-treeArea.offsetLeft;
+
+        startY=e.pageY-treeArea.offsetTop;
+
+        scrollLeft=treeArea.scrollLeft;
+
+        scrollTop=treeArea.scrollTop;
+
+        treeArea.style.cursor="grabbing";
+
+    }
+
+);
+
+/* ==========================================
+   DRAG MOVE
+========================================== */
+
+treeArea?.addEventListener(
+
+    "mousemove",
+
+    function(e){
+
+        if(!isDragging){
+
+            return;
+
+        }
+
+        e.preventDefault();
+
+        const x=e.pageX-treeArea.offsetLeft;
+
+        const y=e.pageY-treeArea.offsetTop;
+
+        const walkX=(x-startX);
+
+        const walkY=(y-startY);
+
+        treeArea.scrollLeft=
+
+            scrollLeft-walkX;
+
+        treeArea.scrollTop=
+
+            scrollTop-walkY;
+
+    }
+
+);
+
+/* ==========================================
+   DRAG END
+========================================== */
+
+function stopDragging(){
+
+    isDragging=false;
+
+    treeArea.style.cursor="grab";
+
+}
+
+treeArea?.addEventListener(
+
+    "mouseup",
+
+    stopDragging
+
+);
+
+treeArea?.addEventListener(
+
+    "mouseleave",
+
+    stopDragging
+
+);
+
+/* ==========================================
+   TOUCH SUPPORT
+========================================== */
+
+treeArea?.addEventListener(
+
+    "touchstart",
+
+    function(e){
+
+        if(e.touches.length!==1){
+
+            return;
+
+        }
+
+        isDragging=true;
+
+        startX=e.touches[0].pageX-treeArea.offsetLeft;
+
+        startY=e.touches[0].pageY-treeArea.offsetTop;
+
+        scrollLeft=treeArea.scrollLeft;
+
+        scrollTop=treeArea.scrollTop;
+
+    },
+
+    {
+
+        passive:true
+
+    }
+
+);
+
+treeArea?.addEventListener(
+
+    "touchmove",
+
+    function(e){
+
+        if(!isDragging){
+
+            return;
+
+        }
+
+        const x=e.touches[0].pageX-treeArea.offsetLeft;
+
+        const y=e.touches[0].pageY-treeArea.offsetTop;
+
+        treeArea.scrollLeft=
+
+            scrollLeft-(x-startX);
+
+        treeArea.scrollTop=
+
+            scrollTop-(y-startY);
+
+    },
+
+    {
+
+        passive:true
+
+    }
+
+);
+
+treeArea?.addEventListener(
+
+    "touchend",
+
+    function(){
+
+        isDragging=false;
+
+    }
+
+);
 
 /* ==========================================
    DARK MODE
 ========================================== */
 
-function toggleDarkMode() {
+function enableDarkMode(){
 
-    document.body.classList.toggle("dark");
+    document.body.classList.add("dark");
+
+    localStorage.setItem(
+
+        "theme",
+
+        "dark"
+
+    );
+
+    if(darkModeBtn){
+
+        darkModeBtn.textContent="☀️";
+
+    }
 
 }
 
+function disableDarkMode(){
+
+    document.body.classList.remove("dark");
+
+    localStorage.setItem(
+
+        "theme",
+
+        "light"
+
+    );
+
+    if(darkModeBtn){
+
+        darkModeBtn.textContent="🌙";
+
+    }
+
+}
+
+function toggleDarkMode(){
+
+    if(
+
+        document.body.classList.contains("dark")
+
+    ){
+
+        disableDarkMode();
+
+    }
+
+    else{
+
+        enableDarkMode();
+
+    }
+
+}
+
+darkModeBtn?.addEventListener(
+
+    "click",
+
+    toggleDarkMode
+
+);
+
 /* ==========================================
-   EVENTS
+   LOAD SAVED THEME
 ========================================== */
 
-zoomInBtn?.addEventListener("click", zoomIn);
+(function(){
 
-zoomOutBtn?.addEventListener("click", zoomOut);
+    const savedTheme=
 
-resetZoomBtn?.addEventListener("click", resetZoom);
+        localStorage.getItem("theme");
 
-darkModeBtn?.addEventListener("click", toggleDarkMode);
+    if(savedTheme==="dark"){
 
-searchBox?.addEventListener("input", searchMember);
-/* ==========================================
-   TREE CLICK EVENT
-========================================== */
+        enableDarkMode();
 
-treeContainer.addEventListener("click", (e) => {
+    }
 
-    const card = e.target.closest(".member-card");
+})();
 
-    if (!card) return;
-
-    showMemberProfile(card.dataset.id);
-
-});
 /* ==========================================
    INITIALIZE
 ========================================== */
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
 
-    renderTree();
+    "DOMContentLoaded",
 
-});
+    function(){
+
+        loadFamilyData();
+
+    }
+
+);
+
+/* ==========================================
+   GLOBAL EXPORTS
+========================================== */
+
+
+window.getMember=getMember;
+
+window.showMemberTree=showMemberTree;
+
+window.refreshTree=refreshTree;
+
+window.loadFamilyData=loadFamilyData;
+
+/* ==========================================
+   READY
+========================================== */
+
+console.log(
+
+    "Sardar Family Tree App Loaded"
+
+);
