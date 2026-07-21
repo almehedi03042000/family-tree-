@@ -512,6 +512,13 @@ TREE
 .tree-node > .children-row{
     width:max-content;
 }
+.tree-node:first-child > .children-row::before{
+    left:50%;
+}
+
+.tree-node:last-child > .children-row::before{
+    right:50%;
+}
 .tree-line{
     width:2px;
     height:30px;
