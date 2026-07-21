@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>শেকড় - পদ্মাশী সর্দারের বংশধারা</title>
-    <!-- Google Fonts for Bengali -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <!-- html2pdf Library for HD PDF Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -25,7 +28,7 @@
             flex-direction: column;
         }
 
-        /* Header Navigation */
+        /* Header Styles */
         .app-header {
             background-color: #1e3d2f;
             color: #ffffff;
@@ -54,26 +57,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .full-tree-btn {
-            background-color: #d69e2e;
-            color: #fff;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.2s;
-        }
-
-        .full-tree-btn:hover {
-            background-color: #b7791f;
         }
 
         /* Search Box */
@@ -134,7 +117,57 @@
             background-color: #f0f0f0;
         }
 
-        /* Breadcrumb Bar */
+        /* Overview Box on First Page */
+        .overview-card-container {
+            padding: 15px 24px 0 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .overview-box {
+            background: linear-gradient(135deg, #2b6cb0, #2c5282);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.25);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .overview-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(43, 108, 176, 0.35);
+        }
+
+        .overview-info h3 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .overview-info p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .overview-btn {
+            background-color: #d69e2e;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Navigation Banner */
         .nav-banner {
             background-color: #e2e8f0;
             padding: 10px 24px;
@@ -142,6 +175,7 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid #cbd5e0;
+            margin-top: 15px;
         }
 
         .breadcrumb {
@@ -178,7 +212,7 @@
             overflow-x: auto;
         }
 
-        /* Tree Structure CSS */
+        /* Tree Structure Styling */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -270,7 +304,7 @@
             margin-left: 4px;
         }
 
-        /* Sub-Tree Navigation Link Button */
+        /* Branch Navigation Link Button */
         .sub-tree-link {
             margin-top: 10px;
             display: block;
@@ -296,14 +330,14 @@
             box-shadow: 0 0 12px rgba(214, 158, 46, 0.6) !important;
         }
 
-        /* Zoom Modal Overlay */
+        /* Zoom Full-Screen Modal Overlay */
         .zoom-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.88);
             display: none;
             flex-direction: column;
             z-index: 2000;
@@ -316,6 +350,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .zoom-modal-header h2 {
@@ -324,8 +360,9 @@
 
         .zoom-controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .zoom-btn {
@@ -335,12 +372,21 @@
             padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: bold;
+            font-family: inherit;
         }
 
         .zoom-btn:hover {
             background: #2f855a;
+        }
+
+        .pdf-btn {
+            background: #dd6b20;
+        }
+
+        .pdf-btn:hover {
+            background: #c05621;
         }
 
         .zoom-close-btn {
@@ -351,6 +397,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            font-family: inherit;
         }
 
         .zoom-viewport {
@@ -369,7 +416,7 @@
         }
 
         .zoom-content {
-            transform-origin: 0 0;
+            transform-origin: top center;
             transition: transform 0.1s ease-out;
             background: white;
             padding: 40px;
@@ -377,7 +424,7 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
-        /* Standard Modal Popup */
+        /* Member Info Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -446,7 +493,7 @@
 </head>
 <body>
 
-    <!-- Header Bar -->
+    <!-- App Header -->
     <header class="app-header">
         <div class="header-left">
             <h1>🌳 শেকড়</h1>
@@ -454,9 +501,6 @@
         </div>
         
         <div class="header-controls">
-            <!-- Full Interactive Zoom Tree Button -->
-            <button class="full-tree-btn" id="openZoomTreeBtn">🔍 সম্পূর্ণ ট্রি জুম করে দেখুন</button>
-
             <!-- Search Box -->
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="সদস্যের নাম খুঁজুন..." autocomplete="off">
@@ -466,25 +510,37 @@
         </div>
     </header>
 
-    <!-- Sub-tree Navigation Banner -->
+    <!-- First Page Interactive Banner Box -->
+    <div class="overview-card-container" id="overviewCardContainer">
+        <div class="overview-box" id="openZoomTreeBox">
+            <div class="overview-info">
+                <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (Interactive Full Tree)</h3>
+                <p>সমগ্র ফ্যামিলি ট্রি একসাথে দেখতে, জুম করতে অথবা PDF ডাউনলোড করতে এখানে ক্লিক করুন</p>
+            </div>
+            <button class="overview-btn">সম্পূর্ণ ট্রি দেখুন 🔍</button>
+        </div>
+    </div>
+
+    <!-- Navigation Breadcrumb -->
     <div class="nav-banner">
-        <div class="breadcrumb" id="breadcrumbText">📍 প্রথম পেজ: পদ্মাশী সর্দার থেকে ইসু ও কেসু সর্দার পর্যন্ত</div>
+        <div class="breadcrumb" id="breadcrumbText">📍 প্রথম পেজ: পদ্মাশী সর্দার, আকালি সর্দার, ইসু সর্দার ও কেসু সর্দার</div>
         <button class="back-btn" id="backBtn">⬅ মূল হোমে ফিরে যান</button>
     </div>
 
-    <!-- Main Tree Viewport Container -->
+    <!-- Tree Viewport Container -->
     <main class="tree-viewport">
         <div id="treeContainer"></div>
     </main>
 
-    <!-- Interactive Zoomable Full Tree Modal -->
+    <!-- Full Interactive Zoomable Tree Modal -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 পদ্মাশী সর্দারের সম্পুর্ণ ইন্টারেক্টিভ ফ্যামিলি ট্রি (High Resolution)</h2>
+            <h2>🔍 পদ্মাশী সর্দারের সম্পূর্ণ ফ্যামিলি ট্রি</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
                 <button class="zoom-btn" id="zoomResetBtn">🔄 রিসেট</button>
+                <button class="zoom-btn pdf-btn" id="downloadPdfBtn">📄 PDF ডাউনলোড</button>
                 <button class="zoom-close-btn" id="zoomCloseBtn">✖ বন্ধ করুন</button>
             </div>
         </div>
@@ -493,7 +549,7 @@
         </div>
     </div>
 
-    <!-- Member Details Modal -->
+    <!-- Member Details Modal Popup -->
     <div id="memberModal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
@@ -509,7 +565,7 @@
         </div>
     </div>
 
-    <!-- JavaScript Data and Logic -->
+    <!-- Data & Navigation Logic -->
     <script>
         const familyData = {
             id: "padmashi",
@@ -792,6 +848,10 @@
                 currentRootNode = familyData;
                 renderCurrentTree();
             });
+
+            document.getElementById('openZoomTreeBox').addEventListener('click', () => {
+                openZoomTreeModal();
+            });
         });
 
         function toBanglaNumber(num) {
@@ -799,9 +859,10 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        /* Paginated View rendering:
-           If at Home Page (padmashi), show ONLY up to Isu and Kesu (Depth 2).
-           Else show current subtree up to 2 generations with navigation link to next level.
+        /* 
+           Paginated Tree Generator:
+           Home Page: Shows Padmaishi -> Akali -> Isu & Kesu with links to their subtrees.
+           Subsequent Pages: Shows clicked root node and its descendants up to 2 generations.
         */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
@@ -812,29 +873,29 @@
 
             let linkBtn = '';
 
-            // Check if node has children and is at boundary to create a new page link
+            // Handle links for branch switching
             if (hasChildren) {
                 if (currentRootNode.id === "padmashi" && (node.id === "isu" || node.id === "kesu")) {
                     linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
-                        👉 ${node.name}-এর সম্পূর্ণ বংশধারার পেজে যেতে ক্লিক করুন
+                        👉 ${node.name}-এর বংশধারা দেখুন
                     </button>`;
                 } else if (currentRootNode.id !== "padmashi" && currentDepth >= 1) {
                     linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
-                        👉 ${node.name}-এর পরবর্তী বংশধরের পেজে যেতে ক্লিক করুন
+                        👉 ${node.name}-এর বংশধারা দেখুন
                     </button>`;
                 }
             }
 
             let childrenHTML = '';
-            // Render children if within limit
-            let allowRenderChildren = false;
+            let allowChildren = false;
+
             if (currentRootNode.id === "padmashi" && currentDepth < 2) {
-                allowRenderChildren = true;
+                allowChildren = true;
             } else if (currentRootNode.id !== "padmashi" && currentDepth < 1) {
-                allowRenderChildren = true;
+                allowChildren = true;
             }
 
-            if (hasChildren && allowRenderChildren) {
+            if (hasChildren && allowChildren) {
                 const childNodes = node.children.map(child => renderNodeHTML(child, currentDepth + 1)).join('');
                 childrenHTML = `<ul>${childNodes}</ul>`;
             }
@@ -854,13 +915,16 @@
             const container = document.getElementById('treeContainer');
             const breadcrumb = document.getElementById('breadcrumbText');
             const backBtn = document.getElementById('backBtn');
+            const overviewBox = document.getElementById('overviewCardContainer');
 
             if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 প্রথম পেজ: পদ্মাশী সর্দার থেকে শুরু করে ঈসা ও কিসু সর্দার পর্যন্ত';
+                breadcrumb.textContent = '📍 প্রথম পেজ: পদ্মাশী সর্দার, আকালি সর্দার, ইসু সর্দার ও কেসু সর্দার';
                 backBtn.style.display = 'none';
+                overviewBox.style.display = 'flex';
             } else {
                 breadcrumb.textContent = `📍 আলাদা বংশধারা শাখা পেজ: ${currentRootNode.name}`;
                 backBtn.style.display = 'inline-flex';
+                overviewBox.style.display = 'none';
             }
 
             container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode, 0)}</ul></div>`;
@@ -928,7 +992,7 @@
             modal.style.display = 'flex';
         }
 
-        /* Render Full Unbounded Tree for Zoom View */
+        /* Unbounded Tree Rendering for Full Interactive Zoom Canvas */
         function renderFullUnboundedTree(node) {
             if (!node) return '';
 
@@ -952,21 +1016,21 @@
             `;
         }
 
-        /* Interactive Zoom Modal Logic */
-        let zoomScale = 0.8;
-        function setupZoomTree() {
-            const openBtn = document.getElementById('openZoomTreeBtn');
-            const closeBtn = document.getElementById('zoomCloseBtn');
+        /* Zoom and PDF Modal Logic */
+        let zoomScale = 0.65;
+        function openZoomTreeModal() {
             const zoomModal = document.getElementById('zoomModal');
             const zoomContent = document.getElementById('zoomContent');
-            const zoomViewport = document.getElementById('zoomViewport');
+            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullUnboundedTree(familyData)}</ul></div>`;
+            zoomModal.style.display = 'flex';
+            zoomScale = 0.65;
+            applyZoom();
+        }
 
-            openBtn.addEventListener('click', () => {
-                zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullUnboundedTree(familyData)}</ul></div>`;
-                zoomModal.style.display = 'flex';
-                zoomScale = 0.75;
-                applyZoom();
-            });
+        function setupZoomTree() {
+            const closeBtn = document.getElementById('zoomCloseBtn');
+            const zoomModal = document.getElementById('zoomModal');
+            const zoomViewport = document.getElementById('zoomViewport');
 
             closeBtn.addEventListener('click', () => {
                 zoomModal.style.display = 'none';
@@ -978,13 +1042,26 @@
             });
 
             document.getElementById('zoomOutBtn').addEventListener('click', () => {
-                zoomScale = Math.max(zoomScale - 0.15, 0.2);
+                zoomScale = Math.max(zoomScale - 0.15, 0.15);
                 applyZoom();
             });
 
             document.getElementById('zoomResetBtn').addEventListener('click', () => {
-                zoomScale = 0.75;
+                zoomScale = 0.65;
                 applyZoom();
+            });
+
+            // PDF Download Action
+            document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+                const element = document.getElementById('zoomContent');
+                const opt = {
+                    margin:       0.2,
+                    filename:     'পদ্মাশী_সর্দারের_বংশধারা.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'in', format: 'a2', orientation: 'landscape' }
+                };
+                html2pdf().set(opt).from(element).save();
             });
 
             zoomViewport.addEventListener('wheel', (e) => {
@@ -992,7 +1069,7 @@
                 if (e.deltaY < 0) {
                     zoomScale = Math.min(zoomScale + 0.08, 2.5);
                 } else {
-                    zoomScale = Math.max(zoomScale - 0.08, 0.2);
+                    zoomScale = Math.max(zoomScale - 0.08, 0.15);
                 }
                 applyZoom();
             }, { passive: false });
