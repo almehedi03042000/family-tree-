@@ -7,9 +7,11 @@
     <!-- Google Fonts for Bengali -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kalpurush&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Main Style Sheet -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS File Link (Added assets/ path) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Fallback check -->
 </head>
 <body>
 
@@ -40,8 +42,6 @@
     <!-- Main Tree Canvas Viewport -->
     <main class="tree-viewport" id="treeViewport">
         <div class="tree-container" id="treeContainer">
-            <!-- Dynamic SVG Connection Lines Will Be Drawn Here -->
-            <svg id="svgLines" class="svg-lines"></svg>
             <!-- Dynamic Tree Nodes Will Be Rendered Here -->
             <div id="treeNodes" class="tree-nodes"></div>
         </div>
@@ -63,9 +63,249 @@
         </div>
     </div>
 
-    <!-- Load Scripts in exact Order -->
+    <!-- Script Load Paths -->
+    <script src="assets/js/data.js"></script>
     <script src="data.js"></script>
-    <script src="tree.js"></script>
-    <script src="app.js"></script>
+
+    <!-- Main Logic Script -->
+    <script>
+        let currentScale = 1;
+        let isPanning = false;
+        let startX = 0, startY = 0;
+        let translateX = 0, translateY = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof familyData !== 'undefined') {
+                renderTree();
+                setupZoomAndPan();
+                setupSearch();
+                setupModalEvents();
+            } else {
+                console.error("Data file not loaded properly.");
+            }
+        });
+
+        function toBanglaNumber(num) {
+            const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
+        }
+
+        function createMemberCardHTML(member) {
+            const deceasedClass = member.isDeceased ? 'deceased' : '';
+            const deceasedBadge = member.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
+
+            return `
+                <div class="member-card ${deceasedClass}" data-id="${member.id}">
+                    <div class="member-name">${member.name}</div>
+                    ${deceasedBadge}
+                </div>
+            `;
+        }
+
+        function renderTreeHTML(node) {
+            if (!node) return '';
+
+            let childrenHTML = '';
+            if (node.children && node.children.length > 0) {
+                const childrenNodes = node.children.map(child => renderTreeHTML(child)).join('');
+                childrenHTML = `<ul>${childrenNodes}</ul>`;
+            }
+
+            return `
+                <li>
+                    ${createMemberCardHTML(node)}
+                    ${childrenHTML}
+                </li>
+            `;
+        }
+
+        function renderTree() {
+            const treeNodesContainer = document.getElementById('treeNodes');
+            if (typeof familyData === 'undefined') return;
+
+            const treeHTML = `<div class="tf-tree"><ul>${renderTreeHTML(familyData)}</ul></div>`;
+            treeNodesContainer.innerHTML = treeHTML;
+
+            document.querySelectorAll('.member-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const memberId = card.getAttribute('data-id');
+                    const memberObj = findMemberById(familyData, memberId);
+                    const parentObj = findParentById(familyData, memberId);
+                    
+                    if (memberObj) {
+                        showMemberDetailsModal(memberObj, parentObj ? parentObj.name : 'মূল পিতা/পূর্বপুরুষ');
+                    }
+                });
+            });
+        }
+
+        function findMemberById(root, id) {
+            if (root.id === id) return root;
+            if (root.children) {
+                for (let child of root.children) {
+                    const found = findMemberById(child, id);
+                    if (found) return found;
+                }
+            }
+            return null;
+        }
+
+        function findParentById(root, id) {
+            if (root.children) {
+                for (let child of root.children) {
+                    if (child.id === id) return root;
+                    const found = findParentById(child, id);
+                    if (found) return found;
+                }
+            }
+            return null;
+        }
+
+        function showMemberDetailsModal(member, parentName = 'N/A') {
+            const modal = document.getElementById('memberModal');
+            document.getElementById('modalName').textContent = member.name;
+            
+            const badge = document.getElementById('modalStatusBadge');
+            if (member.isDeceased) {
+                badge.textContent = 'মৃত';
+                badge.className = 'status-badge deceased';
+            } else {
+                badge.textContent = 'জীবিত';
+                badge.className = 'status-badge';
+            }
+
+            document.getElementById('modalParent').textContent = parentName;
+            document.getElementById('modalGeneration').textContent = `${toBanglaNumber(member.generation || 1)}ম প্রজন্ম`;
+            
+            const childCount = member.children ? member.children.length : 0;
+            document.getElementById('modalChildrenCount').textContent = `${toBanglaNumber(childCount)} জন`;
+
+            modal.style.display = 'flex';
+        }
+
+        function setupZoomAndPan() {
+            const viewport = document.getElementById('treeViewport');
+            const container = document.getElementById('treeContainer');
+
+            const updateTransform = () => {
+                container.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+            };
+
+            document.getElementById('zoomInBtn').addEventListener('click', () => {
+                currentScale = Math.min(currentScale + 0.15, 2.5);
+                updateTransform();
+            });
+
+            document.getElementById('zoomOutBtn').addEventListener('click', () => {
+                currentScale = Math.max(currentScale - 0.15, 0.3);
+                updateTransform();
+            });
+
+            document.getElementById('resetZoomBtn').addEventListener('click', () => {
+                currentScale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+            });
+
+            viewport.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.member-card') || e.target.closest('.app-header')) return;
+                isPanning = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isPanning) return;
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+            });
+
+            window.addEventListener('mouseup', () => {
+                isPanning = false;
+            });
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const searchResults = document.getElementById('searchResults');
+
+            const performSearch = () => {
+                const query = searchInput.value.trim();
+                searchResults.innerHTML = '';
+                
+                if (!query) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                const matches = [];
+                searchMembersRecursive(familyData, query, matches);
+
+                if (matches.length > 0) {
+                    searchResults.style.display = 'block';
+                    matches.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'search-result-item';
+                        div.textContent = item.name;
+                        div.addEventListener('click', () => {
+                            highlightAndFocusMember(item.id);
+                            searchResults.style.display = 'none';
+                            searchInput.value = '';
+                        });
+                        searchResults.appendChild(div);
+                    });
+                } else {
+                    searchResults.style.display = 'block';
+                    searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি</div>';
+                }
+            };
+
+            searchInput.addEventListener('input', performSearch);
+            searchBtn.addEventListener('click', performSearch);
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-box')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        function searchMembersRecursive(node, query, results) {
+            if (!node) return;
+            if (node.name.includes(query)) {
+                results.push(node);
+            }
+            if (node.children) {
+                node.children.forEach(child => searchMembersRecursive(child, query, results));
+            }
+        }
+
+        function highlightAndFocusMember(id) {
+            document.querySelectorAll('.member-card').forEach(c => c.classList.remove('member-highlight'));
+            const targetCard = document.querySelector(`.member-card[data-id="${id}"]`);
+            
+            if (targetCard) {
+                targetCard.classList.add('member-highlight');
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            }
+        }
+
+        function setupModalEvents() {
+            const modal = document.getElementById('memberModal');
+            document.getElementById('modalClose').addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
