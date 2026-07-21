@@ -196,7 +196,7 @@
             overflow-x: auto;
         }
 
-        /* Standard Horizontal Tree Styling */
+        /* Standard Horizontal Tree Styling with SUPER BOLD & CRISP CONNECTOR LINES */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -213,12 +213,13 @@
             padding: 20px 8px 0 8px;
         }
 
+        /* Connecting Lines (Very clear and gapless) */
         .tf-tree li::before, .tf-tree li::after {
             content: '';
             position: absolute;
             top: 0;
             right: 50%;
-            border-top: 2px solid #a0aec0;
+            border-top: 2px solid #1e3d2f;
             width: 50%;
             height: 20px;
         }
@@ -226,7 +227,7 @@
         .tf-tree li::after {
             right: auto;
             left: 50%;
-            border-left: 2px solid #a0aec0;
+            border-left: 2px solid #1e3d2f;
         }
 
         .tf-tree li:only-child::after, .tf-tree li:only-child::before {
@@ -242,12 +243,12 @@
         }
 
         .tf-tree li:last-child::before {
-            border-right: 2px solid #a0aec0;
-            border-radius: 0 5px 0 0;
+            border-right: 2px solid #1e3d2f;
+            border-radius: 0 4px 0 0;
         }
 
         .tf-tree li:first-child::after {
-            border-radius: 5px 0 0 0;
+            border-radius: 4px 0 0 0;
         }
 
         .tf-tree ul ul::before {
@@ -255,55 +256,39 @@
             position: absolute;
             top: 0;
             left: 50%;
-            border-left: 2px solid #a0aec0;
+            border-left: 2px solid #1e3d2f;
             width: 0;
             height: 20px;
         }
 
-        /* Hybrid Vertical Leaves Styling */
-        .v-branch {
+        /* Vertical Female Branch Layout inside Tree */
+        .female-vertical-list {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            gap: 8px;
+            align-items: center;
             margin-top: 15px;
-            padding-left: 15px;
             position: relative;
+            padding-top: 15px;
         }
 
-        .v-branch::before {
+        .female-vertical-list::before {
             content: '';
             position: absolute;
             top: 0;
             left: 50%;
-            transform: translateX(-50%);
             width: 2px;
-            height: 15px;
-            background-color: #a0aec0;
+            height: 100%;
+            background-color: #d53f8c;
+            z-index: 0;
         }
 
-        .v-leaf-item {
-            position: relative;
-            margin-bottom: 8px;
-            padding-left: 16px;
-            border-left: 2px solid #3182ce;
-            text-align: left;
+        .female-vertical-list .member-card {
+            z-index: 1;
         }
 
-        .v-leaf-item::before {
-            content: '';
-            position: absolute;
-            top: 22px;
-            left: 0;
-            width: 10px;
-            height: 2px;
-            background-color: #3182ce;
-        }
-
-        /* Uniform Card Design - Standardized Size */
+        /* Uniform Card Design with Color Distinction for Male/Female */
         .member-card {
-            border: 2px solid #2f855a;
-            background-color: #ffffff;
-            color: #2d3748;
             padding: 8px;
             display: inline-flex;
             flex-direction: column;
@@ -313,7 +298,7 @@
             position: relative;
             box-shadow: 0 2px 5px rgba(0,0,0,0.06);
             
-            /* Fixed Standard Box Dimensions for Consistency */
+            /* Fixed Standard Box Dimensions */
             width: 150px;
             min-height: 65px;
             height: auto;
@@ -321,15 +306,29 @@
             word-wrap: break-word;
             overflow: hidden;
             user-select: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        /* Color Schemes */
+        .member-card.male {
+            border: 2px solid #2b6cb0;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+        }
+
+        .member-card.female {
+            border: 2px solid #d53f8c;
+            background-color: #fff5f7;
+            color: #9b2c2c;
         }
 
         .member-card.deceased {
-            border-color: #a0aec0;
-            background-color: #edf2f7;
-            color: #4a5568;
+            border-color: #718096 !important;
+            background-color: #edf2f7 !important;
+            color: #4a5568 !important;
         }
 
-        /* Auto-sizing Text for Bengali & English Name */
         .member-name-bn {
             font-size: clamp(0.72rem, 1.8vw, 0.88rem);
             font-weight: 700;
@@ -370,13 +369,13 @@
         }
 
         .sub-tree-link:hover {
-            background-color: #2c5282;
+            background-color: #1a365d;
         }
 
         .member-highlight {
             border-color: #d69e2e !important;
             background-color: #fefcbf !important;
-            box-shadow: 0 0 12px rgba(214, 158, 46, 0.6) !important;
+            box-shadow: 0 0 12px rgba(214, 158, 46, 0.8) !important;
         }
 
         /* Full Zoom & Pannable Canvas Modal */
@@ -455,7 +454,7 @@
             overflow: hidden;
             position: relative;
             cursor: grab;
-            background-color: #222;
+            background-color: #1a202c;
         }
 
         .zoom-viewport:active {
@@ -612,6 +611,7 @@
                 <span id="modalStatusBadge" class="status-badge">জীবিত</span>
             </div>
             <div class="modal-body">
+                <p><strong>লিঙ্গ:</strong> <span id="modalGender">N/A</span></p>
                 <p><strong>পিতা/পূর্বপুরুষ:</strong> <span id="modalParent">N/A</span></p>
                 <p><strong>বংশানুক্রমিক অবস্থান:</strong> <span id="modalGeneration">N/A</span></p>
                 <p><strong>সন্তানাদি:</strong> <span id="modalChildrenCount">০ জন</span></p>
@@ -621,11 +621,12 @@
 
     <!-- Data & Script Logic -->
     <script>
-        // Family Data with Bangla and English Names
+        // Family Data with Gender (male/female) Added
         const familyData = {
             id: "padmashi",
             nameBn: "পদ্মাশী সর্দার",
             nameEn: "Padmashi Sardar",
+            gender: "male",
             isDeceased: false,
             generation: 1,
             children: [
@@ -633,6 +634,7 @@
                     id: "akali",
                     nameBn: "আকালি সর্দার",
                     nameEn: "Akali Sardar",
+                    gender: "male",
                     isDeceased: false,
                     generation: 2,
                     children: [
@@ -640,6 +642,7 @@
                             id: "isu",
                             nameBn: "ইসু সর্দার",
                             nameEn: "Isu Sardar",
+                            gender: "male",
                             isDeceased: false,
                             generation: 3,
                             children: [
@@ -647,6 +650,7 @@
                                     id: "doshor",
                                     nameBn: "দোশর সর্দার",
                                     nameEn: "Doshor Sardar",
+                                    gender: "male",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
@@ -654,45 +658,48 @@
                                             id: "banej",
                                             nameBn: "বানেজ সর্দার",
                                             nameEn: "Banej Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "mohasin", nameBn: "মহাসিন সর্দার", nameEn: "Mohasin Sardar", isDeceased: false, generation: 6 },
-                                                { id: "abul", nameBn: "আবুল সর্দার", nameEn: "Abul Sardar", isDeceased: false, generation: 6 },
-                                                { id: "amjad", nameBn: "আমজাদ সর্দার", nameEn: "Amjad Sardar", isDeceased: false, generation: 6 },
-                                                { id: "reziya", nameBn: "রেজিয়া", nameEn: "Reziya", isDeceased: false, generation: 6 },
-                                                { id: "hafiya", nameBn: "হাফিয়া", nameEn: "Hafiya", isDeceased: false, generation: 6 },
-                                                { id: "bulu", nameBn: "বুলু", nameEn: "Bulu", isDeceased: false, generation: 6 },
-                                                { id: "rashu", nameBn: "রাশু", nameEn: "Rashu", isDeceased: false, generation: 6 },
-                                                { id: "fojila", nameBn: "ফজিলা", nameEn: "Fojila", isDeceased: false, generation: 6 }
+                                                { id: "mohasin", nameBn: "মহাসিন সর্দার", nameEn: "Mohasin Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "abul", nameBn: "আবুল সর্দার", nameEn: "Abul Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "amjad", nameBn: "আমজাদ সর্দার", nameEn: "Amjad Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "reziya", nameBn: "রেজিয়া", nameEn: "Reziya", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "hafiya", nameBn: "হাফিয়া", nameEn: "Hafiya", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "bulu", nameBn: "বুলু", nameEn: "Bulu", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "rashu", nameBn: "রাশু", nameEn: "Rashu", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "fojila", nameBn: "ফজিলা", nameEn: "Fojila", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "mokbul",
                                             nameBn: "মকবুল সর্দার",
                                             nameEn: "Mokbul Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "altaf_d", nameBn: "আলতাফ সর্দার", nameEn: "Altaf Sardar", isDeceased: true, generation: 6 },
-                                                { id: "robiul", nameBn: "রবিউল সর্দার", nameEn: "Robiul Sardar", isDeceased: false, generation: 6 },
-                                                { id: "roshid", nameBn: "রশিদ সর্দার", nameEn: "Roshid Sardar", isDeceased: false, generation: 6 },
-                                                { id: "monowar", nameBn: "মনোয়ার", nameEn: "Monowar", isDeceased: false, generation: 6 },
-                                                { id: "ambiya", nameBn: "আম্বিয়া", nameEn: "Ambiya", isDeceased: false, generation: 6 },
-                                                { id: "hashera", nameBn: "হাশেরা", nameEn: "Hashera", isDeceased: false, generation: 6 },
-                                                { id: "rekena", nameBn: "রেকেনা", nameEn: "Rekena", isDeceased: false, generation: 6 },
-                                                { id: "rushiya", nameBn: "রুশিয়া", nameEn: "Rushiya", isDeceased: false, generation: 6 }
+                                                { id: "altaf_d", nameBn: "আলতাফ সর্দার", nameEn: "Altaf Sardar", gender: "male", isDeceased: true, generation: 6 },
+                                                { id: "robiul", nameBn: "রবিউল সর্দার", nameEn: "Robiul Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "roshid", nameBn: "রশিদ সর্দার", nameEn: "Roshid Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "monowar", nameBn: "মনোয়ার", nameEn: "Monowar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "ambiya", nameBn: "আম্বিয়া", nameEn: "Ambiya", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "hashera", nameBn: "হাশেরা", nameEn: "Hashera", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "rekena", nameBn: "রেকেনা", nameEn: "Rekena", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "rushiya", nameBn: "রুশিয়া", nameEn: "Rushiya", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
-                                        { id: "jaimon", nameBn: "জাইমন", nameEn: "Jaimon", isDeceased: false, generation: 5 },
-                                        { id: "harija", nameBn: "হারিজা", nameEn: "Harija", isDeceased: false, generation: 5 },
-                                        { id: "haiton", nameBn: "হাইতন", nameEn: "Haiton", isDeceased: false, generation: 5 }
+                                        { id: "jaimon", nameBn: "জাইমন", nameEn: "Jaimon", gender: "female", isDeceased: false, generation: 5 },
+                                        { id: "harija", nameBn: "হারিজা", nameEn: "Harija", gender: "female", isDeceased: false, generation: 5 },
+                                        { id: "haiton", nameBn: "হাইতন", nameEn: "Haiton", gender: "female", isDeceased: false, generation: 5 }
                                     ]
                                 },
                                 {
                                     id: "peyar",
                                     nameBn: "পেয়ার সর্দার",
                                     nameEn: "Peyar Sardar",
+                                    gender: "male",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
@@ -700,58 +707,62 @@
                                             id: "janu",
                                             nameBn: "জানু সর্দার",
                                             nameEn: "Janu Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "jamshed", nameBn: "জামশেদ সর্দার", nameEn: "Jamshed Sardar", isDeceased: false, generation: 6 },
-                                                { id: "fulu_jan", nameBn: "ফুলু জান", nameEn: "Fulu Jan", isDeceased: false, generation: 6 },
-                                                { id: "majeda", nameBn: "মাজেদা খাতুন", nameEn: "Majeda Khatun", isDeceased: false, generation: 6 },
-                                                { id: "lulu_jan", nameBn: "লুলু জান", nameEn: "Lulu Jan", isDeceased: false, generation: 6 },
-                                                { id: "khodijan", nameBn: "খদিজান", nameEn: "Khodijan", isDeceased: false, generation: 6 }
+                                                { id: "jamshed", nameBn: "জামশেদ সর্দার", nameEn: "Jamshed Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "fulu_jan", nameBn: "ফুলু জান", nameEn: "Fulu Jan", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "majeda", nameBn: "মাজেদা খাতুন", nameEn: "Majeda Khatun", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "lulu_jan", nameBn: "লুলু জান", nameEn: "Lulu Jan", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "khodijan", nameBn: "খদিজান", nameEn: "Khodijan", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "haran",
                                             nameBn: "হারান সর্দার",
                                             nameEn: "Haran Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "jhontu", nameBn: "ঝন্টু সর্দার", nameEn: "Jhontu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "siddik", nameBn: "সিদ্দিক সর্দার", nameEn: "Siddik Sardar", isDeceased: false, generation: 6 },
-                                                { id: "jahangir", nameBn: "জাহাঙ্গীর সর্দার", nameEn: "Jahangir Sardar", isDeceased: false, generation: 6 },
-                                                { id: "komejan", nameBn: "কমেজান", nameEn: "Komejan", isDeceased: false, generation: 6 },
-                                                { id: "mishtujan", nameBn: "মিষ্টুজান", nameEn: "Mishtujan", isDeceased: false, generation: 6 },
-                                                { id: "balijan", nameBn: "বালীজান", nameEn: "Balijan", isDeceased: false, generation: 6 }
+                                                { id: "jhontu", nameBn: "ঝন্টু সর্দার", nameEn: "Jhontu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "siddik", nameBn: "সিদ্দিক সর্দার", nameEn: "Siddik Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "jahangir", nameBn: "জাহাঙ্গীর সর্দার", nameEn: "Jahangir Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "komejan", nameBn: "কমেজান", nameEn: "Komejan", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "mishtujan", nameBn: "মিষ্টুজান", nameEn: "Mishtujan", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "balijan", nameBn: "বালীজান", nameEn: "Balijan", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "jaher",
                                             nameBn: "জাহের সর্দার",
                                             nameEn: "Jaher Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "sadhu_j", nameBn: "সাধু সর্দার", nameEn: "Sadhu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "modhu_j", nameBn: "মধু সর্দার", nameEn: "Modhu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "jadu", nameBn: "জাদু সর্দার", nameEn: "Jadu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "modina", nameBn: "মদিনা", nameEn: "Modina", isDeceased: false, generation: 6 },
-                                                { id: "morjina", nameBn: "মরজিনা", nameEn: "Morjina", isDeceased: false, generation: 6 },
-                                                { id: "korimon", nameBn: "করিমন নেছা", nameEn: "Korimon Nessa", isDeceased: false, generation: 6 },
-                                                { id: "tarajam", nameBn: "তারাজাম", nameEn: "Tarajam", isDeceased: false, generation: 6 }
+                                                { id: "sadhu_j", nameBn: "সাধু সর্দার", nameEn: "Sadhu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "modhu_j", nameBn: "মধু সর্দার", nameEn: "Modhu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "jadu", nameBn: "জাদু সর্দার", nameEn: "Jadu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "modina", nameBn: "মদিনা", nameEn: "Modina", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "morjina", nameBn: "মরজিনা", nameEn: "Morjina", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "korimon", nameBn: "করিমন নেছা", nameEn: "Korimon Nessa", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "tarajam", nameBn: "তারাজাম", nameEn: "Tarajam", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "bhasha",
                                             nameBn: "ভাষা সর্দার",
                                             nameEn: "Bhasha Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "moja", nameBn: "মোজা সর্দার", nameEn: "Moja Sardar", isDeceased: false, generation: 6 },
-                                                { id: "moinuddin_d", nameBn: "মইনুদ্দিন সর্দার", nameEn: "Moinuddin Sardar", isDeceased: true, generation: 6 },
-                                                { id: "jiyarul", nameBn: "জিয়ারুল সর্দার", nameEn: "Jiyarul Sardar", isDeceased: false, generation: 6 },
-                                                { id: "samiyon", nameBn: "সামিয়ন", nameEn: "Samiyon", isDeceased: false, generation: 6 }
+                                                { id: "moja", nameBn: "মোজা সর্দার", nameEn: "Moja Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "moinuddin_d", nameBn: "মইনুদ্দিন সর্দার", nameEn: "Moinuddin Sardar", gender: "male", isDeceased: true, generation: 6 },
+                                                { id: "jiyarul", nameBn: "জিয়ারুল সর্দার", nameEn: "Jiyarul Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "samiyon", nameBn: "সামিয়ন", nameEn: "Samiyon", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         }
                                     ]
@@ -760,6 +771,7 @@
                                     id: "fokir",
                                     nameBn: "ফকির সর্দার",
                                     nameEn: "Fokir Sardar",
+                                    gender: "male",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
@@ -767,40 +779,43 @@
                                             id: "ajim",
                                             nameBn: "আজিম সর্দার",
                                             nameEn: "Ajim Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "jalal", nameBn: "জালাল সর্দার", nameEn: "Jalal Sardar", isDeceased: false, generation: 6 },
-                                                { id: "jiya", nameBn: "জিয়া সর্দার", nameEn: "Jiya Sardar", isDeceased: false, generation: 6 },
-                                                { id: "roton", nameBn: "রতন সর্দার", nameEn: "Roton Sardar", isDeceased: false, generation: 6 },
-                                                { id: "iyaton", nameBn: "ইয়াতন", nameEn: "Iyaton", isDeceased: false, generation: 6 },
-                                                { id: "fukon", nameBn: "ফুকন", nameEn: "Fukon", isDeceased: false, generation: 6 },
-                                                { id: "tuklima_d", nameBn: "টুকলিমা", nameEn: "Tuklima", isDeceased: true, generation: 6 }
+                                                { id: "jalal", nameBn: "জালাল সর্দার", nameEn: "Jalal Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "jiya", nameBn: "জিয়া সর্দার", nameEn: "Jiya Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "roton", nameBn: "রতন সর্দার", nameEn: "Roton Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "iyaton", nameBn: "ইয়াতন", nameEn: "Iyaton", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "fukon", nameBn: "ফুকন", nameEn: "Fukon", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "tuklima_d", nameBn: "টুকলিমা", nameEn: "Tuklima", gender: "female", isDeceased: true, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "layeb",
                                             nameBn: "লায়েব সর্দার",
                                             nameEn: "Layeb Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "dulal_d", nameBn: "দুলাল সর্দার", nameEn: "Dulal Sardar", isDeceased: true, generation: 6 },
-                                                { id: "alal", nameBn: "আলাল সর্দার", nameEn: "Alal Sardar", isDeceased: false, generation: 6 },
-                                                { id: "helal", nameBn: "হেলাল সর্দার", nameEn: "Helal Sardar", isDeceased: false, generation: 6 },
-                                                { id: "funka", nameBn: "ফুনকা", nameEn: "Funka", isDeceased: false, generation: 6 },
-                                                { id: "firoja", nameBn: "ফিরোজা", nameEn: "Firoja", isDeceased: false, generation: 6 }
+                                                { id: "dulal_d", nameBn: "দুলাল সর্দার", nameEn: "Dulal Sardar", gender: "male", isDeceased: true, generation: 6 },
+                                                { id: "alal", nameBn: "আলাল সর্দার", nameEn: "Alal Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "helal", nameBn: "হেলাল সর্দার", nameEn: "Helal Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "funka", nameBn: "ফুনকা", nameEn: "Funka", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "firoja", nameBn: "ফিরোজা", nameEn: "Firoja", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         }
                                     ]
                                 },
-                                { id: "abeda", nameBn: "আবেদা খাতুন", nameEn: "Abeda Khatun", isDeceased: false, generation: 4 }
+                                { id: "abeda", nameBn: "আবেদা খাতুন", nameEn: "Abeda Khatun", gender: "female", isDeceased: false, generation: 4 }
                             ]
                         },
                         {
                             id: "kesu",
                             nameBn: "কেসু সর্দার",
                             nameEn: "Kesu Sardar",
+                            gender: "male",
                             isDeceased: false,
                             generation: 3,
                             children: [
@@ -808,6 +823,7 @@
                                     id: "asharat",
                                     nameBn: "আশারত সর্দার",
                                     nameEn: "Asharat Sardar",
+                                    gender: "male",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
@@ -815,32 +831,34 @@
                                             id: "kukon",
                                             nameBn: "কুকন সর্দার",
                                             nameEn: "Kukon Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "hozrot", nameBn: "হযরত সর্দার", nameEn: "Hozrot Sardar", isDeceased: false, generation: 6 },
-                                                { id: "hafez", nameBn: "হাফেজ সর্দার", nameEn: "Hafez Sardar", isDeceased: false, generation: 6 },
-                                                { id: "shahbaj", nameBn: "শাহবাজ সর্দার", nameEn: "Shahbaj Sardar", isDeceased: false, generation: 6 },
-                                                { id: "shorejan", nameBn: "শরেজান", nameEn: "Shorejan", isDeceased: false, generation: 6 },
-                                                { id: "mina", nameBn: "মীনা", nameEn: "Mina", isDeceased: false, generation: 6 },
-                                                { id: "foima", nameBn: "ফইমা", nameEn: "Foima", isDeceased: false, generation: 6 },
-                                                { id: "sukhejan", nameBn: "সুখেজান", nameEn: "Sukhejan", isDeceased: false, generation: 6 }
+                                                { id: "hozrot", nameBn: "হযরত সর্দার", nameEn: "Hozrot Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "hafez", nameBn: "হাফেজ সর্দার", nameEn: "Hafez Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "shahbaj", nameBn: "শাহবাজ সর্দার", nameEn: "Shahbaj Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "shorejan", nameBn: "শরেজান", nameEn: "Shorejan", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "mina", nameBn: "মীনা", nameEn: "Mina", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "foima", nameBn: "ফইমা", nameEn: "Foima", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "sukhejan", nameBn: "সুখেজান", nameEn: "Sukhejan", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "elahi",
                                             nameBn: "এলাহী সর্দার",
                                             nameEn: "Elahi Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "idris", nameBn: "ইদ্রিস সর্দার", nameEn: "Idris Sardar", isDeceased: false, generation: 6 },
-                                                { id: "alom", nameBn: "আলম সর্দার", nameEn: "Alom Sardar", isDeceased: false, generation: 6 },
-                                                { id: "aulad", nameBn: "আউলাদ সর্দার", nameEn: "Aulad Sardar", isDeceased: false, generation: 6 },
-                                                { id: "ilef", nameBn: "ইলেফ সর্দার", nameEn: "Ilef Sardar", isDeceased: false, generation: 6 },
-                                                { id: "jaharon", nameBn: "জাহারন", nameEn: "Jaharon", isDeceased: false, generation: 6 },
-                                                { id: "tohora", nameBn: "তহুরা", nameEn: "Tohora", isDeceased: false, generation: 6 },
-                                                { id: "khaleda", nameBn: "খালেদা", nameEn: "Khaleda", isDeceased: false, generation: 6 }
+                                                { id: "idris", nameBn: "ইদ্রিস সর্দার", nameEn: "Idris Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "alom", nameBn: "আলম সর্দার", nameEn: "Alom Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "aulad", nameBn: "আউলাদ সর্দার", nameEn: "Aulad Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "ilef", nameBn: "ইলেফ সর্দার", nameEn: "Ilef Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "jaharon", nameBn: "জাহারন", nameEn: "Jaharon", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "tohora", nameBn: "তহুরা", nameEn: "Tohora", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "khaleda", nameBn: "খালেদা", nameEn: "Khaleda", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         }
                                     ]
@@ -849,6 +867,7 @@
                                     id: "bosharat",
                                     nameBn: "বসারত সর্দার",
                                     nameEn: "Bosharat Sardar",
+                                    gender: "male",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
@@ -856,56 +875,59 @@
                                             id: "shukot",
                                             nameBn: "শুকোট সর্দার",
                                             nameEn: "Shukot Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "habil_d", nameBn: "হাবিল সর্দার", nameEn: "Habil Sardar", isDeceased: true, generation: 6 },
-                                                { id: "hanif_d", nameBn: "হানিফ সর্দার", nameEn: "Hanif Sardar", isDeceased: true, generation: 6 },
-                                                { id: "bojlu", nameBn: "বজলু সর্দার", nameEn: "Bojlu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "kabil", nameBn: "কাবিল সর্দার", nameEn: "Kabil Sardar", isDeceased: false, generation: 6 },
-                                                { id: "maleka", nameBn: "মালেকা", nameEn: "Maleka", isDeceased: false, generation: 6 },
-                                                { id: "hima", nameBn: "হিমা", nameEn: "Hima", isDeceased: false, generation: 6 },
-                                                { id: "nima", nameBn: "নিমা", nameEn: "Nima", isDeceased: false, generation: 6 }
+                                                { id: "habil_d", nameBn: "হাবিল সর্দার", nameEn: "Habil Sardar", gender: "male", isDeceased: true, generation: 6 },
+                                                { id: "hanif_d", nameBn: "হানিফ সর্দার", nameEn: "Hanif Sardar", gender: "male", isDeceased: true, generation: 6 },
+                                                { id: "bojlu", nameBn: "বজলু সর্দার", nameEn: "Bojlu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "kabil", nameBn: "কাবিল সর্দার", nameEn: "Kabil Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "maleka", nameBn: "মালেকা", nameEn: "Maleka", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "hima", nameBn: "হিমা", nameEn: "Hima", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "nima", nameBn: "নিমা", nameEn: "Nima", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "jolil",
                                             nameBn: "জলিল সর্দার",
                                             nameEn: "Jolil Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "mannan", nameBn: "মান্নান সর্দার", nameEn: "Mannan Sardar", isDeceased: false, generation: 6 },
-                                                { id: "sadhu_b", nameBn: "সাধু সর্দার", nameEn: "Sadhu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "modhu_b", nameBn: "মধু সর্দার", nameEn: "Modhu Sardar", isDeceased: false, generation: 6 },
-                                                { id: "anura_d", nameBn: "আনুরা", nameEn: "Anura", isDeceased: true, generation: 6 },
-                                                { id: "nahera", nameBn: "নাহেরা", nameEn: "Nahera", isDeceased: false, generation: 6 },
-                                                { id: "fonuyara_d", nameBn: "ফনুয়ারা", nameEn: "Fonuyara", isDeceased: true, generation: 6 }
+                                                { id: "mannan", nameBn: "মান্নান সর্দার", nameEn: "Mannan Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "sadhu_b", nameBn: "সাধু সর্দার", nameEn: "Sadhu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "modhu_b", nameBn: "মধু সর্দার", nameEn: "Modhu Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "anura_d", nameBn: "আনুরা", nameEn: "Anura", gender: "female", isDeceased: true, generation: 6 },
+                                                { id: "nahera", nameBn: "নাহেরা", nameEn: "Nahera", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "fonuyara_d", nameBn: "ফনুয়ারা", nameEn: "Fonuyara", gender: "female", isDeceased: true, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "mohir",
                                             nameBn: "মহীর উদ্দিন সর্দার",
                                             nameEn: "Mohir Uddin Sardar",
+                                            gender: "male",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "koresh", nameBn: "কামরুজ্জামান করেশ", nameEn: "Kamruzzaman Koresh", isDeceased: false, generation: 6 },
-                                                { id: "shofikul", nameBn: "শফিকুল সর্দার", nameEn: "Shofikul Sardar", isDeceased: false, generation: 6 },
-                                                { id: "nasima", nameBn: "নাসিমা", nameEn: "Nasima", isDeceased: false, generation: 6 },
-                                                { id: "modon", nameBn: "মদন", nameEn: "Modon", isDeceased: false, generation: 6 },
-                                                { id: "laki", nameBn: "লাকি", nameEn: "Laki", isDeceased: false, generation: 6 },
-                                                { id: "roksana", nameBn: "রোকসানা", nameEn: "Roksana", isDeceased: false, generation: 6 }
+                                                { id: "koresh", nameBn: "কামরুজ্জামান করেশ", nameEn: "Kamruzzaman Koresh", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "shofikul", nameBn: "শফিকুল সর্দার", nameEn: "Shofikul Sardar", gender: "male", isDeceased: false, generation: 6 },
+                                                { id: "nasima", nameBn: "নাসিমা", nameEn: "Nasima", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "modon", nameBn: "মদন", nameEn: "Modon", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "laki", nameBn: "লাকি", nameEn: "Laki", gender: "female", isDeceased: false, generation: 6 },
+                                                { id: "roksana", nameBn: "রোকসানা", nameEn: "Roksana", gender: "female", isDeceased: false, generation: 6 }
                                             ]
                                         },
-                                        { id: "parijan", nameBn: "পরিজান", nameEn: "Parijan", isDeceased: false, generation: 5 },
-                                        { id: "jomela", nameBn: "জমেলা", nameEn: "Jomela", isDeceased: false, generation: 5 }
+                                        { id: "parijan", nameBn: "পরিজান", nameEn: "Parijan", gender: "female", isDeceased: false, generation: 5 },
+                                        { id: "jomela", nameBn: "জমেলা", nameEn: "Jomela", gender: "female", isDeceased: false, generation: 5 }
                                     ]
                                 },
-                                { id: "bhugol", nameBn: "ভুগল সর্দার", nameEn: "Bhugol Sardar", isDeceased: false, generation: 4 },
-                                { id: "koser", nameBn: "কসের সর্দার", nameEn: "Koser Sardar", isDeceased: false, generation: 4 },
-                                { id: "iman_ali", nameBn: "ইমান আলী সর্দার", nameEn: "Iman Ali Sardar", isDeceased: false, generation: 4 },
-                                { id: "salejan", nameBn: "সালেজান", nameEn: "Salejan", isDeceased: false, generation: 4 }
+                                { id: "bhugol", nameBn: "ভুগল সর্দার", nameEn: "Bhugol Sardar", gender: "male", isDeceased: false, generation: 4 },
+                                { id: "koser", nameBn: "কসের সর্দার", nameEn: "Koser Sardar", gender: "male", isDeceased: false, generation: 4 },
+                                { id: "iman_ali", nameBn: "ইমান আলী সর্দার", nameEn: "Iman Ali Sardar", gender: "male", isDeceased: false, generation: 4 },
+                                { id: "salejan", nameBn: "সালেজান", nameEn: "Salejan", gender: "female", isDeceased: false, generation: 4 }
                             ]
                         }
                     ]
@@ -936,14 +958,25 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
+        /* Card Generator with Male/Female Styling */
+        function getCardHTML(node) {
+            const deceasedClass = node.isDeceased ? 'deceased' : '';
+            const genderClass = node.gender === 'female' ? 'female' : 'male';
+            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
+
+            return `
+                <div class="member-card ${genderClass} ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
+                    <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
+                    <div class="member-name-en">${node.nameEn}</div>
+                </div>
+            `;
+        }
+
         /* Paginated Navigation Tree Renderer */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
-            const deceasedClass = node.isDeceased ? 'deceased' : '';
-            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
             const hasChildren = node.children && node.children.length > 0;
-
             let linkBtn = '';
 
             if (hasChildren) {
@@ -972,9 +1005,13 @@
                 childrenHTML = `<ul>${childNodes}</ul>`;
             }
 
+            const deceasedClass = node.isDeceased ? 'deceased' : '';
+            const genderClass = node.gender === 'female' ? 'female' : 'male';
+            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
+
             return `
                 <li>
-                    <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
+                    <div class="member-card ${genderClass} ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
                         <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
                         <div class="member-name-en">${node.nameEn}</div>
                         ${linkBtn}
@@ -1048,6 +1085,8 @@
             document.getElementById('modalNameBn').textContent = member.nameBn;
             document.getElementById('modalNameEn').textContent = member.nameEn;
             
+            document.getElementById('modalGender').textContent = member.gender === 'female' ? 'নারী (Female)' : 'পুরুষ (Male)';
+
             const badge = document.getElementById('modalStatusBadge');
             if (member.isDeceased) {
                 badge.textContent = 'মৃত (Deceased)';
@@ -1066,47 +1105,47 @@
             modal.style.display = 'flex';
         }
 
-        /* Hybrid Tree Layout Generator */
+        /* Smart Overview Tree Layout: Females strictly Vertical at bottom to save horizontal space */
         function renderHybridFullTree(node) {
             if (!node) return '';
 
-            const deceasedClass = node.isDeceased ? 'deceased' : '';
-            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
             const hasChildren = node.children && node.children.length > 0;
 
-            if (node.generation >= 5) {
-                let childrenVerticalHTML = '';
-                if (hasChildren) {
-                    const childNodes = node.children.map(child => renderHybridFullTree(child)).join('');
-                    childrenVerticalHTML = `<div class="v-branch">${childNodes}</div>`;
+            if (hasChildren) {
+                // Separate Males and Females
+                const maleChildren = node.children.filter(c => c.gender !== 'female');
+                const femaleChildren = node.children.filter(c => c.gender === 'female');
+
+                let maleHTML = maleChildren.map(child => renderHybridFullTree(child)).join('');
+                let femaleHTML = '';
+
+                if (femaleChildren.length > 0) {
+                    const femaleCards = femaleChildren.map(f => getCardHTML(f)).join('');
+                    femaleHTML = `
+                        <li>
+                            <div class="female-vertical-list">
+                                ${femaleCards}
+                            </div>
+                        </li>
+                    `;
                 }
 
                 return `
-                    <div class="v-leaf-item">
-                        <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
-                            <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
-                            <div class="member-name-en">${node.nameEn}</div>
-                        </div>
-                        ${childrenVerticalHTML}
-                    </div>
+                    <li>
+                        ${getCardHTML(node)}
+                        <ul>
+                            ${maleHTML}
+                            ${femaleHTML}
+                        </ul>
+                    </li>
+                `;
+            } else {
+                return `
+                    <li>
+                        ${getCardHTML(node)}
+                    </li>
                 `;
             }
-
-            let childrenHorizontalHTML = '';
-            if (hasChildren) {
-                const childNodes = node.children.map(child => renderHybridFullTree(child)).join('');
-                childrenHorizontalHTML = `<ul>${childNodes}</ul>`;
-            }
-
-            return `
-                <li>
-                    <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
-                        <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
-                        <div class="member-name-en">${node.nameEn}</div>
-                    </div>
-                    ${childrenHorizontalHTML}
-                </li>
-            `;
         }
 
         /* Advanced Pan & Zoom Logic for Easy Dragging */
