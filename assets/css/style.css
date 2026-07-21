@@ -509,7 +509,9 @@ TREE
     margin:0 30px;
     flex-shrink:0;
 }
-
+.tree-node > .children-row{
+    width:max-content;
+}
 .tree-line{
     width:2px;
     height:30px;
@@ -517,21 +519,16 @@ TREE
 }
 
 .children-row{
-    display:inline-flex;
+    position:relative;
+    display:flex;
     justify-content:center;
     align-items:flex-start;
     gap:40px;
-    position:relative;
-    padding-top:30px;
+    margin-top:30px;
 }
+
 .children-row::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:30px;
-    right:30px;
-    height:2px;
-    background:#00d26a;
+    content:none;
 }
 .children-row>.tree-node::before{
     content:"";
