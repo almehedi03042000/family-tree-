@@ -1,687 +1,244 @@
-/* ==========================================
-   Sardar Family Tree
-   app.js
-   Version : 5.0 FINAL
-   Author  : AL Mehedi
-========================================== */
+/**
+ * Main Application Logic - Family Tree
+ */
 
-"use strict";
-
-/* ==========================================
-   GLOBAL STATE
-========================================== */
-
-let familyData = null;
-
-let currentRootId = null;
-
+let globalFamilyData = null;
 let currentScale = 1;
+let isPanning = false;
+let startX = 0, startY = 0;
+let translateX = 0, translateY = 0;
 
-const MIN_SCALE = 0.50;
+// অ্যাপ লোড হওয়ার সাথে সাথে ফেচ করা শুরু করবে
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+});
 
-const MAX_SCALE = 2.50;
-
-const SCALE_STEP = 0.10;
-
-let isDragging = false;
-
-let startX = 0;
-
-let startY = 0;
-
-let scrollLeft = 0;
-
-let scrollTop = 0;
-
-/* ==========================================
-   DOM
-========================================== */
-
-const treeArea = document.getElementById("treeArea");
-
-const treeContainer = document.getElementById("treeContainer");
-
-const zoomInBtn = document.getElementById("zoomIn");
-
-const zoomOutBtn = document.getElementById("zoomOut");
-
-const resetZoomBtn = document.getElementById("resetZoom");
-
-const darkModeBtn = document.getElementById("darkModeBtn");
-
-/* ==========================================
-   MEMBER HELPERS
-========================================== */
-
-function getMember(id){
-
-    if(
-        !familyData ||
-        !Array.isArray(familyData.members)
-    ){
-
-        return null;
-
-    }
-
-    return familyData.members.find(
-
-        member=>member.id===id
-
-    ) || null;
-
-}
-
-function getRootMember(){
-
-    if(!familyData){
-
-        return null;
-
-    }
-
-    if(currentRootId){
-
-        return getMember(currentRootId);
-
-    }
-
-    return familyData.members.find(
-
-        member=>member.root===true
-
-    ) || familyData.members[0];
-
-}
-
-/* ==========================================
-   LOAD JSON
-========================================== */
-
-async function loadFamilyData(){
-
-    try{
-
-        treeContainer.innerHTML=
-
-            Components.loadingComponent();
-
-        const response=await fetch(
-
-            "assets/data/family.json"
-
-        );
-
-        if(!response.ok){
-
-            throw new Error(
-
-                "family.json load failed."
-
-            );
-
+async function initApp() {
+    try {
+        const response = await fetch('./data/family.json');
+        if (!response.ok) {
+            throw new Error('ডাটা লোড করতে সমস্যা হয়েছে');
         }
-
-        familyData=await response.json();
-window.familyData = familyData;
-        const root=getRootMember();
-
-        if(!root){
-
-            throw new Error(
-
-                "Root member not found."
-
-            );
-
-        }
-
-        currentRootId=root.id;
-
+        globalFamilyData = await response.json();
+        
+        // ট্রি রেন্ডার করা
         renderTree();
-
+        
+        // ইভেন্ট লিসেনার যুক্ত করা
+        setupZoomAndPan();
+        setupSearch();
+        setupModalEvents();
+        
+        // কানেকশন লাইন আঁকা
+        setTimeout(drawTreeLines, 100);
+        window.addEventListener('resize', drawTreeLines);
+    } catch (error) {
+        console.error('Error loading family tree data:', error);
     }
-
-    catch(error){
-
-        console.error(error);
-
-        treeContainer.innerHTML=
-
-            Components.errorComponent(
-
-                error.message
-
-            );
-
-    }
-
 }
 
-/* ==========================================
-   RENDER TREE
-========================================== */
+/**
+ * ট্রির HTML স্ট্রাকচার ক্যানভাসে বসানো
+ */
+function renderTree() {
+    const treeNodesContainer = document.getElementById('treeNodes');
+    if (!globalFamilyData) return;
 
-function renderTree(){
+    const treeHTML = `<div class="tf-tree"><ul>${renderTreeHTML(globalFamilyData)}</ul></div>`;
+    treeNodesContainer.innerHTML = treeHTML;
 
-    if(
-
-        !familyData ||
-
-        !currentRootId
-
-    ){
-
-        return;
-
-    }
-
-    treeContainer.innerHTML=
-
-        Components.buildFamilyTree(
-
-            currentRootId
-
-        );
-console.log(treeContainer.innerHTML);
-   
-  Components.statisticsComponent();
-
-fitTreeToScreen();
-
-}
-
-/* ==========================================
-   CHANGE ROOT
-========================================== */
-
-function showMemberTree(id){
-
-    const member=getMember(id);
-
-    if(!member){
-
-        return;
-
-    }
-
-    currentRootId=id;
-
-    renderTree();
-
-}
-
-/* ==========================================
-   REFRESH
-========================================== */
-
-function refreshTree(){
-
-    renderTree();
-
-}
-
-/* ==========================================
-   APPLY ZOOM
-========================================== */
-
-function applyZoom(){
-
-    treeContainer.style.transform =
-        `scale(${currentScale})`;
-
-}
-
-/* ==========================================
-   AUTO FIT TREE
-========================================== */
-
-function fitTreeToScreen(){
-
-    currentScale = 1;
-
-    treeContainer.style.transform = "scale(1)";
-
-    requestAnimationFrame(()=>{
-
-        const areaWidth = treeArea.clientWidth - 40;
-        const treeWidth = treeContainer.scrollWidth;
-
-        if(treeWidth > areaWidth){
-
-            currentScale = areaWidth / treeWidth;
-
-            if(currentScale < MIN_SCALE){
-
-                currentScale = MIN_SCALE;
-
+    // প্রতিটি কার্ডে ক্লিক ইভেন্ট সেট করা
+    document.querySelectorAll('.member-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const memberId = card.getAttribute('data-id');
+            const memberObj = findMemberById(globalFamilyData, memberId);
+            const parentObj = findParentById(globalFamilyData, memberId);
+            
+            if (memberObj) {
+                showMemberDetailsModal(memberObj, parentObj ? parentObj.name : 'মূল পিতা/পূর্বপুরুষ');
             }
+        });
+    });
+}
 
-        }else{
-
-            currentScale = 1;
-
+/**
+ * আইডির মাধ্যমে কোনো সদস্যকে খোঁজা
+ */
+function findMemberById(root, id) {
+    if (root.id === id) return root;
+    if (root.children) {
+        for (let child of root.children) {
+            const found = findMemberById(child, id);
+            if (found) return found;
         }
+    }
+    return null;
+}
 
-        applyZoom();
+/**
+ * সদস্যের পিতার তথ্য খোঁজা
+ */
+function findParentById(root, id) {
+    if (root.children) {
+        for (let child of root.children) {
+            if (child.id === id) return root;
+            const found = findParentById(child, id);
+            if (found) return found;
+        }
+    }
+    return null;
+}
 
+/**
+ * জুম এবং প্যান (Drag & Move) লজিক
+ */
+function setupZoomAndPan() {
+    const viewport = document.getElementById('treeViewport');
+    const container = document.getElementById('treeContainer');
+
+    const updateTransform = () => {
+        container.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+    };
+
+    // জুম ইন, আউট ও রিসেট বাটন
+    document.getElementById('zoomInBtn').addEventListener('click', () => {
+        currentScale = Math.min(currentScale + 0.15, 2.5);
+        updateTransform();
     });
 
+    document.getElementById('zoomOutBtn').addEventListener('click', () => {
+        currentScale = Math.max(currentScale - 0.15, 0.3);
+        updateTransform();
+    });
+
+    document.getElementById('resetZoomBtn').addEventListener('click', () => {
+        currentScale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+    });
+
+    // ড্র্যাগ করে ক্যানভাস সরানোর ইভেন্ট
+    viewport.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.member-card') || e.target.closest('.app-header')) return;
+        isPanning = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isPanning) return;
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+        isPanning = false;
+    });
 }
 
-/* ==========================================
-   ZOOM IN
-========================================== */
+/**
+ * ডায়নামিক সার্চ সিস্টেম
+ */
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchResults = document.getElementById('searchResults');
 
-function zoomIn(){
-
-    currentScale = Math.min(
-
-        currentScale + SCALE_STEP,
-
-        MAX_SCALE
-
-    );
-
-    applyZoom();
-
-}
-
-/* ==========================================
-   ZOOM OUT
-========================================== */
-
-function zoomOut(){
-
-    currentScale = Math.max(
-
-        currentScale - SCALE_STEP,
-
-        MIN_SCALE
-
-    );
-
-    applyZoom();
-
-}
-
-/* ==========================================
-   RESET ZOOM
-========================================== */
-
-function resetZoom(){
-
-    fitTreeToScreen();
-
-}
-
-/* ==========================================
-   BUTTON EVENTS
-========================================== */
-
-zoomInBtn?.addEventListener(
-    "click",
-    zoomIn
-);
-
-zoomOutBtn?.addEventListener(
-    "click",
-    zoomOut
-);
-
-resetZoomBtn?.addEventListener(
-    "click",
-    resetZoom
-);
-
-/* ==========================================
-   AUTO FIT ON WINDOW RESIZE
-========================================== */
-
-window.addEventListener("resize", ()=>{
-
-    fitTreeToScreen();
-
-});
-/* ==========================================
-   MOUSE WHEEL ZOOM
-========================================== */
-
-treeArea?.addEventListener(
-
-    "wheel",
-
-    function(e){
-
-        if(!e.ctrlKey){
-
+    const performSearch = () => {
+        const query = searchInput.value.trim();
+        searchResults.innerHTML = '';
+        
+        if (!query) {
+            searchResults.style.display = 'none';
             return;
-
         }
 
-        e.preventDefault();
+        const matches = [];
+        searchMembersRecursive(globalFamilyData, query, matches);
 
-        if(e.deltaY<0){
-
-            zoomIn();
-
+        if (matches.length > 0) {
+            searchResults.style.display = 'block';
+            matches.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.textContent = item.name;
+                div.addEventListener('click', () => {
+                    highlightAndFocusMember(item.id);
+                    searchResults.style.display = 'none';
+                    searchInput.value = '';
+                });
+                searchResults.appendChild(div);
+            });
+        } else {
+            searchResults.style.display = 'block';
+            searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি</div>';
         }
+    };
 
-        else{
+    searchInput.addEventListener('input', performSearch);
+    searchBtn.addEventListener('click', performSearch);
 
-            zoomOut();
-
+    // বাইরে ক্লিক করলে সার্চ ড্রপডাউন বন্ধ হওয়া
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box')) {
+            searchResults.style.display = 'none';
         }
-
-    },
-
-    {
-
-        passive:false
-
-    }
-
-);
-
-/* ==========================================
-   DRAG START
-========================================== */
-
-treeArea?.addEventListener(
-
-    "mousedown",
-
-    function(e){
-
-        isDragging=true;
-
-        startX=e.pageX-treeArea.offsetLeft;
-
-        startY=e.pageY-treeArea.offsetTop;
-
-        scrollLeft=treeArea.scrollLeft;
-
-        scrollTop=treeArea.scrollTop;
-
-        treeArea.style.cursor="grabbing";
-
-    }
-
-);
-
-/* ==========================================
-   DRAG MOVE
-========================================== */
-
-treeArea?.addEventListener(
-
-    "mousemove",
-
-    function(e){
-
-        if(!isDragging){
-
-            return;
-
-        }
-
-        e.preventDefault();
-
-        const x=e.pageX-treeArea.offsetLeft;
-
-        const y=e.pageY-treeArea.offsetTop;
-
-        const walkX=(x-startX);
-
-        const walkY=(y-startY);
-
-        treeArea.scrollLeft=
-
-            scrollLeft-walkX;
-
-        treeArea.scrollTop=
-
-            scrollTop-walkY;
-
-    }
-
-);
-
-/* ==========================================
-   DRAG END
-========================================== */
-
-function stopDragging(){
-
-    isDragging=false;
-
-    treeArea.style.cursor="grab";
-
+    });
 }
 
-treeArea?.addEventListener(
+function searchMembersRecursive(node, query, results) {
+    if (!node) return;
+    if (node.name.includes(query)) {
+        results.push(node);
+    }
+    if (node.children) {
+        node.children.forEach(child => searchMembersRecursive(child, query, results));
+    }
+}
 
-    "mouseup",
+/**
+ * সার্চকৃত সদস্যকে হাইলাইট করা ও স্ক্রিনের মাঝে আনা
+ */
+function highlightAndFocusMember(id) {
+    document.querySelectorAll('.member-card').forEach(c => c.classList.remove('member-highlight'));
+    const targetCard = document.querySelector(`.member-card[data-id="${id}"]`);
+    
+    if (targetCard) {
+        targetCard.classList.add('member-highlight');
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    }
+}
 
-    stopDragging
+/**
+ * মোডাল ক্লোজ করার ইভেন্টসমূহ
+ */
+function setupModalEvents() {
+    const modal = document.getElementById('memberModal');
+    const modalClose = document.getElementById('modalClose');
 
-);
+    modalClose.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
 
-treeArea?.addEventListener(
-
-    "mouseleave",
-
-    stopDragging
-
-);
-
-/* ==========================================
-   TOUCH SUPPORT
-========================================== */
-
-treeArea?.addEventListener(
-
-    "touchstart",
-
-    function(e){
-
-        if(e.touches.length!==1){
-
-            return;
-
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
         }
-
-        isDragging=true;
-
-        startX=e.touches[0].pageX-treeArea.offsetLeft;
-
-        startY=e.touches[0].pageY-treeArea.offsetTop;
-
-        scrollLeft=treeArea.scrollLeft;
-
-        scrollTop=treeArea.scrollTop;
-
-    },
-
-    {
-
-        passive:true
-
-    }
-
-);
-
-treeArea?.addEventListener(
-
-    "touchmove",
-
-    function(e){
-
-        if(!isDragging){
-
-            return;
-
-        }
-
-        const x=e.touches[0].pageX-treeArea.offsetLeft;
-
-        const y=e.touches[0].pageY-treeArea.offsetTop;
-
-        treeArea.scrollLeft=
-
-            scrollLeft-(x-startX);
-
-        treeArea.scrollTop=
-
-            scrollTop-(y-startY);
-
-    },
-
-    {
-
-        passive:true
-
-    }
-
-);
-
-treeArea?.addEventListener(
-
-    "touchend",
-
-    function(){
-
-        isDragging=false;
-
-    }
-
-);
-
-/* ==========================================
-   DARK MODE
-========================================== */
-
-function enableDarkMode(){
-
-    document.body.classList.add("dark");
-
-    localStorage.setItem(
-
-        "theme",
-
-        "dark"
-
-    );
-
-    if(darkModeBtn){
-
-        darkModeBtn.textContent="☀️";
-
-    }
-
+    });
 }
 
-function disableDarkMode(){
-
-    document.body.classList.remove("dark");
-
-    localStorage.setItem(
-
-        "theme",
-
-        "light"
-
-    );
-
-    if(darkModeBtn){
-
-        darkModeBtn.textContent="🌙";
-
-    }
-
+/**
+ * কানেকশন লাইন (SVG) আঁকার লজিক
+ */
+function drawTreeLines() {
+    const svg = document.getElementById('svgLines');
+    if (!svg) return;
+    
+    // ক্যানভাসের পুরো প্রস্থ ও উচ্চতা অনুযায়ী SVG রিসাইজ করা
+    const container = document.getElementById('treeContainer');
+    svg.setAttribute('width', container.scrollWidth);
+    svg.setAttribute('height', container.scrollHeight);
 }
-
-function toggleDarkMode(){
-
-    if(
-
-        document.body.classList.contains("dark")
-
-    ){
-
-        disableDarkMode();
-
-    }
-
-    else{
-
-        enableDarkMode();
-
-    }
-
-}
-
-darkModeBtn?.addEventListener(
-
-    "click",
-
-    toggleDarkMode
-
-);
-
-/* ==========================================
-   LOAD SAVED THEME
-========================================== */
-
-(function(){
-
-    const savedTheme=
-
-        localStorage.getItem("theme");
-
-    if(savedTheme==="dark"){
-
-        enableDarkMode();
-
-    }
-
-})();
-
-/* ==========================================
-   INITIALIZE
-========================================== */
-
-document.addEventListener(
-
-    "DOMContentLoaded",
-
-    function(){
-
-        loadFamilyData();
-
-    }
-
-);
-
-/* ==========================================
-   GLOBAL EXPORTS
-========================================== */
-
-
-window.getMember=getMember;
-
-window.showMemberTree=showMemberTree;
-
-window.refreshTree=refreshTree;
-
-window.loadFamilyData=loadFamilyData;
-
-/* ==========================================
-   READY
-========================================== */
-
-console.log(
-
-    "Sardar Family Tree App Loaded"
-
-);
