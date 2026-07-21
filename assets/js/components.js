@@ -219,24 +219,18 @@ function createTreeNode(member){
             ${createMemberCard(member)}
     `;
 
-    if(children.length){
+   if (children.length) {
 
-        html += `
-            <div class="tree-line"></div>
+    html += `
+        <div class="tree-line"></div>
 
-            <div class="children-wrapper">
+        <div class="children-row">
 
-                <div class="children-line"></div>
+            ${children.map(child => createTreeNode(child)).join("")}
 
-                <div class="children-row">
-
-                    ${children.map(child=>createTreeNode(child)).join("")}
-
-                </div>
-
-            </div>
-        `;
-    }
+        </div>
+    `;
+}
 
     html += `
         </div>
