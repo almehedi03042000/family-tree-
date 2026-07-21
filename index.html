@@ -9,9 +9,338 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- CSS Links -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS Reset & General Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Navigation Styles */
+        .app-header {
+            background-color: #1e3d2f;
+            color: #ffffff;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .header-left .subtitle {
+            font-size: 0.85rem;
+            color: #a3b899;
+            margin-top: 2px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Search Styles */
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+            font-size: 0.9rem;
+            font-family: inherit;
+            width: 180px;
+        }
+
+        .search-box button {
+            padding: 8px 14px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .search-box button:hover {
+            background-color: #2f855a;
+        }
+
+        .search-results-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 101;
+            color: #333;
+        }
+
+        .search-result-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-result-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Zoom Controls */
+        .zoom-controls {
+            display: flex;
+            gap: 4px;
+        }
+
+        .zoom-controls button {
+            width: 32px;
+            height: 32px;
+            background-color: #ffffff;
+            color: #1e3d2f;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-controls button:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Tree Viewport & Canvas */
+        .tree-viewport {
+            flex: 1;
+            overflow: hidden;
+            cursor: grab;
+            position: relative;
+            background-color: #fdfdfd;
+        }
+
+        .tree-viewport:active {
+            cursor: grabbing;
+        }
+
+        .tree-container {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform-origin: top center;
+            transition: transform 0.1s ease-out;
+            padding: 40px;
+        }
+
+        /* Tree CSS Hierarchy Structure */
+        .tf-tree ul {
+            padding-top: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding-left: 0;
+        }
+
+        .tf-tree li {
+            float: left;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+        }
+
+        .tf-tree li::before, .tf-tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid #ccc;
+            width: 50%;
+            height: 20px;
+        }
+
+        .tf-tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid #ccc;
+        }
+
+        .tf-tree li:only-child::after, .tf-tree li:only-child::before {
+            display: none;
+        }
+
+        .tf-tree li:only-child {
+            padding-top: 0;
+        }
+
+        .tf-tree li:first-child::before, .tf-tree li:last-child::after {
+            border: none;
+        }
+
+        .tf-tree li:last-child::before {
+            border-right: 2px solid #ccc;
+            border-radius: 0 5px 0 0;
+        }
+
+        .tf-tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+
+        .tf-tree ul ul::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid #ccc;
+            width: 0;
+            height: 20px;
+        }
+
+        /* Member Card Styles */
+        .member-card {
+            border: 2px solid #2f855a;
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 8px 12px;
+            display: inline-block;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            min-width: 90px;
+        }
+
+        .member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background-color: #f0fff4;
+        }
+
+        .member-card.deceased {
+            border-color: #a0aec0;
+            background-color: #edf2f7;
+            color: #4a5568;
+        }
+
+        .deceased-badge {
+            font-size: 0.75rem;
+            color: #e53e3e;
+            margin-left: 4px;
+        }
+
+        .member-highlight {
+            border-color: #d69e2e !important;
+            background-color: #fefcbf !important;
+            box-shadow: 0 0 12px rgba(214, 158, 46, 0.6) !important;
+        }
+
+        /* Modal Popup Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            width: 320px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .modal-close:hover {
+            color: #000;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .status-badge {
+            padding: 2px 8px;
+            background-color: #c6f6d5;
+            color: #22543d;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .status-badge.deceased {
+            background-color: #fed7d7;
+            color: #742a2a;
+        }
+
+        .modal-body p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -63,7 +392,7 @@
         </div>
     </div>
 
-    <!-- Complete Family Data & Interactive Logic Embedded -->
+    <!-- Family Data & Script Logic -->
     <script>
         const familyData = {
             id: "padmashi",
