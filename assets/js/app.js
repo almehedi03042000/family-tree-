@@ -183,7 +183,8 @@ function renderTree(){
             currentRootId
 
         );
-
+console.log(treeContainer.innerHTML);
+   
     Components.statisticsComponent();
 
     applyZoom();
