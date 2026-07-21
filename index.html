@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS Reset & General Styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -21,8 +20,7 @@
             font-family: 'Hind Siliguri', sans-serif;
             background-color: #f4f7f6;
             color: #333;
-            overflow: hidden;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -37,28 +35,28 @@
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .header-left h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin: 0;
             color: #ffffff;
         }
 
         .header-left .subtitle {
             font-size: 0.85rem;
             color: #a3b899;
-            margin-top: 2px;
         }
 
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
-        /* Search Styles */
+        /* Search Box Styles */
         .search-box {
             position: relative;
             display: flex;
@@ -66,24 +64,24 @@
         }
 
         .search-box input {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border: 1px solid #ccc;
             border-radius: 4px 0 0 4px;
             outline: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-family: inherit;
-            width: 180px;
+            width: 160px;
         }
 
         .search-box button {
-            padding: 8px 14px;
+            padding: 6px 12px;
             background-color: #38a169;
             color: white;
             border: none;
             border-radius: 0 4px 4px 0;
             cursor: pointer;
             font-family: inherit;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .search-box button:hover {
@@ -97,14 +95,12 @@
             right: 0;
             background: white;
             border: 1px solid #ddd;
-            border-top: none;
             border-radius: 0 0 4px 4px;
             max-height: 200px;
             overflow-y: auto;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: none;
             z-index: 101;
-            color: #333;
         }
 
         .search-result-item {
@@ -118,54 +114,51 @@
             background-color: #f0f0f0;
         }
 
-        /* Zoom Controls */
-        .zoom-controls {
-            display: flex;
-            gap: 4px;
-        }
-
-        .zoom-controls button {
-            width: 32px;
-            height: 32px;
-            background-color: #ffffff;
-            color: #1e3d2f;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
+        /* Navigation Breadcrumbs Banner */
+        .nav-banner {
+            background-color: #e2e8f0;
+            padding: 10px 24px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #cbd5e0;
         }
 
-        .zoom-controls button:hover {
-            background-color: #e2e8f0;
+        .breadcrumb {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2d3748;
         }
 
-        /* Tree Viewport & Canvas */
+        .back-btn {
+            background-color: #319795;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-btn:hover {
+            background-color: #2c7a7b;
+        }
+
+        /* Viewport Container */
         .tree-viewport {
             flex: 1;
-            overflow: hidden;
-            cursor: grab;
-            position: relative;
-            background-color: #fdfdfd;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: auto;
         }
 
-        .tree-viewport:active {
-            cursor: grabbing;
-        }
-
-        .tree-container {
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform-origin: top center;
-            transition: transform 0.1s ease-out;
-            padding: 40px;
-        }
-
-        /* Tree CSS Hierarchy Structure */
+        /* Tree Structure Styles */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -176,11 +169,10 @@
         }
 
         .tf-tree li {
-            float: left;
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 5px 0 5px;
+            padding: 20px 8px 0 8px;
         }
 
         .tf-tree li::before, .tf-tree li::after {
@@ -188,7 +180,7 @@
             position: absolute;
             top: 0;
             right: 50%;
-            border-top: 2px solid #ccc;
+            border-top: 2px solid #a0aec0;
             width: 50%;
             height: 20px;
         }
@@ -196,7 +188,7 @@
         .tf-tree li::after {
             right: auto;
             left: 50%;
-            border-left: 2px solid #ccc;
+            border-left: 2px solid #a0aec0;
         }
 
         .tf-tree li:only-child::after, .tf-tree li:only-child::before {
@@ -212,7 +204,7 @@
         }
 
         .tf-tree li:last-child::before {
-            border-right: 2px solid #ccc;
+            border-right: 2px solid #a0aec0;
             border-radius: 0 5px 0 0;
         }
 
@@ -225,34 +217,25 @@
             position: absolute;
             top: 0;
             left: 50%;
-            border-left: 2px solid #ccc;
+            border-left: 2px solid #a0aec0;
             width: 0;
             height: 20px;
         }
 
-        /* Member Card Styles */
+        /* Member Card Design */
         .member-card {
             border: 2px solid #2f855a;
             background-color: #ffffff;
             color: #2d3748;
-            padding: 8px 12px;
+            padding: 10px 14px;
             display: inline-block;
             border-radius: 8px;
-            text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
             position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            min-width: 90px;
-        }
-
-        .member-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            background-color: #f0fff4;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            min-width: 120px;
+            max-width: 200px;
         }
 
         .member-card.deceased {
@@ -265,6 +248,26 @@
             font-size: 0.75rem;
             color: #e53e3e;
             margin-left: 4px;
+        }
+
+        /* Sub-Tree Navigation Link Button */
+        .sub-tree-link {
+            margin-top: 8px;
+            display: block;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            border: 1px solid #90cdf4;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sub-tree-link:hover {
+            background-color: #bee3f8;
+            color: #2c5282;
         }
 
         .member-highlight {
@@ -289,9 +292,9 @@
 
         .modal-content {
             background: white;
-            padding: 24px;
+            padding: 20px;
             border-radius: 8px;
-            width: 320px;
+            width: 300px;
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
@@ -300,7 +303,7 @@
             position: absolute;
             top: 10px;
             right: 15px;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
             color: #aaa;
         }
@@ -310,17 +313,13 @@
         }
 
         .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .modal-header h2 {
-            font-size: 1.2rem;
-            margin: 0;
+            font-size: 1.1rem;
         }
 
         .status-badge {
@@ -329,6 +328,8 @@
             color: #22543d;
             border-radius: 12px;
             font-size: 0.75rem;
+            display: inline-block;
+            margin-top: 4px;
         }
 
         .status-badge.deceased {
@@ -337,14 +338,14 @@
         }
 
         .modal-body p {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 6px;
+            font-size: 0.88rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header & Search Controls Bar -->
+    <!-- Header Bar -->
     <header class="app-header">
         <div class="header-left">
             <h1>🌳 শেকড়</h1>
@@ -358,22 +359,18 @@
                 <button id="searchBtn">খুঁজুন</button>
                 <div id="searchResults" class="search-results-dropdown"></div>
             </div>
-
-            <!-- Zoom & View Controls -->
-            <div class="zoom-controls">
-                <button id="zoomInBtn" title="জুম ইন">+</button>
-                <button id="zoomOutBtn" title="জুম আউট">-</button>
-                <button id="resetZoomBtn" title="রিসেট">↺</button>
-            </div>
         </div>
     </header>
 
-    <!-- Main Tree Canvas Viewport -->
-    <main class="tree-viewport" id="treeViewport">
-        <div class="tree-container" id="treeContainer">
-            <!-- Dynamic Tree Nodes Will Be Rendered Here -->
-            <div id="treeNodes" class="tree-nodes"></div>
-        </div>
+    <!-- Sub-tree Navigation Banner -->
+    <div class="nav-banner">
+        <div class="breadcrumb" id="breadcrumbText">📍 মূল বংশধারা: পদ্মাশী সর্দার</div>
+        <button class="back-btn" id="backBtn">⬅ মূল ট্রিতে ফিরে যান</button>
+    </div>
+
+    <!-- Tree Viewport Container -->
+    <main class="tree-viewport">
+        <div id="treeContainer"></div>
     </main>
 
     <!-- Member Details Modal -->
@@ -392,7 +389,7 @@
         </div>
     </div>
 
-    <!-- Family Data & Script Logic -->
+    <!-- Data and Navigation Logic -->
     <script>
         const familyData = {
             id: "padmashi",
@@ -663,16 +660,17 @@
             ]
         };
 
-        let currentScale = 1;
-        let isPanning = false;
-        let startX = 0, startY = 0;
-        let translateX = 0, translateY = 0;
+        let currentRootNode = familyData;
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderTree();
-            setupZoomAndPan();
+            renderCurrentTree();
             setupSearch();
             setupModalEvents();
+
+            document.getElementById('backBtn').addEventListener('click', () => {
+                currentRootNode = familyData;
+                renderCurrentTree();
+            });
         });
 
         function toBanglaNumber(num) {
@@ -680,54 +678,71 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        function createMemberCardHTML(member) {
-            const deceasedClass = member.isDeceased ? 'deceased' : '';
-            const deceasedBadge = member.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
-
-            return `
-                <div class="member-card ${deceasedClass}" data-id="${member.id}">
-                    <div class="member-name">${member.name}</div>
-                    ${deceasedBadge}
-                </div>
-            `;
-        }
-
-        function renderTreeHTML(node) {
+        /* Render tree with maximum 2 levels depth per page for crisp fit */
+        function renderNodeHTML(node, depth = 0) {
             if (!node) return '';
 
+            const deceasedClass = node.isDeceased ? 'deceased' : '';
+            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
+            const hasChildren = node.children && node.children.length > 0;
+
+            let linkBtn = '';
+            // If has children and depth limit reached (2 levels), show button to view subtree
+            if (hasChildren && depth >= 1) {
+                linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
+                    👉 ${node.name}-এর বংশধারা দেখুন
+                </button>`;
+            }
+
             let childrenHTML = '';
-            if (node.children && node.children.length > 0) {
-                const childrenNodes = node.children.map(child => renderTreeHTML(child)).join('');
-                childrenHTML = `<ul>${childrenNodes}</ul>`;
+            if (hasChildren && depth < 1) {
+                const childNodes = node.children.map(child => renderNodeHTML(child, depth + 1)).join('');
+                childrenHTML = `<ul>${childNodes}</ul>`;
             }
 
             return `
                 <li>
-                    ${createMemberCardHTML(node)}
+                    <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
+                        <div class="member-name">${node.name} ${deceasedBadge}</div>
+                        ${linkBtn}
+                    </div>
                     ${childrenHTML}
                 </li>
             `;
         }
 
-        function renderTree() {
-            const treeNodesContainer = document.getElementById('treeNodes');
-            if (!familyData) return;
+        function renderCurrentTree() {
+            const container = document.getElementById('treeContainer');
+            const breadcrumb = document.getElementById('breadcrumbText');
+            const backBtn = document.getElementById('backBtn');
 
-            const treeHTML = `<div class="tf-tree"><ul>${renderTreeHTML(familyData)}</ul></div>`;
-            treeNodesContainer.innerHTML = treeHTML;
+            if (currentRootNode.id === familyData.id) {
+                breadcrumb.textContent = '📍 মূল বংশধারা: পদ্মাশী সর্দার';
+                backBtn.style.display = 'none';
+            } else {
+                breadcrumb.textContent = `📍 পৃথক বংশধারা শাখা: ${currentRootNode.name}`;
+                backBtn.style.display = 'inline-flex';
+            }
 
-            document.querySelectorAll('.member-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const memberId = card.getAttribute('data-id');
-                    const memberObj = findMemberById(familyData, memberId);
-                    const parentObj = findParentById(familyData, memberId);
-                    
-                    if (memberObj) {
-                        showMemberDetailsModal(memberObj, parentObj ? parentObj.name : 'মূল পিতা/পূর্বপুরুষ');
-                    }
-                });
-            });
+            container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode, 0)}</ul></div>`;
+        }
+
+        function navigateToSubTree(id, event) {
+            if (event) event.stopPropagation();
+            const targetNode = findMemberById(familyData, id);
+            if (targetNode) {
+                currentRootNode = targetNode;
+                renderCurrentTree();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function onCardClick(id) {
+            const memberObj = findMemberById(familyData, id);
+            const parentObj = findParentById(familyData, id);
+            if (memberObj) {
+                showMemberDetailsModal(memberObj, parentObj ? parentObj.name : 'মূল পিতা/পূর্বপুরুষ');
+            }
         }
 
         function findMemberById(root, id) {
@@ -774,50 +789,6 @@
             modal.style.display = 'flex';
         }
 
-        function setupZoomAndPan() {
-            const viewport = document.getElementById('treeViewport');
-            const container = document.getElementById('treeContainer');
-
-            const updateTransform = () => {
-                container.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
-            };
-
-            document.getElementById('zoomInBtn').addEventListener('click', () => {
-                currentScale = Math.min(currentScale + 0.15, 2.5);
-                updateTransform();
-            });
-
-            document.getElementById('zoomOutBtn').addEventListener('click', () => {
-                currentScale = Math.max(currentScale - 0.15, 0.3);
-                updateTransform();
-            });
-
-            document.getElementById('resetZoomBtn').addEventListener('click', () => {
-                currentScale = 1;
-                translateX = 0;
-                translateY = 0;
-                updateTransform();
-            });
-
-            viewport.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.member-card') || e.target.closest('.app-header')) return;
-                isPanning = true;
-                startX = e.clientX - translateX;
-                startY = e.clientY - translateY;
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!isPanning) return;
-                translateX = e.clientX - startX;
-                translateY = e.clientY - startY;
-                updateTransform();
-            });
-
-            window.addEventListener('mouseup', () => {
-                isPanning = false;
-            });
-        }
-
         function setupSearch() {
             const searchInput = document.getElementById('searchInput');
             const searchBtn = document.getElementById('searchBtn');
@@ -842,7 +813,19 @@
                         div.className = 'search-result-item';
                         div.textContent = item.name;
                         div.addEventListener('click', () => {
-                            highlightAndFocusMember(item.id);
+                            // Find parent branch and navigate there
+                            const parent = findParentById(familyData, item.id);
+                            if (parent && parent.children && parent.children.length > 0) {
+                                currentRootNode = parent;
+                            } else {
+                                currentRootNode = item;
+                            }
+                            renderCurrentTree();
+
+                            setTimeout(() => {
+                                highlightAndFocusMember(item.id);
+                            }, 100);
+
                             searchResults.style.display = 'none';
                             searchInput.value = '';
                         });
@@ -880,7 +863,6 @@
             
             if (targetCard) {
                 targetCard.classList.add('member-highlight');
-                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
             }
         }
 
