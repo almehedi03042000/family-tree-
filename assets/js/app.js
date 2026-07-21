@@ -185,9 +185,9 @@ function renderTree(){
         );
 console.log(treeContainer.innerHTML);
    
-    Components.statisticsComponent();
+  Components.statisticsComponent();
 
-    applyZoom();
+fitTreeToScreen();
 
 }
 
@@ -227,9 +227,45 @@ function refreshTree(){
 
 function applyZoom(){
 
-    treeContainer.style.transform=
-
+    treeContainer.style.transform =
         `scale(${currentScale})`;
+
+}
+
+/* ==========================================
+   AUTO FIT TREE
+========================================== */
+
+function fitTreeToScreen(){
+
+    currentScale = 1;
+
+    treeContainer.style.transform = "scale(1)";
+
+    requestAnimationFrame(()=>{
+
+        const areaWidth = treeArea.clientWidth - 40;
+        const treeWidth = treeContainer.scrollWidth;
+
+        if(treeWidth > areaWidth){
+
+            currentScale = areaWidth / treeWidth;
+
+            if(currentScale < MIN_SCALE){
+
+                currentScale = MIN_SCALE;
+
+            }
+
+        }else{
+
+            currentScale = 1;
+
+        }
+
+        applyZoom();
+
+    });
 
 }
 
@@ -239,9 +275,9 @@ function applyZoom(){
 
 function zoomIn(){
 
-    currentScale=Math.min(
+    currentScale = Math.min(
 
-        currentScale+SCALE_STEP,
+        currentScale + SCALE_STEP,
 
         MAX_SCALE
 
@@ -257,9 +293,9 @@ function zoomIn(){
 
 function zoomOut(){
 
-    currentScale=Math.max(
+    currentScale = Math.max(
 
-        currentScale-SCALE_STEP,
+        currentScale - SCALE_STEP,
 
         MIN_SCALE
 
@@ -275,9 +311,7 @@ function zoomOut(){
 
 function resetZoom(){
 
-    currentScale=1;
-
-    applyZoom();
+    fitTreeToScreen();
 
 }
 
@@ -286,29 +320,29 @@ function resetZoom(){
 ========================================== */
 
 zoomInBtn?.addEventListener(
-
     "click",
-
     zoomIn
-
 );
 
 zoomOutBtn?.addEventListener(
-
     "click",
-
     zoomOut
-
 );
 
 resetZoomBtn?.addEventListener(
-
     "click",
-
     resetZoom
-
 );
 
+/* ==========================================
+   AUTO FIT ON WINDOW RESIZE
+========================================== */
+
+window.addEventListener("resize", ()=>{
+
+    fitTreeToScreen();
+
+});
 /* ==========================================
    MOUSE WHEEL ZOOM
 ========================================== */
