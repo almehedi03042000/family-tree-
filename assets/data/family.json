@@ -3,6 +3,7 @@
   {
   "id": "P0001",
   "name": "পদ্মাশী সর্দার",
+  "root": true,
   "gender": "male",
   "generation": 0,
   "deceased": true,
