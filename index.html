@@ -45,7 +45,6 @@
         .header-left h1 {
             font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: 1px;
             color: #ffffff;
         }
 
@@ -199,7 +198,7 @@
             overflow-x: auto;
         }
 
-        /* Clean Tree Connector Styling */
+        /* Main Tree CSS */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -213,7 +212,7 @@
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 4px 0 4px;
+            padding: 20px 8px 0 8px;
         }
 
         .tf-tree li::before, .tf-tree li::after {
@@ -248,54 +247,55 @@
             height: 20px;
         }
 
-        /* Compact Vertical Node Layout (Ultra Space Saving) */
-        .compact-vertical-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: center;
-            margin-top: 12px;
-            position: relative;
-        }
-
+        /* Standard Cards for Main Page */
         .member-card {
-            padding: 5px 8px;
-            display: flex;
+            padding: 10px 14px;
+            display: inline-flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 6px;
-            width: 125px; /* Extremely compact */
-            min-height: 52px;
+            border-radius: 8px;
+            min-width: 140px;
+            min-height: 65px;
             text-align: center;
             cursor: pointer;
             background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
             transition: all 0.2s;
+            position: relative;
         }
 
         .member-card.male { border: 2px solid #2b6cb0; background-color: #f0f7ff; color: #1a365d; }
         .member-card.female { border: 2px solid #d53f8c; background-color: #fff5f7; color: #702459; }
         .member-card.deceased { border-color: #718096 !important; background-color: #edf2f7 !important; color: #4a5568 !important; }
 
-        .member-name-bn { font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
-        .member-name-en { font-size: 0.65rem; color: #4a5568; margin-top: 2px; }
-        .deceased-badge { font-size: 0.6rem; color: #e53e3e; }
+        .member-name-bn { font-size: 0.9rem; font-weight: 700; line-height: 1.2; }
+        .member-name-en { font-size: 0.72rem; color: #4a5568; margin-top: 2px; }
+        .deceased-badge { font-size: 0.65rem; color: #e53e3e; }
 
         .sub-tree-link {
-            margin-top: 4px;
+            margin-top: 6px;
             background-color: #2b6cb0;
             color: #ffffff;
             border: none;
-            padding: 3px 5px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.65rem;
+            font-size: 0.72rem;
             cursor: pointer;
             font-weight: 600;
-            width: 100%;
         }
 
-        /* Full Interactive Modal */
+        /* --- Vertical Stacked CSS for Kesu Sardar Children/Grandchildren --- */
+        .vertical-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        /* Interactive Zoom Modal */
         .zoom-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -343,13 +343,13 @@
             top: 30px; left: 30px;
             transform-origin: 0 0;
             background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%);
-            padding: 30px 20px;
+            padding: 35px 25px;
             border-radius: 12px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 1px solid #cbd5e0;
         }
 
-        /* Details Popup Modal */
+        /* Details Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -413,7 +413,7 @@
     </div>
 
     <div class="nav-banner">
-        <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ: পদ্মাশী সর্দার $\rightarrow$ আকালি সর্দার $\rightarrow$ (ইসু সর্দার শাখা & কেসু সর্দার শাখা)</div>
+        <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ: পদ্মাশী সর্দার</div>
         <div class="nav-buttons-group">
             <button class="nav-action-btn" id="prevPageBtn" style="display: none;">⬅ আগের পেজ</button>
             <button class="nav-action-btn home-btn" id="homeBtn" style="display: none;">🏠 মূল হোম</button>
@@ -426,7 +426,7 @@
 
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 এক নজরে সম্পূর্ণ বংশধারা (কমপ্যাক্ট লেআউট)</h2>
+            <h2>🔍 এক নজরে সম্পূর্ণ বংশধারা</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
@@ -497,7 +497,7 @@
                                     children: [
                                         { id: "janu", nameBn: "জানু সর্দার", nameEn: "Janu Sardar", gender: "male", isDeceased: false, generation: 5 },
                                         { id: "haran", nameBn: "হারান সর্দার", nameEn: "Haran Sardar", gender: "male", isDeceased: false, generation: 5 },
-                                        { id: "jaher", nameBn: "জাহের সর্দার", nameEn: "Jaher Sardar", gender: "male", isDeceased: false, generation: 5 },
+                                        { id: "jaher", nameBn: "জাহের সর্দার", nameEn: "Jaher Sardar", generation: 5, gender: "male", isDeceased: false },
                                         { id: "bhasha", nameBn: "ভাষা সর্দার", nameEn: "Bhasha Sardar", gender: "male", isDeceased: false, generation: 5 }
                                     ]
                                 },
@@ -518,6 +518,7 @@
                             gender: "male",
                             isDeceased: false,
                             generation: 3,
+                            verticalRender: true, // Kesu Sardar branches will render vertically
                             children: [
                                 {
                                     id: "asharat", nameBn: "আশারত সর্দার", nameEn: "Asharat Sardar", gender: "male", isDeceased: false, generation: 4,
@@ -588,7 +589,7 @@
             `;
         }
 
-        /* Ultra-compact Left/Right Root Branching Logic */
+        /* Main Page Navigation Layout (Unchanged) */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
@@ -630,7 +631,7 @@
             const homeBtn = document.getElementById('homeBtn');
 
             if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 মূল পেজ: পদ্মাশী সর্দার ➔ আকালি সর্দার ➔ (বাম শাখা: ইসু সর্দার | ডান শাখা: কেসু সর্দার)';
+                breadcrumb.textContent = '📍 মূল পেজ: পদ্মাশী সর্দার';
                 prevBtn.style.display = 'none';
                 homeBtn.style.display = 'none';
             } else {
@@ -700,12 +701,38 @@
             modal.style.display = 'flex';
         }
 
-        /* Full Compact Tree Renderer for "এক নজরে" Modal */
-        function renderFullCompactTree(node) {
+        /* --- Full Tree Renderer for "এক নজরে" with Kesu Sardar Vertical Option --- */
+        function renderFullTreeWithVerticalOptions(node) {
             if (!node) return '';
 
+            // If this node or branch is set to render children vertically (Kesu Sardar & offspring)
+            if (node.verticalRender) {
+                const verticalChildren = node.children.map(child => {
+                    let subGrandChildrenHTML = '';
+                    if (child.children && child.children.length > 0) {
+                        const grandKids = child.children.map(gc => getCardHTML(gc)).join('');
+                        subGrandChildrenHTML = `<div class="vertical-group" style="padding-left: 15px; border-left: 2px dashed #38a169;">${grandKids}</div>`;
+                    }
+                    return `
+                        <div style="margin: 6px 0;">
+                            ${getCardHTML(child)}
+                            ${subGrandChildrenHTML}
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <li>
+                        ${getCardHTML(node)}
+                        <div class="vertical-group">
+                            ${verticalChildren}
+                        </div>
+                    </li>
+                `;
+            }
+
             if (node.children && node.children.length > 0) {
-                const childItems = node.children.map(child => renderFullCompactTree(child)).join('');
+                const childItems = node.children.map(child => renderFullTreeWithVerticalOptions(child)).join('');
                 return `
                     <li>
                         ${getCardHTML(node)}
@@ -717,7 +744,7 @@
             }
         }
 
-        let zoomScale = 0.75;
+        let zoomScale = 0.8;
         let pointX = 30;
         let pointY = 30;
         let startX = 0;
@@ -727,9 +754,9 @@
         function openZoomTreeModal() {
             const zoomModal = document.getElementById('zoomModal');
             const zoomContent = document.getElementById('zoomContent');
-            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullCompactTree(familyData)}</ul></div>`;
+            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeWithVerticalOptions(familyData)}</ul></div>`;
             zoomModal.style.display = 'flex';
-            zoomScale = 0.75; pointX = 30; pointY = 30;
+            zoomScale = 0.8; pointX = 30; pointY = 30;
             updateTransform();
         }
 
@@ -745,7 +772,7 @@
             document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
             document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.15, 2.5); updateTransform(); });
             document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.15, 0.2); updateTransform(); });
-            document.getElementById('zoomResetBtn').addEventListener('click', () => { zoomScale = 0.75; pointX = 30; pointY = 30; updateTransform(); });
+            document.getElementById('zoomResetBtn').addEventListener('click', () => { zoomScale = 0.8; pointX = 30; pointY = 30; updateTransform(); });
 
             const startPan = (e) => {
                 isPanning = true;
@@ -778,7 +805,7 @@
                     filename: 'পদ্মাশী_সর্দারের_বংশধারা.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'a2', orientation: 'landscape' }
+                    jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
                 };
                 html2pdf().set(opt).from(element).save();
             });
