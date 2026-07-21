@@ -502,50 +502,75 @@ TREE
 ========================================== */
 
 .tree-node{
-    position:relative;
-    display:flex;
+    display:inline-flex;
     flex-direction:column;
     align-items:center;
-    margin:0 30px;
-    flex-shrink:0;
-}
-.tree-node > .children-row{
-    width:max-content;
-}
-.tree-node:first-child > .children-row::before{
-    left:50%;
+    position:relative;
+    padding:20px 10px 0;
 }
 
-.tree-node:last-child > .children-row::before{
-    right:50%;
-}
 .tree-line{
     width:2px;
-    height:30px;
+    height:24px;
     background:#00d26a;
 }
 
 .children-row{
-    position:relative;
     display:flex;
     justify-content:center;
     align-items:flex-start;
-    gap:40px;
-    margin-top:30px;
+    position:relative;
+    margin-top:24px;
 }
 
 .children-row::before{
-    content:none;
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    right:50%;
+    height:2px;
+    background:#00d26a;
 }
+
 .children-row>.tree-node::before{
     content:"";
     position:absolute;
-    width:2px;
-    height:30px;
-    background:#00d26a;
-    top:-30px;
+    top:-24px;
     left:50%;
-    transform:translateX(-50%);
+    width:2px;
+    height:24px;
+    background:#00d26a;
+}
+
+.children-row>.tree-node:first-child::after{
+    content:"";
+    position:absolute;
+    top:-24px;
+    left:50%;
+    right:-50%;
+    height:2px;
+    background:#00d26a;
+}
+
+.children-row>.tree-node:last-child::after{
+    content:"";
+    position:absolute;
+    top:-24px;
+    left:-50%;
+    right:50%;
+    height:2px;
+    background:#00d26a;
+}
+
+.children-row>.tree-node:not(:first-child):not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:-24px;
+    left:-50%;
+    right:-50%;
+    height:2px;
+    background:#00d26a;
 }
 /* ==========================================
 MEMBER CARD
