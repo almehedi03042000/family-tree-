@@ -199,9 +199,7 @@ function loadingComponent(){
 function createTreeNode(member){
 
     if(!member){
-
         return "";
-
     }
 
     let children=[];
@@ -223,19 +221,25 @@ function createTreeNode(member){
 
     ${createMemberCard(member)}
 
-    ${children.length>0 ? `
+    ${
+        children.length>0
+        ?
+        `
+        <div class="tree-children">
 
-        <div class="tree-line"></div>
+            <div class="tree-line"></div>
 
-        <div class="children-row">
+            <div class="children-row">
 
-            ${children
-                .map(child=>createTreeNode(child))
-                .join("")}
+                ${children.map(child=>createTreeNode(child)).join("")}
+
+            </div>
 
         </div>
-
-    ` : ""}
+        `
+        :
+        ""
+    }
 
 </div>
 
