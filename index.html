@@ -7,7 +7,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- html2pdf Library for HD PDF Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
             background-color: #f4f7f6;
             color: #333;
             min-height: 100vh;
@@ -73,7 +73,7 @@
             outline: none;
             font-size: 0.85rem;
             font-family: inherit;
-            width: 150px;
+            width: 170px;
         }
 
         .search-box button {
@@ -117,7 +117,7 @@
             background-color: #f0f0f0;
         }
 
-        /* Overview Box on First Page */
+        /* Cleaned Overview Banner Box */
         .overview-card-container {
             padding: 15px 24px 0 24px;
             display: flex;
@@ -125,18 +125,19 @@
         }
 
         .overview-box {
-            background: linear-gradient(135deg, #2b6cb0, #2c5282);
+            background: linear-gradient(135deg, #1e3d2f, #2b6cb0);
             color: white;
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             width: 100%;
-            max-width: 800px;
+            max-width: 500px;
             box-shadow: 0 4px 12px rgba(43, 108, 176, 0.25);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
         }
 
         .overview-box:hover {
@@ -144,27 +145,10 @@
             box-shadow: 0 6px 16px rgba(43, 108, 176, 0.35);
         }
 
-        .overview-info h3 {
-            font-size: 1rem;
+        .overview-box h3 {
+            font-size: 1.1rem;
             font-weight: 700;
-        }
-
-        .overview-info p {
-            font-size: 0.8rem;
-            opacity: 0.9;
-        }
-
-        .overview-btn {
-            background-color: #d69e2e;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 5px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            white-space: nowrap;
+            letter-spacing: 0.5px;
         }
 
         /* Navigation Banner */
@@ -179,7 +163,7 @@
         }
 
         .breadcrumb {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #2d3748;
         }
@@ -276,7 +260,7 @@
             height: 20px;
         }
 
-        /* HYBRID VERTICAL LEAVES (For lower dense generations) */
+        /* Hybrid Vertical Leaves Styling */
         .v-branch {
             display: flex;
             flex-direction: column;
@@ -308,28 +292,35 @@
         .v-leaf-item::before {
             content: '';
             position: absolute;
-            top: 16px;
+            top: 22px;
             left: 0;
             width: 10px;
             height: 2px;
             background-color: #3182ce;
         }
 
-        /* Member Card Design */
+        /* Uniform Card Design - Standardized Size */
         .member-card {
             border: 2px solid #2f855a;
             background-color: #ffffff;
             color: #2d3748;
-            padding: 8px 12px;
-            display: inline-block;
+            padding: 8px;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             border-radius: 8px;
-            font-size: 0.88rem;
-            font-weight: 600;
             position: relative;
             box-shadow: 0 2px 5px rgba(0,0,0,0.06);
-            min-width: 120px;
-            max-width: 210px;
+            
+            /* Fixed Standard Box Dimensions for Consistency */
+            width: 150px;
+            min-height: 65px;
+            height: auto;
             text-align: center;
+            word-wrap: break-word;
+            overflow: hidden;
+            user-select: none;
         }
 
         .member-card.deceased {
@@ -338,10 +329,28 @@
             color: #4a5568;
         }
 
+        /* Auto-sizing Text for Bengali & English Name */
+        .member-name-bn {
+            font-size: clamp(0.72rem, 1.8vw, 0.88rem);
+            font-weight: 700;
+            line-height: 1.2;
+            width: 100%;
+        }
+
+        .member-name-en {
+            font-size: clamp(0.62rem, 1.4vw, 0.72rem);
+            font-weight: 500;
+            color: #4a5568;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 2px;
+            width: 100%;
+        }
+
         .deceased-badge {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: #e53e3e;
-            margin-left: 4px;
+            display: inline-block;
+            margin-left: 2px;
         }
 
         .sub-tree-link {
@@ -350,13 +359,14 @@
             background-color: #2b6cb0;
             color: #ffffff;
             border: none;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s;
             font-weight: 600;
+            width: 100%;
         }
 
         .sub-tree-link:hover {
@@ -369,7 +379,7 @@
             box-shadow: 0 0 12px rgba(214, 158, 46, 0.6) !important;
         }
 
-        /* Zoom Modal Overlay */
+        /* Full Zoom & Pannable Canvas Modal */
         .zoom-modal-overlay {
             position: fixed;
             top: 0;
@@ -439,15 +449,13 @@
             font-family: inherit;
         }
 
+        /* Pannable Viewport */
         .zoom-viewport {
             flex: 1;
-            overflow: auto;
+            overflow: hidden;
             position: relative;
             cursor: grab;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px;
+            background-color: #222;
         }
 
         .zoom-viewport:active {
@@ -455,15 +463,18 @@
         }
 
         .zoom-content {
-            transform-origin: top center;
-            transition: transform 0.1s ease-out;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            transform-origin: 0 0;
             background: white;
-            padding: 35px;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            transition: transform 0.05s ease-out;
         }
 
-        /* Member Info Modal */
+        /* Details Popup Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -481,7 +492,7 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            width: 300px;
+            width: 320px;
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
@@ -507,6 +518,13 @@
 
         .modal-header h2 {
             font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .modal-header p {
+            font-size: 0.85rem;
+            color: #666;
+            font-family: 'Poppins', sans-serif;
         }
 
         .status-badge {
@@ -516,7 +534,7 @@
             border-radius: 12px;
             font-size: 0.75rem;
             display: inline-block;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .status-badge.deceased {
@@ -532,7 +550,7 @@
 </head>
 <body>
 
-    <!-- App Header -->
+    <!-- Header Section -->
     <header class="app-header">
         <div class="header-left">
             <h1>🌳 শেকড়</h1>
@@ -540,23 +558,19 @@
         </div>
         
         <div class="header-controls">
-            <!-- Search Box -->
+            <!-- Bilingual Search Box -->
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="সদস্যের নাম খুঁজুন..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="নাম খুঁজুন / Search name..." autocomplete="off">
                 <button id="searchBtn">খুঁজুন</button>
                 <div id="searchResults" class="search-results-dropdown"></div>
             </div>
         </div>
     </header>
 
-    <!-- First Page Interactive Banner Box -->
+    <!-- Clean Overview Box -->
     <div class="overview-card-container" id="overviewCardContainer">
         <div class="overview-box" id="openZoomTreeBox">
-            <div class="overview-info">
-                <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (Hybrid Interactive Tree)</h3>
-                <p>সমগ্র ফ্যামিলি ট্রি একসাথে দেখতে, জুম করতে অথবা PDF ডাউনলোড করতে এখানে ক্লিক করুন</p>
-            </div>
-            <button class="overview-btn">সম্পূর্ণ ট্রি দেখুন 🔍</button>
+            <h3>📌 এক নজরে সম্পূর্ণ বংশধারা</h3>
         </div>
     </div>
 
@@ -571,10 +585,10 @@
         <div id="treeContainer"></div>
     </main>
 
-    <!-- Full Interactive Hybrid Zoomable Tree Modal -->
+    <!-- Full Interactive Pannable & Zoomable Tree Modal -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 পদ্মাশী সর্দারের সম্পূর্ণ ফ্যামিলি ট্রি (হাইব্রিড লেআউট)</h2>
+            <h2>🔍 সম্পূর্ণ ফ্যামিলি ট্রি (এক নজরে)</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
@@ -588,12 +602,13 @@
         </div>
     </div>
 
-    <!-- Member Details Modal Popup -->
+    <!-- Member Details Popup Modal -->
     <div id="memberModal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
             <div class="modal-header">
-                <h2 id="modalName">সদস্যের নাম</h2>
+                <h2 id="modalNameBn">বাংলা নাম</h2>
+                <p id="modalNameEn">English Name</p>
                 <span id="modalStatusBadge" class="status-badge">জীবিত</span>
             </div>
             <div class="modal-body">
@@ -604,270 +619,293 @@
         </div>
     </div>
 
-    <!-- Data & Logic -->
+    <!-- Data & Script Logic -->
     <script>
+        // Family Data with Bangla and English Names
         const familyData = {
             id: "padmashi",
-            name: "পদ্মাশী সর্দার",
+            nameBn: "পদ্মাশী সর্দার",
+            nameEn: "Padmashi Sardar",
             isDeceased: false,
             generation: 1,
             children: [
                 {
                     id: "akali",
-                    name: "আকালি সর্দার",
+                    nameBn: "আকালি সর্দার",
+                    nameEn: "Akali Sardar",
                     isDeceased: false,
                     generation: 2,
                     children: [
                         {
                             id: "isu",
-                            name: "ইসু সর্দার",
+                            nameBn: "ইসু সর্দার",
+                            nameEn: "Isu Sardar",
                             isDeceased: false,
                             generation: 3,
                             children: [
                                 {
                                     id: "doshor",
-                                    name: "দোশর সর্দার",
+                                    nameBn: "দোশর সর্দার",
+                                    nameEn: "Doshor Sardar",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
                                         {
                                             id: "banej",
-                                            name: "বানেজ সর্দার",
+                                            nameBn: "বানেজ সর্দার",
+                                            nameEn: "Banej Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "mohasin", name: "মহাসিন সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "abul", name: "আবুল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "amjad", name: "আমজাদ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "reziya", name: "রেজিয়া", isDeceased: false, generation: 6 },
-                                                { id: "hafiya", name: "হাফিয়া", isDeceased: false, generation: 6 },
-                                                { id: "bulu", name: "বুলু", isDeceased: false, generation: 6 },
-                                                { id: "rashu", name: "রাশু", isDeceased: false, generation: 6 },
-                                                { id: "fojila", name: "ফজিলা", isDeceased: false, generation: 6 }
+                                                { id: "mohasin", nameBn: "মহাসিন সর্দার", nameEn: "Mohasin Sardar", isDeceased: false, generation: 6 },
+                                                { id: "abul", nameBn: "আবুল সর্দার", nameEn: "Abul Sardar", isDeceased: false, generation: 6 },
+                                                { id: "amjad", nameBn: "আমজাদ সর্দার", nameEn: "Amjad Sardar", isDeceased: false, generation: 6 },
+                                                { id: "reziya", nameBn: "রেজিয়া", nameEn: "Reziya", isDeceased: false, generation: 6 },
+                                                { id: "hafiya", nameBn: "হাফিয়া", nameEn: "Hafiya", isDeceased: false, generation: 6 },
+                                                { id: "bulu", nameBn: "বুলু", nameEn: "Bulu", isDeceased: false, generation: 6 },
+                                                { id: "rashu", nameBn: "রাশু", nameEn: "Rashu", isDeceased: false, generation: 6 },
+                                                { id: "fojila", nameBn: "ফজিলা", nameEn: "Fojila", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "mokbul",
-                                            name: "মকবুল সর্দার",
+                                            nameBn: "মকবুল সর্দার",
+                                            nameEn: "Mokbul Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "altaf_d", name: "আলতাফ সর্দার", isDeceased: true, generation: 6 },
-                                                { id: "robiul", name: "রবিউল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "roshid", name: "রশিদ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "monowar", name: "মনোয়ার", isDeceased: false, generation: 6 },
-                                                { id: "ambiya", name: "আম্বিয়া", isDeceased: false, generation: 6 },
-                                                { id: "hashera", name: "হাশেরা", isDeceased: false, generation: 6 },
-                                                { id: "rekena", name: "রেকেনা", isDeceased: false, generation: 6 },
-                                                { id: "rushiya", name: "রুশিয়া", isDeceased: false, generation: 6 }
+                                                { id: "altaf_d", nameBn: "আলতাফ সর্দার", nameEn: "Altaf Sardar", isDeceased: true, generation: 6 },
+                                                { id: "robiul", nameBn: "রবিউল সর্দার", nameEn: "Robiul Sardar", isDeceased: false, generation: 6 },
+                                                { id: "roshid", nameBn: "রশিদ সর্দার", nameEn: "Roshid Sardar", isDeceased: false, generation: 6 },
+                                                { id: "monowar", nameBn: "মনোয়ার", nameEn: "Monowar", isDeceased: false, generation: 6 },
+                                                { id: "ambiya", nameBn: "আম্বিয়া", nameEn: "Ambiya", isDeceased: false, generation: 6 },
+                                                { id: "hashera", nameBn: "হাশেরা", nameEn: "Hashera", isDeceased: false, generation: 6 },
+                                                { id: "rekena", nameBn: "রেকেনা", nameEn: "Rekena", isDeceased: false, generation: 6 },
+                                                { id: "rushiya", nameBn: "রুশিয়া", nameEn: "Rushiya", isDeceased: false, generation: 6 }
                                             ]
                                         },
-                                        { id: "jaimon", name: "জাইমন", isDeceased: false, generation: 5 },
-                                        { id: "harija", name: "হারিজা", isDeceased: false, generation: 5 },
-                                        { id: "haiton", name: "হাইতন", isDeceased: false, generation: 5 }
+                                        { id: "jaimon", nameBn: "জাইমন", nameEn: "Jaimon", isDeceased: false, generation: 5 },
+                                        { id: "harija", nameBn: "হারিজা", nameEn: "Harija", isDeceased: false, generation: 5 },
+                                        { id: "haiton", nameBn: "হাইতন", nameEn: "Haiton", isDeceased: false, generation: 5 }
                                     ]
                                 },
                                 {
                                     id: "peyar",
-                                    name: "পেয়ার সর্দার",
+                                    nameBn: "পেয়ার সর্দার",
+                                    nameEn: "Peyar Sardar",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
                                         {
                                             id: "janu",
-                                            name: "জানু সর্দার",
+                                            nameBn: "জানু সর্দার",
+                                            nameEn: "Janu Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "jamshed", name: "জামশেদ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "fulu_jan", name: "ফুলু জান", isDeceased: false, generation: 6 },
-                                                { id: "majeda", name: "মাজেদা খাতুন", isDeceased: false, generation: 6 },
-                                                { id: "lulu_jan", name: "লুলু জান", isDeceased: false, generation: 6 },
-                                                { id: "khodijan", name: "খদিজান", isDeceased: false, generation: 6 }
+                                                { id: "jamshed", nameBn: "জামশেদ সর্দার", nameEn: "Jamshed Sardar", isDeceased: false, generation: 6 },
+                                                { id: "fulu_jan", nameBn: "ফুলু জান", nameEn: "Fulu Jan", isDeceased: false, generation: 6 },
+                                                { id: "majeda", nameBn: "মাজেদা খাতুন", nameEn: "Majeda Khatun", isDeceased: false, generation: 6 },
+                                                { id: "lulu_jan", nameBn: "লুলু জান", nameEn: "Lulu Jan", isDeceased: false, generation: 6 },
+                                                { id: "khodijan", nameBn: "খদিজান", nameEn: "Khodijan", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "haran",
-                                            name: "হারান সর্দার",
+                                            nameBn: "হারান সর্দার",
+                                            nameEn: "Haran Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "jhontu", name: "ঝন্টু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "siddik", name: "সিদ্দিক সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "jahangir", name: "জাহাঙ্গীর সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "komejan", name: "কমেজান", isDeceased: false, generation: 6 },
-                                                { id: "mishtujan", name: "মিষ্টুজান", isDeceased: false, generation: 6 },
-                                                { id: "balijan", name: "বালীজান", isDeceased: false, generation: 6 }
+                                                { id: "jhontu", nameBn: "ঝন্টু সর্দার", nameEn: "Jhontu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "siddik", nameBn: "সিদ্দিক সর্দার", nameEn: "Siddik Sardar", isDeceased: false, generation: 6 },
+                                                { id: "jahangir", nameBn: "জাহাঙ্গীর সর্দার", nameEn: "Jahangir Sardar", isDeceased: false, generation: 6 },
+                                                { id: "komejan", nameBn: "কমেজান", nameEn: "Komejan", isDeceased: false, generation: 6 },
+                                                { id: "mishtujan", nameBn: "মিষ্টুজান", nameEn: "Mishtujan", isDeceased: false, generation: 6 },
+                                                { id: "balijan", nameBn: "বালীজান", nameEn: "Balijan", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "jaher",
-                                            name: "জাহের সর্দার",
+                                            nameBn: "জাহের সর্দার",
+                                            nameEn: "Jaher Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "sadhu_j", name: "সাধু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "modhu_j", name: "মধু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "jadu", name: "জাদু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "modina", name: "মদিনা", isDeceased: false, generation: 6 },
-                                                { id: "morjina", name: "মরজিনা", isDeceased: false, generation: 6 },
-                                                { id: "korimon", name: "করিমন নেছা", isDeceased: false, generation: 6 },
-                                                { id: "tarajam", name: "তারাজাম", isDeceased: false, generation: 6 }
+                                                { id: "sadhu_j", nameBn: "সাধু সর্দার", nameEn: "Sadhu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "modhu_j", nameBn: "মধু সর্দার", nameEn: "Modhu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "jadu", nameBn: "জাদু সর্দার", nameEn: "Jadu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "modina", nameBn: "মদিনা", nameEn: "Modina", isDeceased: false, generation: 6 },
+                                                { id: "morjina", nameBn: "মরজিনা", nameEn: "Morjina", isDeceased: false, generation: 6 },
+                                                { id: "korimon", nameBn: "করিমন নেছা", nameEn: "Korimon Nessa", isDeceased: false, generation: 6 },
+                                                { id: "tarajam", nameBn: "তারাজাম", nameEn: "Tarajam", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "bhasha",
-                                            name: "ভাষা সর্দার",
+                                            nameBn: "ভাষা সর্দার",
+                                            nameEn: "Bhasha Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "moja", name: "মোজা সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "moinuddin_d", name: "মইনুদ্দিন সর্দার", isDeceased: true, generation: 6 },
-                                                { id: "jiyarul", name: "জিয়ারুল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "samiyon", name: "সামিয়ন", isDeceased: false, generation: 6 }
+                                                { id: "moja", nameBn: "মোজা সর্দার", nameEn: "Moja Sardar", isDeceased: false, generation: 6 },
+                                                { id: "moinuddin_d", nameBn: "মইনুদ্দিন সর্দার", nameEn: "Moinuddin Sardar", isDeceased: true, generation: 6 },
+                                                { id: "jiyarul", nameBn: "জিয়ারুল সর্দার", nameEn: "Jiyarul Sardar", isDeceased: false, generation: 6 },
+                                                { id: "samiyon", nameBn: "সামিয়ন", nameEn: "Samiyon", isDeceased: false, generation: 6 }
                                             ]
                                         }
                                     ]
                                 },
                                 {
                                     id: "fokir",
-                                    name: "ফকির সর্দার",
+                                    nameBn: "ফকির সর্দার",
+                                    nameEn: "Fokir Sardar",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
                                         {
                                             id: "ajim",
-                                            name: "আজিম সর্দার",
+                                            nameBn: "আজিম সর্দার",
+                                            nameEn: "Ajim Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "jalal", name: "জালাল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "jiya", name: "জিয়া সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "roton", name: "রতন সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "iyaton", name: "ইয়াতন", isDeceased: false, generation: 6 },
-                                                { id: "fukon", name: "ফুকন", isDeceased: false, generation: 6 },
-                                                { id: "tuklima_d", name: "টুকলিমা", isDeceased: true, generation: 6 }
+                                                { id: "jalal", nameBn: "জালাল সর্দার", nameEn: "Jalal Sardar", isDeceased: false, generation: 6 },
+                                                { id: "jiya", nameBn: "জিয়া সর্দার", nameEn: "Jiya Sardar", isDeceased: false, generation: 6 },
+                                                { id: "roton", nameBn: "রতন সর্দার", nameEn: "Roton Sardar", isDeceased: false, generation: 6 },
+                                                { id: "iyaton", nameBn: "ইয়াতন", nameEn: "Iyaton", isDeceased: false, generation: 6 },
+                                                { id: "fukon", nameBn: "ফুকন", nameEn: "Fukon", isDeceased: false, generation: 6 },
+                                                { id: "tuklima_d", nameBn: "টুকলিমা", nameEn: "Tuklima", isDeceased: true, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "layeb",
-                                            name: "লায়েব সর্দার",
+                                            nameBn: "লায়েব সর্দার",
+                                            nameEn: "Layeb Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "dulal_d", name: "দুলাল সর্দার", isDeceased: true, generation: 6 },
-                                                { id: "alal", name: "আলাল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "helal", name: "হেলাল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "funka", name: "ফুনকা", isDeceased: false, generation: 6 },
-                                                { id: "firoja", name: "ফিরোজা", isDeceased: false, generation: 6 }
+                                                { id: "dulal_d", nameBn: "দুলাল সর্দার", nameEn: "Dulal Sardar", isDeceased: true, generation: 6 },
+                                                { id: "alal", nameBn: "আলাল সর্দার", nameEn: "Alal Sardar", isDeceased: false, generation: 6 },
+                                                { id: "helal", nameBn: "হেলাল সর্দার", nameEn: "Helal Sardar", isDeceased: false, generation: 6 },
+                                                { id: "funka", nameBn: "ফুনকা", nameEn: "Funka", isDeceased: false, generation: 6 },
+                                                { id: "firoja", nameBn: "ফিরোজা", nameEn: "Firoja", isDeceased: false, generation: 6 }
                                             ]
                                         }
                                     ]
                                 },
-                                { id: "abeda", name: "আবেদা খাতুন", isDeceased: false, generation: 4 }
+                                { id: "abeda", nameBn: "আবেদা খাতুন", nameEn: "Abeda Khatun", isDeceased: false, generation: 4 }
                             ]
                         },
                         {
                             id: "kesu",
-                            name: "কেসু সর্দার",
+                            nameBn: "কেসু সর্দার",
+                            nameEn: "Kesu Sardar",
                             isDeceased: false,
                             generation: 3,
                             children: [
                                 {
                                     id: "asharat",
-                                    name: "আশারত সর্দার",
+                                    nameBn: "আশারত সর্দার",
+                                    nameEn: "Asharat Sardar",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
                                         {
                                             id: "kukon",
-                                            name: "কুকন সর্দার",
+                                            nameBn: "কুকন সর্দার",
+                                            nameEn: "Kukon Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "hozrot", name: "হযরত সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "hafez", name: "হাফেজ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "shahbaj", name: "শাহবাজ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "shorejan", name: "শরেজান", isDeceased: false, generation: 6 },
-                                                { id: "mina", name: "মীনা", isDeceased: false, generation: 6 },
-                                                { id: "foima", name: "ফইমা", isDeceased: false, generation: 6 },
-                                                { id: "sukhejan", name: "সুখেজান", isDeceased: false, generation: 6 }
+                                                { id: "hozrot", nameBn: "হযরত সর্দার", nameEn: "Hozrot Sardar", isDeceased: false, generation: 6 },
+                                                { id: "hafez", nameBn: "হাফেজ সর্দার", nameEn: "Hafez Sardar", isDeceased: false, generation: 6 },
+                                                { id: "shahbaj", nameBn: "শাহবাজ সর্দার", nameEn: "Shahbaj Sardar", isDeceased: false, generation: 6 },
+                                                { id: "shorejan", nameBn: "শরেজান", nameEn: "Shorejan", isDeceased: false, generation: 6 },
+                                                { id: "mina", nameBn: "মীনা", nameEn: "Mina", isDeceased: false, generation: 6 },
+                                                { id: "foima", nameBn: "ফইমা", nameEn: "Foima", isDeceased: false, generation: 6 },
+                                                { id: "sukhejan", nameBn: "সুখেজান", nameEn: "Sukhejan", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "elahi",
-                                            name: "এলাহী সর্দার",
+                                            nameBn: "এলাহী সর্দার",
+                                            nameEn: "Elahi Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "idris", name: "ইদ্রিস সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "alom", name: "আলম সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "aulad", name: "আউলাদ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "ilef", name: "ইলেফ সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "jaharon", name: "জাহারন", isDeceased: false, generation: 6 },
-                                                { id: "tohora", name: "তহুরা", isDeceased: false, generation: 6 },
-                                                { id: "khaleda", name: "খালেদা", isDeceased: false, generation: 6 }
+                                                { id: "idris", nameBn: "ইদ্রিস সর্দার", nameEn: "Idris Sardar", isDeceased: false, generation: 6 },
+                                                { id: "alom", nameBn: "আলম সর্দার", nameEn: "Alom Sardar", isDeceased: false, generation: 6 },
+                                                { id: "aulad", nameBn: "আউলাদ সর্দার", nameEn: "Aulad Sardar", isDeceased: false, generation: 6 },
+                                                { id: "ilef", nameBn: "ইলেফ সর্দার", nameEn: "Ilef Sardar", isDeceased: false, generation: 6 },
+                                                { id: "jaharon", nameBn: "জাহারন", nameEn: "Jaharon", isDeceased: false, generation: 6 },
+                                                { id: "tohora", nameBn: "তহুরা", nameEn: "Tohora", isDeceased: false, generation: 6 },
+                                                { id: "khaleda", nameBn: "খালেদা", nameEn: "Khaleda", isDeceased: false, generation: 6 }
                                             ]
                                         }
                                     ]
                                 },
                                 {
                                     id: "bosharat",
-                                    name: "বসারত সর্দার",
+                                    nameBn: "বসারত সর্দার",
+                                    nameEn: "Bosharat Sardar",
                                     isDeceased: false,
                                     generation: 4,
                                     children: [
                                         {
                                             id: "shukot",
-                                            name: "শুকোট সর্দার",
+                                            nameBn: "শুকোট সর্দার",
+                                            nameEn: "Shukot Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "habil_d", name: "হাবিল সর্দার", isDeceased: true, generation: 6 },
-                                                { id: "hanif_d", name: "হানিফ সর্দার", isDeceased: true, generation: 6 },
-                                                { id: "bojlu", name: "বজলু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "kabil", name: "কাবিল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "maleka", name: "মালেকা", isDeceased: false, generation: 6 },
-                                                { id: "hima", name: "হিমা", isDeceased: false, generation: 6 },
-                                                { id: "nima", name: "নিমা", isDeceased: false, generation: 6 }
+                                                { id: "habil_d", nameBn: "হাবিল সর্দার", nameEn: "Habil Sardar", isDeceased: true, generation: 6 },
+                                                { id: "hanif_d", nameBn: "হানিফ সর্দার", nameEn: "Hanif Sardar", isDeceased: true, generation: 6 },
+                                                { id: "bojlu", nameBn: "বজলু সর্দার", nameEn: "Bojlu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "kabil", nameBn: "কাবিল সর্দার", nameEn: "Kabil Sardar", isDeceased: false, generation: 6 },
+                                                { id: "maleka", nameBn: "মালেকা", nameEn: "Maleka", isDeceased: false, generation: 6 },
+                                                { id: "hima", nameBn: "হিমা", nameEn: "Hima", isDeceased: false, generation: 6 },
+                                                { id: "nima", nameBn: "নিমা", nameEn: "Nima", isDeceased: false, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "jolil",
-                                            name: "জলিল সর্দার",
+                                            nameBn: "জলিল সর্দার",
+                                            nameEn: "Jolil Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "mannan", name: "মান্নান সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "sadhu_b", name: "সাধু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "modhu_b", name: "মধু সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "anura_d", name: "আনুরা", isDeceased: true, generation: 6 },
-                                                { id: "nahera", name: "নাহেরা", isDeceased: false, generation: 6 },
-                                                { id: "fonuyara_d", name: "ফনুয়ারা", isDeceased: true, generation: 6 }
+                                                { id: "mannan", nameBn: "মান্নান সর্দার", nameEn: "Mannan Sardar", isDeceased: false, generation: 6 },
+                                                { id: "sadhu_b", nameBn: "সাধু সর্দার", nameEn: "Sadhu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "modhu_b", nameBn: "মধু সর্দার", nameEn: "Modhu Sardar", isDeceased: false, generation: 6 },
+                                                { id: "anura_d", nameBn: "আনুরা", nameEn: "Anura", isDeceased: true, generation: 6 },
+                                                { id: "nahera", nameBn: "নাহেরা", nameEn: "Nahera", isDeceased: false, generation: 6 },
+                                                { id: "fonuyara_d", nameBn: "ফনুয়ারা", nameEn: "Fonuyara", isDeceased: true, generation: 6 }
                                             ]
                                         },
                                         {
                                             id: "mohir",
-                                            name: "মহীর উদ্দিন সর্দার",
+                                            nameBn: "মহীর উদ্দিন সর্দার",
+                                            nameEn: "Mohir Uddin Sardar",
                                             isDeceased: false,
                                             generation: 5,
                                             children: [
-                                                { id: "koresh", name: "কামরুজ্জামান করেশ", isDeceased: false, generation: 6 },
-                                                { id: "shofikul", name: "শফিকুল সর্দার", isDeceased: false, generation: 6 },
-                                                { id: "nasima", name: "নাসিমা", isDeceased: false, generation: 6 },
-                                                { id: "modon", name: "মদন", isDeceased: false, generation: 6 },
-                                                { id: "laki", name: "লাকি", isDeceased: false, generation: 6 },
-                                                { id: "roksana", name: "রোকসানা", isDeceased: false, generation: 6 }
+                                                { id: "koresh", nameBn: "কামরুজ্জামান করেশ", nameEn: "Kamruzzaman Koresh", isDeceased: false, generation: 6 },
+                                                { id: "shofikul", nameBn: "শফিকুল সর্দার", nameEn: "Shofikul Sardar", isDeceased: false, generation: 6 },
+                                                { id: "nasima", nameBn: "নাসিমা", nameEn: "Nasima", isDeceased: false, generation: 6 },
+                                                { id: "modon", nameBn: "মদন", nameEn: "Modon", isDeceased: false, generation: 6 },
+                                                { id: "laki", nameBn: "লাকি", nameEn: "Laki", isDeceased: false, generation: 6 },
+                                                { id: "roksana", nameBn: "রোকসানা", nameEn: "Roksana", isDeceased: false, generation: 6 }
                                             ]
                                         },
-                                        { id: "parijan", name: "পরিজান", isDeceased: false, generation: 5 },
-                                        { id: "jomela", name: "জমেলা", isDeceased: false, generation: 5 }
+                                        { id: "parijan", nameBn: "পরিজান", nameEn: "Parijan", isDeceased: false, generation: 5 },
+                                        { id: "jomela", nameBn: "জমেলা", nameEn: "Jomela", isDeceased: false, generation: 5 }
                                     ]
                                 },
-                                { id: "bhugol", name: "ভুগল সর্দার", isDeceased: false, generation: 4 },
-                                { id: "koser", name: "কসের সর্দার", isDeceased: false, generation: 4 },
-                                { id: "iman_ali", name: "ইমান আলী সর্দার", isDeceased: false, generation: 4 },
-                                { id: "salejan", name: "সালেজান", isDeceased: false, generation: 4 }
+                                { id: "bhugol", nameBn: "ভুগল সর্দার", nameEn: "Bhugol Sardar", isDeceased: false, generation: 4 },
+                                { id: "koser", nameBn: "কসের সর্দার", nameEn: "Koser Sardar", isDeceased: false, generation: 4 },
+                                { id: "iman_ali", nameBn: "ইমান আলী সর্দার", nameEn: "Iman Ali Sardar", isDeceased: false, generation: 4 },
+                                { id: "salejan", nameBn: "সালেজান", nameEn: "Salejan", isDeceased: false, generation: 4 }
                             ]
                         }
                     ]
@@ -881,7 +919,7 @@
             renderCurrentTree();
             setupSearch();
             setupModalEvents();
-            setupZoomTree();
+            setupPannableZoomTree();
 
             document.getElementById('backBtn').addEventListener('click', () => {
                 currentRootNode = familyData;
@@ -898,10 +936,7 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        /* 
-           Paginated Navigation Tree Renderer:
-           Shows 1st & 2nd Generations Horizontal, then links to subtrees.
-        */
+        /* Paginated Navigation Tree Renderer */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
@@ -914,11 +949,11 @@
             if (hasChildren) {
                 if (currentRootNode.id === "padmashi" && (node.id === "isu" || node.id === "kesu")) {
                     linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
-                        👉 ${node.name}-এর বংশধারা দেখুন
+                        👉 ${node.nameBn}-এর শাখা
                     </button>`;
                 } else if (currentRootNode.id !== "padmashi" && currentDepth >= 1) {
                     linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
-                        👉 ${node.name}-এর বংশধারা দেখুন
+                        👉 ${node.nameBn}-এর শাখা
                     </button>`;
                 }
             }
@@ -940,7 +975,8 @@
             return `
                 <li>
                     <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
-                        <div class="member-name">${node.name} ${deceasedBadge}</div>
+                        <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
+                        <div class="member-name-en">${node.nameEn}</div>
                         ${linkBtn}
                     </div>
                     ${childrenHTML}
@@ -959,7 +995,7 @@
                 backBtn.style.display = 'none';
                 overviewBox.style.display = 'flex';
             } else {
-                breadcrumb.textContent = `📍 আলাদা বংশধারা শাখা পেজ: ${currentRootNode.name}`;
+                breadcrumb.textContent = `📍 আলাদা বংশধারা শাখা পেজ: ${currentRootNode.nameBn} (${currentRootNode.nameEn})`;
                 backBtn.style.display = 'inline-flex';
                 overviewBox.style.display = 'none';
             }
@@ -981,7 +1017,7 @@
             const memberObj = findMemberById(familyData, id);
             const parentObj = findParentById(familyData, id);
             if (memberObj) {
-                showMemberDetailsModal(memberObj, parentObj ? parentObj.name : 'মূল পিতা/পূর্বপুরুষ');
+                showMemberDetailsModal(memberObj, parentObj ? `${parentObj.nameBn} (${parentObj.nameEn})` : 'মূল পিতা/পূর্বপুরুষ');
             }
         }
 
@@ -1009,14 +1045,15 @@
 
         function showMemberDetailsModal(member, parentName = 'N/A') {
             const modal = document.getElementById('memberModal');
-            document.getElementById('modalName').textContent = member.name;
+            document.getElementById('modalNameBn').textContent = member.nameBn;
+            document.getElementById('modalNameEn').textContent = member.nameEn;
             
             const badge = document.getElementById('modalStatusBadge');
             if (member.isDeceased) {
-                badge.textContent = 'মৃত';
+                badge.textContent = 'মৃত (Deceased)';
                 badge.className = 'status-badge deceased';
             } else {
-                badge.textContent = 'জীবিত';
+                badge.textContent = 'জীবিত (Alive)';
                 badge.className = 'status-badge';
             }
 
@@ -1029,11 +1066,7 @@
             modal.style.display = 'flex';
         }
 
-        /* 
-           NEW HYBRID TREE GENERATOR:
-           Top Generations (1 to 4): HORIZONTAL
-           Deeper Dense Generations (5+): VERTICAL BRANCH
-        */
+        /* Hybrid Tree Layout Generator */
         function renderHybridFullTree(node) {
             if (!node) return '';
 
@@ -1041,7 +1074,6 @@
             const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
             const hasChildren = node.children && node.children.length > 0;
 
-            // Switch layout to vertical list for 5th generation and below
             if (node.generation >= 5) {
                 let childrenVerticalHTML = '';
                 if (hasChildren) {
@@ -1052,14 +1084,14 @@
                 return `
                     <div class="v-leaf-item">
                         <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
-                            <div class="member-name">${node.name} ${deceasedBadge}</div>
+                            <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
+                            <div class="member-name-en">${node.nameEn}</div>
                         </div>
                         ${childrenVerticalHTML}
                     </div>
                 `;
             }
 
-            // Top generations remain HORIZONTAL
             let childrenHorizontalHTML = '';
             if (hasChildren) {
                 const childNodes = node.children.map(child => renderHybridFullTree(child)).join('');
@@ -1069,47 +1101,99 @@
             return `
                 <li>
                     <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
-                        <div class="member-name">${node.name} ${deceasedBadge}</div>
+                        <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
+                        <div class="member-name-en">${node.nameEn}</div>
                     </div>
                     ${childrenHorizontalHTML}
                 </li>
             `;
         }
 
-        /* Zoom and PDF Modal Logic */
+        /* Advanced Pan & Zoom Logic for Easy Dragging */
         let zoomScale = 0.75;
+        let pointX = 50;
+        let pointY = 50;
+        let startX = 0;
+        let startY = 0;
+        let isPanning = false;
+
         function openZoomTreeModal() {
             const zoomModal = document.getElementById('zoomModal');
             const zoomContent = document.getElementById('zoomContent');
             zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderHybridFullTree(familyData)}</ul></div>`;
             zoomModal.style.display = 'flex';
+            
+            // Reset position & scale
             zoomScale = 0.75;
-            applyZoom();
+            pointX = 50;
+            pointY = 50;
+            updateTransform();
         }
 
-        function setupZoomTree() {
-            const closeBtn = document.getElementById('zoomCloseBtn');
-            const zoomModal = document.getElementById('zoomModal');
-            const zoomViewport = document.getElementById('zoomViewport');
+        function updateTransform() {
+            const zoomContent = document.getElementById('zoomContent');
+            zoomContent.style.transform = `translate(${pointX}px, ${pointY}px) scale(${zoomScale})`;
+        }
 
-            closeBtn.addEventListener('click', () => {
+        function setupPannableZoomTree() {
+            const zoomViewport = document.getElementById('zoomViewport');
+            const zoomModal = document.getElementById('zoomModal');
+
+            document.getElementById('zoomCloseBtn').addEventListener('click', () => {
                 zoomModal.style.display = 'none';
             });
 
             document.getElementById('zoomInBtn').addEventListener('click', () => {
                 zoomScale = Math.min(zoomScale + 0.15, 2.5);
-                applyZoom();
+                updateTransform();
             });
 
             document.getElementById('zoomOutBtn').addEventListener('click', () => {
                 zoomScale = Math.max(zoomScale - 0.15, 0.2);
-                applyZoom();
+                updateTransform();
             });
 
             document.getElementById('zoomResetBtn').addEventListener('click', () => {
                 zoomScale = 0.75;
-                applyZoom();
+                pointX = 50;
+                pointY = 50;
+                updateTransform();
             });
+
+            // Mouse Drag & Touch Pan Events
+            const startPan = (e) => {
+                isPanning = true;
+                startX = (e.clientX || e.touches[0].clientX) - pointX;
+                startY = (e.clientY || e.touches[0].clientY) - pointY;
+            };
+
+            const doPan = (e) => {
+                if (!isPanning) return;
+                e.preventDefault();
+                pointX = (e.clientX || e.touches[0].clientX) - startX;
+                pointY = (e.clientY || e.touches[0].clientY) - startY;
+                updateTransform();
+            };
+
+            const stopPan = () => {
+                isPanning = false;
+            };
+
+            zoomViewport.addEventListener('mousedown', startPan);
+            window.addEventListener('mousemove', doPan);
+            window.addEventListener('mouseup', stopPan);
+
+            zoomViewport.addEventListener('touchstart', startPan, { passive: true });
+            window.addEventListener('touchmove', doPan, { passive: false });
+            window.addEventListener('touchend', stopPan);
+
+            // Wheel Zooming
+            zoomViewport.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY < 0 ? 0.08 : -0.08;
+                zoomScale = Math.min(Math.max(0.2, zoomScale + delta), 2.5);
+                updateTransform();
+            }, { passive: false });
 
             // PDF Download Action
             document.getElementById('downloadPdfBtn').addEventListener('click', () => {
@@ -1123,30 +1207,16 @@
                 };
                 html2pdf().set(opt).from(element).save();
             });
-
-            zoomViewport.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                if (e.deltaY < 0) {
-                    zoomScale = Math.min(zoomScale + 0.08, 2.5);
-                } else {
-                    zoomScale = Math.max(zoomScale - 0.08, 0.2);
-                }
-                applyZoom();
-            }, { passive: false });
         }
 
-        function applyZoom() {
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.style.transform = `scale(${zoomScale})`;
-        }
-
+        /* Bilingual Search Implementation */
         function setupSearch() {
             const searchInput = document.getElementById('searchInput');
             const searchBtn = document.getElementById('searchBtn');
             const searchResults = document.getElementById('searchResults');
 
             const performSearch = () => {
-                const query = searchInput.value.trim();
+                const query = searchInput.value.trim().toLowerCase();
                 searchResults.innerHTML = '';
                 
                 if (!query) {
@@ -1162,7 +1232,7 @@
                     matches.forEach(item => {
                         const div = document.createElement('div');
                         div.className = 'search-result-item';
-                        div.textContent = item.name;
+                        div.innerHTML = `<strong>${item.nameBn}</strong> <span style="color:#666; font-size:0.78rem;">(${item.nameEn})</span>`;
                         div.addEventListener('click', () => {
                             const parent = findParentById(familyData, item.id);
                             if (parent && parent.children && parent.children.length > 0) {
@@ -1183,7 +1253,7 @@
                     });
                 } else {
                     searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি</div>';
+                    searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি / No member found</div>';
                 }
             };
 
@@ -1199,7 +1269,10 @@
 
         function searchMembersRecursive(node, query, results) {
             if (!node) return;
-            if (node.name.includes(query)) {
+            const matchBn = node.nameBn.toLowerCase().includes(query);
+            const matchEn = node.nameEn.toLowerCase().includes(query);
+            
+            if (matchBn || matchEn) {
                 results.push(node);
             }
             if (node.children) {
