@@ -25,7 +25,7 @@
             flex-direction: column;
         }
 
-        /* Header Navigation Styles */
+        /* Header Navigation */
         .app-header {
             background-color: #1e3d2f;
             color: #ffffff;
@@ -53,10 +53,30 @@
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        /* Search Box Styles */
+        .full-tree-btn {
+            background-color: #d69e2e;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .full-tree-btn:hover {
+            background-color: #b7791f;
+        }
+
+        /* Search Box */
         .search-box {
             position: relative;
             display: flex;
@@ -70,7 +90,7 @@
             outline: none;
             font-size: 0.85rem;
             font-family: inherit;
-            width: 160px;
+            width: 150px;
         }
 
         .search-box button {
@@ -114,7 +134,7 @@
             background-color: #f0f0f0;
         }
 
-        /* Navigation Breadcrumbs Banner */
+        /* Breadcrumb Bar */
         .nav-banner {
             background-color: #e2e8f0;
             padding: 10px 24px;
@@ -125,8 +145,8 @@
         }
 
         .breadcrumb {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             color: #2d3748;
         }
 
@@ -148,17 +168,17 @@
             background-color: #2c7a7b;
         }
 
-        /* Viewport Container */
+        /* Tree Viewport */
         .tree-viewport {
             flex: 1;
-            padding: 20px;
+            padding: 30px 20px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             overflow-x: auto;
         }
 
-        /* Tree Structure Styles */
+        /* Tree Structure CSS */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -172,7 +192,7 @@
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 8px 0 8px;
+            padding: 20px 10px 0 10px;
         }
 
         .tf-tree li::before, .tf-tree li::after {
@@ -227,15 +247,15 @@
             border: 2px solid #2f855a;
             background-color: #ffffff;
             color: #2d3748;
-            padding: 10px 14px;
+            padding: 10px 16px;
             display: inline-block;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             position: relative;
             box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            min-width: 120px;
-            max-width: 200px;
+            min-width: 140px;
+            max-width: 220px;
         }
 
         .member-card.deceased {
@@ -252,22 +272,22 @@
 
         /* Sub-Tree Navigation Link Button */
         .sub-tree-link {
-            margin-top: 8px;
+            margin-top: 10px;
             display: block;
-            background-color: #ebf8ff;
-            color: #2b6cb0;
-            border: 1px solid #90cdf4;
-            padding: 4px 8px;
+            background-color: #2b6cb0;
+            color: #ffffff;
+            border: none;
+            padding: 6px 10px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s;
+            font-weight: 600;
         }
 
         .sub-tree-link:hover {
-            background-color: #bee3f8;
-            color: #2c5282;
+            background-color: #2c5282;
         }
 
         .member-highlight {
@@ -276,7 +296,88 @@
             box-shadow: 0 0 12px rgba(214, 158, 46, 0.6) !important;
         }
 
-        /* Modal Popup Styles */
+        /* Zoom Modal Overlay */
+        .zoom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            flex-direction: column;
+            z-index: 2000;
+        }
+
+        .zoom-modal-header {
+            background: #1e3d2f;
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .zoom-modal-header h2 {
+            font-size: 1.1rem;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .zoom-btn {
+            background: #38a169;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .zoom-btn:hover {
+            background: #2f855a;
+        }
+
+        .zoom-close-btn {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .zoom-viewport {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+            cursor: grab;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+        }
+
+        .zoom-viewport:active {
+            cursor: grabbing;
+        }
+
+        .zoom-content {
+            transform-origin: 0 0;
+            transition: transform 0.1s ease-out;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Standard Modal Popup */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -287,7 +388,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 3000;
         }
 
         .modal-content {
@@ -353,6 +454,9 @@
         </div>
         
         <div class="header-controls">
+            <!-- Full Interactive Zoom Tree Button -->
+            <button class="full-tree-btn" id="openZoomTreeBtn">🔍 সম্পূর্ণ ট্রি জুম করে দেখুন</button>
+
             <!-- Search Box -->
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="সদস্যের নাম খুঁজুন..." autocomplete="off">
@@ -364,14 +468,30 @@
 
     <!-- Sub-tree Navigation Banner -->
     <div class="nav-banner">
-        <div class="breadcrumb" id="breadcrumbText">📍 মূল বংশধারা: পদ্মাশী সর্দার</div>
-        <button class="back-btn" id="backBtn">⬅ মূল ট্রিতে ফিরে যান</button>
+        <div class="breadcrumb" id="breadcrumbText">📍 প্রথম পেজ: পদ্মাশী সর্দার থেকে ইসু ও কেসু সর্দার পর্যন্ত</div>
+        <button class="back-btn" id="backBtn">⬅ মূল হোমে ফিরে যান</button>
     </div>
 
-    <!-- Tree Viewport Container -->
+    <!-- Main Tree Viewport Container -->
     <main class="tree-viewport">
         <div id="treeContainer"></div>
     </main>
+
+    <!-- Interactive Zoomable Full Tree Modal -->
+    <div id="zoomModal" class="zoom-modal-overlay">
+        <div class="zoom-modal-header">
+            <h2>🔍 পদ্মাশী সর্দারের সম্পুর্ণ ইন্টারেক্টিভ ফ্যামিলি ট্রি (High Resolution)</h2>
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
+                <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
+                <button class="zoom-btn" id="zoomResetBtn">🔄 রিসেট</button>
+                <button class="zoom-close-btn" id="zoomCloseBtn">✖ বন্ধ করুন</button>
+            </div>
+        </div>
+        <div class="zoom-viewport" id="zoomViewport">
+            <div class="zoom-content" id="zoomContent"></div>
+        </div>
+    </div>
 
     <!-- Member Details Modal -->
     <div id="memberModal" class="modal-overlay">
@@ -389,7 +509,7 @@
         </div>
     </div>
 
-    <!-- Data and Navigation Logic -->
+    <!-- JavaScript Data and Logic -->
     <script>
         const familyData = {
             id: "padmashi",
@@ -666,6 +786,7 @@
             renderCurrentTree();
             setupSearch();
             setupModalEvents();
+            setupZoomTree();
 
             document.getElementById('backBtn').addEventListener('click', () => {
                 currentRootNode = familyData;
@@ -678,8 +799,11 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        /* Render tree with maximum 2 levels depth per page for crisp fit */
-        function renderNodeHTML(node, depth = 0) {
+        /* Paginated View rendering:
+           If at Home Page (padmashi), show ONLY up to Isu and Kesu (Depth 2).
+           Else show current subtree up to 2 generations with navigation link to next level.
+        */
+        function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
             const deceasedClass = node.isDeceased ? 'deceased' : '';
@@ -687,16 +811,31 @@
             const hasChildren = node.children && node.children.length > 0;
 
             let linkBtn = '';
-            // If has children and depth limit reached (2 levels), show button to view subtree
-            if (hasChildren && depth >= 1) {
-                linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
-                    👉 ${node.name}-এর বংশধারা দেখুন
-                </button>`;
+
+            // Check if node has children and is at boundary to create a new page link
+            if (hasChildren) {
+                if (currentRootNode.id === "padmashi" && (node.id === "isu" || node.id === "kesu")) {
+                    linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
+                        👉 ${node.name}-এর সম্পূর্ণ বংশধারার পেজে যেতে ক্লিক করুন
+                    </button>`;
+                } else if (currentRootNode.id !== "padmashi" && currentDepth >= 1) {
+                    linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
+                        👉 ${node.name}-এর পরবর্তী বংশধরের পেজে যেতে ক্লিক করুন
+                    </button>`;
+                }
             }
 
             let childrenHTML = '';
-            if (hasChildren && depth < 1) {
-                const childNodes = node.children.map(child => renderNodeHTML(child, depth + 1)).join('');
+            // Render children if within limit
+            let allowRenderChildren = false;
+            if (currentRootNode.id === "padmashi" && currentDepth < 2) {
+                allowRenderChildren = true;
+            } else if (currentRootNode.id !== "padmashi" && currentDepth < 1) {
+                allowRenderChildren = true;
+            }
+
+            if (hasChildren && allowRenderChildren) {
+                const childNodes = node.children.map(child => renderNodeHTML(child, currentDepth + 1)).join('');
                 childrenHTML = `<ul>${childNodes}</ul>`;
             }
 
@@ -717,10 +856,10 @@
             const backBtn = document.getElementById('backBtn');
 
             if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 মূল বংশধারা: পদ্মাশী সর্দার';
+                breadcrumb.textContent = '📍 প্রথম পেজ: পদ্মাশী সর্দার থেকে শুরু করে ঈসা ও কিসু সর্দার পর্যন্ত';
                 backBtn.style.display = 'none';
             } else {
-                breadcrumb.textContent = `📍 পৃথক বংশধারা শাখা: ${currentRootNode.name}`;
+                breadcrumb.textContent = `📍 আলাদা বংশধারা শাখা পেজ: ${currentRootNode.name}`;
                 backBtn.style.display = 'inline-flex';
             }
 
@@ -789,6 +928,81 @@
             modal.style.display = 'flex';
         }
 
+        /* Render Full Unbounded Tree for Zoom View */
+        function renderFullUnboundedTree(node) {
+            if (!node) return '';
+
+            const deceasedClass = node.isDeceased ? 'deceased' : '';
+            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
+            const hasChildren = node.children && node.children.length > 0;
+
+            let childrenHTML = '';
+            if (hasChildren) {
+                const childNodes = node.children.map(child => renderFullUnboundedTree(child)).join('');
+                childrenHTML = `<ul>${childNodes}</ul>`;
+            }
+
+            return `
+                <li>
+                    <div class="member-card ${deceasedClass}" data-id="${node.id}">
+                        <div class="member-name">${node.name} ${deceasedBadge}</div>
+                    </div>
+                    ${childrenHTML}
+                </li>
+            `;
+        }
+
+        /* Interactive Zoom Modal Logic */
+        let zoomScale = 0.8;
+        function setupZoomTree() {
+            const openBtn = document.getElementById('openZoomTreeBtn');
+            const closeBtn = document.getElementById('zoomCloseBtn');
+            const zoomModal = document.getElementById('zoomModal');
+            const zoomContent = document.getElementById('zoomContent');
+            const zoomViewport = document.getElementById('zoomViewport');
+
+            openBtn.addEventListener('click', () => {
+                zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullUnboundedTree(familyData)}</ul></div>`;
+                zoomModal.style.display = 'flex';
+                zoomScale = 0.75;
+                applyZoom();
+            });
+
+            closeBtn.addEventListener('click', () => {
+                zoomModal.style.display = 'none';
+            });
+
+            document.getElementById('zoomInBtn').addEventListener('click', () => {
+                zoomScale = Math.min(zoomScale + 0.15, 2.5);
+                applyZoom();
+            });
+
+            document.getElementById('zoomOutBtn').addEventListener('click', () => {
+                zoomScale = Math.max(zoomScale - 0.15, 0.2);
+                applyZoom();
+            });
+
+            document.getElementById('zoomResetBtn').addEventListener('click', () => {
+                zoomScale = 0.75;
+                applyZoom();
+            });
+
+            zoomViewport.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    zoomScale = Math.min(zoomScale + 0.08, 2.5);
+                } else {
+                    zoomScale = Math.max(zoomScale - 0.08, 0.2);
+                }
+                applyZoom();
+            }, { passive: false });
+        }
+
+        function applyZoom() {
+            const zoomContent = document.getElementById('zoomContent');
+            zoomContent.style.transform = `scale(${zoomScale})`;
+        }
+
         function setupSearch() {
             const searchInput = document.getElementById('searchInput');
             const searchBtn = document.getElementById('searchBtn');
@@ -813,7 +1027,6 @@
                         div.className = 'search-result-item';
                         div.textContent = item.name;
                         div.addEventListener('click', () => {
-                            // Find parent branch and navigate there
                             const parent = findParentById(familyData, item.id);
                             if (parent && parent.children && parent.children.length > 0) {
                                 currentRootNode = parent;
@@ -860,7 +1073,6 @@
         function highlightAndFocusMember(id) {
             document.querySelectorAll('.member-card').forEach(c => c.classList.remove('member-highlight'));
             const targetCard = document.querySelector(`.member-card[data-id="${id}"]`);
-            
             if (targetCard) {
                 targetCard.classList.add('member-highlight');
             }
