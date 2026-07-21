@@ -212,7 +212,7 @@
             overflow-x: auto;
         }
 
-        /* Tree Structure Styling */
+        /* Traditional Horizontal Tree (For paginated view) */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -276,20 +276,56 @@
             height: 20px;
         }
 
+        /* NEW: Vertical Compact Layout for Full Tree Modal */
+        .v-tree-container {
+            font-family: inherit;
+            padding: 20px;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .v-node {
+            position: relative;
+            margin-left: 24px;
+            padding-left: 16px;
+            border-left: 2px solid #2b6cb0;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .v-node::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 0;
+            width: 14px;
+            height: 2px;
+            background-color: #2b6cb0;
+        }
+
+        .v-root {
+            margin-left: 0 !important;
+            border-left: none !important;
+        }
+
+        .v-root::before {
+            display: none !important;
+        }
+
         /* Member Card Design */
         .member-card {
             border: 2px solid #2f855a;
             background-color: #ffffff;
             color: #2d3748;
-            padding: 10px 16px;
+            padding: 8px 14px;
             display: inline-block;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             position: relative;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            min-width: 140px;
-            max-width: 220px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+            min-width: 130px;
+            max-width: 240px;
         }
 
         .member-card.deceased {
@@ -304,16 +340,15 @@
             margin-left: 4px;
         }
 
-        /* Branch Navigation Link Button */
         .sub-tree-link {
-            margin-top: 10px;
+            margin-top: 8px;
             display: block;
             background-color: #2b6cb0;
             color: #ffffff;
             border: none;
-            padding: 6px 10px;
+            padding: 5px 8px;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s;
@@ -330,7 +365,7 @@
             box-shadow: 0 0 12px rgba(214, 158, 46, 0.6) !important;
         }
 
-        /* Zoom Full-Screen Modal Overlay */
+        /* Zoom Modal Overlay */
         .zoom-modal-overlay {
             position: fixed;
             top: 0;
@@ -408,7 +443,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 50px;
+            padding: 30px;
         }
 
         .zoom-viewport:active {
@@ -419,9 +454,10 @@
             transform-origin: top center;
             transition: transform 0.1s ease-out;
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 95vw;
         }
 
         /* Member Info Modal */
@@ -514,8 +550,8 @@
     <div class="overview-card-container" id="overviewCardContainer">
         <div class="overview-box" id="openZoomTreeBox">
             <div class="overview-info">
-                <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (Interactive Full Tree)</h3>
-                <p>সমগ্র ফ্যামিলি ট্রি একসাথে দেখতে, জুম করতে অথবা PDF ডাউনলোড করতে এখানে ক্লিক করুন</p>
+                <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (Interactive Compact Tree)</h3>
+                <p>সমগ্র ফ্যামিলি ট্রি অল্প জায়গায় উপর-নিচ উলম্ব আকারে দেখতে, জুম করতে বা PDF নিতে ক্লিক করুন</p>
             </div>
             <button class="overview-btn">সম্পূর্ণ ট্রি দেখুন 🔍</button>
         </div>
@@ -532,10 +568,10 @@
         <div id="treeContainer"></div>
     </main>
 
-    <!-- Full Interactive Zoomable Tree Modal -->
+    <!-- Full Interactive Compact Zoomable Tree Modal -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 পদ্মাশী সর্দারের সম্পূর্ণ ফ্যামিলি ট্রি</h2>
+            <h2>🔍 পদ্মাশী সর্দারের সম্পূর্ণ ফ্যামিলি ট্রি (কম্প্যাক্ট লেআউট)</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
@@ -859,11 +895,7 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        /* 
-           Paginated Tree Generator:
-           Home Page: Shows Padmaishi -> Akali -> Isu & Kesu with links to their subtrees.
-           Subsequent Pages: Shows clicked root node and its descendants up to 2 generations.
-        */
+        /* Standard Navigation Tree HTML Renderer */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
@@ -873,7 +905,6 @@
 
             let linkBtn = '';
 
-            // Handle links for branch switching
             if (hasChildren) {
                 if (currentRootNode.id === "padmashi" && (node.id === "isu" || node.id === "kesu")) {
                     linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
@@ -992,8 +1023,8 @@
             modal.style.display = 'flex';
         }
 
-        /* Unbounded Tree Rendering for Full Interactive Zoom Canvas */
-        function renderFullUnboundedTree(node) {
+        /* NEW: Compact Vertical Tree Generator for Minimal Width Usage */
+        function renderCompactVerticalTree(node, isRoot = false) {
             if (!node) return '';
 
             const deceasedClass = node.isDeceased ? 'deceased' : '';
@@ -1002,28 +1033,30 @@
 
             let childrenHTML = '';
             if (hasChildren) {
-                const childNodes = node.children.map(child => renderFullUnboundedTree(child)).join('');
-                childrenHTML = `<ul>${childNodes}</ul>`;
+                const childNodes = node.children.map(child => renderCompactVerticalTree(child, false)).join('');
+                childrenHTML = `<div class="v-children-group">${childNodes}</div>`;
             }
 
+            const rootClass = isRoot ? 'v-root' : '';
+
             return `
-                <li>
-                    <div class="member-card ${deceasedClass}" data-id="${node.id}">
+                <div class="v-node ${rootClass}">
+                    <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
                         <div class="member-name">${node.name} ${deceasedBadge}</div>
                     </div>
                     ${childrenHTML}
-                </li>
+                </div>
             `;
         }
 
         /* Zoom and PDF Modal Logic */
-        let zoomScale = 0.65;
+        let zoomScale = 0.9;
         function openZoomTreeModal() {
             const zoomModal = document.getElementById('zoomModal');
             const zoomContent = document.getElementById('zoomContent');
-            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullUnboundedTree(familyData)}</ul></div>`;
+            zoomContent.innerHTML = `<div class="v-tree-container">${renderCompactVerticalTree(familyData, true)}</div>`;
             zoomModal.style.display = 'flex';
-            zoomScale = 0.65;
+            zoomScale = 0.9;
             applyZoom();
         }
 
@@ -1042,12 +1075,12 @@
             });
 
             document.getElementById('zoomOutBtn').addEventListener('click', () => {
-                zoomScale = Math.max(zoomScale - 0.15, 0.15);
+                zoomScale = Math.max(zoomScale - 0.15, 0.2);
                 applyZoom();
             });
 
             document.getElementById('zoomResetBtn').addEventListener('click', () => {
-                zoomScale = 0.65;
+                zoomScale = 0.9;
                 applyZoom();
             });
 
@@ -1055,11 +1088,11 @@
             document.getElementById('downloadPdfBtn').addEventListener('click', () => {
                 const element = document.getElementById('zoomContent');
                 const opt = {
-                    margin:       0.2,
+                    margin:       0.3,
                     filename:     'পদ্মাশী_সর্দারের_বংশধারা.pdf',
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { scale: 2 },
-                    jsPDF:        { unit: 'in', format: 'a2', orientation: 'landscape' }
+                    jsPDF:        { unit: 'in', format: 'a3', orientation: 'portrait' }
                 };
                 html2pdf().set(opt).from(element).save();
             });
@@ -1069,7 +1102,7 @@
                 if (e.deltaY < 0) {
                     zoomScale = Math.min(zoomScale + 0.08, 2.5);
                 } else {
-                    zoomScale = Math.max(zoomScale - 0.08, 0.15);
+                    zoomScale = Math.max(zoomScale - 0.08, 0.2);
                 }
                 applyZoom();
             }, { passive: false });
