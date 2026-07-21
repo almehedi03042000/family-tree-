@@ -202,49 +202,47 @@ function createTreeNode(member){
         return "";
     }
 
-    let children=[];
+    let children = [];
 
     if(
-        member.gender==="male" &&
+        member.gender === "male" &&
         Array.isArray(member.children)
     ){
-
-        children=member.children
-            .map(id=>getMember(id))
+        children = member.children
+            .map(id => getMember(id))
             .filter(Boolean);
-
     }
 
-    return `
+    let html = `
+        <div class="tree-node">
 
-<div class="tree-node">
+            ${createMemberCard(member)}
+    `;
 
-    ${createMemberCard(member)}
+    if(children.length){
 
-    ${
-        children.length>0
-        ?
-        `
-        <div class="tree-children">
-
+        html += `
             <div class="tree-line"></div>
 
-            <div class="children-row">
+            <div class="children-wrapper">
 
-                ${children.map(child=>createTreeNode(child)).join("")}
+                <div class="children-line"></div>
+
+                <div class="children-row">
+
+                    ${children.map(child=>createTreeNode(child)).join("")}
+
+                </div>
 
             </div>
-
-        </div>
-        `
-        :
-        ""
+        `;
     }
 
-</div>
+    html += `
+        </div>
+    `;
 
-`;
-
+    return html;
 }
 
 /* ==========================================
