@@ -213,32 +213,38 @@ function createTreeNode(member){
             .filter(Boolean);
     }
 
-    let html = `
-        <div class="tree-node">
+    return `
+    <div class="tree-node">
 
-            ${createMemberCard(member)}
-    `;
+        ${createMemberCard(member)}
 
-   if (children.length) {
+        ${
+            children.length
+            ? `
+                <div class="tree-line"></div>
 
-    html += `
-        <div class="tree-line"></div>
+                <div class="children-wrapper">
 
-        <div class="children-row">
+                    <div class="children-line"></div>
 
-            ${children.map(child => createTreeNode(child)).join("")}
+                    <div class="children-row">
 
-        </div>
+                        ${children.map(child => `
+                            <div class="child-item">
+                                ${createTreeNode(child)}
+                            </div>
+                        `).join("")}
+
+                    </div>
+
+                </div>
+            `
+            : ""
+        }
+
+    </div>
     `;
 }
-
-    html += `
-        </div>
-    `;
-
-    return html;
-}
-
 /* ==========================================
    TREE BUILDER
 ========================================== */
