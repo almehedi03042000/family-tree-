@@ -490,23 +490,20 @@ TREE AREA
     justify-content:center;
     align-items:flex-start;
     width:max-content;
-    min-width:100%;
     margin:auto;
     padding:40px;
     transform-origin:top center;
     transition:transform .25s ease;
 }
-
 /* ==========================================
 TREE
 ========================================== */
-
 .tree-node{
-    position:relative;
-    display:flex;
+    display:inline-flex;
     flex-direction:column;
     align-items:center;
-    margin:0 25px;
+    position:relative;
+    margin:0 20px;
 }
 
 .tree-line{
@@ -515,22 +512,29 @@ TREE
     background:#00d26a;
 }
 
+.children-wrapper{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:0;
+}
+
+.children-line{
+    width:100%;
+    height:2px;
+    background:#00d26a;
+}
+
 .children-row{
     display:flex;
     justify-content:center;
-    gap:50px;
-    position:relative;
-    padding-top:30px;
+    align-items:flex-start;
+    gap:40px;
+    margin-top:0;
 }
 
-.children-row::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:40px;
-    right:40px;
-    height:2px;
-    background:#00d26a;
+.children-row>.tree-node{
+    position:relative;
 }
 
 .children-row>.tree-node::before{
