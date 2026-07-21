@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>শেকড় - পদ্মাশী সর্দারের বংশধারা</title>
+    <title>শেকড় - ফ্যামিলি ট্রি</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- html2pdf Library for HD PDF Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -21,45 +21,44 @@
 
         body {
             font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            background: linear-gradient(135deg, #f0f4f3 0%, #e2eaf0 100%);
+            color: #2d3748;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Header Styles */
+        /* Premium Header Styles */
         .app-header {
-            background-color: #1e3d2f;
+            background: linear-gradient(90deg, #152e22 0%, #1e3d2f 100%);
             color: #ffffff;
-            padding: 12px 24px;
+            padding: 14px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
             z-index: 100;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 15px;
         }
 
         .header-left h1 {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
+            letter-spacing: 1px;
             color: #ffffff;
-        }
-
-        .header-left .subtitle {
-            font-size: 0.85rem;
-            color: #a3b899;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        /* Search Box */
+        /* Premium Search Box with Colored Dropdown */
         .search-box {
             position: relative;
             display: flex;
@@ -67,99 +66,123 @@
         }
 
         .search-box input {
-            padding: 6px 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px 0 0 4px;
+            padding: 8px 14px;
+            border: 1px solid #38a169;
+            border-radius: 20px 0 0 20px;
             outline: none;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-family: inherit;
-            width: 170px;
+            width: 190px;
+            background-color: #ffffff;
+            color: #2d3748;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            width: 220px;
+            border-color: #2f855a;
         }
 
         .search-box button {
-            padding: 6px 12px;
-            background-color: #38a169;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #38a169, #2f855a);
             color: white;
             border: none;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 20px 20px 0;
             cursor: pointer;
             font-family: inherit;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: background 0.3s;
         }
 
         .search-box button:hover {
-            background-color: #2f855a;
+            background: linear-gradient(135deg, #2f855a, #276749);
         }
 
         .search-results-dropdown {
             position: absolute;
-            top: 100%;
+            top: 110%;
             left: 0;
             right: 0;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 0 0 4px 4px;
-            max-height: 200px;
+            background: linear-gradient(180deg, #1e3d2f 0%, #152e22 100%);
+            border: 1px solid #38a169;
+            border-radius: 8px;
+            max-height: 230px;
             overflow-y: auto;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
             display: none;
             z-index: 101;
         }
 
         .search-result-item {
-            padding: 8px 12px;
+            padding: 10px 14px;
             cursor: pointer;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            color: #f7fafc;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: background 0.2s;
         }
 
         .search-result-item:hover {
-            background-color: #f0f0f0;
+            background-color: rgba(56, 161, 105, 0.3);
+            color: #ffffff;
         }
 
-        /* Cleaned Overview Banner Box */
+        /* Centered Premium Overview Box */
         .overview-card-container {
-            padding: 15px 24px 0 24px;
+            padding: 20px 24px 0 24px;
             display: flex;
             justify-content: center;
         }
 
         .overview-box {
-            background: linear-gradient(135deg, #1e3d2f, #2b6cb0);
+            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%);
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 500px;
-            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.25);
+            max-width: 480px;
+            box-shadow: 0 6px 18px rgba(43, 108, 176, 0.25);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .overview-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(43, 108, 176, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(43, 108, 176, 0.38);
         }
 
         .overview-box h3 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
         }
 
-        /* Navigation Banner */
+        .overview-box .click-subtext {
+            font-size: 0.8rem;
+            color: #e2e8f0;
+            margin-top: 3px;
+            opacity: 0.9;
+        }
+
+        /* Navigation Banner & Double Back/Home Controls */
         .nav-banner {
-            background-color: #e2e8f0;
-            padding: 10px 24px;
+            background: #ffffff;
+            padding: 12px 28px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #cbd5e0;
-            margin-top: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .breadcrumb {
@@ -168,35 +191,54 @@
             color: #2d3748;
         }
 
-        .back-btn {
-            background-color: #319795;
-            color: white;
-            border: none;
+        .nav-buttons-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-action-btn {
+            background: #edf2f7;
+            color: #2d3748;
+            border: 1px solid #cbd5e0;
             padding: 6px 14px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 0.85rem;
-            display: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            transition: all 0.2s;
         }
 
-        .back-btn:hover {
-            background-color: #2c7a7b;
+        .nav-action-btn:hover {
+            background: #e2e8f0;
+            border-color: #a0aec0;
         }
 
-        /* Tree Viewport */
+        .nav-action-btn.home-btn {
+            background: #319795;
+            color: white;
+            border: none;
+        }
+
+        .nav-action-btn.home-btn:hover {
+            background: #2c7a7b;
+        }
+
+        /* Main Tree Viewport */
         .tree-viewport {
             flex: 1;
-            padding: 30px 20px;
+            padding: 25px 20px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             overflow-x: auto;
         }
 
-        /* Standard Horizontal Tree Styling with SUPER BOLD & CRISP CONNECTOR LINES */
+        /* Crisp Gapless Connector Lines */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -210,10 +252,9 @@
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 8px 0 8px;
+            padding: 20px 6px 0 6px;
         }
 
-        /* Connecting Lines (Very clear and gapless) */
         .tf-tree li::before, .tf-tree li::after {
             content: '';
             position: absolute;
@@ -261,11 +302,11 @@
             height: 20px;
         }
 
-        /* Vertical Female Branch Layout inside Tree */
+        /* Compact Vertical Female Node Styling */
         .female-vertical-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
             margin-top: 15px;
             position: relative;
@@ -287,40 +328,37 @@
             z-index: 1;
         }
 
-        /* Uniform Card Design with Color Distinction for Male/Female */
+        /* Compact Card Dimension (Prevents Excessive Horizontal Width) */
         .member-card {
-            padding: 8px;
+            padding: 6px 8px;
             display: inline-flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 8px;
+            border-radius: 6px;
             position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
             
-            /* Fixed Standard Box Dimensions */
-            width: 150px;
-            min-height: 65px;
-            height: auto;
+            width: 135px; /* Compact width */
+            min-height: 58px;
             text-align: center;
             word-wrap: break-word;
             overflow: hidden;
-            user-select: none;
             cursor: pointer;
             transition: all 0.2s ease;
+            background-color: #ffffff;
         }
 
-        /* Color Schemes */
         .member-card.male {
             border: 2px solid #2b6cb0;
-            background-color: #ebf8ff;
-            color: #2b6cb0;
+            background-color: #f0f7ff;
+            color: #1a365d;
         }
 
         .member-card.female {
             border: 2px solid #d53f8c;
             background-color: #fff5f7;
-            color: #9b2c2c;
+            color: #702459;
         }
 
         .member-card.deceased {
@@ -330,14 +368,14 @@
         }
 
         .member-name-bn {
-            font-size: clamp(0.72rem, 1.8vw, 0.88rem);
+            font-size: 0.8rem;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.25;
             width: 100%;
         }
 
         .member-name-en {
-            font-size: clamp(0.62rem, 1.4vw, 0.72rem);
+            font-size: 0.68rem;
             font-weight: 500;
             color: #4a5568;
             font-family: 'Poppins', sans-serif;
@@ -346,24 +384,23 @@
         }
 
         .deceased-badge {
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             color: #e53e3e;
             display: inline-block;
             margin-left: 2px;
         }
 
         .sub-tree-link {
-            margin-top: 6px;
+            margin-top: 4px;
             display: block;
             background-color: #2b6cb0;
             color: #ffffff;
             border: none;
-            padding: 3px 6px;
+            padding: 3px 5px;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
+            transition: background 0.2s;
             font-weight: 600;
             width: 100%;
         }
@@ -378,14 +415,15 @@
             box-shadow: 0 0 12px rgba(214, 158, 46, 0.8) !important;
         }
 
-        /* Full Zoom & Pannable Canvas Modal */
+        /* Full Interactive Premium Canvas Overlay (Non-white Luxury Gradient Background) */
         .zoom-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.88);
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(5px);
             display: none;
             flex-direction: column;
             z-index: 2000;
@@ -400,10 +438,12 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .zoom-modal-header h2 {
             font-size: 1.1rem;
+            font-weight: 700;
         }
 
         .zoom-controls {
@@ -421,7 +461,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.85rem;
-            font-weight: bold;
+            font-weight: 600;
             font-family: inherit;
         }
 
@@ -444,43 +484,45 @@
             padding: 6px 14px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             font-family: inherit;
         }
 
-        /* Pannable Viewport */
+        /* Premium Styled Canvas Viewport Background */
         .zoom-viewport {
             flex: 1;
             overflow: hidden;
             position: relative;
             cursor: grab;
-            background-color: #1a202c;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
         }
 
         .zoom-viewport:active {
             cursor: grabbing;
         }
 
+        /* Luxury Off-white Textured Canvas Sheet for A4 Fitting */
         .zoom-content {
             position: absolute;
-            top: 50px;
-            left: 50px;
+            top: 40px;
+            left: 40px;
             transform-origin: 0 0;
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%);
+            padding: 35px 25px;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             transition: transform 0.05s ease-out;
+            border: 1px solid #cbd5e0;
         }
 
-        /* Details Popup Modal */
+        /* Details Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             display: none;
             justify-content: center;
             align-items: center;
@@ -488,12 +530,12 @@
         }
 
         .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 10px;
             width: 320px;
             position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
         }
 
         .modal-close {
@@ -502,27 +544,27 @@
             right: 15px;
             font-size: 1.4rem;
             cursor: pointer;
-            color: #aaa;
+            color: #a0aec0;
         }
 
         .modal-close:hover {
-            color: #000;
+            color: #1a202c;
         }
 
         .modal-header {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #edf2f7;
             padding-bottom: 8px;
             margin-bottom: 12px;
         }
 
         .modal-header h2 {
-            font-size: 1.1rem;
-            margin-bottom: 2px;
+            font-size: 1.15rem;
+            color: #1a202c;
         }
 
         .modal-header p {
             font-size: 0.85rem;
-            color: #666;
+            color: #718096;
             font-family: 'Poppins', sans-serif;
         }
 
@@ -534,6 +576,7 @@
             font-size: 0.75rem;
             display: inline-block;
             margin-top: 6px;
+            font-weight: 600;
         }
 
         .status-badge.deceased {
@@ -544,47 +587,51 @@
         .modal-body p {
             margin-bottom: 6px;
             font-size: 0.88rem;
+            color: #2d3748;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Clean Header -->
     <header class="app-header">
         <div class="header-left">
             <h1>🌳 শেকড়</h1>
-            <p class="subtitle">পদ্মাশী সর্দারের বংশধারা</p>
         </div>
         
         <div class="header-controls">
-            <!-- Bilingual Search Box -->
+            <!-- Premium Bilingual Search Box -->
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="নাম খুঁজুন / Search name..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="নাম খুঁজুন / Search..." autocomplete="off">
                 <button id="searchBtn">খুঁজুন</button>
                 <div id="searchResults" class="search-results-dropdown"></div>
             </div>
         </div>
     </header>
 
-    <!-- Clean Overview Box -->
+    <!-- Overview Banner with Click Subtext -->
     <div class="overview-card-container" id="overviewCardContainer">
         <div class="overview-box" id="openZoomTreeBox">
             <h3>📌 এক নজরে সম্পূর্ণ বংশধারা</h3>
+            <span class="click-subtext">দেখতে ক্লিক করুন</span>
         </div>
     </div>
 
-    <!-- Navigation Breadcrumb -->
+    <!-- Navigation Banner with Back & Home Buttons -->
     <div class="nav-banner">
         <div class="breadcrumb" id="breadcrumbText">📍 প্রথম পেজ: পদ্মাশী সর্দার, আকালি সর্দার, ইসু সর্দার ও কেসু সর্দার</div>
-        <button class="back-btn" id="backBtn">⬅ মূল হোমে ফিরে যান</button>
+        <div class="nav-buttons-group">
+            <button class="nav-action-btn" id="prevPageBtn" style="display: none;">⬅ আগের পেজ</button>
+            <button class="nav-action-btn home-btn" id="homeBtn" style="display: none;">🏠 মূল হোম</button>
+        </div>
     </div>
 
-    <!-- Tree Viewport Container -->
+    <!-- Main Tree Viewport Container -->
     <main class="tree-viewport">
         <div id="treeContainer"></div>
     </main>
 
-    <!-- Full Interactive Pannable & Zoomable Tree Modal -->
+    <!-- Interactive Pannable Canvas Modal with Premium Background -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
             <h2>🔍 সম্পূর্ণ ফ্যামিলি ট্রি (এক নজরে)</h2>
@@ -619,9 +666,8 @@
         </div>
     </div>
 
-    <!-- Data & Script Logic -->
+    <!-- Data & Interactive Logic -->
     <script>
-        // Family Data with Gender (male/female) Added
         const familyData = {
             id: "padmashi",
             nameBn: "পদ্মাশী সর্দার",
@@ -935,6 +981,8 @@
             ]
         };
 
+        // Navigation History Stack
+        let historyStack = [familyData];
         let currentRootNode = familyData;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -943,7 +991,18 @@
             setupModalEvents();
             setupPannableZoomTree();
 
-            document.getElementById('backBtn').addEventListener('click', () => {
+            // Previous Page Button Click
+            document.getElementById('prevPageBtn').addEventListener('click', () => {
+                if (historyStack.length > 1) {
+                    historyStack.pop(); // Remove current
+                    currentRootNode = historyStack[historyStack.length - 1];
+                    renderCurrentTree();
+                }
+            });
+
+            // Home Page Button Click
+            document.getElementById('homeBtn').addEventListener('click', () => {
+                historyStack = [familyData];
                 currentRootNode = familyData;
                 renderCurrentTree();
             });
@@ -958,7 +1017,6 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        /* Card Generator with Male/Female Styling */
         function getCardHTML(node) {
             const deceasedClass = node.isDeceased ? 'deceased' : '';
             const genderClass = node.gender === 'female' ? 'female' : 'male';
@@ -972,7 +1030,6 @@
             `;
         }
 
-        /* Paginated Navigation Tree Renderer */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
@@ -1024,16 +1081,19 @@
         function renderCurrentTree() {
             const container = document.getElementById('treeContainer');
             const breadcrumb = document.getElementById('breadcrumbText');
-            const backBtn = document.getElementById('backBtn');
+            const prevBtn = document.getElementById('prevPageBtn');
+            const homeBtn = document.getElementById('homeBtn');
             const overviewBox = document.getElementById('overviewCardContainer');
 
             if (currentRootNode.id === familyData.id) {
                 breadcrumb.textContent = '📍 প্রথম পেজ: পদ্মাশী সর্দার, আকালি সর্দার, ইসু সর্দার ও কেসু সর্দার';
-                backBtn.style.display = 'none';
+                prevBtn.style.display = 'none';
+                homeBtn.style.display = 'none';
                 overviewBox.style.display = 'flex';
             } else {
-                breadcrumb.textContent = `📍 আলাদা বংশধারা শাখা পেজ: ${currentRootNode.nameBn} (${currentRootNode.nameEn})`;
-                backBtn.style.display = 'inline-flex';
+                breadcrumb.textContent = `📍 আলাদা শাখা পেজ: ${currentRootNode.nameBn} (${currentRootNode.nameEn})`;
+                prevBtn.style.display = 'inline-flex';
+                homeBtn.style.display = 'inline-flex';
                 overviewBox.style.display = 'none';
             }
 
@@ -1045,6 +1105,7 @@
             const targetNode = findMemberById(familyData, id);
             if (targetNode) {
                 currentRootNode = targetNode;
+                historyStack.push(targetNode);
                 renderCurrentTree();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -1105,14 +1166,13 @@
             modal.style.display = 'flex';
         }
 
-        /* Smart Overview Tree Layout: Females strictly Vertical at bottom to save horizontal space */
+        /* Highly Compact A4 Tree Layout: Female vertically nested */
         function renderHybridFullTree(node) {
             if (!node) return '';
 
             const hasChildren = node.children && node.children.length > 0;
 
             if (hasChildren) {
-                // Separate Males and Females
                 const maleChildren = node.children.filter(c => c.gender !== 'female');
                 const femaleChildren = node.children.filter(c => c.gender === 'female');
 
@@ -1148,10 +1208,10 @@
             }
         }
 
-        /* Advanced Pan & Zoom Logic for Easy Dragging */
-        let zoomScale = 0.75;
-        let pointX = 50;
-        let pointY = 50;
+        /* Pannable & Zoomable Canvas Controller */
+        let zoomScale = 0.7;
+        let pointX = 40;
+        let pointY = 40;
         let startX = 0;
         let startY = 0;
         let isPanning = false;
@@ -1162,10 +1222,9 @@
             zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderHybridFullTree(familyData)}</ul></div>`;
             zoomModal.style.display = 'flex';
             
-            // Reset position & scale
-            zoomScale = 0.75;
-            pointX = 50;
-            pointY = 50;
+            zoomScale = 0.7;
+            pointX = 40;
+            pointY = 40;
             updateTransform();
         }
 
@@ -1193,13 +1252,12 @@
             });
 
             document.getElementById('zoomResetBtn').addEventListener('click', () => {
-                zoomScale = 0.75;
-                pointX = 50;
-                pointY = 50;
+                zoomScale = 0.7;
+                pointX = 40;
+                pointY = 40;
                 updateTransform();
             });
 
-            // Mouse Drag & Touch Pan Events
             const startPan = (e) => {
                 isPanning = true;
                 startX = (e.clientX || e.touches[0].clientX) - pointX;
@@ -1226,7 +1284,6 @@
             window.addEventListener('touchmove', doPan, { passive: false });
             window.addEventListener('touchend', stopPan);
 
-            // Wheel Zooming
             zoomViewport.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 const delta = e.deltaY < 0 ? 0.08 : -0.08;
@@ -1238,7 +1295,7 @@
             document.getElementById('downloadPdfBtn').addEventListener('click', () => {
                 const element = document.getElementById('zoomContent');
                 const opt = {
-                    margin:       0.3,
+                    margin:       0.2,
                     filename:     'পদ্মাশী_সর্দারের_বংশধারা.pdf',
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { scale: 2 },
@@ -1271,13 +1328,15 @@
                     matches.forEach(item => {
                         const div = document.createElement('div');
                         div.className = 'search-result-item';
-                        div.innerHTML = `<strong>${item.nameBn}</strong> <span style="color:#666; font-size:0.78rem;">(${item.nameEn})</span>`;
+                        div.innerHTML = `<strong>${item.nameBn}</strong> <span style="opacity: 0.8; font-size: 0.78rem;">(${item.nameEn})</span>`;
                         div.addEventListener('click', () => {
                             const parent = findParentById(familyData, item.id);
                             if (parent && parent.children && parent.children.length > 0) {
                                 currentRootNode = parent;
+                                historyStack.push(parent);
                             } else {
                                 currentRootNode = item;
+                                historyStack.push(item);
                             }
                             renderCurrentTree();
 
