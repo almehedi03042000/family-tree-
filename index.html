@@ -1,377 +1,71 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>সর্দার পরিবারের বংশবৃক্ষ</title>
-
-    <meta name="description"
-          content="সর্দার পরিবারের বংশবৃক্ষ">
-
-    <meta name="author"
-          content="AL Mehedi">
-
-    <meta name="theme-color"
-          content="#0f172a">
-
-    <meta name="color-scheme"
-          content="dark light">
-
-    <link rel="icon"
-          type="image/png"
-          href="assets/images/favicon.png">
-
-    <link rel="stylesheet"
-          href="assets/css/style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শেকড় - পদ্মাশী সর্দারের বংশধারা</title>
+    <!-- Google Fonts for Bengali -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalpurush&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- ===========================
-HEADER
-=========================== -->
-
-<header class="header">
-
-    <div class="logo">
-
-        🌳 সর্দার পরিবারের বংশবৃক্ষ
-
-    </div>
-
-    <div class="header-tools">
-
-        <!-- Search -->
-
-        <div class="search-wrapper">
-
-            <input
-                id="searchBox"
-                type="text"
-                autocomplete="off"
-                spellcheck="false"
-                placeholder="সদস্যের নাম লিখুন...">
-
-            <div
-                id="searchSuggestions"
-                class="search-suggestions">
-
+    <!-- Header & Search Controls Bar -->
+    <header class="app-header">
+        <div class="header-left">
+            <h1>🌳 শেকড়</h1>
+            <p class="subtitle">পদ্মাশী সর্দারের বংশধারা</p>
+        </div>
+        
+        <div class="header-controls">
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="সদস্যের নাম খুঁজুন..." autocomplete="off">
+                <button id="searchBtn">খুঁজুন</button>
+                <div id="searchResults" class="search-results-dropdown"></div>
             </div>
 
+            <!-- Zoom & View Controls -->
+            <div class="zoom-controls">
+                <button id="zoomInBtn" title="জুম ইন">+</button>
+                <button id="zoomOutBtn" title="জুম আউট">-</button>
+                <button id="resetZoomBtn" title="রিসেট">↺</button>
+            </div>
         </div>
+    </header>
 
-        <!-- Theme -->
-
-        <button
-            type="button"
-            id="darkModeBtn"
-            class="icon-btn"
-            title="থিম পরিবর্তন">
-
-            🌙
-
-        </button>
-
-    </div>
-
-</header>
-<!-- ===========================
-HERO
-=========================== -->
-
-<section class="hero">
-
-    <h1>
-
-        সর্দার পরিবারের বংশবৃক্ষ
-
-    </h1>
-
-</section>
-
-<!-- ===========================
-TOOLBAR
-=========================== -->
-
-<section class="toolbar">
-
-    <button
-        type="button"
-        id="zoomIn">
-
-        ＋
-
-    </button>
-
-    <button
-        type="button"
-        id="zoomOut">
-
-        －
-
-    </button>
-
-    <button
-        type="button"
-        id="resetZoom">
-
-        Reset
-
-    </button>
-
-</section>
-
-<!-- ===========================
-STATISTICS
-=========================== -->
-
-<section
-    id="statisticsBar"
-    class="statistics">
-
-    <div class="stat-item">
-
-        <span id="totalMembers">0</span>
-
-        <label>মোট সদস্য</label>
-
-    </div>
-
-    <div class="stat-item">
-
-        <span id="maleMembers">0</span>
-
-        <label>পুরুষ</label>
-
-    </div>
-
-    <div class="stat-item">
-
-        <span id="femaleMembers">0</span>
-
-        <label>মহিলা</label>
-
-    </div>
-
-    <div class="stat-item">
-
-        <span id="generationCount">0</span>
-
-        <label>প্রজন্ম</label>
-
-    </div>
-
-</section>
-
-<!-- ===========================
-TREE AREA
-=========================== -->
-
-<main
-    id="treeArea"
-    class="tree-area">
-
-    <div id="treeContainer">
-
-        <div class="loading">
-
-            <div class="loader"></div>
-
-            <p>
-
-                Family Tree Loading...
-
-            </p>
-
+    <!-- Main Tree Canvas Viewport -->
+    <main class="tree-viewport" id="treeViewport">
+        <div class="tree-container" id="treeContainer">
+            <!-- Dynamic SVG Connection Lines Will Be Drawn Here -->
+            <svg id="svgLines" class="svg-lines"></svg>
+            <!-- Dynamic Tree Nodes Will Be Rendered Here -->
+            <div id="treeNodes" class="tree-nodes"></div>
         </div>
+    </main>
 
-    </div>
-
-</main>
-<!-- ===========================
-PROFILE MODAL
-=========================== -->
-
-<div
-    id="profileModal"
-    class="modal hidden">
-
-    <div class="modal-overlay"></div>
-
-    <div class="modal-content">
-
-        <button
-            type="button"
-            id="closeProfile"
-            class="close-btn"
-            aria-label="Close">
-
-            ✕
-
-        </button>
-
-        <div id="profileBody">
-
+    <!-- Member Details Modal -->
+    <div id="memberModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalName">সদস্যের নাম</h2>
+                <span id="modalStatusBadge" class="status-badge">জীবিত</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>পিতা/পূর্বপুরুষ:</strong> <span id="modalParent">N/A</span></p>
+                <p><strong>বংশানুক্রমিক অবস্থান:</strong> <span id="modalGeneration">N/A</span></p>
+                <p><strong>সন্তানাদি:</strong> <span id="modalChildrenCount">০ জন</span></p>
+            </div>
         </div>
-
     </div>
 
-</div>
-
-<!-- ===========================
-IMAGE VIEWER
-=========================== -->
-
-<div
-    id="imageViewer"
-    class="image-viewer hidden">
-
-    <button
-        type="button"
-        id="viewerClose"
-        class="viewer-close"
-        aria-label="Close Image">
-
-        ✕
-
-    </button>
-
-    <button
-        type="button"
-        id="viewerPrev"
-        class="viewer-prev"
-        aria-label="Previous Image">
-
-        ❮
-
-    </button>
-
-    <img
-        id="viewerImage"
-        src=""
-        alt="Member Photo">
-
-    <button
-        type="button"
-        id="viewerNext"
-        class="viewer-next"
-        aria-label="Next Image">
-
-        ❯
-
-    </button>
-
-</div>
-
-<!-- ===========================
-ADMIN LOGIN
-=========================== -->
-
-<div
-    id="adminLoginModal"
-    class="modal hidden">
-
-    <div class="modal-overlay"></div>
-
-    <div class="modal-content admin-login">
-
-        <h2>Admin Login</h2>
-
-        <input
-            id="adminPassword"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Password">
-
-        <div class="admin-buttons">
-
-            <button
-                type="button"
-                id="adminLoginBtn">
-
-                Login
-
-            </button>
-
-            <button
-                type="button"
-                id="adminCancelBtn">
-
-                Cancel
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ===========================
-ADMIN PANEL
-=========================== -->
-
-<div
-    id="adminPanel"
-    class="admin-panel hidden">
-
-    <button
-        type="button"
-        id="editMemberBtn">
-
-        ✏ Edit Profile
-
-    </button>
-
-    <button
-        type="button"
-        id="addMemberBtn">
-
-        ➕ Add Member
-
-    </button>
-
-    <button
-        type="button"
-        id="exportJsonBtn">
-
-        📥 Export JSON
-
-    </button>
-
-    <button
-        type="button"
-        id="logoutBtn">
-
-        🚪 Logout
-
-    </button>
-
-</div>
-
-<!-- ===========================
-FOOTER
-=========================== -->
-
-<footer class="footer">
-
-    © 2026 Sardar Family Tree
-
-</footer>
-
-<!-- ===========================
-JAVASCRIPT
-=========================== -->
-
-<script src="assets/js/components.js"></script>
-<script src="assets/js/app.js"></script>
-
+    <!-- Load Scripts in exact Order -->
+    <script src="data.js"></script>
+    <script src="tree.js"></script>
+    <script src="app.js"></script>
 </body>
-
 </html>
