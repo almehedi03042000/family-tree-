@@ -212,7 +212,7 @@
             overflow-x: auto;
         }
 
-        /* Traditional Horizontal Tree (For paginated view) */
+        /* Standard Horizontal Tree Styling */
         .tf-tree ul {
             padding-top: 20px;
             position: relative;
@@ -226,7 +226,7 @@
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 10px 0 10px;
+            padding: 20px 8px 0 8px;
         }
 
         .tf-tree li::before, .tf-tree li::after {
@@ -276,40 +276,43 @@
             height: 20px;
         }
 
-        /* NEW: Vertical Compact Layout for Full Tree Modal */
-        .v-tree-container {
-            font-family: inherit;
-            padding: 20px;
-            display: inline-block;
+        /* HYBRID VERTICAL LEAVES (For lower dense generations) */
+        .v-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 15px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .v-branch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 15px;
+            background-color: #a0aec0;
+        }
+
+        .v-leaf-item {
+            position: relative;
+            margin-bottom: 8px;
+            padding-left: 16px;
+            border-left: 2px solid #3182ce;
             text-align: left;
         }
 
-        .v-node {
-            position: relative;
-            margin-left: 24px;
-            padding-left: 16px;
-            border-left: 2px solid #2b6cb0;
-            margin-top: 8px;
-            margin-bottom: 8px;
-        }
-
-        .v-node::before {
+        .v-leaf-item::before {
             content: '';
             position: absolute;
-            top: 18px;
+            top: 16px;
             left: 0;
-            width: 14px;
+            width: 10px;
             height: 2px;
-            background-color: #2b6cb0;
-        }
-
-        .v-root {
-            margin-left: 0 !important;
-            border-left: none !important;
-        }
-
-        .v-root::before {
-            display: none !important;
+            background-color: #3182ce;
         }
 
         /* Member Card Design */
@@ -317,15 +320,16 @@
             border: 2px solid #2f855a;
             background-color: #ffffff;
             color: #2d3748;
-            padding: 8px 14px;
+            padding: 8px 12px;
             display: inline-block;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             position: relative;
             box-shadow: 0 2px 5px rgba(0,0,0,0.06);
-            min-width: 130px;
-            max-width: 240px;
+            min-width: 120px;
+            max-width: 210px;
+            text-align: center;
         }
 
         .member-card.deceased {
@@ -335,20 +339,20 @@
         }
 
         .deceased-badge {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #e53e3e;
             margin-left: 4px;
         }
 
         .sub-tree-link {
-            margin-top: 8px;
+            margin-top: 6px;
             display: block;
             background-color: #2b6cb0;
             color: #ffffff;
             border: none;
-            padding: 5px 8px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s;
@@ -443,7 +447,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 30px;
+            padding: 40px;
         }
 
         .zoom-viewport:active {
@@ -454,10 +458,9 @@
             transform-origin: top center;
             transition: transform 0.1s ease-out;
             background: white;
-            padding: 30px;
+            padding: 35px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            max-width: 95vw;
         }
 
         /* Member Info Modal */
@@ -550,8 +553,8 @@
     <div class="overview-card-container" id="overviewCardContainer">
         <div class="overview-box" id="openZoomTreeBox">
             <div class="overview-info">
-                <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (Interactive Compact Tree)</h3>
-                <p>সমগ্র ফ্যামিলি ট্রি অল্প জায়গায় উপর-নিচ উলম্ব আকারে দেখতে, জুম করতে বা PDF নিতে ক্লিক করুন</p>
+                <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (Hybrid Interactive Tree)</h3>
+                <p>সমগ্র ফ্যামিলি ট্রি একসাথে দেখতে, জুম করতে অথবা PDF ডাউনলোড করতে এখানে ক্লিক করুন</p>
             </div>
             <button class="overview-btn">সম্পূর্ণ ট্রি দেখুন 🔍</button>
         </div>
@@ -568,10 +571,10 @@
         <div id="treeContainer"></div>
     </main>
 
-    <!-- Full Interactive Compact Zoomable Tree Modal -->
+    <!-- Full Interactive Hybrid Zoomable Tree Modal -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 পদ্মাশী সর্দারের সম্পূর্ণ ফ্যামিলি ট্রি (কম্প্যাক্ট লেআউট)</h2>
+            <h2>🔍 পদ্মাশী সর্দারের সম্পূর্ণ ফ্যামিলি ট্রি (হাইব্রিড লেআউট)</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
@@ -601,7 +604,7 @@
         </div>
     </div>
 
-    <!-- Data & Navigation Logic -->
+    <!-- Data & Logic -->
     <script>
         const familyData = {
             id: "padmashi",
@@ -895,7 +898,10 @@
             return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
         }
 
-        /* Standard Navigation Tree HTML Renderer */
+        /* 
+           Paginated Navigation Tree Renderer:
+           Shows 1st & 2nd Generations Horizontal, then links to subtrees.
+        */
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
@@ -1023,40 +1029,61 @@
             modal.style.display = 'flex';
         }
 
-        /* NEW: Compact Vertical Tree Generator for Minimal Width Usage */
-        function renderCompactVerticalTree(node, isRoot = false) {
+        /* 
+           NEW HYBRID TREE GENERATOR:
+           Top Generations (1 to 4): HORIZONTAL
+           Deeper Dense Generations (5+): VERTICAL BRANCH
+        */
+        function renderHybridFullTree(node) {
             if (!node) return '';
 
             const deceasedClass = node.isDeceased ? 'deceased' : '';
             const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
             const hasChildren = node.children && node.children.length > 0;
 
-            let childrenHTML = '';
-            if (hasChildren) {
-                const childNodes = node.children.map(child => renderCompactVerticalTree(child, false)).join('');
-                childrenHTML = `<div class="v-children-group">${childNodes}</div>`;
+            // Switch layout to vertical list for 5th generation and below
+            if (node.generation >= 5) {
+                let childrenVerticalHTML = '';
+                if (hasChildren) {
+                    const childNodes = node.children.map(child => renderHybridFullTree(child)).join('');
+                    childrenVerticalHTML = `<div class="v-branch">${childNodes}</div>`;
+                }
+
+                return `
+                    <div class="v-leaf-item">
+                        <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
+                            <div class="member-name">${node.name} ${deceasedBadge}</div>
+                        </div>
+                        ${childrenVerticalHTML}
+                    </div>
+                `;
             }
 
-            const rootClass = isRoot ? 'v-root' : '';
+            // Top generations remain HORIZONTAL
+            let childrenHorizontalHTML = '';
+            if (hasChildren) {
+                const childNodes = node.children.map(child => renderHybridFullTree(child)).join('');
+                childrenHorizontalHTML = `<ul>${childNodes}</ul>`;
+            }
 
             return `
-                <div class="v-node ${rootClass}">
+                <li>
                     <div class="member-card ${deceasedClass}" data-id="${node.id}" onclick="onCardClick('${node.id}')">
                         <div class="member-name">${node.name} ${deceasedBadge}</div>
                     </div>
-                    ${childrenHTML}
-                </div>
+                    ${childrenHorizontalHTML}
+                </li>
             `;
         }
 
         /* Zoom and PDF Modal Logic */
-        let zoomScale = 0.9;
+        let zoomScale = 0.75;
         function openZoomTreeModal() {
             const zoomModal = document.getElementById('zoomModal');
             const zoomContent = document.getElementById('zoomContent');
-            zoomContent.innerHTML = `<div class="v-tree-container">${renderCompactVerticalTree(familyData, true)}</div>`;
+            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderHybridFullTree(familyData)}</ul></div>`;
             zoomModal.style.display = 'flex';
-            zoomScale = 0.9;
+            zoomScale = 0.75;
             applyZoom();
         }
 
@@ -1080,7 +1107,7 @@
             });
 
             document.getElementById('zoomResetBtn').addEventListener('click', () => {
-                zoomScale = 0.9;
+                zoomScale = 0.75;
                 applyZoom();
             });
 
@@ -1092,7 +1119,7 @@
                     filename:     'পদ্মাশী_সর্দারের_বংশধারা.pdf',
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { scale: 2 },
-                    jsPDF:        { unit: 'in', format: 'a3', orientation: 'portrait' }
+                    jsPDF:        { unit: 'in', format: 'a2', orientation: 'landscape' }
                 };
                 html2pdf().set(opt).from(element).save();
             });
