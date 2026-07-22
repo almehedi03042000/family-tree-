@@ -22,7 +22,7 @@
         .app-header {
             background: linear-gradient(90deg, #152e22 0%, #1e3d2f 100%);
             color: #ffffff;
-            padding: 14px 28px;
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -31,52 +31,53 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        .header-left h1 { font-size: 1.6rem; font-weight: 700; color: #ffffff; }
+        .header-left h1 { font-size: 1.5rem; font-weight: 700; color: #ffffff; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
         .search-box { position: relative; display: flex; align-items: center; }
         .search-box input {
-            padding: 8px 14px; border: 1px solid #38a169; border-radius: 20px 0 0 20px;
-            outline: none; font-size: 0.88rem; font-family: inherit; width: 190px; background-color: #ffffff; color: #2d3748;
+            padding: 7px 12px; border: 1px solid #38a169; border-radius: 20px 0 0 20px;
+            outline: none; font-size: 0.85rem; font-family: inherit; width: 180px; background-color: #ffffff; color: #2d3748;
         }
         .search-box button {
-            padding: 8px 16px; background: linear-gradient(135deg, #38a169, #2f855a); color: white;
-            border: none; border-radius: 0 20px 20px 0; cursor: pointer; font-family: inherit; font-size: 0.88rem; font-weight: 600;
+            padding: 7px 14px; background: linear-gradient(135deg, #38a169, #2f855a); color: white;
+            border: none; border-radius: 0 20px 20px 0; cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: 600;
         }
         .search-results-dropdown {
             position: absolute; top: 110%; left: 0; right: 0; background: linear-gradient(180deg, #1e3d2f 0%, #152e22 100%);
-            border: 1px solid #38a169; border-radius: 8px; max-height: 230px; overflow-y: auto;
+            border: 1px solid #38a169; border-radius: 8px; max-height: 220px; overflow-y: auto;
             box-shadow: 0 10px 25px rgba(0,0,0,0.25); display: none; z-index: 101;
         }
-        .search-result-item { padding: 10px 14px; cursor: pointer; font-size: 0.88rem; color: #f7fafc; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .search-result-item { padding: 8px 12px; cursor: pointer; font-size: 0.85rem; color: #f7fafc; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .search-result-item:hover { background-color: rgba(56, 161, 105, 0.3); }
 
-        .overview-card-container { padding: 20px 24px 0 24px; display: flex; justify-content: center; }
+        .overview-card-container { padding: 15px 20px 0 20px; display: flex; justify-content: center; }
         .overview-box {
-            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%); color: white; padding: 14px 28px;
-            border-radius: 12px; display: flex; flex-direction: column; align-items: center; width: 100%;
-            max-width: 480px; box-shadow: 0 6px 18px rgba(43, 108, 176, 0.25); cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);
+            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%); color: white; padding: 12px 24px;
+            border-radius: 10px; display: flex; flex-direction: column; align-items: center; width: 100%;
+            max-width: 450px; box-shadow: 0 6px 18px rgba(43, 108, 176, 0.25); cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);
         }
-        .overview-box h3 { font-size: 1.15rem; font-weight: 700; }
-        .overview-box .click-subtext { font-size: 0.8rem; color: #e2e8f0; margin-top: 3px; }
+        .overview-box h3 { font-size: 1.1rem; font-weight: 700; }
+        .overview-box .click-subtext { font-size: 0.78rem; color: #e2e8f0; margin-top: 2px; }
 
         .nav-banner {
-            background: #ffffff; padding: 12px 28px; display: flex; align-items: center;
-            justify-content: space-between; border-bottom: 1px solid #e2e8f0; margin-top: 20px; flex-wrap: wrap; gap: 12px;
+            background: #ffffff; padding: 10px 24px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 1px solid #e2e8f0; margin-top: 15px; flex-wrap: wrap; gap: 10px;
         }
-        .breadcrumb { font-size: 0.95rem; font-weight: 700; color: #2d3748; }
+        .breadcrumb { font-size: 0.9rem; font-weight: 700; color: #2d3748; }
         .nav-buttons-group { display: flex; align-items: center; gap: 8px; }
         .nav-action-btn {
-            background: #edf2f7; color: #2d3748; border: 1px solid #cbd5e0; padding: 6px 14px;
-            border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.82rem; font-weight: 600;
+            background: #edf2f7; color: #2d3748; border: 1px solid #cbd5e0; padding: 5px 12px;
+            border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600;
         }
         .nav-action-btn.home-btn { background: #319795; color: white; border: none; }
 
-        .tree-viewport { flex: 1; padding: 25px 20px; display: flex; justify-content: center; overflow-x: auto; }
+        .tree-viewport { flex: 1; padding: 20px 15px; display: flex; justify-content: center; overflow-x: auto; }
 
-        .tf-tree ul { padding-top: 20px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; }
-        .tf-tree li { text-align: center; list-style-type: none; position: relative; padding: 20px 8px 0 8px; }
+        /* Compact Tree CSS Architecture */
+        .tf-tree ul { padding-top: 15px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; }
+        .tf-tree li { text-align: center; list-style-type: none; position: relative; padding: 15px 4px 0 4px; }
         .tf-tree li::before, .tf-tree li::after {
-            content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #1e3d2f; width: 50%; height: 20px;
+            content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #1e3d2f; width: 50%; height: 15px;
         }
         .tf-tree li::after { right: auto; left: 50%; border-left: 2px solid #1e3d2f; }
         .tf-tree li:only-child::after, .tf-tree li:only-child::before { display: none; }
@@ -85,38 +86,40 @@
         .tf-tree li:last-child::before { border-right: 2px solid #1e3d2f; border-radius: 0 4px 0 0; }
         .tf-tree li:first-child::after { border-radius: 4px 0 0 0; }
         .tf-tree ul ul::before {
-            content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #1e3d2f; width: 0; height: 20px;
+            content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #1e3d2f; width: 0; height: 15px;
         }
 
         .member-card {
-            padding: 10px 14px; display: inline-flex; flex-direction: column; justify-content: center;
-            align-items: center; border-radius: 8px; min-width: 130px; min-height: 55px; text-align: center;
-            cursor: pointer; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: all 0.2s; position: relative;
+            padding: 8px 12px; display: inline-flex; flex-direction: column; justify-content: center;
+            align-items: center; border-radius: 6px; min-width: 110px; min-height: 45px; text-align: center;
+            cursor: pointer; background-color: #ffffff; box-shadow: 0 3px 8px rgba(0,0,0,0.06); transition: all 0.2s; position: relative;
         }
         .member-card.male { border: 2px solid #2b6cb0; background-color: #f0f7ff; color: #1a365d; }
         .member-card.female { border: 2px solid #d53f8c; background-color: #fff5f7; color: #702459; }
         .member-card.deceased { border-color: #718096 !important; background-color: #edf2f7 !important; color: #4a5568 !important; }
 
-        .member-name-bn { font-size: 0.88rem; font-weight: 700; line-height: 1.2; }
-        .deceased-badge { font-size: 0.65rem; color: #e53e3e; }
+        .member-name-bn { font-size: 0.82rem; font-weight: 700; line-height: 1.15; }
+        .deceased-badge { font-size: 0.6rem; color: #e53e3e; }
         .sub-tree-link {
-            margin-top: 6px; background-color: #2b6cb0; color: #ffffff; border: none;
-            padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; font-weight: 600;
+            margin-top: 4px; background-color: #2b6cb0; color: #ffffff; border: none;
+            padding: 3px 6px; border-radius: 4px; font-size: 0.68rem; cursor: pointer; font-weight: 600;
         }
 
+        /* Auto-fit Zoom Modal Overlay */
         .zoom-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(15, 23, 42, 0.94); display: none; flex-direction: column; z-index: 2000;
+            background: rgba(15, 23, 42, 0.95); display: none; flex-direction: column; z-index: 2000;
         }
-        .zoom-modal-header { background: #1e3d2f; color: white; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
-        .zoom-controls { display: flex; gap: 8px; align-items: center; }
-        .zoom-btn { background: #38a169; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .zoom-modal-header { background: #1e3d2f; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .zoom-controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        .zoom-btn { background: #38a169; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
         .pdf-btn { background: #dd6b20; }
-        .zoom-close-btn { background: #e53e3e; color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; }
-        .zoom-viewport { flex: 1; overflow: hidden; position: relative; cursor: grab; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
+        .zoom-close-btn { background: #e53e3e; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+        
+        .zoom-viewport { flex: 1; overflow: hidden; position: relative; cursor: grab; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); display: flex; justify-content: center; align-items: center; }
         .zoom-content {
-            position: absolute; top: 30px; left: 30px; transform-origin: 0 0;
-            background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%); padding: 35px 25px; border-radius: 12px;
+            position: absolute; transform-origin: center center;
+            background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%); padding: 25px; border-radius: 10px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid #cbd5e0;
         }
 
@@ -124,9 +127,9 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 3000;
         }
-        .modal-content { background: #ffffff; padding: 22px; border-radius: 10px; width: 320px; position: relative; }
-        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 1.4rem; cursor: pointer; color: #a0aec0; }
-        .status-badge { padding: 2px 8px; background-color: #c6f6d5; color: #22543d; border-radius: 12px; font-size: 0.75rem; display: inline-block; margin-top: 6px; font-weight: 600; }
+        .modal-content { background: #ffffff; padding: 20px; border-radius: 10px; width: 300px; position: relative; }
+        .modal-close { position: absolute; top: 8px; right: 12px; font-size: 1.3rem; cursor: pointer; color: #a0aec0; }
+        .status-badge { padding: 2px 7px; background-color: #c6f6d5; color: #22543d; border-radius: 10px; font-size: 0.72rem; display: inline-block; margin-top: 5px; font-weight: 600; }
         .status-badge.deceased { background-color: #fed7d7; color: #742a2a; }
     </style>
 </head>
@@ -145,8 +148,8 @@
 
     <div class="overview-card-container">
         <div class="overview-box" id="openZoomTreeBox">
-            <h3>📌 এক নজরে সম্পূর্ণ বংশধারা</h3>
-            <span class="click-subtext">দেখতে ক্লিক করুন</span>
+            <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (অটো-ফিট ম্যাপ)</h3>
+            <span class="click-subtext">এক স্ক্রিনে দেখতে ও জুম করতে ক্লিক করুন</span>
         </div>
     </div>
 
@@ -164,7 +167,7 @@
 
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 এক নজরে সম্পূর্ণ বংশধারা</h2>
+            <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র (ম্যাপ ভিউ)</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
@@ -181,7 +184,7 @@
     <div id="memberModal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
-            <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 8px; margin-bottom: 12px;">
+            <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 6px; margin-bottom: 10px;">
                 <h2 id="modalNameBn">নাম</h2>
                 <span id="modalStatusBadge" class="status-badge">জীবিত</span>
             </div>
@@ -201,7 +204,7 @@
                     id: "akali", nameBn: "আকালি সর্দার", gender: "male", isDeceased: false,
                     children: [
                         {
-                            id: "isu", nameBn: "ইসু সর্দার", gender: "male", isDeceased: false,
+                            id: "isu", nameBn: "ঈসু সর্দার", gender: "male", isDeceased: false,
                             children: [
                                 {
                                     id: "doshor", nameBn: "দোশর সর্দার", gender: "male", isDeceased: false,
@@ -617,20 +620,23 @@
             `;
         }
 
+        // হোম পেজের রেন্ডারিং লজিক: পদ্মাশী -> আকালি -> ঈসু ও কেসু পর্যন্ত দেখাবে, বাকীগুলো সাব-লিংক হিসেবে থাকবে
         function renderNodeHTML(node, currentDepth = 0) {
             if (!node) return '';
 
             const hasChildren = node.children && node.children.length > 0;
             let linkBtn = '';
 
-            if (hasChildren && currentDepth >= 1) {
+            // ২য় লেভেল অর্থাৎ ঈসু ও কেসু সর্দারের নিচে যাওয়ার জন্য শাখা বাটন থাকবে
+            if (hasChildren && currentDepth >= 2) {
                 linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
                     👉 শাখা দেখতে ক্লিক করুন
                 </button>`;
             }
 
             let childrenHTML = '';
-            if (hasChildren && currentDepth < 1) {
+            // হোম পেজে শুধুমাত্র ২য় লেভেল (আকালি ও তার পুত্র ঈসু-কেসু) পর্যন্ত চিল্ড্রেন রেন্ডার করবে
+            if (hasChildren && currentDepth < 2) {
                 const childNodes = node.children.map(child => renderNodeHTML(child, currentDepth + 1)).join('');
                 childrenHTML = `<ul>${childNodes}</ul>`;
             }
@@ -657,7 +663,7 @@
             const homeBtn = document.getElementById('homeBtn');
 
             if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 মূল পেজ: পদ্মাশী সর্দার';
+                breadcrumb.textContent = '📍 মূল পেজ: পদ্মাশী সর্দার ➔ আকালী সর্দার ➔ ঈসু ও কেসু সর্দার';
                 prevBtn.style.display = 'none';
                 homeBtn.style.display = 'none';
             } else {
@@ -735,9 +741,9 @@
             }
         }
 
-        let zoomScale = 0.5;
-        let pointX = 30;
-        let pointY = 30;
+        let zoomScale = 0.25; // এক স্ক্রিনে পুরোপুরি ফিট করার জন্য ছোট ডিফল্ট স্কেল
+        let pointX = 0;
+        let pointY = 0;
         let startX = 0;
         let startY = 0;
         let isPanning = false;
@@ -747,7 +753,12 @@
             const zoomContent = document.getElementById('zoomContent');
             zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeModal(familyData)}</ul></div>`;
             zoomModal.style.display = 'flex';
-            zoomScale = 0.5; pointX = 30; pointY = 30;
+            
+            // অটো ফিট স্ক্রিন ক্যালকুলেশন
+            const viewport = document.getElementById('zoomViewport');
+            zoomScale = 0.25; 
+            pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
+            pointY = 20;
             updateTransform();
         }
 
@@ -761,9 +772,14 @@
             const zoomModal = document.getElementById('zoomModal');
 
             document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
-            document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.15, 2.5); updateTransform(); });
-            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.15, 0.2); updateTransform(); });
-            document.getElementById('zoomResetBtn').addEventListener('click', () => { zoomScale = 0.5; pointX = 30; pointY = 30; updateTransform(); });
+            document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.1, 2.0); updateTransform(); });
+            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.1); updateTransform(); });
+            document.getElementById('zoomResetBtn').addEventListener('click', () => { 
+                zoomScale = 0.25; 
+                pointX = (zoomViewport.clientWidth - document.getElementById('zoomContent').offsetWidth * zoomScale) / 2;
+                pointY = 20; 
+                updateTransform(); 
+            });
 
             const startPan = (e) => {
                 isPanning = true;
