@@ -8,7 +8,7 @@
   "phone": "০১৭০০০০০০০০",
   "bio": "পদ্মাশী সর্দার পরিবারের মূল আদি পুরুষ।",
   "extraData": "পারিবারিক মূল প্রতিষ্ঠাতা",
-  "images": ["assets/images/placeholder.jpg"],
+  "images": [],
   "children": [
     {
       "id": "akali_02",
@@ -31,7 +31,34 @@
           "occupation": "ব্যবসায়ী",
           "phone": "০১৭০০০০০০০০",
           "bio": "৩য় প্রজন্মের সদস্য।",
-          "extraData": "",
+          "extraData": "বিশেষ নোট: শাখা ১",
+          "images": [],
+          "children": [
+            {
+              "id": "doshor_04",
+              "name": "দেশর সর্দার",
+              "gender": "পুরুষ",
+              "generation": "৪র্থ প্রজন্ম",
+              "relation": "পিতা: ইসু সর্দার",
+              "occupation": "চাকরিজীবী",
+              "phone": "০১৭০০০০০০০০",
+              "bio": "৪র্থ প্রজন্মের সদস্য।",
+              "extraData": "",
+              "images": [],
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "kesu_03",
+          "name": "কেসু সর্দার",
+          "gender": "পুরুষ",
+          "generation": "৩য় প্রজন্ম",
+          "relation": "পিতা: আকালি সর্দার",
+          "occupation": "কৃষি",
+          "phone": "০১৭০০০০০০০০",
+          "bio": "৩য় প্রজন্মের সদস্য।",
+          "extraData": "বিশেষ নোট: শাখা ২",
           "images": [],
           "children": []
         }
