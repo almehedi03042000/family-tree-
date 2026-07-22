@@ -22,7 +22,7 @@
         .app-header {
             background: linear-gradient(90deg, #152e22 0%, #1e3d2f 100%);
             color: #ffffff;
-            padding: 12px 24px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -31,77 +31,90 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        .header-left h1 { font-size: 1.5rem; font-weight: 700; color: #ffffff; }
+        .header-left h1 { font-size: 1.3rem; font-weight: 700; color: #ffffff; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
         .search-box { position: relative; display: flex; align-items: center; }
         .search-box input {
-            padding: 7px 12px; border: 1px solid #38a169; border-radius: 20px 0 0 20px;
-            outline: none; font-size: 0.85rem; font-family: inherit; width: 180px; background-color: #ffffff; color: #2d3748;
+            padding: 6px 12px; border: 1px solid #38a169; border-radius: 20px 0 0 20px;
+            outline: none; font-size: 0.8rem; font-family: inherit; width: 160px; background-color: #ffffff; color: #2d3748;
         }
         .search-box button {
-            padding: 7px 14px; background: linear-gradient(135deg, #38a169, #2f855a); color: white;
-            border: none; border-radius: 0 20px 20px 0; cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: 600;
+            padding: 6px 12px; background: linear-gradient(135deg, #38a169, #2f855a); color: white;
+            border: none; border-radius: 0 20px 20px 0; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600;
         }
         .search-results-dropdown {
             position: absolute; top: 110%; left: 0; right: 0; background: linear-gradient(180deg, #1e3d2f 0%, #152e22 100%);
-            border: 1px solid #38a169; border-radius: 8px; max-height: 220px; overflow-y: auto;
+            border: 1px solid #38a169; border-radius: 8px; max-height: 200px; overflow-y: auto;
             box-shadow: 0 10px 25px rgba(0,0,0,0.25); display: none; z-index: 101;
         }
-        .search-result-item { padding: 8px 12px; cursor: pointer; font-size: 0.85rem; color: #f7fafc; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .search-result-item { padding: 6px 10px; cursor: pointer; font-size: 0.8rem; color: #f7fafc; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .search-result-item:hover { background-color: rgba(56, 161, 105, 0.3); }
 
-        .overview-card-container { padding: 15px 20px 0 20px; display: flex; justify-content: center; }
+        .overview-card-container { padding: 12px 15px 0 15px; display: flex; justify-content: center; }
         .overview-box {
-            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%); color: white; padding: 12px 24px;
-            border-radius: 10px; display: flex; flex-direction: column; align-items: center; width: 100%;
-            max-width: 450px; box-shadow: 0 6px 18px rgba(43, 108, 176, 0.25); cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);
+            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%); color: white; padding: 10px 20px;
+            border-radius: 8px; display: flex; flex-direction: column; align-items: center; width: 100%;
+            max-width: 400px; box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2); cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);
         }
-        .overview-box h3 { font-size: 1.1rem; font-weight: 700; }
-        .overview-box .click-subtext { font-size: 0.78rem; color: #e2e8f0; margin-top: 2px; }
+        .overview-box h3 { font-size: 1rem; font-weight: 700; }
+        .overview-box .click-subtext { font-size: 0.75rem; color: #e2e8f0; margin-top: 2px; }
 
         .nav-banner {
-            background: #ffffff; padding: 10px 24px; display: flex; align-items: center;
-            justify-content: space-between; border-bottom: 1px solid #e2e8f0; margin-top: 15px; flex-wrap: wrap; gap: 10px;
+            background: #ffffff; padding: 8px 20px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 1px solid #e2e8f0; margin-top: 10px; flex-wrap: wrap; gap: 8px;
         }
-        .breadcrumb { font-size: 0.9rem; font-weight: 700; color: #2d3748; }
+        .breadcrumb { font-size: 0.85rem; font-weight: 700; color: #2d3748; }
         .nav-buttons-group { display: flex; align-items: center; gap: 8px; }
         .nav-action-btn {
-            background: #edf2f7; color: #2d3748; border: 1px solid #cbd5e0; padding: 5px 12px;
-            border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600;
+            background: #edf2f7; color: #2d3748; border: 1px solid #cbd5e0; padding: 4px 10px;
+            border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.75rem; font-weight: 600;
         }
         .nav-action-btn.home-btn { background: #319795; color: white; border: none; }
 
-        .tree-viewport { flex: 1; padding: 25px 15px; display: flex; justify-content: center; overflow-x: auto; }
-
-        .tf-tree ul { padding-top: 15px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; }
-        .tf-tree li { text-align: center; list-style-type: none; position: relative; padding: 15px 4px 0 4px; }
-        .tf-tree li::before, .tf-tree li::after {
-            content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #1e3d2f; width: 50%; height: 15px;
+        /* এক পেজে অটো-ফিট ও কম্প্যাক্ট করার জন্য ট্রি ভিউপোর্ট এবং ফ্লেক্স লেআউট কাস্টমাইজেশন */
+        .tree-viewport { 
+            flex: 1; 
+            padding: 15px 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start;
+            overflow-x: auto; 
+            width: 100%;
         }
-        .tf-tree li::after { right: auto; left: 50%; border-left: 2px solid #1e3d2f; }
+
+        .tf-tree { width: 100%; display: flex; justify-content: center; }
+        .tf-tree ul { padding-top: 12px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; flex-wrap: wrap; }
+        .tf-tree li { text-align: center; list-style-type: none; position: relative; padding: 12px 3px 0 3px; }
+        .tf-tree li::before, .tf-tree li::after {
+            content: ''; position: absolute; top: 0; right: 50%; border-top: 1.5px solid #1e3d2f; width: 50%; height: 12px;
+        }
+        .tf-tree li::after { right: auto; left: 50%; border-left: 1.5px solid #1e3d2f; }
         .tf-tree li:only-child::after, .tf-tree li:only-child::before { display: none; }
         .tf-tree li:only-child { padding-top: 0; }
         .tf-tree li:first-child::before, .tf-tree li:last-child::after { border: none; }
-        .tf-tree li:last-child::before { border-right: 2px solid #1e3d2f; border-radius: 0 4px 0 0; }
+        .tf-tree li:last-child::before { border-right: 1.5px solid #1e3d2f; border-radius: 0 4px 0 0; }
         .tf-tree li:first-child::after { border-radius: 4px 0 0 0; }
         .tf-tree ul ul::before {
-            content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #1e3d2f; width: 0; height: 15px;
+            content: ''; position: absolute; top: 0; left: 50%; border-left: 1.5px solid #1e3d2f; width: 0; height: 12px;
         }
 
+        /* কম্প্যাক্ট কার্ড সাইজ যাতে এক পেজে সহজে ফিট হয় */
         .member-card {
-            padding: 10px 14px; display: inline-flex; flex-direction: column; justify-content: center;
-            align-items: center; border-radius: 8px; min-width: 130px; text-align: center;
-            cursor: pointer; background-color: #ffffff; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: all 0.2s; position: relative;
+            padding: 8px 10px; display: inline-flex; flex-direction: column; justify-content: center;
+            align-items: center; border-radius: 6px; min-width: 110px; max-width: 150px; text-align: center;
+            cursor: pointer; background-color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: all 0.2s; position: relative;
         }
-        .member-card.male { border: 2px solid #2b6cb0; background-color: #f0f7ff; color: #1a365d; }
-        .member-card.female { border: 2px solid #d53f8c; background-color: #fff5f7; color: #702459; }
+        .member-card.male { border: 1.5px solid #2b6cb0; background-color: #f0f7ff; color: #1a365d; }
+        .member-card.female { border: 1.5px solid #d53f8c; background-color: #fff5f7; color: #702459; }
         .member-card.deceased { border-color: #718096 !important; background-color: #edf2f7 !important; color: #4a5568 !important; }
 
-        .member-name-bn { font-size: 0.9rem; font-weight: 700; line-height: 1.2; }
-        .deceased-badge { font-size: 0.65rem; color: #e53e3e; }
+        .member-name-bn { font-size: 0.8rem; font-weight: 700; line-height: 1.15; }
+        .deceased-badge { font-size: 0.6rem; color: #e53e3e; }
+        
+        /* ছোট এবং সুন্দর বাটন টেক্সট */
         .sub-tree-link {
-            margin-top: 6px; background-color: #2b6cb0; color: #ffffff; border: none;
-            padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; font-weight: 600;
+            margin-top: 4px; background-color: #2b6cb0; color: #ffffff; border: none;
+            padding: 2px 6px; border-radius: 3px; font-size: 0.62rem; cursor: pointer; font-weight: 600;
         }
         .sub-tree-link:hover { background-color: #2c5282; }
 
@@ -111,24 +124,24 @@
         }
         .zoom-modal-header { background: #1e3d2f; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .zoom-controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .zoom-btn { background: #38a169; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .zoom-btn { background: #38a169; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
         .pdf-btn { background: #dd6b20; }
-        .zoom-close-btn { background: #e53e3e; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+        .zoom-close-btn { background: #e53e3e; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
         
         .zoom-viewport { flex: 1; overflow: hidden; position: relative; cursor: grab; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); display: flex; justify-content: center; align-items: center; }
         .zoom-content {
             position: absolute; transform-origin: center center;
-            background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%); padding: 25px; border-radius: 10px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid #cbd5e0;
+            background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%); padding: 20px; border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid #cbd5e0;
         }
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 3000;
         }
-        .modal-content { background: #ffffff; padding: 20px; border-radius: 10px; width: 300px; position: relative; }
-        .modal-close { position: absolute; top: 8px; right: 12px; font-size: 1.3rem; cursor: pointer; color: #a0aec0; }
-        .status-badge { padding: 2px 7px; background-color: #c6f6d5; color: #22543d; border-radius: 10px; font-size: 0.72rem; display: inline-block; margin-top: 5px; font-weight: 600; }
+        .modal-content { background: #ffffff; padding: 16px; border-radius: 8px; width: 280px; position: relative; font-size: 0.85rem; }
+        .modal-close { position: absolute; top: 6px; right: 10px; font-size: 1.2rem; cursor: pointer; color: #a0aec0; }
+        .status-badge { padding: 2px 6px; background-color: #c6f6d5; color: #22543d; border-radius: 8px; font-size: 0.68rem; display: inline-block; margin-top: 4px; font-weight: 600; }
         .status-badge.deceased { background-color: #fed7d7; color: #742a2a; }
     </style>
 </head>
@@ -147,8 +160,8 @@
 
     <div class="overview-card-container">
         <div class="overview-box" id="openZoomTreeBox">
-            <h3>📌 এক নজরে সম্পূর্ণ বংশধারা (অটো-ফিট ম্যাপ)</h3>
-            <span class="click-subtext">এক স্ক্রিনে দেখতে ও জুম করতে ক্লিক করুন</span>
+            <h3>📌 সম্পূর্ণ বংশধারা ম্যাপ (অটো-ফিট)</h3>
+            <span class="click-subtext">এক নজরে দেখতে ক্লিক করুন</span>
         </div>
     </div>
 
@@ -166,13 +179,13 @@
 
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
-            <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র (ম্যাপ ভিউ)</h2>
+            <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র</h2>
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
                 <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
                 <button class="zoom-btn" id="zoomResetBtn">🔄 রিসেট</button>
-                <button class="zoom-btn pdf-btn" id="downloadPdfBtn">📄 PDF ডাউনলোড</button>
-                <button class="zoom-close-btn" id="zoomCloseBtn">✖ বন্ধ করুন</button>
+                <button class="zoom-btn pdf-btn" id="downloadPdfBtn">📄 PDF</button>
+                <button class="zoom-close-btn" id="zoomCloseBtn">✖ বন্ধ</button>
             </div>
         </div>
         <div class="zoom-viewport" id="zoomViewport">
@@ -183,13 +196,13 @@
     <div id="memberModal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
-            <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 6px; margin-bottom: 10px;">
-                <h2 id="modalNameBn">নাম</h2>
+            <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 5px; margin-bottom: 8px;">
+                <h3 id="modalNameBn" style="font-size: 0.95rem;">নাম</h3>
                 <span id="modalStatusBadge" class="status-badge">জীবিত</span>
             </div>
             <div>
                 <p><strong>লিঙ্গ:</strong> <span id="modalGender">N/A</span></p>
-                <p><strong>পিতা/পূর্বপুরুষ:</strong> <span id="modalParent">N/A</span></p>
+                <p><strong>পিতা:</strong> <span id="modalParent">N/A</span></p>
                 <p><strong>সন্তানাদি:</strong> <span id="modalChildrenCount">০ জন</span></p>
             </div>
         </div>
@@ -232,7 +245,7 @@
                                                 {id: "hashera", nameBn: "হাশেরা", gender: "female", isDeceased: false},
                                                 {id: "rekena", nameBn: "রেকেনা", gender: "female", isDeceased: false},
                                                 {id: "rushia", nameBn: "রুশিয়া", gender: "female", isDeceased: false},
-                                                {id: "lila", nameBn: "লীলা [নতুন সংযোজন]", gender: "female", isDeceased: false}
+                                                {id: "lila", nameBn: "লীলা [নতুন]", gender: "female", isDeceased: false}
                                             ]
                                         },
                                         {id: "jaimon", nameBn: "জাইমন", gender: "female", isDeceased: false},
@@ -280,7 +293,7 @@
                                             id: "bhasha", nameBn: "ভাষা সর্দার", gender: "male", isDeceased: false,
                                             children: [
                                                 {id: "moja", nameBn: "মোজা সর্দার", gender: "male", isDeceased: false},
-                                                {id: "moynu", nameBn: "মৃত মইনুদ্দিন সর্দার", gender: "male", isDeceased: true},
+                                                {id: "moynu", nameBn: "মৃত মইনুদ্দিন", gender: "male", isDeceased: true},
                                                 {id: "ziarul", nameBn: "জিয়ারুল সর্দার", gender: "male", isDeceased: false},
                                                 {id: "samiyon", nameBn: "সামিয়ন", gender: "female", isDeceased: false}
                                             ]
@@ -332,7 +345,7 @@
                                                 {id: "mina", nameBn: "মীনা", gender: "female", isDeceased: false},
                                                 {id: "foima", nameBn: "ফইমা", gender: "female", isDeceased: false},
                                                 {id: "sukhejan", nameBn: "সুখেজান", gender: "female", isDeceased: false},
-                                                {id: "monjura", nameBn: "মঞ্জুরা [নতুন সংযোজন]", gender: "female", isDeceased: false}
+                                                {id: "monjura", nameBn: "মঞ্জুরা [নতুন]", gender: "female", isDeceased: false}
                                             ]
                                         },
                                         {
@@ -378,7 +391,7 @@
                                         {
                                               id: "mohir", nameBn: "মহির সর্দার", gender: "male", isDeceased: false,
                                               children: [
-                                                  {id: "kamruzzaman", nameBn: "কামরুজ্জামান করেশ", gender: "male", isDeceased: false},
+                                                  {id: "kamruzzaman", nameBn: "কামরুজ্জামান", gender: "male", isDeceased: false},
                                                   {id: "shofikul", nameBn: "শফিকুল সর্দার", gender: "male", isDeceased: false},
                                                   {id: "nasima", nameBn: "নাসিমা", gender: "female", isDeceased: false},
                                                   {id: "modon", nameBn: "মদন", gender: "male", isDeceased: false},
@@ -453,7 +466,7 @@
                                                 {id: "refej", nameBn: "রেফেজ সর্দার", gender: "male", isDeceased: false},
                                                 {id: "kubir", nameBn: "কুবির সর্দার", gender: "male", isDeceased: false},
                                                 {id: "jumir", nameBn: "জুমির সর্দার", gender: "male", isDeceased: false},
-                                                {id: "shajuddi", nameBn: "শাইজুদ্দি সর্দার", gender: "male", isDeceased: false},
+                                                {id: "shajuddi", nameBn: "শাইজুদ্দি", gender: "male", isDeceased: false},
                                                 {id: "raziya", nameBn: "মৃত রাজিয়া", gender: "female", isDeceased: true}
                                             ]
                                         },
@@ -510,9 +523,9 @@
                                         {
                                             id: "abdus_samad", nameBn: "আব্দুস সামাদ সর্দার", gender: "male", isDeceased: false,
                                             children: [
-                                                {id: "roknuzzaman", nameBn: "রোকনুজ্জামান রানা", gender: "male", isDeceased: false},
-                                                {id: "hasanuzzaman", nameBn: "হাসানুজ্জামান রাজা", gender: "male", isDeceased: false},
-                                                {id: "tanim", nameBn: "মৃত তানিম হাসান রাঙ্গা", gender: "male", isDeceased: true},
+                                                {id: "roknuzzaman", nameBn: "রোকনুজ্জামান", gender: "male", isDeceased: false},
+                                                {id: "hasanuzzaman", nameBn: "হাসানুজ্জামান", gender: "male", isDeceased: false},
+                                                {id: "tanim", nameBn: "মৃত তানিম", gender: "male", isDeceased: true},
                                                 {id: "sumon", nameBn: "সুমন সর্দার", gender: "male", isDeceased: false},
                                                 {id: "reena", nameBn: "রীনা", gender: "female", isDeceased: false},
                                                 {id: "bina", nameBn: "বিনা", gender: "female", isDeceased: false},
@@ -555,7 +568,7 @@
                                             ]
                                         },
                                         {
-                                            id: "mahatab", nameBn: "মাহাতাব উদ্দিন সর্দার", gender: "male", isDeceased: false,
+                                            id: "mahatab", nameBn: "মাহাতাব উদ্দিন", gender: "male", isDeceased: false,
                                             children: [
                                                 {id: "al_mehedi", nameBn: "আল-মেহেদী", gender: "male", isDeceased: false},
                                                 {id: "abu_sayed", nameBn: "আবু সাঈদ", gender: "male", isDeceased: false},
@@ -619,7 +632,6 @@
             `;
         }
 
-        // মূল হোম পেজে প্রথম স্তর (পদ্মাশী -> আকালী -> ঈসু ও কেসু) রেন্ডারিং এবং পরবর্তী পেজে শুধু এক জেনারেশন করে দেখানোর লজিক
         function renderNodeHTML(node) {
             if (!node) return '';
 
@@ -629,7 +641,6 @@
                     const hasGrandChildren = child.children && child.children.length > 0;
                     let linkBtn = '';
                     
-                    // যার পরবর্তী প্রজন্ম বা সন্তানাদি রয়েছে, শুধু তাদের নিচে ছোট করে লেখা থাকবে "এর বংশধারা দেখতে ক্লিক করুন"
                     if (hasGrandChildren) {
                         linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">
                             এর বংশধারা দেখতে ক্লিক করুন
@@ -657,17 +668,17 @@
             const genderClass = node.gender === 'female' ? 'female' : 'male';
             const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
 
+            // প্রধান বা বর্তমান নির্বাচিত ব্যক্তির বক্সে "প্রধান:" শব্দ বাদ দিয়ে শুধু নাম রাখা হয়েছে
             return `
                 <li>
-                    <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')" style="border-width: 3px;">
-                        <div class="member-name-bn" style="font-size: 1rem;">👑 প্রধান: ${node.nameBn} ${deceasedBadge}</div>
+                    <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
+                        <div class="member-name-bn" style="font-size: 0.88rem;">${node.nameBn} ${deceasedBadge}</div>
                     </div>
                     ${childrenHTML}
                 </li>
             `;
         }
 
-        // হোম পেজে প্রথম ধাপে শুধুমাত্র পদ্মাশী ➔ আকালী ➔ ঈসু ও কেসু পর্যন্ত দেখানোর কাস্টম রেন্ডার
         function renderHomeLevelHTML() {
             const akaliNode = familyData.children[0];
             const isuNode = akaliNode.children[0];
@@ -676,7 +687,7 @@
             return `
                 <li>
                     <div class="member-card male" onclick="onCardClick('${familyData.id}')">
-                        <div class="member-name-bn">👑 ${familyData.nameBn}</div>
+                        <div class="member-name-bn">${familyData.nameBn}</div>
                     </div>
                     <ul>
                         <li>
@@ -788,7 +799,7 @@
             }
         }
 
-        let zoomScale = 0.25;
+        let zoomScale = 0.2;
         let pointX = 0;
         let pointY = 0;
         let startX = 0;
@@ -802,7 +813,7 @@
             zoomModal.style.display = 'flex';
             
             const viewport = document.getElementById('zoomViewport');
-            zoomScale = 0.25; 
+            zoomScale = 0.2; 
             pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
             pointY = 20;
             updateTransform();
@@ -819,9 +830,9 @@
 
             document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
             document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.1, 2.0); updateTransform(); });
-            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.1); updateTransform(); });
+            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.08); updateTransform(); });
             document.getElementById('zoomResetBtn').addEventListener('click', () => { 
-                zoomScale = 0.25; 
+                zoomScale = 0.2; 
                 pointX = (zoomViewport.clientWidth - document.getElementById('zoomContent').offsetWidth * zoomScale) / 2;
                 pointY = 20; 
                 updateTransform(); 
@@ -855,7 +866,7 @@
                 const element = document.getElementById('zoomContent');
                 const opt = {
                     margin: 0.2,
-                    filename: 'পদ্মাশী_সর্দারের_সম্পূর্ণ_বংশধারা.pdf',
+                    filename: 'পদ্মাশী_সর্দারের_বংশধারা.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2 },
                     jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
