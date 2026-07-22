@@ -1,82 +1,71 @@
-/**
- * UI Components Generator for Family Tree
- */
+const FamilyComponents = {
+    // মেইন স্ক্রিনের কার্ড (নাম, আইডি, জেন্ডার)
+    createCard(member) {
+        const genderClass = member.gender === 'পুরুষ' ? 'male' : 'female';
+        return `
+            <div class="family-card ${genderClass} p-3.5 rounded-2xl cursor-pointer shadow-lg min-w-[200px]"
+                 onclick='FamilyApp.showProfile(${JSON.stringify(member)})'>
+                <span class="text-[10px] text-blue-400 font-semibold block">${member.id}</span>
+                <h4 class="font-bold text-slate-100 text-sm mt-0.5">${member.name}</h4>
+                <span class="text-[11px] text-slate-400 mt-1 block">${member.gender}</span>
+            </div>
+        `;
+    },
 
-/**
- * বাংলা সংখ্যায় রূপান্তর করার ইউটিলিটি
- */
-function toBanglaNumber(num) {
-    const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-    return num.toString().replace(/\d/g, digit => banglaDigits[digit]);
-}
+    // পূর্ণাঙ্গ প্রোফাইল মোডাল (সব তথ্য ও এডিট অপশনসহ)
+    renderModal() {
+        return `
+            <div id="profileModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+                <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
+                    <div class="bg-gradient-to-r from-blue-900/60 to-slate-900 p-5 border-b border-slate-800 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div id="modalAvatar" class="w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-500/50 flex items-center justify-center font-bold text-lg text-blue-300 overflow-hidden">
+                                <!-- ছবি বা প্রথম অক্ষর -->
+                            </div>
+                            <div>
+                                <h3 id="modalName" class="text-lg font-bold text-white"></h3>
+                                <p id="modalIdGen" class="text-xs text-blue-400"></p>
+                            </div>
+                        </div>
+                        <button onclick="FamilyApp.closeProfile()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center transition">&times;</button>
+                    </div>
+                    
+                    <div class="p-5 space-y-3 text-sm text-slate-300 max-h-[70vh] overflow-y-auto">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">লিঙ্গ</span>
+                                <span id="modalGender" class="text-white font-medium text-xs"></span>
+                            </div>
+                            <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">পেশা</span>
+                                <span id="modalOccupation" class="text-white font-medium text-xs"></span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">পারিবারিক সম্পর্ক</span>
+                            <span id="modalRelation" class="text-white font-medium text-xs"></span>
+                        </div>
+                        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">মোবাইল নম্বর</span>
+                            <span id="modalPhone" class="text-white font-medium text-xs"></span>
+                        </div>
+                        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">বায়ো / বিবরণ</span>
+                            <p id="modalBio" class="text-white text-xs mt-0.5"></p>
+                        </div>
+                        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">অতিরিক্ত ডেটা / নোট ও ছবি গ্যালারি</span>
+                            <p id="modalExtra" class="text-white text-xs mt-0.5"></p>
+                            <div id="modalImages" class="flex gap-2 mt-2 flex-wrap"></div>
+                        </div>
+                    </div>
 
-/**
- * একক সদস্য কার্ডের HTML তৈরি করে
- * @param {Object} member - সদস্যের তথ্য
- * @returns {string} HTML String
- */
-function createMemberCardHTML(member) {
-    const deceasedClass = member.isDeceased ? 'deceased' : '';
-    const deceasedBadge = member.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
-
-    return `
-        <div class="member-card ${deceasedClass}" data-id="${member.id}">
-            <div class="member-name">${member.name}</div>
-            ${deceasedBadge}
-        </div>
-    `;
-}
-
-/**
- * রিকার্সিভলি (Recursively) পুরো ফ্যামিলি ট্রির HTML রেন্ডার করে
- * @param {Object} node - সদস্য অবজেক্ট
- * @returns {string} HTML String (UL/LI hierarchical structure)
- */
-function renderTreeHTML(node) {
-    if (!node) return '';
-
-    let childrenHTML = '';
-    if (node.children && node.children.length > 0) {
-        const childrenNodes = node.children.map(child => renderTreeHTML(child)).join('');
-        childrenHTML = `<ul>${childrenNodes}</ul>`;
+                    <div class="p-4 bg-slate-950/60 border-t border-slate-800 flex justify-between items-center">
+                        <span class="text-[11px] text-slate-400">তথ্য পরিবর্তন করতে JSON বা এডিট মোড ব্যবহার করুন</span>
+                        <button onclick="FamilyApp.closeProfile()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition">বন্ধ করুন</button>
+                    </div>
+                </div>
+            </div>
+        `;
     }
-
-    return `
-        <li>
-            ${createMemberCardHTML(node)}
-            ${childrenHTML}
-        </li>
-    `;
-}
-
-/**
- * মোডালে সদস্যের বিশদ বিবরণ পপুলেট করে
- * @param {Object} member - সদস্যের তথ্য
- * @param {string} parentName - পিতার নাম
- */
-function showMemberDetailsModal(member, parentName = 'N/A') {
-    const modal = document.getElementById('memberModal');
-    const modalName = document.getElementById('modalName');
-    const modalStatusBadge = document.getElementById('modalStatusBadge');
-    const modalParent = document.getElementById('modalParent');
-    const modalGeneration = document.getElementById('modalGeneration');
-    const modalChildrenCount = document.getElementById('modalChildrenCount');
-
-    modalName.textContent = member.name;
-    
-    if (member.isDeceased) {
-        modalStatusBadge.textContent = 'মৃত';
-        modalStatusBadge.className = 'status-badge deceased';
-    } else {
-        modalStatusBadge.textContent = 'জীবিত';
-        modalStatusBadge.className = 'status-badge';
-    }
-
-    modalParent.textContent = parentName;
-    modalGeneration.textContent = `${toBanglaNumber(member.generation || 1)}ম প্রজন্ম`;
-    
-    const childCount = member.children ? member.children.length : 0;
-    modalChildrenCount.textContent = `${toBanglaNumber(childCount)} জন`;
-
-    modal.style.display = 'flex';
-}
+};
