@@ -73,7 +73,6 @@
 
         .tree-viewport { flex: 1; padding: 25px 15px; display: flex; justify-content: center; overflow-x: auto; }
 
-        /* Compact Tree CSS Architecture */
         .tf-tree ul { padding-top: 15px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; }
         .tf-tree li { text-align: center; list-style-type: none; position: relative; padding: 15px 4px 0 4px; }
         .tf-tree li::before, .tf-tree li::after {
@@ -102,11 +101,10 @@
         .deceased-badge { font-size: 0.65rem; color: #e53e3e; }
         .sub-tree-link {
             margin-top: 6px; background-color: #2b6cb0; color: #ffffff; border: none;
-            padding: 4px 8px; border-radius: 5px; font-size: 0.72rem; cursor: pointer; font-weight: 600;
+            padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; font-weight: 600;
         }
         .sub-tree-link:hover { background-color: #2c5282; }
 
-        /* Auto-fit Zoom Modal Overlay */
         .zoom-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.95); display: none; flex-direction: column; z-index: 2000;
@@ -621,8 +619,7 @@
             `;
         }
 
-        // মূল হোম পেজ বা ধাপে ধাপে নেভিগেশনের রেন্ডারিং লজিক:
-        // বর্তমান নোডের ঠিক পরবর্তী জেনারেশন (সন্তানরা) রেন্ডার হবে এবং তাদের নিচে ক্লিক করার বাটন থাকবে।
+        // মূল হোম পেজে প্রথম স্তর (পদ্মাশী -> আকালী -> ঈসু ও কেসু) রেন্ডারিং এবং পরবর্তী পেজে শুধু এক জেনারেশন করে দেখানোর লজিক
         function renderNodeHTML(node) {
             if (!node) return '';
 
@@ -632,10 +629,10 @@
                     const hasGrandChildren = child.children && child.children.length > 0;
                     let linkBtn = '';
                     
-                    // যার সন্তান বা পরবর্তী প্রজন্ম আছে, শুধুমাত্র তাদের বক্সের নিচেই এই অপশন থাকবে
+                    // যার পরবর্তী প্রজন্ম বা সন্তানাদি রয়েছে, শুধু তাদের নিচে ছোট করে লেখা থাকবে "এর বংশধারা দেখতে ক্লিক করুন"
                     if (hasGrandChildren) {
                         linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">
-                            👉 ${child.nameBn}-এর বংশধারা দেখতে ক্লিক করুন
+                            এর বংশধারা দেখতে ক্লিক করুন
                         </button>`;
                     }
 
@@ -663,9 +660,45 @@
             return `
                 <li>
                     <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')" style="border-width: 3px;">
-                        <div class="member-name-bn" style="font-size: 1rem;">👑 প্রধান/পিতা: ${node.nameBn} ${deceasedBadge}</div>
+                        <div class="member-name-bn" style="font-size: 1rem;">👑 প্রধান: ${node.nameBn} ${deceasedBadge}</div>
                     </div>
                     ${childrenHTML}
+                </li>
+            `;
+        }
+
+        // হোম পেজে প্রথম ধাপে শুধুমাত্র পদ্মাশী ➔ আকালী ➔ ঈসু ও কেসু পর্যন্ত দেখানোর কাস্টম রেন্ডার
+        function renderHomeLevelHTML() {
+            const akaliNode = familyData.children[0];
+            const isuNode = akaliNode.children[0];
+            const kesuNode = akaliNode.children[1];
+
+            return `
+                <li>
+                    <div class="member-card male" onclick="onCardClick('${familyData.id}')">
+                        <div class="member-name-bn">👑 ${familyData.nameBn}</div>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="member-card male" onclick="onCardClick('${akaliNode.id}')">
+                                <div class="member-name-bn">${akaliNode.nameBn}</div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="member-card male" onclick="onCardClick('${isuNode.id}')">
+                                        <div class="member-name-bn">${isuNode.nameBn}</div>
+                                        <button class="sub-tree-link" onclick="navigateToSubTree('${isuNode.id}', event)">এর বংশধারা দেখতে ক্লিক করুন</button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="member-card male" onclick="onCardClick('${kesuNode.id}')">
+                                        <div class="member-name-bn">${kesuNode.nameBn}</div>
+                                        <button class="sub-tree-link" onclick="navigateToSubTree('${kesuNode.id}', event)">এর বংশধারা দেখতে ক্লিক করুন</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
             `;
         }
@@ -680,13 +713,13 @@
                 breadcrumb.textContent = '📍 মূল পেজ: পদ্মাশী সর্দার ➔ আকালী সর্দার ➔ ঈসু ও কেসু সর্দার';
                 prevBtn.style.display = 'none';
                 homeBtn.style.display = 'none';
+                container.innerHTML = `<div class="tf-tree"><ul>${renderHomeLevelHTML()}</ul></div>`;
             } else {
                 breadcrumb.textContent = `📍 শাখা পেজ: ${currentRootNode.nameBn}-এর বংশধরগণ`;
                 prevBtn.style.display = 'inline-flex';
                 homeBtn.style.display = 'inline-flex';
+                container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
             }
-
-            container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
         }
 
         function navigateToSubTree(id, event) {
