@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>শেকড় - সম্পূর্ণ বংশধারা</title>
+    <title>শেকড় - ধাপে ধাপে বংশধারা</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
         }
         .nav-action-btn.home-btn { background: #319795; color: white; border: none; }
 
-        .tree-viewport { flex: 1; padding: 20px 15px; display: flex; justify-content: center; overflow-x: auto; }
+        .tree-viewport { flex: 1; padding: 25px 15px; display: flex; justify-content: center; overflow-x: auto; }
 
         /* Compact Tree CSS Architecture */
         .tf-tree ul { padding-top: 15px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; }
@@ -90,20 +90,21 @@
         }
 
         .member-card {
-            padding: 8px 12px; display: inline-flex; flex-direction: column; justify-content: center;
-            align-items: center; border-radius: 6px; min-width: 110px; min-height: 45px; text-align: center;
-            cursor: pointer; background-color: #ffffff; box-shadow: 0 3px 8px rgba(0,0,0,0.06); transition: all 0.2s; position: relative;
+            padding: 10px 14px; display: inline-flex; flex-direction: column; justify-content: center;
+            align-items: center; border-radius: 8px; min-width: 130px; text-align: center;
+            cursor: pointer; background-color: #ffffff; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: all 0.2s; position: relative;
         }
         .member-card.male { border: 2px solid #2b6cb0; background-color: #f0f7ff; color: #1a365d; }
         .member-card.female { border: 2px solid #d53f8c; background-color: #fff5f7; color: #702459; }
         .member-card.deceased { border-color: #718096 !important; background-color: #edf2f7 !important; color: #4a5568 !important; }
 
-        .member-name-bn { font-size: 0.82rem; font-weight: 700; line-height: 1.15; }
-        .deceased-badge { font-size: 0.6rem; color: #e53e3e; }
+        .member-name-bn { font-size: 0.9rem; font-weight: 700; line-height: 1.2; }
+        .deceased-badge { font-size: 0.65rem; color: #e53e3e; }
         .sub-tree-link {
-            margin-top: 4px; background-color: #2b6cb0; color: #ffffff; border: none;
-            padding: 3px 6px; border-radius: 4px; font-size: 0.68rem; cursor: pointer; font-weight: 600;
+            margin-top: 6px; background-color: #2b6cb0; color: #ffffff; border: none;
+            padding: 4px 8px; border-radius: 5px; font-size: 0.72rem; cursor: pointer; font-weight: 600;
         }
+        .sub-tree-link:hover { background-color: #2c5282; }
 
         /* Auto-fit Zoom Modal Overlay */
         .zoom-modal-overlay {
@@ -154,7 +155,7 @@
     </div>
 
     <div class="nav-banner">
-        <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ: পদ্মাশী সর্দার</div>
+        <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ</div>
         <div class="nav-buttons-group">
             <button class="nav-action-btn" id="prevPageBtn" style="display: none;">⬅ আগের পেজ</button>
             <button class="nav-action-btn home-btn" id="homeBtn" style="display: none;">🏠 মূল হোম</button>
@@ -620,25 +621,39 @@
             `;
         }
 
-        // হোম পেজের রেন্ডারিং লজিক: পদ্মাশী -> আকালি -> ঈসু ও কেসু পর্যন্ত দেখাবে, বাকীগুলো সাব-লিংক হিসেবে থাকবে
-        function renderNodeHTML(node, currentDepth = 0) {
+        // মূল হোম পেজ বা ধাপে ধাপে নেভিগেশনের রেন্ডারিং লজিক:
+        // বর্তমান নোডের ঠিক পরবর্তী জেনারেশন (সন্তানরা) রেন্ডার হবে এবং তাদের নিচে ক্লিক করার বাটন থাকবে।
+        function renderNodeHTML(node) {
             if (!node) return '';
 
-            const hasChildren = node.children && node.children.length > 0;
-            let linkBtn = '';
-
-            // ২য় লেভেল অর্থাৎ ঈসু ও কেসু সর্দারের নিচে যাওয়ার জন্য শাখা বাটন থাকবে
-            if (hasChildren && currentDepth >= 2) {
-                linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${node.id}', event)">
-                    👉 শাখা দেখতে ক্লিক করুন
-                </button>`;
-            }
-
             let childrenHTML = '';
-            // হোম পেজে শুধুমাত্র ২য় লেভেল (আকালি ও তার পুত্র ঈসু-কেসু) পর্যন্ত চিল্ড্রেন রেন্ডার করবে
-            if (hasChildren && currentDepth < 2) {
-                const childNodes = node.children.map(child => renderNodeHTML(child, currentDepth + 1)).join('');
-                childrenHTML = `<ul>${childNodes}</ul>`;
+            if (node.children && node.children.length > 0) {
+                const childNodesHTML = node.children.map(child => {
+                    const hasGrandChildren = child.children && child.children.length > 0;
+                    let linkBtn = '';
+                    
+                    // যার সন্তান বা পরবর্তী প্রজন্ম আছে, শুধুমাত্র তাদের বক্সের নিচেই এই অপশন থাকবে
+                    if (hasGrandChildren) {
+                        linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">
+                            👉 ${child.nameBn}-এর বংশধারা দেখতে ক্লিক করুন
+                        </button>`;
+                    }
+
+                    const deceasedClass = child.isDeceased ? 'deceased' : '';
+                    const genderClass = child.gender === 'female' ? 'female' : 'male';
+                    const deceasedBadge = child.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
+
+                    return `
+                        <li>
+                            <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${child.id}')">
+                                <div class="member-name-bn">${child.nameBn} ${deceasedBadge}</div>
+                                ${linkBtn}
+                            </div>
+                        </li>
+                    `;
+                }).join('');
+
+                childrenHTML = `<ul>${childNodesHTML}</ul>`;
             }
 
             const deceasedClass = node.isDeceased ? 'deceased' : '';
@@ -647,9 +662,8 @@
 
             return `
                 <li>
-                    <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')">
-                        <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
-                        ${linkBtn}
+                    <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')" style="border-width: 3px;">
+                        <div class="member-name-bn" style="font-size: 1rem;">👑 প্রধান/পিতা: ${node.nameBn} ${deceasedBadge}</div>
                     </div>
                     ${childrenHTML}
                 </li>
@@ -667,12 +681,12 @@
                 prevBtn.style.display = 'none';
                 homeBtn.style.display = 'none';
             } else {
-                breadcrumb.textContent = `📍 শাখা পেজ: ${currentRootNode.nameBn}`;
+                breadcrumb.textContent = `📍 শাখা পেজ: ${currentRootNode.nameBn}-এর বংশধরগণ`;
                 prevBtn.style.display = 'inline-flex';
                 homeBtn.style.display = 'inline-flex';
             }
 
-            container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode, 0)}</ul></div>`;
+            container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
         }
 
         function navigateToSubTree(id, event) {
@@ -741,7 +755,7 @@
             }
         }
 
-        let zoomScale = 0.25; // এক স্ক্রিনে পুরোপুরি ফিট করার জন্য ছোট ডিফল্ট স্কেল
+        let zoomScale = 0.25;
         let pointX = 0;
         let pointY = 0;
         let startX = 0;
@@ -754,7 +768,6 @@
             zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeModal(familyData)}</ul></div>`;
             zoomModal.style.display = 'flex';
             
-            // অটো ফিট স্ক্রিন ক্যালকুলেশন
             const viewport = document.getElementById('zoomViewport');
             zoomScale = 0.25; 
             pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
