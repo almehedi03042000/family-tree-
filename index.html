@@ -3,189 +3,417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>শেকড় - ধাপে ধাপে বংশধারা</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>ফ্যামিলি ট্রি</title>
+    <!-- html2pdf.js for PDF download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary-color: #2c3e50;
+            --male-bg: #e8f4f8;
+            --male-border: #3498db;
+            --female-bg: #fce4ec;
+            --female-border: #e91e63;
+            --deceased-bg: #e0e0e0;
+            --deceased-border: #7f8c8d;
+            --text-color: #333;
+        }
+
         body {
-            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f0f4f3 0%, #e2eaf0 100%);
-            color: #2d3748;
-            min-height: 100vh;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* Top Bar Container */
+        .top-bar {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
             display: flex;
             flex-direction: column;
+            gap: 15px;
+            align-items: center;
         }
-        .app-header {
-            background: linear-gradient(90deg, #152e22 0%, #1e3d2f 100%);
-            color: #ffffff;
-            padding: 10px 20px;
+
+        /* Search Box Styles */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #3498db;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-result-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Controls / Buttons */
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #7f8c8d;
+        }
+        .btn-secondary:hover {
+            background-color: #616a6b;
+        }
+
+        /* Navigation Banner */
+        .nav-banner {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-            z-index: 100;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .header-left h1 { font-size: 1.3rem; font-weight: 700; color: #ffffff; }
-        .header-controls { display: flex; align-items: center; gap: 12px; }
-        .search-box { position: relative; display: flex; align-items: center; }
-        .search-box input {
-            padding: 6px 12px; border: 1px solid #38a169; border-radius: 20px 0 0 20px;
-            outline: none; font-size: 0.8rem; font-family: inherit; width: 160px; background-color: #ffffff; color: #2d3748;
-        }
-        .search-box button {
-            padding: 6px 12px; background: linear-gradient(135deg, #38a169, #2f855a); color: white;
-            border: none; border-radius: 0 20px 20px 0; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600;
-        }
-        .search-results-dropdown {
-            position: absolute; top: 110%; left: 0; right: 0; background: linear-gradient(180deg, #1e3d2f 0%, #152e22 100%);
-            border: 1px solid #38a169; border-radius: 8px; max-height: 200px; overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25); display: none; z-index: 101;
-        }
-        .search-result-item { padding: 6px 10px; cursor: pointer; font-size: 0.8rem; color: #f7fafc; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .search-result-item:hover { background-color: rgba(56, 161, 105, 0.3); }
-
-        .overview-card-container { padding: 12px 15px 0 15px; display: flex; justify-content: center; }
-        .overview-box {
-            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%); color: white; padding: 10px 20px;
-            border-radius: 8px; display: flex; flex-direction: column; align-items: center; width: 100%;
-            max-width: 400px; box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2); cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .overview-box h3 { font-size: 1rem; font-weight: 700; }
-        .overview-box .click-subtext { font-size: 0.75rem; color: #e2e8f0; margin-top: 2px; }
-
-        .nav-banner {
-            background: #ffffff; padding: 8px 20px; display: flex; align-items: center;
-            justify-content: space-between; border-bottom: 1px solid #e2e8f0; margin-top: 10px; flex-wrap: wrap; gap: 8px;
-        }
-        .breadcrumb { font-size: 0.85rem; font-weight: 700; color: #2d3748; }
-        .nav-buttons-group { display: flex; align-items: center; gap: 8px; }
-        .nav-action-btn {
-            background: #edf2f7; color: #2d3748; border: 1px solid #cbd5e0; padding: 4px 10px;
-            border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.75rem; font-weight: 600;
-        }
-        .nav-action-btn.home-btn { background: #319795; color: white; border: none; }
-
-        /* এক পেজে অটো-ফিট ও কম্প্যাক্ট করার জন্য ট্রি ভিউপোর্ট এবং ফ্লেক্স লেআউট কাস্টমাইজেশন */
-        .tree-viewport { 
-            flex: 1; 
-            padding: 15px 10px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start;
-            overflow-x: auto; 
-            width: 100%;
         }
 
-        .tf-tree { width: 100%; display: flex; justify-content: center; }
-        .tf-tree ul { padding-top: 12px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; flex-wrap: wrap; }
-        .tf-tree li { text-align: center; list-style-type: none; position: relative; padding: 12px 3px 0 3px; }
+        .breadcrumb-text {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Tree Structure using tf-tree concept */
+        .tf-tree {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .tf-tree ul {
+            padding-top: 20px; 
+            position: relative;
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding-left: 0;
+        }
+
+        .tf-tree li {
+            position: relative;
+            padding: 20px 5px 0 5px;
+            text-align: center;
+            list-style-type: none;
+        }
+
+        /* Connecting lines */
         .tf-tree li::before, .tf-tree li::after {
-            content: ''; position: absolute; top: 0; right: 50%; border-top: 1.5px solid #1e3d2f; width: 50%; height: 12px;
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid #ccc;
+            width: 50%;
+            height: 20px;
         }
-        .tf-tree li::after { right: auto; left: 50%; border-left: 1.5px solid #1e3d2f; }
-        .tf-tree li:only-child::after, .tf-tree li:only-child::before { display: none; }
-        .tf-tree li:only-child { padding-top: 0; }
-        .tf-tree li:first-child::before, .tf-tree li:last-child::after { border: none; }
-        .tf-tree li:last-child::before { border-right: 1.5px solid #1e3d2f; border-radius: 0 4px 0 0; }
-        .tf-tree li:first-child::after { border-radius: 4px 0 0 0; }
+        .tf-tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid #ccc;
+        }
+
+        .tf-tree li:only-child::after, .tf-tree li:only-child::before {
+            display: none;
+        }
+
+        .tf-tree li:only-child {
+            padding-top: 0;
+        }
+
+        .tf-tree li:first-child::before, .tf-tree li:last-child::after {
+            border: 0;
+        }
+
+        .tf-tree li:last-child::before {
+            border-right: 2px solid #ccc;
+            border-radius: 0 5px 0 0;
+        }
+
+        .tf-tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+
         .tf-tree ul ul::before {
-            content: ''; position: absolute; top: 0; left: 50%; border-left: 1.5px solid #1e3d2f; width: 0; height: 12px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid #ccc;
+            width: 0;
+            height: 20px;
         }
 
-        /* কম্প্যাক্ট কার্ড সাইজ যাতে এক পেজে সহজে ফিট হয় */
+        /* Member Card Styles */
         .member-card {
-            padding: 8px 10px; display: inline-flex; flex-direction: column; justify-content: center;
-            align-items: center; border-radius: 6px; min-width: 110px; max-width: 150px; text-align: center;
-            cursor: pointer; background-color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: all 0.2s; position: relative;
+            display: inline-block;
+            padding: 12px 18px;
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
         }
-        .member-card.male { border: 1.5px solid #2b6cb0; background-color: #f0f7ff; color: #1a365d; }
-        .member-card.female { border: 1.5px solid #d53f8c; background-color: #fff5f7; color: #702459; }
-        .member-card.deceased { border-color: #718096 !important; background-color: #edf2f7 !important; color: #4a5568 !important; }
 
-        .member-name-bn { font-size: 0.8rem; font-weight: 700; line-height: 1.15; }
-        .deceased-badge { font-size: 0.6rem; color: #e53e3e; }
-        
-        /* ছোট এবং সুন্দর বাটন টেক্সট */
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .member-card.male {
+            background-color: var(--male-bg);
+            border-color: var(--male-border);
+        }
+
+        .member-card.female {
+            background-color: var(--female-bg);
+            border-color: var(--female-border);
+        }
+
+        .member-card.deceased {
+            background-color: var(--deceased-bg);
+            border-color: var(--deceased-border);
+        }
+
+        .member-name-bn {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            color: #2c3e50;
+        }
+
+        .member-name-en {
+            font-size: 12px;
+            color: #666;
+            display: block;
+            margin-top: 2px;
+        }
+
         .sub-tree-link {
-            margin-top: 4px; background-color: #2b6cb0; color: #ffffff; border: none;
-            padding: 2px 6px; border-radius: 3px; font-size: 0.62rem; cursor: pointer; font-weight: 600;
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 8px;
+            background-color: #2c3e50;
+            color: white;
+            font-size: 11px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
         }
-        .sub-tree-link:hover { background-color: #2c5282; }
+        .sub-tree-link:hover {
+            background-color: #1a252f;
+        }
 
-        .zoom-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(15, 23, 42, 0.95); display: none; flex-direction: column; z-index: 2000;
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        .zoom-modal-header { background: #1e3d2f; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .zoom-controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .zoom-btn { background: #38a169; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
-        .pdf-btn { background: #dd6b20; }
-        .zoom-close-btn { background: #e53e3e; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: left;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .modal-close:hover { color: #000; }
+
+        .modal-content h3 { margin-top: 0; color: #2c3e50; }
+        .modal-info p { margin: 8px 0; font-size: 15px; }
         
-        .zoom-viewport { flex: 1; overflow: hidden; position: relative; cursor: grab; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); display: flex; justify-content: center; align-items: center; }
-        .zoom-content {
-            position: absolute; transform-origin: center center;
-            background: linear-gradient(135deg, #fdfbf7 0%, #eef2f5 100%); padding: 20px; border-radius: 8px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid #cbd5e0;
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            background-color: #2ecc71;
+            color: white;
+        }
+        .status-badge.deceased {
+            background-color: #7f8c8d;
         }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 3000;
+        /* Zoom & PDF View Modal */
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            flex-direction: column;
         }
-        .modal-content { background: #ffffff; padding: 16px; border-radius: 8px; width: 280px; position: relative; font-size: 0.85rem; }
-        .modal-close { position: absolute; top: 6px; right: 10px; font-size: 1.2rem; cursor: pointer; color: #a0aec0; }
-        .status-badge { padding: 2px 6px; background-color: #c6f6d5; color: #22543d; border-radius: 8px; font-size: 0.68rem; display: inline-block; margin-top: 4px; font-weight: 600; }
-        .status-badge.deceased { background-color: #fed7d7; color: #742a2a; }
+
+        .zoom-header {
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .zoom-viewport {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .zoom-content {
+            position: absolute;
+            transform-origin: center center;
+            transition: transform 0.05s ease-out;
+        }
     </style>
 </head>
 <body>
 
-    <header class="app-header">
-        <div class="header-left"><h1>🌳 শেকড়</h1></div>
-        <div class="header-controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="নাম খুঁজুন..." autocomplete="off">
-                <button id="searchBtn">খুঁজুন</button>
-                <div id="searchResults" class="search-results-dropdown"></div>
+    <h1>ফ্যামিলি ট্রি</h1>
+
+    <!-- Top Bar: Search and Full Tree View Button -->
+    <div class="top-bar">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="নাম দিয়ে খুঁজুন (বাংলা বা ইংরেজি)...">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <div class="controls">
+            <button class="btn" id="openZoomTreeBox">সম্পূর্ণ গাছ ও পিডিএফ ডাউনলোড</button>
+        </div>
+    </div>
+
+    <!-- Navigation Banner for Branches -->
+    <div class="nav-banner" id="navBanner">
+        <span class="breadcrumb-text" id="breadcrumbText">📍 মূল পেজ: রুট</span>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" id="prevPageBtn" style="display:none;">পেছনে</button>
+            <button class="btn btn-secondary" id="homeBtn" style="display:none;">মূল পাতা</button>
+        </div>
+    </div>
+
+    <!-- Main Tree Display Container -->
+    <div id="treeContainer" class="tf-tree"></div>
+
+    <!-- Member Details Modal -->
+    <div class="modal" id="memberModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h3 id="modalNameBn">নাম</h3>
+            <p style="color: #666; margin-top: -5px; font-size: 13px;" id="modalNameEn">English Name</p>
+            <div class="modal-info">
+                <p><strong>স্ট্যাটাস:</strong> <span id="modalStatusBadge" class="status-badge">জীবিত</span></p>
+                <p><strong>লিঙ্গ:</strong> <span id="modalGender">পুরুষ</span></p>
+                <p><strong>পিতা/অভিভাবক:</strong> <span id="modalParent">N/A</span></p>
+                <p><strong>সন্তান সংখ্যা:</strong> <span id="modalChildrenCount">০ জন</span></p>
             </div>
         </div>
-    </header>
-
-    <div class="overview-card-container">
-        <div class="overview-box" id="openZoomTreeBox">
-            <h3>📌 সম্পূর্ণ বংশধারা ম্যাপ (অটো-ফিট)</h3>
-            <span class="click-subtext">এক নজরে দেখতে ক্লিক করুন</span>
-        </div>
     </div>
 
-    <div class="nav-banner">
-        <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ</div>
-        <div class="nav-buttons-group">
-            <button class="nav-action-btn" id="prevPageBtn" style="display: none;">⬅ আগের পেজ</button>
-            <button class="nav-action-btn home-btn" id="homeBtn" style="display: none;">🏠 মূল হোম</button>
-        </div>
-    </div>
-
-    <main class="tree-viewport">
-        <div id="treeContainer"></div>
-    </main>
-
-    <div id="zoomModal" class="zoom-modal-overlay">
-        <div class="zoom-modal-header">
-            <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র</h2>
-            <div class="zoom-controls">
-                <button class="zoom-btn" id="zoomInBtn">➕ জুম ইন</button>
-                <button class="zoom-btn" id="zoomOutBtn">➖ জুম আউট</button>
-                <button class="zoom-btn" id="zoomResetBtn">🔄 রিসেট</button>
-                <button class="zoom-btn pdf-btn" id="downloadPdfBtn">📄 PDF</button>
-                <button class="zoom-close-btn" id="zoomCloseBtn">✖ বন্ধ</button>
+    <!-- Zoom & Full PDF Modal -->
+    <div class="zoom-modal" id="zoomModal">
+        <div class="zoom-header">
+            <span>সম্পূর্ণ ফ্যামিলি ট্রি (ড্র্যাগ করে সরাতে এবং জুম করতে পারেন)</span>
+            <div>
+                <button class="btn" id="zoomInBtn">+</button>
+                <button class="btn" id="zoomOutBtn">-</button>
+                <button class="btn" id="zoomResetBtn">রিসেট</button>
+                <button class="btn" id="downloadPdfBtn" style="background-color: #27ae60;">PDF ডাউনলোড</button>
+                <button class="btn btn-secondary" id="zoomCloseBtn">বন্ধ করুন</button>
             </div>
         </div>
         <div class="zoom-viewport" id="zoomViewport">
@@ -193,741 +421,328 @@
         </div>
     </div>
 
-    <div id="memberModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" id="modalClose">&times;</span>
-            <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 5px; margin-bottom: 8px;">
-                <h3 id="modalNameBn" style="font-size: 0.95rem;">নাম</h3>
-                <span id="modalStatusBadge" class="status-badge">জীবিত</span>
-            </div>
-            <div>
-                <p><strong>লিঙ্গ:</strong> <span id="modalGender">N/A</span></p>
-                <p><strong>পিতা:</strong> <span id="modalParent">N/A</span></p>
-                <p><strong>সন্তানাদি:</strong> <span id="modalChildrenCount">০ জন</span></p>
-            </div>
-        </div>
-    </div>
-
     <script>
+        // Family Data Structure
         const familyData = {
-            id: "padmashi", nameBn: "পদ্মাশী সর্দার", gender: "male", isDeceased: false,
+            id: "root",
+            nameBn: "পদ্মশী সর্দার",
+            nameEn: "Paddoshi Sardar",
+            gender: "male",
+            isDeceased: true,
             children: [
                 {
-                    id: "akali", nameBn: "আকালি সর্দার", gender: "male", isDeceased: false,
+                    id: "akali",
+                    nameBn: "আকালী সর্দার",
+                    nameEn: "Akali Sardar",
+                    gender: "male",
+                    isDeceased: true,
+                    children: []
+                },
+                {
+                    id: "eesa",
+                    nameBn: "ঈসা সর্দার",
+                    nameEn: "Eesa Sardar",
+                    gender: "male",
+                    isDeceased: true,
+                    children: []
+                },
+                {
+                    id: "kesu",
+                    nameBn: "কেসু সর্দার",
+                    nameEn: "Kesu Sardar",
+                    gender: "male",
+                    isDeceased: true,
                     children: [
                         {
-                            id: "isu", nameBn: "ঈসু সর্দার", gender: "male", isDeceased: false,
-                            children: [
-                                {
-                                    id: "doshor", nameBn: "দোশর সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "banej", nameBn: "বানেজ সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "mhasin", nameBn: "মহাসিন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "abul", nameBn: "আবুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "amzad", nameBn: "আমজাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "reziya", nameBn: "রেজিয়া", gender: "female", isDeceased: false},
-                                                {id: "hafiya", nameBn: "হাফিয়া", gender: "female", isDeceased: false},
-                                                {id: "bulu", nameBn: "বুলু", gender: "female", isDeceased: false},
-                                                {id: "rashu", nameBn: "রাশু", gender: "female", isDeceased: false},
-                                                {id: "fojila", nameBn: "ফজিলা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "mokbul", nameBn: "মকবুল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "altaf", nameBn: "মৃত আলতাফ সর্দার", gender: "male", isDeceased: true},
-                                                {id: "robiul", nameBn: "রবিউল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "roshid", nameBn: "রশিদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "monowar", nameBn: "মনোয়ার", gender: "female", isDeceased: false},
-                                                {id: "ambiya", nameBn: "আম্বিয়া", gender: "female", isDeceased: false},
-                                                {id: "hashera", nameBn: "হাশেরা", gender: "female", isDeceased: false},
-                                                {id: "rekena", nameBn: "রেকেনা", gender: "female", isDeceased: false},
-                                                {id: "rushia", nameBn: "রুশিয়া", gender: "female", isDeceased: false},
-                                                {id: "lila", nameBn: "লীলা [নতুন]", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {id: "jaimon", nameBn: "জাইমন", gender: "female", isDeceased: false},
-                                        {id: "harija", nameBn: "হারিজা", gender: "female", isDeceased: false},
-                                        {id: "haiton", nameBn: "হাইতন", gender: "female", isDeceased: false}
-                                    ]
-                                },
-                                {
-                                    id: "peyar", nameBn: "পেয়ার সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "janu", nameBn: "জানু সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "jamshed", nameBn: "জামশেদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "fulu_jan", nameBn: "ফুলু জান", gender: "female", isDeceased: false},
-                                                {id: "majeda", nameBn: "মাজেদা খাতুন", gender: "female", isDeceased: false},
-                                                {id: "lulu_jan", nameBn: "লুলু জান", gender: "female", isDeceased: false},
-                                                {id: "khodijan", nameBn: "খদিজান", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "haran", nameBn: "হারান সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "jhontu", nameBn: "ঝন্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "siddik", nameBn: "সিদ্দিক সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jahangir", nameBn: "জাহাঙ্গীর সর্দার", gender: "male", isDeceased: false},
-                                                {id: "komejan", nameBn: "কমেজান", gender: "female", isDeceased: false},
-                                                {id: "mistujan", nameBn: "মিষ্টুজান", gender: "female", isDeceased: false},
-                                                {id: "balijan", nameBn: "বালীজান", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "jaher", nameBn: "জাহের সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "sadhu", nameBn: "সাধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "modhu", nameBn: "মধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jadu", nameBn: "জাদু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "madina", nameBn: "মদিনা", gender: "female", isDeceased: false},
-                                                {id: "morjina", nameBn: "মরজিনা", gender: "female", isDeceased: false},
-                                                {id: "koriman", nameBn: "করিমন নেছা", gender: "female", isDeceased: false},
-                                                {id: "tarajam", nameBn: "তারাজাম", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "bhasha", nameBn: "ভাষা সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "moja", nameBn: "মোজা সর্দার", gender: "male", isDeceased: false},
-                                                {id: "moynu", nameBn: "মৃত মইনুদ্দিন", gender: "male", isDeceased: true},
-                                                {id: "ziarul", nameBn: "জিয়ারুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "samiyon", nameBn: "সামিয়ন", gender: "female", isDeceased: false}
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: "fokir", nameBn: "ফকির সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "ajim", nameBn: "আজিম সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "jalal", nameBn: "জালাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "zia", nameBn: "জিয়া সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rotan", nameBn: "রতন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "yatan", nameBn: "ইয়াতন", gender: "female", isDeceased: false},
-                                                {id: "fukun", nameBn: "ফুকন", gender: "female", isDeceased: false},
-                                                {id: "tuklima", nameBn: "মৃত টুকলিমা", gender: "female", isDeceased: true}
-                                            ]
-                                        },
-                                        {
-                                            id: "layeb", nameBn: "লায়েব সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "dulal", nameBn: "মৃত দুলাল সর্দার", gender: "male", isDeceased: true},
-                                                {id: "alal", nameBn: "আলাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "helal", nameBn: "হেলাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "funka", nameBn: "ফুনকা", gender: "female", isDeceased: false},
-                                                {id: "firoza", nameBn: "ফিরোজা", gender: "female", isDeceased: false}
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {id: "abeda", nameBn: "আবেদা খাতুন", gender: "female", isDeceased: false}
-                            ]
+                            id: "samsun",
+                            nameBn: "সামসুন",
+                            nameEn: "Samsun",
+                            gender: "female",
+                            isDeceased: false
                         },
                         {
-                            id: "kesu", nameBn: "কেসু সর্দার", gender: "male", isDeceased: false,
-                            children: [
-                                {
-                                    id: "asharat", nameBn: "আশারত সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "kukon", nameBn: "কুকন সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "hozrat", nameBn: "হযরত সর্দার", gender: "male", isDeceased: false},
-                                                {id: "hafez", nameBn: "হাফেজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "shahbaz", nameBn: "শাহবাজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sorejan", nameBn: "শরেজান", gender: "female", isDeceased: false},
-                                                {id: "mina", nameBn: "মীনা", gender: "female", isDeceased: false},
-                                                {id: "foima", nameBn: "ফইমা", gender: "female", isDeceased: false},
-                                                {id: "sukhejan", nameBn: "সুখেজান", gender: "female", isDeceased: false},
-                                                {id: "monjura", nameBn: "মঞ্জুরা [নতুন]", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "elahi", nameBn: "এলাহী সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "idris", nameBn: "ইদ্রিস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "alam", nameBn: "আলম সর্দার", gender: "male", isDeceased: false},
-                                                {id: "aulad", nameBn: "আউলাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ilef", nameBn: "ইলেফ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "zaharun", nameBn: "জাহারন", gender: "female", isDeceased: false},
-                                                {id: "tuhura1", nameBn: "তহুরা", gender: "female", isDeceased: false},
-                                                {id: "khaleda", nameBn: "খালেদা", gender: "female", isDeceased: false}
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: "bosharat", nameBn: "বসারত সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "shukot", nameBn: "শুকট সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "habil", nameBn: "মৃত হাবিল সর্দার", gender: "male", isDeceased: true},
-                                                {id: "hanif", nameBn: "মৃত হানিফ সর্দার", gender: "male", isDeceased: true},
-                                                {id: "bojlu", nameBn: "বজলু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kabil", nameBn: "কাবিল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "maleka", nameBn: "মালেকা", gender: "female", isDeceased: false},
-                                                {id: "hima", nameBn: "হিমা", gender: "female", isDeceased: false},
-                                                {id: "nima", nameBn: "নিমা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "jolil", nameBn: "জলিল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "mannan", nameBn: "মান্নান সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sadhu2", nameBn: "সাধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "modhu2", nameBn: "মধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "anura", nameBn: "মৃত আনুরা", gender: "female", isDeceased: true},
-                                                {id: "nahera", nameBn: "নাহেরা", gender: "female", isDeceased: false},
-                                                {id: "fonuara", nameBn: "মৃত ফনুয়ারা", gender: "female", isDeceased: true}
-                                            ]
-                                        },
-                                        {
-                                              id: "mohir", nameBn: "মহির সর্দার", gender: "male", isDeceased: false,
-                                              children: [
-                                                  {id: "kamruzzaman", nameBn: "কামরুজ্জামান", gender: "male", isDeceased: false},
-                                                  {id: "shofikul", nameBn: "শফিকুল সর্দার", gender: "male", isDeceased: false},
-                                                  {id: "nasima", nameBn: "নাসিমা", gender: "female", isDeceased: false},
-                                                  {id: "modon", nameBn: "মদন", gender: "male", isDeceased: false},
-                                                  {id: "laki", nameBn: "লাকি", gender: "female", isDeceased: false},
-                                                  {id: "roksana", nameBn: "রোকসানা", gender: "female", isDeceased: false}
-                                              ]
-                                        },
-                                        {id: "parijan", nameBn: "পরিজান", gender: "female", isDeceased: false},
-                                        {id: "jomela", nameBn: "জমেলা", gender: "female", isDeceased: false}
-                                    ]
-                                },
-                                {
-                                    id: "bhugol", nameBn: "ভুগল সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "subol", nameBn: "সুবল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "moylal", nameBn: "ময়লাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "hobibar", nameBn: "হবিবার সর্দার", gender: "male", isDeceased: false},
-                                                {id: "motali", nameBn: "মতালি সর্দার", gender: "male", isDeceased: false},
-                                                {id: "lota", nameBn: "লতা জান", gender: "female", isDeceased: false},
-                                                {id: "khorki", nameBn: "খরকি", gender: "female", isDeceased: false},
-                                                {id: "sohura", nameBn: "সহুরা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "mojiborr", nameBn: "মজিবর সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "nazrul", nameBn: "নজরুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jalal2", nameBn: "জালাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kamal", nameBn: "কামাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ahad", nameBn: "আহাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "monowara", nameBn: "মনোয়ারা", gender: "female", isDeceased: false},
-                                                {id: "toslima", nameBn: "তসলিমা", gender: "female", isDeceased: false},
-                                                {id: "shadhina", nameBn: "স্বাধীনা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "mokles", nameBn: "মকলেস সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "akman", nameBn: "আকমান সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ingraj", nameBn: "ইংরাজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "yakub", nameBn: "ইয়াকুব সর্দার", gender: "male", isDeceased: false},
-                                                {id: "anarul", nameBn: "আনারুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rese", nameBn: "রেসে", gender: "female", isDeceased: false},
-                                                {id: "rushy", nameBn: "রুশি", gender: "female", isDeceased: false},
-                                                {id: "farida", nameBn: "মৃত ফরিদা", gender: "female", isDeceased: true},
-                                                {id: "firo", nameBn: "ফিরো", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "saru", nameBn: "সারু সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "yadul", nameBn: "ইয়াদুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "yunus", nameBn: "ইউনুস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "beneyamin", nameBn: "মৃত বেনেয়ামিন", gender: "male", isDeceased: true},
-                                                {id: "ranjana", nameBn: "রঞ্জনা", gender: "female", isDeceased: false},
-                                                {id: "merina", nameBn: "মেরিনা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {id: "rohima", nameBn: "রহিমা", gender: "female", isDeceased: false},
-                                        {id: "zayeda", nameBn: "জায়েদা", gender: "female", isDeceased: false},
-                                        {id: "joygon", nameBn: "জয়গন নেসা", gender: "female", isDeceased: false}
-                                    ]
-                                },
-                                {
-                                    id: "koser", nameBn: "কসের সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "khalil", nameBn: "খলিল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "refej", nameBn: "রেফেজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kubir", nameBn: "কুবির সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jumir", nameBn: "জুমির সর্দার", gender: "male", isDeceased: false},
-                                                {id: "shajuddi", nameBn: "শাইজুদ্দি", gender: "male", isDeceased: false},
-                                                {id: "raziya", nameBn: "মৃত রাজিয়া", gender: "female", isDeceased: true}
-                                            ]
-                                        },
-                                        {
-                                            id: "nurl", nameBn: "নুরল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "waris", nameBn: "ওয়ারিস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "idris2", nameBn: "ইদ্রিস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "apil", nameBn: "আপিল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "niharul", nameBn: "নিহারুল সর্দার", gender: "male", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "alim", nameBn: "আলিম সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "ujjwal", nameBn: "উজ্জ্বল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rofikul", nameBn: "রফিকুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "hesab", nameBn: "হিসাব সর্দার", gender: "male", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "tofezzol", nameBn: "তফেজ্জল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "mohon", nameBn: "মহন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "koron", nameBn: "করণ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rofiya", nameBn: "রফিয়া", gender: "female", isDeceased: false},
-                                                {id: "tuhura2", nameBn: "তহুরা", gender: "female", isDeceased: false},
-                                                {id: "tahera", nameBn: "তাহেরা", gender: "female", isDeceased: false},
-                                                {id: "sultana", nameBn: "সুলতানা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {id: "romela", nameBn: "রমেলা খাতুন", gender: "female", isDeceased: false}
-                                    ]
-                                },
-                                {
-                                    id: "iman_ali", nameBn: "ইমান আলী সর্দার", gender: "male", isDeceased: false,
-                                    children: [
-                                        {
-                                            id: "soleman", nameBn: "সলেমান সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "pentu", nameBn: "পেন্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sentu", nameBn: "সেন্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "asad", nameBn: "আসাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jewel", nameBn: "জুয়েল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sohel", nameBn: "সোহেল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rinku", nameBn: "রিংকু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "beli", nameBn: "বেলি", gender: "female", isDeceased: false},
-                                                {id: "selina", nameBn: "সেলিনা", gender: "female", isDeceased: false},
-                                                {id: "lovely", nameBn: "লাভলি", gender: "female", isDeceased: false},
-                                                {id: "rikta", nameBn: "রিক্তা", gender: "female", isDeceased: false},
-                                                {id: "pista", nameBn: "পিস্তা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "abdus_samad", nameBn: "আব্দুস সামাদ সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "roknuzzaman", nameBn: "রোকনুজ্জামান", gender: "male", isDeceased: false},
-                                                {id: "hasanuzzaman", nameBn: "হাসানুজ্জামান", gender: "male", isDeceased: false},
-                                                {id: "tanim", nameBn: "মৃত তানিম", gender: "male", isDeceased: true},
-                                                {id: "sumon", nameBn: "সুমন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "reena", nameBn: "রীনা", gender: "female", isDeceased: false},
-                                                {id: "bina", nameBn: "বিনা", gender: "female", isDeceased: false},
-                                                {id: "tina", nameBn: "টিনা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "jamal", nameBn: "জামাল সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "mamun", nameBn: "মামুন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "masum", nameBn: "মাসুম সর্দার", gender: "male", isDeceased: false},
-                                                {id: "mousum", nameBn: "মৌসুম সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kusum", nameBn: "কুসুম সর্দার", gender: "female", isDeceased: false},
-                                                {id: "panna", nameBn: "পান্না সর্দার", gender: "male", isDeceased: false},
-                                                {id: "nantu", nameBn: "নান্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "mithon", nameBn: "মিঠন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "tuton", nameBn: "টুটন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "choton", nameBn: "ছোটন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jahanara", nameBn: "জাহানারা", gender: "female", isDeceased: false},
-                                                {id: "sathi", nameBn: "সাথি", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "rustom", nameBn: "রুস্তম সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "rezaul", nameBn: "রেজাউল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "manik", nameBn: "মানিক সর্দার", gender: "male", isDeceased: false},
-                                                {id: "arif", nameBn: "আরিফ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ripon", nameBn: "রিপন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rozina", nameBn: "রোজিনা", gender: "female", isDeceased: false},
-                                                {id: "ruma", nameBn: "রুমা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "akbor", nameBn: "আকবর সর্দার", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "shuvro", nameBn: "শুভ্র", gender: "male", isDeceased: false},
-                                                {id: "onto", nameBn: "অন্ত", gender: "male", isDeceased: false},
-                                                {id: "afifa", nameBn: "আফিফা", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {
-                                            id: "mahatab", nameBn: "মাহাতাব উদ্দিন", gender: "male", isDeceased: false,
-                                            children: [
-                                                {id: "al_mehedi", nameBn: "আল-মেহেদী", gender: "male", isDeceased: false},
-                                                {id: "abu_sayed", nameBn: "আবু সাঈদ", gender: "male", isDeceased: false},
-                                                {id: "moriyom", nameBn: "মরিয়ম খাতুন", gender: "female", isDeceased: false},
-                                                {id: "popi", nameBn: "মৃত পপি", gender: "female", isDeceased: true},
-                                                {id: "merina2", nameBn: "মেরিনা খাতুন", gender: "female", isDeceased: false}
-                                            ]
-                                        },
-                                        {id: "nehar", nameBn: "নেহার", gender: "female", isDeceased: false},
-                                        {id: "sokina", nameBn: "সকিনা", gender: "female", isDeceased: false},
-                                        {id: "shohida", nameBn: "শহিদা", gender: "female", isDeceased: false},
-                                        {id: "shahanur", nameBn: "শাহানূর", gender: "female", isDeceased: false},
-                                        {id: "kajol", nameBn: "কাজল", gender: "female", isDeceased: false}
-                                    ]
-                                },
-                                {id: "salejan", nameBn: "সালেজান", gender: "female", isDeceased: false}
-                            ]
+                            id: "josna",
+                            nameBn: "জোছনা",
+                            nameEn: "Josna",
+                            gender: "female",
+                            isDeceased: false
                         }
                     ]
                 }
             ]
         };
 
-        let historyStack = [familyData];
-        let currentRootNode = familyData;
+        let historyStack = [];
+        let currentData = familyData;
+        let nodeMap = new Map();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCurrentTree();
-            setupSearch();
-            setupModalEvents();
-            setupPannableZoomTree();
+        function buildNodeMap(node, parentName = "মূল") {
+            nodeMap.set(node.id, { ...node, parentName });
+            if (node.children) {
+                node.children.forEach(child => buildNodeMap(child, node.nameBn));
+            }
+        }
+        buildNodeMap(familyData);
 
-            document.getElementById('prevPageBtn').addEventListener('click', () => {
-                if (historyStack.length > 1) {
-                    historyStack.pop();
-                    currentRootNode = historyStack[historyStack.length - 1];
-                    renderCurrentTree();
-                }
-            });
-
-            document.getElementById('homeBtn').addEventListener('click', () => {
-                historyStack = [familyData];
-                currentRootNode = familyData;
-                renderCurrentTree();
-            });
-
-            document.getElementById('openZoomTreeBox').addEventListener('click', () => {
-                openZoomTreeModal();
-            });
-        });
-
-        function getCardHTML(node) {
-            const deceasedClass = node.isDeceased ? 'deceased' : '';
-            const genderClass = node.gender === 'female' ? 'female' : 'male';
-            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
-
-            return `
-                <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')">
-                    <div class="member-name-bn">${node.nameBn} ${deceasedBadge}</div>
-                </div>
-            `;
+        function renderTree(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            container.appendChild(createSubTree(data));
         }
 
-        function renderNodeHTML(node) {
-            if (!node) return '';
+        function createSubTree(node) {
+            const tfTree = document.createElement('div');
+            tfTree.className = 'tf-tree';
+            const ul = document.createElement('ul');
+            const li = document.createElement('li');
 
-            let childrenHTML = '';
+            const card = document.createElement('div');
+            let genderClass = node.gender === 'female' ? 'female' : 'male';
+            if (node.isDeceased) genderClass += ' deceased';
+            card.className = `member-card ${genderClass}`;
+            
+            card.innerHTML = `
+                <span class="member-name-bn">${node.nameBn}</span>
+                <span class="member-name-en">${node.nameEn || ''}</span>
+            `;
+
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showMemberModal(node);
+            });
+
+            li.appendChild(card);
+
             if (node.children && node.children.length > 0) {
-                const childNodesHTML = node.children.map(child => {
-                    const hasGrandChildren = child.children && child.children.length > 0;
-                    let linkBtn = '';
-                    
-                    if (hasGrandChildren) {
-                        linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">
-                            এর বংশধারা দেখতে ক্লিক করুন
-                        </button>`;
-                    }
+                const btn = document.createElement('button');
+                btn.className = 'sub-tree-link';
+                btn.innerText = `শাখা (${node.children.length})`;
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navigateToSubTree(node);
+                });
+                card.appendChild(btn);
 
-                    const deceasedClass = child.isDeceased ? 'deceased' : '';
-                    const genderClass = child.gender === 'female' ? 'female' : 'male';
-                    const deceasedBadge = child.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
-
-                    return `
-                        <li>
-                            <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${child.id}')">
-                                <div class="member-name-bn">${child.nameBn} ${deceasedBadge}</div>
-                                ${linkBtn}
-                            </div>
-                        </li>
-                    `;
-                }).join('');
-
-                childrenHTML = `<ul>${childNodesHTML}</ul>`;
+                const ulChild = document.createElement('ul');
+                node.children.forEach(child => {
+                    const childSubTree = createSubTree(child);
+                    const childLi = childSubTree.querySelector('li');
+                    ulChild.appendChild(childLi);
+                });
+                li.appendChild(ulChild);
             }
 
-            const deceasedClass = node.isDeceased ? 'deceased' : '';
-            const genderClass = node.gender === 'female' ? 'female' : 'male';
-            const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
-
-            // প্রধান বা বর্তমান নির্বাচিত ব্যক্তির বক্সে "প্রধান:" শব্দ বাদ দিয়ে শুধু নাম রাখা হয়েছে
-            return `
-                <li>
-                    <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
-                        <div class="member-name-bn" style="font-size: 0.88rem;">${node.nameBn} ${deceasedBadge}</div>
-                    </div>
-                    ${childrenHTML}
-                </li>
-            `;
+            ul.appendChild(li);
+            tfTree.appendChild(ul);
+            return tfTree;
         }
 
-        function renderHomeLevelHTML() {
-            const akaliNode = familyData.children[0];
-            const isuNode = akaliNode.children[0];
-            const kesuNode = akaliNode.children[1];
-
-            return `
-                <li>
-                    <div class="member-card male" onclick="onCardClick('${familyData.id}')">
-                        <div class="member-name-bn">${familyData.nameBn}</div>
-                    </div>
-                    <ul>
-                        <li>
-                            <div class="member-card male" onclick="onCardClick('${akaliNode.id}')">
-                                <div class="member-name-bn">${akaliNode.nameBn}</div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="member-card male" onclick="onCardClick('${isuNode.id}')">
-                                        <div class="member-name-bn">${isuNode.nameBn}</div>
-                                        <button class="sub-tree-link" onclick="navigateToSubTree('${isuNode.id}', event)">এর বংশধারা দেখতে ক্লিক করুন</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="member-card male" onclick="onCardClick('${kesuNode.id}')">
-                                        <div class="member-name-bn">${kesuNode.nameBn}</div>
-                                        <button class="sub-tree-link" onclick="navigateToSubTree('${kesuNode.id}', event)">এর বংশধারা দেখতে ক্লিক করুন</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            `;
+        function navigateToSubTree(node) {
+            historyStack.push(currentData);
+            currentData = node;
+            updateView();
         }
 
-        function renderCurrentTree() {
-            const container = document.getElementById('treeContainer');
+        function updateView() {
+            renderTree(currentData, 'treeContainer');
+            updateNavBanner();
+        }
+
+        function updateNavBanner() {
             const breadcrumb = document.getElementById('breadcrumbText');
             const prevBtn = document.getElementById('prevPageBtn');
             const homeBtn = document.getElementById('homeBtn');
 
-            if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 মূল পেজ: পদ্মাশী সর্দার ➔ আকালী সর্দার ➔ ঈসু ও কেসু সর্দার';
+            if (historyStack.length === 0) {
+                breadcrumb.innerText = `📍 মূল পেজ: ${currentData.nameBn}`;
                 prevBtn.style.display = 'none';
                 homeBtn.style.display = 'none';
-                container.innerHTML = `<div class="tf-tree"><ul>${renderHomeLevelHTML()}</ul></div>`;
             } else {
-                breadcrumb.textContent = `📍 শাখা পেজ: ${currentRootNode.nameBn}-এর বংশধরগণ`;
-                prevBtn.style.display = 'inline-flex';
-                homeBtn.style.display = 'inline-flex';
-                container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
+                breadcrumb.innerText = `📍 শাখা: ${currentData.nameBn}`;
+                prevBtn.style.display = 'inline-block';
+                homeBtn.style.display = 'inline-block';
             }
         }
 
-        function navigateToSubTree(id, event) {
-            if (event) event.stopPropagation();
-            const targetNode = findMemberById(familyData, id);
-            if (targetNode) {
-                currentRootNode = targetNode;
-                historyStack.push(targetNode);
-                renderCurrentTree();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('prevPageBtn').addEventListener('click', () => {
+            if (historyStack.length > 0) {
+                currentData = historyStack.pop();
+                updateView();
             }
-        }
+        });
 
-        function onCardClick(id) {
-            const memberObj = findMemberById(familyData, id);
-            const parentObj = findParentById(familyData, id);
-            if (memberObj) {
-                showMemberDetailsModal(memberObj, parentObj ? parentObj.nameBn : 'মূল পূর্বপুরুষ');
-            }
-        }
+        document.getElementById('homeBtn').addEventListener('click', () => {
+            historyStack = [];
+            currentData = familyData;
+            updateView();
+        });
 
-        function findMemberById(root, id) {
-            if (root.id === id) return root;
-            if (root.children) {
-                for (let child of root.children) {
-                    const found = findMemberById(child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        }
+        // Modal Elements
+        const memberModal = document.getElementById('memberModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalNameBn = document.getElementById('modalNameBn');
+        const modalNameEn = document.getElementById('modalNameEn');
+        const modalStatusBadge = document.getElementById('modalStatusBadge');
+        const modalGender = document.getElementById('modalGender');
+        const modalParent = document.getElementById('modalParent');
+        const modalChildrenCount = document.getElementById('modalChildrenCount');
 
-        function findParentById(root, id) {
-            if (root.children) {
-                for (let child of root.children) {
-                    if (child.id === id) return root;
-                    const found = findParentById(child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        }
-
-        function showMemberDetailsModal(member, parentName = 'N/A') {
-            const modal = document.getElementById('memberModal');
-            document.getElementById('modalNameBn').textContent = member.nameBn;
-
-            const badge = document.getElementById('modalStatusBadge');
-            badge.textContent = member.isDeceased ? 'মৃত' : 'জীবিত';
-            badge.className = member.isDeceased ? 'status-badge deceased' : 'status-badge';
-
-            document.getElementById('modalGender').textContent = member.gender === 'female' ? 'নারী' : 'পুরুষ';
-            document.getElementById('modalParent').textContent = parentName;
-            document.getElementById('modalChildrenCount').textContent = `${member.children ? member.children.length : 0} জন`;
-
-            modal.style.display = 'flex';
-        }
-
-        function renderFullTreeModal(node) {
-            if (!node) return '';
-            if (node.children && node.children.length > 0) {
-                const childItems = node.children.map(child => renderFullTreeModal(child)).join('');
-                return `<li>${getCardHTML(node)}<ul>${childItems}</ul></li>`;
-            } else {
-                return `<li>${getCardHTML(node)}</li>`;
-            }
-        }
-
-        let zoomScale = 0.2;
-        let pointX = 0;
-        let pointY = 0;
-        let startX = 0;
-        let startY = 0;
-        let isPanning = false;
-
-        function openZoomTreeModal() {
-            const zoomModal = document.getElementById('zoomModal');
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeModal(familyData)}</ul></div>`;
-            zoomModal.style.display = 'flex';
+        function showMemberModal(node) {
+            const info = nodeMap.get(node.id);
+            modalNameBn.innerText = node.nameBn;
+            modalNameEn.innerText = node.nameEn || '';
             
-            const viewport = document.getElementById('zoomViewport');
-            zoomScale = 0.2; 
-            pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
-            pointY = 20;
-            updateTransform();
+            if (node.isDeceased) {
+                modalStatusBadge.innerText = 'মৃত';
+                modalStatusBadge.className = 'status-badge deceased';
+            } else {
+                modalStatusBadge.innerText = 'জীবিত';
+                modalStatusBadge.className = 'status-badge';
+            }
+
+            modalGender.innerText = node.gender === 'female' ? 'নারী' : 'পুরুষ';
+            modalParent.innerText = info ? info.parentName : 'N/A';
+            
+            const count = node.children ? node.children.length : 0;
+            modalChildrenCount.innerText = `${count} জন`;
+
+            memberModal.style.display = 'flex';
         }
+
+        modalClose.addEventListener('click', () => {
+            memberModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === memberModal) {
+                memberModal.style.display = 'none';
+            }
+        });
+
+        // Zoom & PDF Modal Logic
+        const zoomModal = document.getElementById('zoomModal');
+        const openZoomTreeBox = document.getElementById('openZoomTreeBox');
+        const zoomCloseBtn = document.getElementById('zoomCloseBtn');
+        const zoomContent = document.getElementById('zoomContent');
+        const zoomViewport = document.getElementById('zoomViewport');
+
+        let scale = 1;
+        let pannable = false;
+        let startX = 0, startY = 0, translateX = 0, translateY = 0;
+
+        openZoomTreeBox.addEventListener('click', () => {
+            zoomContent.innerHTML = '';
+            zoomContent.appendChild(createSubTree(familyData));
+            zoomModal.style.display = 'flex';
+            scale = 0.6;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        });
+
+        zoomCloseBtn.addEventListener('click', () => {
+            zoomModal.style.display = 'none';
+        });
+
+        document.getElementById('zoomInBtn').addEventListener('click', () => {
+            scale += 0.15;
+            updateTransform();
+        });
+
+        document.getElementById('zoomOutBtn').addEventListener('click', () => {
+            scale = Math.max(0.2, scale - 0.15);
+            updateTransform();
+        });
+
+        document.getElementById('zoomResetBtn').addEventListener('click', () => {
+            scale = 0.6;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        });
 
         function updateTransform() {
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.style.transform = `translate(${pointX}px, ${pointY}px) scale(${zoomScale})`;
+            zoomContent.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         }
 
-        function setupPannableZoomTree() {
-            const zoomViewport = document.getElementById('zoomViewport');
-            const zoomModal = document.getElementById('zoomModal');
+        zoomViewport.addEventListener('mousedown', (e) => {
+            pannable = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            zoomViewport.style.cursor = 'grabbing';
+        });
 
-            document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
-            document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.1, 2.0); updateTransform(); });
-            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.08); updateTransform(); });
-            document.getElementById('zoomResetBtn').addEventListener('click', () => { 
-                zoomScale = 0.2; 
-                pointX = (zoomViewport.clientWidth - document.getElementById('zoomContent').offsetWidth * zoomScale) / 2;
-                pointY = 20; 
-                updateTransform(); 
-            });
+        window.addEventListener('mousemove', (e) => {
+            if (!pannable) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
 
-            const startPan = (e) => {
-                isPanning = true;
-                startX = (e.clientX || e.touches[0].clientX) - pointX;
-                startY = (e.clientY || e.touches[0].clientY) - pointY;
+        window.addEventListener('mouseup', () => {
+            pannable = false;
+            zoomViewport.style.cursor = 'grab';
+        });
+
+        document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+            const element = document.getElementById('zoomContent');
+            const opt = {
+                margin:       10,
+                filename:     'Family-Tree-Roots.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
             };
+            html2pdf().from(element).set(opt).save();
+        });
 
-            const doPan = (e) => {
-                if (!isPanning) return;
-                e.preventDefault();
-                pointX = (e.clientX || e.touches[0].clientX) - startX;
-                pointY = (e.clientY || e.touches[0].clientY) - startY;
-                updateTransform();
-            };
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
 
-            const stopPan = () => isPanning = false;
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            searchResults.innerHTML = '';
+            if (query.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
 
-            zoomViewport.addEventListener('mousedown', startPan);
-            window.addEventListener('mousemove', doPan);
-            window.addEventListener('mouseup', stopPan);
-
-            zoomViewport.addEventListener('touchstart', startPan, { passive: true });
-            window.addEventListener('touchmove', doPan, { passive: false });
-            window.addEventListener('touchend', stopPan);
-
-            document.getElementById('downloadPdfBtn').addEventListener('click', () => {
-                const element = document.getElementById('zoomContent');
-                const opt = {
-                    margin: 0.2,
-                    filename: 'পদ্মাশী_সর্দারের_বংশধারা.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
-                };
-                html2pdf().set(opt).from(element).save();
-            });
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const searchResults = document.getElementById('searchResults');
-
-            const performSearch = () => {
-                const query = searchInput.value.trim().toLowerCase();
-                searchResults.innerHTML = '';
-                if (!query) { searchResults.style.display = 'none'; return; }
-
-                const matches = [];
-                searchMembersRecursive(familyData, query, matches);
-
-                if (matches.length > 0) {
-                    searchResults.style.display = 'block';
-                    matches.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'search-result-item';
-                        div.innerHTML = `<strong>${item.nameBn}</strong>`;
-                        div.addEventListener('click', () => {
-                            currentRootNode = item;
-                            historyStack.push(item);
-                            renderCurrentTree();
-                            searchResults.style.display = 'none';
-                            searchInput.value = '';
-                        });
-                        searchResults.appendChild(div);
-                    });
-                } else {
-                    searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি</div>';
+            let matches = [];
+            nodeMap.forEach((node) => {
+                const nameBn = node.nameBn ? node.nameBn.toLowerCase() : '';
+                const nameEn = node.nameEn ? node.nameEn.toLowerCase() : '';
+                if (nameBn.includes(query) || nameEn.includes(query)) {
+                    matches.push(node);
                 }
-            };
+            });
 
-            searchInput.addEventListener('input', performSearch);
-            searchBtn.addEventListener('click', performSearch);
-        }
-
-        function searchMembersRecursive(node, query, results) {
-            if (!node) return;
-            if (node.nameBn.toLowerCase().includes(query)) {
-                results.push(node);
+            if (matches.length > 0) {
+                searchResults.style.display = 'block';
+                matches.forEach(match => {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item';
+                    div.innerText = `${match.nameBn} (${match.nameEn || ''}) - পিতা: ${match.parentName}`;
+                    div.addEventListener('click', () => {
+                        showMemberModal(match);
+                        searchResults.style.display = 'none';
+                        searchInput.value = '';
+                    });
+                    searchResults.appendChild(div);
+                });
+            } else {
+                searchResults.style.display = 'none';
             }
-            if (node.children) {
-                node.children.forEach(child => searchMembersRecursive(child, query, results));
-            }
-        }
+        });
 
-        function setupModalEvents() {
-            const modal = document.getElementById('memberModal');
-            document.getElementById('modalClose').addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-        }
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // Initial Render
+        updateView();
     </script>
 </body>
 </html>
