@@ -6,8 +6,7 @@ body {
 }
 
 .family-card {
-    background: rgba(15, 23, 42, 0.9);
-    backdrop-filter: blur(10px);
+    background: rgba(15, 23, 42, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
 }
@@ -16,7 +15,10 @@ body {
 .family-card.female { border-left: 4px solid #ec4899; }
 
 .family-card:hover {
-    transform: translateY(-3px);
     border-color: rgba(59, 130, 246, 0.5);
     box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
 }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0b0f19; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
