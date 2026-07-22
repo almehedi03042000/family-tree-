@@ -20,23 +20,22 @@
             }
         }
     </script>
-    <!-- Panzoom Library -->
-    <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
     <style>
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            overflow: hidden;
-            height: 100vh;
+            background-color: #030712;
+            color: #f8fafc;
             margin: 0;
+            overflow-x: hidden;
         }
-        /* Yesterday's Stunning Glassmorphism Card Style */
+        /* Premium Glassmorphism Card */
         .family-card {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
         }
         .family-card.male { border-left: 5px solid #3b82f6; }
         .family-card.female { border-left: 5px solid #ec4899; }
@@ -44,67 +43,48 @@
             transform: translateY(-4px) scale(1.02);
             background: rgba(30, 41, 59, 0.95);
             border-color: rgba(59, 130, 246, 0.6);
-            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
         }
-        .tree-line-vertical { width: 2px; background: rgba(148, 163, 184, 0.4); }
-        .tree-line-horizontal { height: 2px; background: rgba(148, 163, 184, 0.4); }
-        #tree-viewport { cursor: grab; transform-origin: 0 0; }
-        #tree-viewport:active { cursor: grabbing; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
-        ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.5); border-radius: 4px; }
+        .tree-line-vertical { width: 2px; background: rgba(148, 163, 184, 0.3); }
+        .tree-line-horizontal { height: 2px; background: rgba(148, 163, 184, 0.3); }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 flex flex-col h-screen select-none">
+<body class="flex flex-col min-h-screen">
 
-    <!-- Top Navigation Header -->
-    <header class="py-3 px-6 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md flex flex-wrap justify-between items-center z-20 shadow-xl gap-4">
+    <!-- Top Header -->
+    <header class="py-3 px-6 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-30 flex justify-between items-center shadow-lg">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-pink-500 flex items-center justify-center font-bold text-lg shadow-lg text-white">প</div>
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-pink-500 flex items-center justify-center font-bold text-lg text-white shadow">প</div>
             <div>
-                <h1 class="text-lg font-bold bg-gradient-to-r from-blue-400 via-sky-300 to-pink-400 bg-clip-text text-transparent">পদ্মাশী সর্দার পরিবার</h1>
-                <p class="text-[11px] text-slate-400">ঐতিহাসিক পারিবারিক বংশবৃক্ষ ও তথ্যশালা</p>
+                <h1 class="text-base font-bold bg-gradient-to-r from-blue-400 to-pink-400 bg-clip-text text-transparent">পদ্মাশী সর্দার পরিবার</h1>
+                <p class="text-[11px] text-slate-400">বংশবৃক্ষ ও তথ্যশালা</p>
             </div>
         </div>
-
-        <div class="hidden md:flex items-center gap-3 bg-slate-800/50 px-4 py-1.5 rounded-full border border-slate-700/40 text-xs text-slate-300 shadow-inner">
-            <span>সদস্য: <strong class="text-blue-400">১৫০+</strong></span>
-            <span class="text-slate-600">|</span>
-            <span>প্রজন্ম: <strong class="text-pink-400">৪র্থ</strong></span>
-        </div>
-
         <div class="flex items-center gap-3">
-            <div class="relative">
-                <input type="text" id="searchInput" placeholder="সদস্য খুঁজুন..." 
-                    class="bg-slate-900 border border-slate-700 text-sm rounded-xl px-4 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500 w-48 md:w-56 transition shadow-inner">
-            </div>
-            <button onclick="resetZoom()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-xl border border-slate-700 transition shadow flex items-center gap-1.5 font-medium">
-                অটো-ফিট
-            </button>
+            <input type="text" id="searchInput" placeholder="সদস্য খুঁজুন..." 
+                class="bg-slate-950 border border-slate-700 text-xs rounded-xl px-4 py-2 text-slate-200 focus:outline-none focus:border-blue-500 w-40 sm:w-56 transition shadow-inner">
         </div>
     </header>
 
-    <!-- Main Tree Container -->
-    <main id="container" class="flex-1 relative overflow-hidden flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+    <!-- Main Tree Container (Scrollable & Clean) -->
+    <main class="flex-1 p-6 md:p-12 flex flex-col items-center overflow-auto bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
         
-        <!-- Floating Zoom Controls -->
-        <div class="absolute bottom-6 right-6 flex flex-col gap-2 z-10 bg-slate-900/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-800 shadow-2xl">
-            <button onclick="zoomIn()" class="p-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white transition text-sm font-bold" title="জুম ইন">+</button>
-            <button onclick="zoomOut()" class="p-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white transition text-sm font-bold" title="জুম আউট">-</button>
-        </div>
-
-        <!-- Tree Viewport -->
-        <div id="tree-viewport" class="transition-transform duration-75 ease-out flex flex-col items-center py-16 px-10">
+        <div class="w-full max-w-4xl flex flex-col items-center my-4">
             
             <!-- Generation 1: পদ্মাশী সর্দার -->
-            <div class="family-card male px-8 py-3.5 rounded-2xl text-center min-w-[260px] cursor-pointer" 
+            <div class="family-card male px-8 py-3.5 rounded-2xl text-center min-w-[240px] cursor-pointer" 
                  onclick="openProfile('পদ্মাশী সর্দার', 'Padmashi Sardar', '১ম প্রজন্ম', 'পুরুষ', 'জীবিত', 'মূল পূর্বপুরুষ')">
                 <span class="text-[10px] uppercase tracking-wider text-blue-400 font-semibold block mb-0.5">১ম প্রজন্ম</span>
                 <h3 class="font-bold text-lg text-slate-100">পদ্মাশী সর্দার</h3>
                 <span class="text-[11px] text-slate-400 font-en">Padmashi Sardar</span>
             </div>
 
-            <div class="tree-line-vertical h-10"></div>
+            <div class="tree-line-vertical h-8"></div>
 
             <!-- Generation 2: আকালি সর্দার -->
             <div class="family-card male px-6 py-3 rounded-xl text-center min-w-[200px] cursor-pointer"
@@ -114,148 +94,111 @@
                 <span class="text-[11px] text-slate-400 font-en">Akali Sardar</span>
             </div>
 
-            <div class="tree-line-vertical h-10"></div>
+            <div class="tree-line-vertical h-8"></div>
 
-            <!-- Generation 3 Connector Bar -->
-            <div class="flex items-center">
-                <div class="tree-line-horizontal w-[320px]"></div>
+            <!-- Connector Line -->
+            <div class="tree-line-horizontal w-64 md:w-80"></div>
+
+            <div class="flex justify-between w-64 md:w-80 relative">
+                <div class="tree-line-vertical h-6"></div>
+                <div class="tree-line-vertical h-6"></div>
             </div>
 
-            <div class="flex justify-between w-[360px] relative">
-                <div class="absolute -top-5 left-0 right-0 flex justify-around px-12">
-                    <div class="tree-line-vertical h-5"></div>
-                    <div class="tree-line-vertical h-5"></div>
-                </div>
-
-                <!-- Generation 3: ইসু সর্দার -->
+            <!-- Generation 3: ইসু সর্দার & কেসু সর্দার -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-24 w-full max-w-xl mt-1">
+                
+                <!-- ইসু সর্দার -->
                 <div class="flex flex-col items-center">
-                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[150px] border border-blue-500/40 cursor-pointer" 
+                    <div class="family-card male px-5 py-3 rounded-xl text-center w-full cursor-pointer border border-blue-500/30" 
                          onclick="toggleBranch('isu-branch')">
-                        <span class="text-[9px] text-blue-400 font-medium block">৩য় প্রজন্ম</span>
-                        <h4 class="font-bold text-slate-200 text-sm">ইসু সর্দার</h4>
-                        <span class="text-[9px] text-sky-300 underline mt-1 block font-semibold">বংশধারা দেখতে ক্লিক করুন ▼</span>
+                        <span class="text-[10px] text-blue-400 font-medium block">৩য় প্রজন্ম</span>
+                        <h4 class="font-bold text-slate-200 text-base">ইসু সর্দার</h4>
+                        <span class="text-[10px] text-sky-400 underline mt-1.5 block font-semibold">বংশধারা দেখতে ক্লিক করুন ▼</span>
+                    </div>
+
+                    <!-- Isu Branch List -->
+                    <div id="isu-branch" class="hidden flex-col items-center mt-4 w-full space-y-3">
+                        <div class="tree-line-vertical h-6"></div>
+                        <div class="bg-slate-900/95 border border-blue-500/30 p-4 rounded-2xl shadow-xl w-full space-y-2">
+                            <h5 class="text-blue-400 font-bold text-xs border-b border-slate-800 pb-1.5">ইসু সর্দারের বংশধরগণ:</h5>
+                            <div class="grid grid-cols-1 gap-2 text-xs">
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('দোশর সর্দার', 'Doshor Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">দোশর সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('পেয়ার সর্দার', 'Peyar Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">পেয়ার সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ফকির সর্দার', 'Fokir Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">ফকির সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('আবেদা খাতুন', 'Abeda Khatun', '৪র্থ প্রজন্ম', 'মহিলা', 'জীবিত', 'পিতা: ইসু সর্দার')">আবেদা খাতুন</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Generation 3: কেসু সর্দার -->
+                <!-- কেসু সর্দার -->
                 <div class="flex flex-col items-center">
-                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[150px] border border-blue-500/40 cursor-pointer" 
+                    <div class="family-card male px-5 py-3 rounded-xl text-center w-full cursor-pointer border border-blue-500/30" 
                          onclick="toggleBranch('kesu-branch')">
-                        <span class="text-[9px] text-blue-400 font-medium block">৩য় প্রজন্ম</span>
-                        <h4 class="font-bold text-slate-200 text-sm">কেসু সর্দার</h4>
-                        <span class="text-[9px] text-sky-300 underline mt-1 block font-semibold">বংশধারা দেখতে ক্লিক করুন ▼</span>
+                        <span class="text-[10px] text-blue-400 font-medium block">৩য় প্রজন্ম</span>
+                        <h4 class="font-bold text-slate-200 text-base">কেসু সর্দার</h4>
+                        <span class="text-[10px] text-sky-400 underline mt-1.5 block font-semibold">বংশধারা দেখতে ক্লিক করুন ▼</span>
+                    </div>
+
+                    <!-- Kesu Branch List -->
+                    <div id="kesu-branch" class="hidden flex-col items-center mt-4 w-full space-y-3">
+                        <div class="tree-line-vertical h-6"></div>
+                        <div class="bg-slate-900/95 border border-blue-500/30 p-4 rounded-2xl shadow-xl w-full space-y-2">
+                            <h5 class="text-blue-400 font-bold text-xs border-b border-slate-800 pb-1.5">কেসু সর্দারের বংশধরগণ:</h5>
+                            <div class="grid grid-cols-1 gap-2 text-xs">
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('আশারত সর্দার', 'Asharat Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">আশারত সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('বসারত সর্দার', 'Bosharat Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">বসারত সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ভুগল সর্দার', 'Bhugol Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">ভুগল সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('কসের সর্দার', 'Koser Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">কসের সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ইমান আলী সর্দার', 'Eman Ali Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">ইমান আলী সর্দার</div>
+                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('সালেজান খাতুন', 'Salejan Khatun', '৪র্থ প্রজন্ম', 'মহিলা', 'জীবিত', 'পিতা: কেসু সর্দার')">সালেজান খাতুন</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Expandable Branch for Isu Sardar (Clean names without brackets) -->
-            <div id="isu-branch" class="hidden flex-col items-center mt-6 w-full">
-                <div class="tree-line-vertical h-6"></div>
-                <div class="bg-slate-900/95 border border-blue-500/30 p-5 rounded-2xl shadow-2xl w-full max-w-lg backdrop-blur-md">
-                    <h5 class="text-blue-400 font-bold mb-3 border-b border-slate-800 pb-2 text-xs">ইসু সর্দারের বংশধরগণ (৪র্থ প্রজন্ম):</h5>
-                    <div class="grid grid-cols-2 gap-2.5 text-xs">
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('দোশর সর্দার', 'Doshor Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">দোশর সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('পেয়ার সর্দার', 'Peyar Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">পেয়ার সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ফকির সর্দার', 'Fokir Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">ফকির সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('আবেদা খাতুন', 'Abeda Khatun', '৪র্থ প্রজন্ম', 'মহিলা', 'জীবিত', 'পিতা: ইসু সর্দার')">আবেদা খাতুন</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Expandable Branch for Kesu Sardar (Clean names without brackets) -->
-            <div id="kesu-branch" class="hidden flex-col items-center mt-6 w-full">
-                <div class="tree-line-vertical h-6"></div>
-                <div class="bg-slate-900/95 border border-blue-500/30 p-5 rounded-2xl shadow-2xl w-full max-w-lg backdrop-blur-md">
-                    <h5 class="text-blue-400 font-bold mb-3 border-b border-slate-800 pb-2 text-xs">কেসু সর্দারের বংশধরগণ (৪র্থ প্রজন্ম):</h5>
-                    <div class="grid grid-cols-2 gap-2.5 text-xs">
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('আশারত সর্দার', 'Asharat Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">আশারত সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('বসারত সর্দার', 'Bosharat Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">বসারত সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ভুগল সর্দার', 'Bhugol Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">ভুগল সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('কসের সর্দার', 'Koser Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">কসের সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ইমান আলী সর্দার', 'Eman Ali Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">ইমান আলী সর্দার</div>
-                        <div class="p-2.5 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('সালেজান খাতুন', 'Salejan Khatun', '৪র্থ প্রজন্ম', 'মহিলা', 'জীবিত', 'পিতা: কেসু সর্দার')">সালেজান খাতুন</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center text-[11px] text-slate-500 bg-slate-900/40 px-4 py-2 rounded-xl border border-slate-800">
-                💡 শাখা খুলতে ইসু ও কেসু সর্দারের বক্সে ক্লিক করুন। পুরো ট্রি স্বয়ংক্রিয়ভাবে স্ক্রিনে ফিট করা রয়েছে।
             </div>
 
         </div>
     </main>
 
     <!-- Profile Modal -->
-    <div id="profileModal" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="profileModal" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl">
-            <div class="bg-gradient-to-r from-blue-900/50 to-slate-900 p-6 border-b border-slate-800 flex justify-between items-center">
+            <div class="bg-gradient-to-r from-blue-900/50 to-slate-900 p-5 border-b border-slate-800 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div id="modalAvatar" class="w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-500/50 flex items-center justify-center font-bold text-lg text-blue-300">স</div>
+                    <div id="modalAvatar" class="w-10 h-10 rounded-xl bg-blue-600/30 border border-blue-500/50 flex items-center justify-center font-bold text-base text-blue-300">স</div>
                     <div>
-                        <h3 id="modalName" class="text-xl font-bold text-white">সদস্যের নাম</h3>
+                        <h3 id="modalName" class="text-lg font-bold text-white">সদস্যের নাম</h3>
                         <p id="modalEnName" class="text-xs text-slate-400 font-en">English Name</p>
                     </div>
                 </div>
                 <button onclick="closeProfile()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">&times;</button>
             </div>
-            <div class="p-6 space-y-4 text-sm text-slate-300">
+            <div class="p-5 space-y-3 text-sm text-slate-300">
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
-                        <span class="text-slate-400 text-xs block mb-1">প্রজন্ম</span>
+                    <div class="bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 text-[11px] block mb-0.5">প্রজন্ম</span>
                         <span id="modalGen" class="text-white font-medium text-xs">--</span>
                     </div>
-                    <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
-                        <span class="text-slate-400 text-xs block mb-1">স্ট্যাটাস</span>
+                    <div class="bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 text-[11px] block mb-0.5">স্ট্যাটাস</span>
                         <span id="modalStatus" class="text-green-400 font-semibold text-xs">জীবিত</span>
                     </div>
                 </div>
-                <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50 space-y-1">
-                    <span class="text-slate-400 text-xs block">সম্পর্ক বিবরণ:</span>
-                    <span id="modalRelation" class="text-white font-medium">তথ্য উপলব্ধ</span>
+                <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50 space-y-0.5">
+                    <span class="text-slate-400 text-[11px] block">সম্পর্ক বিবরণ:</span>
+                    <span id="modalRelation" class="text-white font-medium text-xs">তথ্য উপলব্ধ</span>
                 </div>
             </div>
             <div class="p-4 bg-slate-950/60 border-t border-slate-800 flex justify-end">
-                <button onclick="closeProfile()" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow">বন্ধ করুন</button>
+                <button onclick="closeProfile()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow">বন্ধ করুন</button>
             </div>
         </div>
     </div>
 
-    <!-- Script Engine -->
+    <!-- Script -->
     <script>
-        const elem = document.getElementById('tree-viewport');
-        const container = document.getElementById('container');
-        
-        const panzoom = Panzoom(elem, {
-            maxScale: 4,
-            minScale: 0.1,
-            startScale: 1,
-            contain: 'outside',
-            animate: true
-        });
-
-        container.addEventListener('wheel', panzoom.zoomWithWheel);
-
-        function zoomIn() { panzoom.zoomIn(); }
-        function zoomOut() { panzoom.zoomOut(); }
-
-        // Perfect Auto-Fit Calculation to fit entire tree inside screen initially
-        function autoFitTree() {
-            const containerRect = container.getBoundingClientRect();
-            const elemRect = elem.getBoundingClientRect();
-            if (elemRect.width === 0 || elemRect.height === 0) return;
-            const scaleX = containerRect.width / elemRect.width;
-            const scaleY = containerRect.height / elemRect.height;
-            let optimalScale = Math.min(scaleX, scaleY) * 0.78; 
-            if (optimalScale > 1) optimalScale = 1; 
-            if (optimalScale < 0.1) optimalScale = 0.1;
-            panzoom.zoom(optimalScale, { animate: false });
-            panzoom.pan(0, 0, { animate: false });
-        }
-
-        function resetZoom() { autoFitTree(); }
-        window.addEventListener('load', () => { setTimeout(autoFitTree, 150); });
-        window.addEventListener('resize', autoFitTree);
-
         function toggleBranch(id) {
             const branch = document.getElementById(id);
             if (branch.classList.contains('hidden')) {
@@ -265,7 +208,6 @@
                 branch.classList.remove('flex');
                 branch.classList.add('hidden');
             }
-            setTimeout(autoFitTree, 60);
         }
 
         function openProfile(name, enName, gen, gender, status, relation) {
