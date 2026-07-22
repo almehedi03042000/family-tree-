@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পদ্মাশী সর্দার পরিবার - বংশবৃক্ষ</title>
+    <title>পদ্মাশী সর্দার পরিবার - সম্পূর্ণ বংশবৃক্ষ</title>
     <!-- Google Fonts & Tailwind CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,167 +28,525 @@
             margin: 0;
             overflow-x: hidden;
         }
-        /* Premium Glassmorphism Card */
         .family-card {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
         }
-        .family-card.male { border-left: 5px solid #3b82f6; }
-        .family-card.female { border-left: 5px solid #ec4899; }
+        .family-card.male { border-left: 4px solid #3b82f6; }
+        .family-card.female { border-left: 4px solid #ec4899; }
         .family-card:hover {
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-2px);
             background: rgba(30, 41, 59, 0.95);
-            border-color: rgba(59, 130, 246, 0.6);
-            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
         }
-        .tree-line-vertical { width: 2px; background: rgba(148, 163, 184, 0.3); }
-        .tree-line-horizontal { height: 2px; background: rgba(148, 163, 184, 0.3); }
-        
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0b0f19; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- Top Header -->
-    <header class="py-3 px-6 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-30 flex justify-between items-center shadow-lg">
+    <!-- Header -->
+    <header class="py-3 px-6 border-b border-slate-800 bg-slate-900/95 sticky top-0 z-30 flex justify-between items-center shadow-md">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-pink-500 flex items-center justify-center font-bold text-lg text-white shadow">প</div>
             <div>
                 <h1 class="text-base font-bold bg-gradient-to-r from-blue-400 to-pink-400 bg-clip-text text-transparent">পদ্মাশী সর্দার পরিবার</h1>
-                <p class="text-[11px] text-slate-400">বংশবৃক্ষ ও তথ্যশালা</p>
+                <p class="text-[11px] text-slate-400">প্রদত্ত লিখিত ডাটাভিত্তিক পূর্ণাঙ্গ বংশবৃক্ষ</p>
             </div>
         </div>
         <div class="flex items-center gap-3">
-            <input type="text" id="searchInput" placeholder="সদস্য খুঁজুন..." 
-                class="bg-slate-950 border border-slate-700 text-xs rounded-xl px-4 py-2 text-slate-200 focus:outline-none focus:border-blue-500 w-40 sm:w-56 transition shadow-inner">
+            <input type="text" id="searchInput" onkeyup="searchMember()" placeholder="সদস্য খুঁজুন..." 
+                class="bg-slate-950 border border-slate-700 text-xs rounded-xl px-4 py-2 text-slate-200 focus:outline-none focus:border-blue-500 w-40 sm:w-60 shadow-inner">
         </div>
     </header>
 
-    <!-- Main Tree Container (Scrollable & Clean) -->
-    <main class="flex-1 p-6 md:p-12 flex flex-col items-center overflow-auto bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+    <!-- Main Container -->
+    <main class="flex-1 p-4 md:p-8 flex flex-col items-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
         
-        <div class="w-full max-w-4xl flex flex-col items-center my-4">
+        <div class="w-full max-w-7xl flex flex-col items-center space-y-6">
             
-            <!-- Generation 1: পদ্মাশী সর্দার -->
-            <div class="family-card male px-8 py-3.5 rounded-2xl text-center min-w-[240px] cursor-pointer" 
-                 onclick="openProfile('পদ্মাশী সর্দার', 'Padmashi Sardar', '১ম প্রজন্ম', 'পুরুষ', 'জীবিত', 'মূল পূর্বপুরুষ')">
-                <span class="text-[10px] uppercase tracking-wider text-blue-400 font-semibold block mb-0.5">১ম প্রজন্ম</span>
-                <h3 class="font-bold text-lg text-slate-100">পদ্মাশী সর্দার</h3>
-                <span class="text-[11px] text-slate-400 font-en">Padmashi Sardar</span>
+            <!-- ১ম প্রজন্ম: পদ্মাশী সর্দার -->
+            <div class="family-card male px-8 py-3 rounded-2xl text-center min-w-[240px] cursor-pointer" onclick="openProfile('পদ্মাশী সর্দার', '১ম প্রজন্ম', 'পুরুষ', 'মূল পূর্বপুরুষ')">
+                <span class="text-[10px] uppercase tracking-wider text-blue-400 font-semibold block">১ম প্রজন্ম</span>
+                <h3 class="font-bold text-lg text-slate-100">পদ্মাশী সর্দার[cite: 1]</h3>
             </div>
 
-            <div class="tree-line-vertical h-8"></div>
-
-            <!-- Generation 2: আকালি সর্দার -->
-            <div class="family-card male px-6 py-3 rounded-xl text-center min-w-[200px] cursor-pointer"
-                 onclick="openProfile('আকালি সর্দার', 'Akali Sardar', '২য় প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: পদ্মাশী সর্দার')">
-                <span class="text-[10px] text-blue-400 font-medium block">২য় প্রজন্ম</span>
-                <h4 class="font-bold text-slate-200 text-base">আকালি সর্দার</h4>
-                <span class="text-[11px] text-slate-400 font-en">Akali Sardar</span>
+            <!-- ২য় প্রজন্ম: আকালি সর্দার -->
+            <div class="w-full flex flex-col items-center">
+                <div class="w-0.5 h-6 bg-slate-700"></div>
+                <div class="family-card male px-6 py-2.5 rounded-xl text-center min-w-[220px] cursor-pointer" onclick="openProfile('আকালি সর্দার', '২য় প্রজন্ম', 'পুরুষ', 'পিতা: পদ্মাশী সর্দার')">
+                    <span class="text-[10px] text-blue-400 font-medium block">২য় প্রজন্ম</span>
+                    <h4 class="font-bold text-slate-200 text-base">আকালি সর্দার[cite: 1]</h4>
+                </div>
             </div>
 
-            <div class="tree-line-vertical h-8"></div>
+            <!-- ৩য় প্রজন্ম: ইসু সর্দার ও কেসু সর্দার -->
+            <div class="w-full flex flex-col items-center">
+                <div class="w-0.5 h-6 bg-slate-700"></div>
+                <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- ইসু সর্দার শাখা -->
+                    <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl space-y-4">
+                        <div class="family-card male px-5 py-2.5 rounded-xl text-center cursor-pointer border border-blue-500/40" onclick="openProfile('ইসু সর্দার', '৩য় প্রজন্ম', 'পুরুষ', 'পিতা: আকালি সর্দার')">
+                            <span class="text-[10px] text-blue-400 font-semibold block">৩য় প্রজন্ম (শাখা ১)</span>
+                            <h4 class="font-bold text-slate-100 text-base">ইসু সর্দার[cite: 1]</h4>
+                        </div>
 
-            <!-- Connector Line -->
-            <div class="tree-line-horizontal w-64 md:w-80"></div>
+                        <!-- ইসুর সন্তানগণ (৪র্থ প্রজন্ম) -->
+                        <div class="space-y-3 text-xs">
+                            <!-- দোশর সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('দোশর সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: ইসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">দোশর সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <!-- বানেজ সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ বানেজ সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মহাসিন সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আবুল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আমজাদ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রেজিয়া[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">হাফিয়া[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">বুলু[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রাশু[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফজিলা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- মকবুল সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ মকবুল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত আলতাফ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রবিউল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রশিদ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মনোয়ার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">আম্বিয়া[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">হাশেরা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রেকেনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রুশিয়া[cite: 1]</span>
+                                            <span class="bg-emerald-950 text-emerald-300 px-1.5 py-0.5 rounded">লীলা [নতুন সংযোজন][cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-400">কন্যাগণ: জাইমন, হারিজা, হাইতন[cite: 1]</div>
+                                </div>
+                            </div>
 
-            <div class="flex justify-between w-64 md:w-80 relative">
-                <div class="tree-line-vertical h-6"></div>
-                <div class="tree-line-vertical h-6"></div>
-            </div>
+                            <!-- পেয়ার সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('পেয়ার সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: ইসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">পেয়ার সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <!-- জানু সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ জানু সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জামশেদ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফুলু জান[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মাজেদা খাতুন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">লুলু জান[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">খদিজান[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- হারান সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ হারান সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ঝন্টু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">সিদ্দিক সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জাহাঙ্গীর সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">কমেজান[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মিষ্টুজান[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">বালীজান[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- জাহের সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ জাহের সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">সাধু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মধু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জাদু সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মদিনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মরজিনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">করিমন নেছা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">তারাজাম[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- ভাষা সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ ভাষা সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মোজা সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত মইনুদ্দিন সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জিয়ারুল সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">সামিয়ন[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-            <!-- Generation 3: ইসু সর্দার & কেসু সর্দার -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-24 w-full max-w-xl mt-1">
-                
-                <!-- ইসু সর্দার -->
-                <div class="flex flex-col items-center">
-                    <div class="family-card male px-5 py-3 rounded-xl text-center w-full cursor-pointer border border-blue-500/30" 
-                         onclick="toggleBranch('isu-branch')">
-                        <span class="text-[10px] text-blue-400 font-medium block">৩য় প্রজন্ম</span>
-                        <h4 class="font-bold text-slate-200 text-base">ইসু সর্দার</h4>
-                        <span class="text-[10px] text-sky-400 underline mt-1.5 block font-semibold">বংশধারা দেখতে ক্লিক করুন ▼</span>
-                    </div>
+                            <!-- ফকির সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('ফকির সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: ইসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">ফকির সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ আজিম সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জালাল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জিয়া সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রতন সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ইয়াতন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফুকন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মৃত টুকলিমা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ লায়েব সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত দুলাল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আলাল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">হেলাল সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফুনকা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফিরোজা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <!-- Isu Branch List -->
-                    <div id="isu-branch" class="hidden flex-col items-center mt-4 w-full space-y-3">
-                        <div class="tree-line-vertical h-6"></div>
-                        <div class="bg-slate-900/95 border border-blue-500/30 p-4 rounded-2xl shadow-xl w-full space-y-2">
-                            <h5 class="text-blue-400 font-bold text-xs border-b border-slate-800 pb-1.5">ইসু সর্দারের বংশধরগণ:</h5>
-                            <div class="grid grid-cols-1 gap-2 text-xs">
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('দোশর সর্দার', 'Doshor Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">দোশর সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('পেয়ার সর্দার', 'Peyar Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">পেয়ার সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ফকির সর্দার', 'Fokir Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: ইসু সর্দার')">ফকির সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('আবেদা খাতুন', 'Abeda Khatun', '৪র্থ প্রজন্ম', 'মহিলা', 'জীবিত', 'পিতা: ইসু সর্দার')">আবেদা খাতুন</div>
+                            <!-- আবেদা খাতুন -->
+                            <div class="family-card female p-2.5 rounded-xl cursor-pointer flex justify-between items-center" onclick="openProfile('আবেদা খাতুন', '৪র্থ প্রজন্ম', 'মহিলা', 'পিতা: ইসু সর্দার')">
+                                <span class="font-semibold text-slate-200">আবেদা খাতুন[cite: 1]</span>
+                                <span class="text-[9px] text-pink-400 bg-pink-950 px-1.5 py-0.5 rounded">কন্যা</span>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- কেসু সর্দার -->
-                <div class="flex flex-col items-center">
-                    <div class="family-card male px-5 py-3 rounded-xl text-center w-full cursor-pointer border border-blue-500/30" 
-                         onclick="toggleBranch('kesu-branch')">
-                        <span class="text-[10px] text-blue-400 font-medium block">৩য় প্রজন্ম</span>
-                        <h4 class="font-bold text-slate-200 text-base">কেসু সর্দার</h4>
-                        <span class="text-[10px] text-sky-400 underline mt-1.5 block font-semibold">বংশধারা দেখতে ক্লিক করুন ▼</span>
-                    </div>
+                    <!-- কেসু সর্দার শাখা -->
+                    <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl space-y-4">
+                        <div class="family-card male px-5 py-2.5 rounded-xl text-center cursor-pointer border border-blue-500/40" onclick="openProfile('কেসু সর্দার', '৩য় প্রজন্ম', 'পুরুষ', 'পিতা: আকালি সর্দার')">
+                            <span class="text-[10px] text-blue-400 font-semibold block">৩য় প্রজন্ম (শাখা ২)</span>
+                            <h4 class="font-bold text-slate-100 text-base">কেসু সর্দার[cite: 1]</h4>
+                        </div>
 
-                    <!-- Kesu Branch List -->
-                    <div id="kesu-branch" class="hidden flex-col items-center mt-4 w-full space-y-3">
-                        <div class="tree-line-vertical h-6"></div>
-                        <div class="bg-slate-900/95 border border-blue-500/30 p-4 rounded-2xl shadow-xl w-full space-y-2">
-                            <h5 class="text-blue-400 font-bold text-xs border-b border-slate-800 pb-1.5">কেসু সর্দারের বংশধরগণ:</h5>
-                            <div class="grid grid-cols-1 gap-2 text-xs">
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('আশারত সর্দার', 'Asharat Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">আশারত সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('বসারত সর্দার', 'Bosharat Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">বসারত সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ভুগল সর্দার', 'Bhugol Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">ভুগল সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('কসের সর্দার', 'Koser Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">কসের সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('ইমান আলী সর্দার', 'Eman Ali Sardar', '৪র্থ প্রজন্ম', 'পুরুষ', 'জীবিত', 'পিতা: কেসু সর্দার')">ইমান আলী সর্দার</div>
-                                <div class="p-2 bg-slate-800/70 rounded-xl cursor-pointer hover:bg-slate-700 transition" onclick="openProfile('সালেজান খাতুন', 'Salejan Khatun', '৪র্থ প্রজন্ম', 'মহিলা', 'জীবিত', 'পিতা: কেসু সর্দার')">সালেজান খাতুন</div>
+                        <!-- কেসুর সন্তানগণ (৪র্থ প্রজন্ম) -->
+                        <div class="space-y-3 text-xs">
+                            
+                            <!-- আশারত সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('আশারত সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: কেসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">আশারত সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ কুকন সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">হযরত সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">হাফেজ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">শাহবাজ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">শরেজান[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মীনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফইমা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">সুখেজান[cite: 1]</span>
+                                            <span class="bg-emerald-950 text-emerald-300 px-1.5 py-0.5 rounded">মঞ্জুরা [নতুন সংযোজন][cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ এলাহী সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইদ্রিস সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আলম সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আউলাদ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইলেফ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">জাহারন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">তহুরা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">খালেদা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- বসারত সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('বসারত সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: কেসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">বসারত সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ শুকট সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত হাবিল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত হানিফ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">বজলু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">কাবিল সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মালেকা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">হিমা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">নিমা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ জলিল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মান্নান সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">সাধু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মধু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত আনুরা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">নাহেরা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মৃত ফনুয়ারা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ মহির সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">কামরুজ্জামান করেশ[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">শফিকুল সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">নাসিমা[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মদন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">লাকি[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রোকসানা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-400">কন্যাগণ: পরিজান, জমেলা[cite: 1]</div>
+                                </div>
+                            </div>
+
+                            <!-- ভুগল সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('ভুগল সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: কেসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">ভুগল সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ সুবল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ময়লাল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">হবিবার সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মতালি সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">লতা জান[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">খরকি[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">সহুরা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ মজিবর সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">নজরুল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জালাল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">কামাল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আহাদ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মনোয়ারা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">তসলিমা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">স্বাধীনা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ মকলেস সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আকমান সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইংরাজ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইয়াকুব সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আনারুল সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রেসে[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রুশি[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মৃত ফরিদা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">ফিরো[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ সারু সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইয়াদুল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইউনুস সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত বেনেয়ামিন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রঞ্জনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মেরিনা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-400">কন্যাগণ: রহিমা, জায়েদা, জয়গন নেসা[cite: 1]</div>
+                                </div>
+                            </div>
+
+                            <!-- কসের সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('কসের সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: কেসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">কসের সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ খলিল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রেফেজ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">কুবির সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জুমির সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">শাইজুদ্দি সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মৃত রাজিয়া[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ নুরল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ওয়ারিস সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ইদ্রিস সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আপিল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">নিহারুল সর্দার[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ আলিম সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">উজ্জ্বল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রফিকুল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">হিসাব সর্দার[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ তফেজ্জল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মহন সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">করণ সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রফিয়া[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">তহুরা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">তাহেরা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">সুলতানা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-400">কন্যা: রমেলা খাতুন[cite: 1]</div>
+                                </div>
+                            </div>
+
+                            <!-- ইমান আলী সর্দার -->
+                            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                                <div class="family-card male p-2 rounded-lg cursor-pointer flex justify-between items-center" onclick="openProfile('ইমান আলী সর্দার', '৪র্থ প্রজন্ম', 'পুরুষ', 'পিতা: কেসু সর্দার')">
+                                    <span class="font-semibold text-slate-200">ইমান আলী সর্দার[cite: 1]</span>
+                                    <span class="text-[9px] text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded">পুত্র</span>
+                                </div>
+                                <div class="pl-3 border-l border-slate-700 space-y-2 text-[11px]">
+                                    <!-- সলেমান সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ সলেমান সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">পেন্টু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">সেন্টু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আসাদ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">জুয়েল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">সোহেল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রিংকু সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">বেলি[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">সেলিনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">লাভলি[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রিক্তা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">পিস্তা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- আব্দুস সামাদ সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ আব্দুস সামাদ সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রোকনুজ্জামান রানা[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">হাসানুজ্জামান রাজা[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৃত তানিম হাসান রাঙ্গা[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">সুমন সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রীনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">বিনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">টিনা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- জামাল সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ জামাল সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মামুন সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মাসুম সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মৌসুম সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">কুসুম সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">পান্না সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">নান্টু সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মিঠন সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">টুটন সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">ছোটন সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">জাহানারা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">সাথি[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- রুস্তম সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ রুস্তম সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রেজাউল সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">মানিক সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আরিফ সর্দার[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">রিপন সর্দার[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রোজিনা[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">রুমা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- আকবর সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ আকবর সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">শুভ্র[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">অন্ত[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">আফিফা[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <!-- মাহাতাব উদ্দিন সর্দার -->
+                                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                                        <span class="font-medium text-blue-300">↳ মাহাতাব উদ্দিন সর্দার[cite: 1]:</span>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আল-মেহেদী[cite: 1]</span>
+                                            <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">আবু সাঈদ[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মরিয়ম খাতুন[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মৃত পপি[cite: 1]</span>
+                                            <span class="bg-pink-950/60 text-pink-300 px-1.5 py-0.5 rounded">মেরিনা খাতুন[cite: 1]</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-400">কন্যাগণ: নেহার, সকিনা, শহিদা, শাহানূর, কাজল[cite: 1]</div>
+                                </div>
+                            </div>
+
+                            <div class="text-slate-400 pt-1 font-semibold">কেসুর কন্যা: সালেজান[cite: 1]</div>
+
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
 
         </div>
     </main>
 
-    <!-- Profile Modal -->
-    <div id="profileModal" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <!-- Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl">
-            <div class="bg-gradient-to-r from-blue-900/50 to-slate-900 p-5 border-b border-slate-800 flex justify-between items-center">
+            <div class="bg-gradient-to-r from-blue-900/60 to-slate-900 p-5 border-b border-slate-800 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <div id="modalAvatar" class="w-10 h-10 rounded-xl bg-blue-600/30 border border-blue-500/50 flex items-center justify-center font-bold text-base text-blue-300">স</div>
                     <div>
                         <h3 id="modalName" class="text-lg font-bold text-white">সদস্যের নাম</h3>
-                        <p id="modalEnName" class="text-xs text-slate-400 font-en">English Name</p>
+                        <p id="modalRelation" class="text-xs text-slate-400">সম্পর্ক</p>
                     </div>
                 </div>
-                <button onclick="closeProfile()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">&times;</button>
+                <button onclick="closeProfile()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center transition">&times;</button>
             </div>
             <div class="p-5 space-y-3 text-sm text-slate-300">
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
-                        <span class="text-slate-400 text-[11px] block mb-0.5">প্রজন্ম</span>
-                        <span id="modalGen" class="text-white font-medium text-xs">--</span>
-                    </div>
-                    <div class="bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
-                        <span class="text-slate-400 text-[11px] block mb-0.5">স্ট্যাটাস</span>
-                        <span id="modalStatus" class="text-green-400 font-semibold text-xs">জীবিত</span>
-                    </div>
-                </div>
-                <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50 space-y-0.5">
-                    <span class="text-slate-400 text-[11px] block">সম্পর্ক বিবরণ:</span>
-                    <span id="modalRelation" class="text-white font-medium text-xs">তথ্য উপলব্ধ</span>
+                <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                    <span class="text-slate-400 text-[11px] block mb-0.5">জেনারেট তথ্য</span>
+                    <span id="modalGen" class="text-white font-medium text-xs">--</span>
                 </div>
             </div>
             <div class="p-4 bg-slate-950/60 border-t border-slate-800 flex justify-end">
@@ -199,23 +557,10 @@
 
     <!-- Script -->
     <script>
-        function toggleBranch(id) {
-            const branch = document.getElementById(id);
-            if (branch.classList.contains('hidden')) {
-                branch.classList.remove('hidden');
-                branch.classList.add('flex');
-            } else {
-                branch.classList.remove('flex');
-                branch.classList.add('hidden');
-            }
-        }
-
-        function openProfile(name, enName, gen, gender, status, relation) {
+        function openProfile(name, gen, gender, relation) {
             document.getElementById('modalName').innerText = name;
-            document.getElementById('modalEnName').innerText = enName;
             document.getElementById('modalGen').innerText = gen;
             document.getElementById('modalAvatar').innerText = name.charAt(0);
-            document.getElementById('modalStatus').innerText = status;
             document.getElementById('modalRelation').innerText = relation;
             
             document.getElementById('profileModal').classList.remove('hidden');
@@ -226,7 +571,16 @@
             document.getElementById('profileModal').classList.add('hidden');
             document.getElementById('profileModal').classList.remove('flex');
         }
-    </script>
 
+        function searchMember() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.family-card, span');
+            cards.forEach(card => {
+                if(card.tagName === 'SPAN' || card.tagName.includes('DIV')) {
+                    // Search handle logic
+                }
+            });
+        }
+    </script>
 </body>
 </html>
