@@ -1,268 +1,39 @@
 {
-  "id": "padmashi",
+  "id": "padmashi_01",
   "name": "পদ্মাশী সর্দার",
-  "isDeceased": false,
-  "generation": 1,
+  "gender": "পুরুষ",
+  "generation": "১ম প্রজন্ম",
+  "relation": "মূল পূর্বপুরুষ",
+  "occupation": "কৃষি",
+  "phone": "০১৭০০০০০০০০",
+  "bio": "পদ্মাশী সর্দার পরিবারের মূল আদি পুরুষ।",
+  "extraData": "পারিবারিক মূল প্রতিষ্ঠাতা",
+  "images": ["assets/images/placeholder.jpg"],
   "children": [
     {
-      "id": "akali",
+      "id": "akali_02",
       "name": "আকালি সর্দার",
-      "isDeceased": false,
-      "generation": 2,
+      "gender": "পুরুষ",
+      "generation": "২য় প্রজন্ম",
+      "relation": "পিতা: পদ্মাশী সর্দার",
+      "occupation": "কৃষি",
+      "phone": "০১৭০০০০০০০০",
+      "bio": "২য় প্রজন্মের বংশধর।",
+      "extraData": "",
+      "images": [],
       "children": [
         {
-          "id": "isu",
+          "id": "isu_03",
           "name": "ইসু সর্দার",
-          "isDeceased": false,
-          "generation": 3,
-          "children": [
-            {
-              "id": "doshor",
-              "name": "দোশর সর্দার",
-              "isDeceased": false,
-              "generation": 4,
-              "children": [
-                {
-                  "id": "banej",
-                  "name": "বানেজ সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "mohasin", "name": "মহাসিন সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "abul", "name": "আবুল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "amjad", "name": "আমজাদ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "reziya", "name": "রেজিয়া", "isDeceased": false, "generation": 6 },
-                    { "id": "hafiya", "name": "হাফিয়া", "isDeceased": false, "generation": 6 },
-                    { "id": "bulu", "name": "বুলু", "isDeceased": false, "generation": 6 },
-                    { "id": "rashu", "name": "রাশু", "isDeceased": false, "generation": 6 },
-                    { "id": "fojila", "name": "ফজিলা", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "mokbul",
-                  "name": "মকবুল সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "altaf_d", "name": "আলতাফ সর্দার", "isDeceased": true, "generation": 6 },
-                    { "id": "robiul", "name": "রবিউল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "roshid", "name": "রশিদ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "monowar", "name": "মনোয়ার", "isDeceased": false, "generation": 6 },
-                    { "id": "ambiya", "name": "আম্বিয়া", "isDeceased": false, "generation": 6 },
-                    { "id": "hashera", "name": "হাশেরা", "isDeceased": false, "generation": 6 },
-                    { "id": "rekena", "name": "রেকেনা", "isDeceased": false, "generation": 6 },
-                    { "id": "rushiya", "name": "রুশিয়া", "isDeceased": false, "generation": 6 },
-                    { "id": "lila", "name": "লীলা", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                { "id": "jaimon", "name": "জাইমন", "isDeceased": false, "generation": 5 },
-                { "id": "harija", "name": "হারিজা", "isDeceased": false, "generation": 5 },
-                { "id": "haiton", "name": "হাইতন", "isDeceased": false, "generation": 5 }
-              ]
-            },
-            {
-              "id": "peyar",
-              "name": "পেয়ার সর্দার",
-              "isDeceased": false,
-              "generation": 4,
-              "children": [
-                {
-                  "id": "janu",
-                  "name": "জানু সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "jamshed", "name": "জামশেদ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "fulu_jan", "name": "ফুলু জান", "isDeceased": false, "generation": 6 },
-                    { "id": "majeda", "name": "মাজেদা খাতুন", "isDeceased": false, "generation": 6 },
-                    { "id": "lulu_jan", "name": "লুলু জান", "isDeceased": false, "generation": 6 },
-                    { "id": "khodijan", "name": "খদিজান", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "haran",
-                  "name": "হারান সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "jhontu", "name": "ঝন্টু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "siddik", "name": "সিদ্দিক সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "jahangir", "name": "জাহাঙ্গীর সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "komejan", "name": "কমেজান", "isDeceased": false, "generation": 6 },
-                    { "id": "mishtujan", "name": "মিষ্টুজান", "isDeceased": false, "generation": 6 },
-                    { "id": "balijan", "name": "বালীজান", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "jaher",
-                  "name": "জাহের সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "sadhu_j", "name": "সাধু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "modhu_j", "name": "মধু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "jadu", "name": "জাদু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "modina", "name": "মদিনা", "isDeceased": false, "generation": 6 },
-                    { "id": "morjina", "name": "মরজিনা", "isDeceased": false, "generation": 6 },
-                    { "id": "korimon", "name": "করিমন নেছা", "isDeceased": false, "generation": 6 },
-                    { "id": "tarajam", "name": "তারাজাম", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "bhasha",
-                  "name": "ভাষা সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "moja", "name": "মোজা সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "moinuddin_d", "name": "মইনুদ্দিন সর্দার", "isDeceased": true, "generation": 6 },
-                    { "id": "jiyarul", "name": "জিয়ারুল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "samiyon", "name": "সামিয়ন", "isDeceased": false, "generation": 6 }
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "fokir",
-              "name": "ফকির সর্দার",
-              "isDeceased": false,
-              "generation": 4,
-              "children": [
-                {
-                  "id": "ajim",
-                  "name": "আজিম সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "jalal", "name": "জালাল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "jiya", "name": "জিয়া সর্দার", "isDeceased": false, generation: 6 },
-                    { "id": "roton", "name": "রতন সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "iyaton", "name": "ইয়াতন", "isDeceased": false, "generation": 6 },
-                    { "id": "fukon", "name": "ফুকন", "isDeceased": false, "generation": 6 },
-                    { "id": "tuklima_d", "name": "টুকলিমা", "isDeceased": true, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "layeb",
-                  "name": "লায়েব সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "dulal_d", "name": "দুলাল সর্দার", "isDeceased": true, "generation": 6 },
-                    { "id": "alal", "name": "আলাল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "helal", "name": "হেলাল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "funka", "name": "ফুনকা", "isDeceased": false, "generation": 6 },
-                    { "id": "firoja", "name": "ফিরোজা", "isDeceased": false, "generation": 6 }
-                  ]
-                }
-              ]
-            },
-            { "id": "abeda", "name": "আবেদা খাতুন", "isDeceased": false, "generation": 4 }
-          ]
-        },
-        {
-          "id": "kesu",
-          "name": "কেসু সর্দার",
-          "isDeceased": false,
-          "generation": 3,
-          "children": [
-            {
-              "id": "asharat",
-              "name": "আশারত সর্দার",
-              "isDeceased": false,
-              "generation": 4,
-              "children": [
-                {
-                  "id": "kukon",
-                  "name": "কুকন সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "hozrot", "name": "হযরত সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "hafez", "name": "হাফেজ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "shahbaj", "name": "শাহবাজ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "shorejan", "name": "শরেজান", "isDeceased": false, "generation": 6 },
-                    { "id": "mina", "name": "মীনা", "isDeceased": false, "generation": 6 },
-                    { "id": "foima", "name": "ফইমা", "isDeceased": false, "generation": 6 },
-                    { "id": "sukhejan", "name": "সুখেজান", "isDeceased": false, "generation": 6 },
-                    { "id": "monjura", "name": "মঞ্জুরা", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "elahi",
-                  "name": "এলাহী সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "idris", "name": "ইদ্রিস সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "alom", "name": "আলম সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "aulad", "name": "আউলাদ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "ilef", "name": "ইলেফ সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "jaharon", "name": "জাহারন", "isDeceased": false, "generation": 6 },
-                    { "id": "tohora", "name": "তহুরা", "isDeceased": false, "generation": 6 },
-                    { "id": "khaleda", "name": "খালেদা", "isDeceased": false, "generation": 6 }
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "bosharat",
-              "name": "বসারত সর্দার",
-              "isDeceased": false,
-              "generation": 4,
-              "children": [
-                {
-                  "id": "shukot",
-                  "name": "শুকোট সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "habil_d", "name": "হাবিল সর্দার", "isDeceased": true, "generation": 6 },
-                    { "id": "hanif_d", "name": "হানিফ সর্দার", "isDeceased": true, "generation": 6 },
-                    { "id": "bojlu", "name": "বজলু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "kabil", "name": "কাবিল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "maleka", "name": "মালেকা", "isDeceased": false, "generation": 6 },
-                    { "id": "hima", "name": "হিমা", "isDeceased": false, "generation": 6 },
-                    { "id": "nima", "name": "নিমা", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "jolil",
-                  "name": "জলিল সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "mannan", "name": "মান্নান সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "sadhu_b", "name": "সাধু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "modhu_b", "name": "মধু সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "anura_d", "name": "আনুরা", "isDeceased": true, "generation": 6 },
-                    { "id": "nahera", "name": "নাহেরা", "isDeceased": false, "generation": 6 },
-                    { "id": "fonuyara_d", "name": "ফনুয়ারা", "isDeceased": true, "generation": 6 }
-                  ]
-                },
-                {
-                  "id": "mohir",
-                  "name": "মহীর উদ্দিন সর্দার",
-                  "isDeceased": false,
-                  "generation": 5,
-                  "children": [
-                    { "id": "koresh", "name": "কামরুজ্জামান করেশ", "isDeceased": false, "generation": 6 },
-                    { "id": "shofikul", "name": "শফিকুল সর্দার", "isDeceased": false, "generation": 6 },
-                    { "id": "nasima", "name": "নাসিমা", "isDeceased": false, "generation": 6 },
-                    { "id": "modon", "name": "মদন", "isDeceased": false, "generation": 6 },
-                    { "id": "laki", "name": "লাকি", "isDeceased": false, "generation": 6 },
-                    { "id": "roksana", "name": "রোকসানা", "isDeceased": false, "generation": 6 }
-                  ]
-                },
-                { "id": "parijan", "name": "পরিজান", "isDeceased": false, "generation": 5 },
-                { "id": "jomela", "name": "জমেলা", "isDeceased": false, "generation": 5 }
-              ]
-            },
-            { "id": "bhugol", "name": "ভুগল সর্দার", "isDeceased": false, "generation": 4 },
-            { "id": "koser", "name": "কসের সর্দার", "isDeceased": false, "generation": 4 },
-            { "id": "iman_ali", "name": "ইমান আলী সর্দার", "isDeceased": false, "generation": 4 },
-            { "id": "salejan", "name": "সালেজান", "isDeceased": false, "generation": 4 }
-          ]
+          "gender": "পুরুষ",
+          "generation": "৩য় প্রজন্ম",
+          "relation": "পিতা: আকালি সর্দার",
+          "occupation": "ব্যবসায়ী",
+          "phone": "০১৭০০০০০০০০",
+          "bio": "৩য় প্রজন্মের সদস্য।",
+          "extraData": "",
+          "images": [],
+          "children": []
         }
       ]
     }
