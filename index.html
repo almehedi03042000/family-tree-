@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>পদ্মাশী সর্দার পরিবারের বংশবৃক্ষ</title>
-    <!-- Google Fonts & Tailwind CSS for Premium Look -->
+    <!-- Google Fonts & Tailwind CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Panzoom Library for Zoom & Panning -->
@@ -28,19 +28,24 @@
             transition: all 0.3s ease;
         }
         .family-card.male {
-            border-left: 4px solid #3b82f6; /* Blue for Male */
+            border-left: 4px solid #3b82f6;
         }
         .family-card.female {
-            border-left: 4px solid #ec4899; /* Pink for Female */
+            border-left: 4px solid #ec4899;
+        }
+        .family-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         /* Tree Connecting Lines */
         .tree-line-vertical {
             width: 2px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
         }
         .tree-line-horizontal {
             height: 2px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
         }
         #tree-viewport {
             cursor: grab;
@@ -53,14 +58,16 @@
 </head>
 <body class="flex flex-col h-screen">
 
-    <!-- Header Section -->
-    <header class="py-4 px-6 border-b border-slate-700/50 bg-slate-900/60 backdrop-blur-md flex justify-between items-center z-10">
+    <!-- Header Section (Previous Features Intact) -->
+    <header class="py-4 px-6 border-b border-slate-700/50 bg-slate-900/60 backdrop-blur-md flex justify-between items-center z-10 shadow-lg">
         <div>
             <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-pink-400 bg-clip-text text-transparent">পদ্মাশী সর্দার পরিবার</h1>
-            <p class="text-xs text-slate-400">এক নজরে সম্পূর্ণ বংশধারা ম্যাপ ও প্রজন্মসমূহ</p>
+            <p class="text-xs text-slate-400">পূর্ণাঙ্গ বংশধারা ও প্রজন্মভিত্তিক ঐতিহাসিক ম্যাপ</p>
         </div>
-        <div class="flex gap-2">
-            <button onclick="resetZoom()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm rounded-lg border border-slate-600 transition shadow-lg">রিসেট ভিউ</button>
+        <div class="flex items-center gap-3">
+            <!-- Search input from yesterday's setup -->
+            <input type="text" id="searchInput" placeholder="সদস্য খুঁজুন..." class="bg-slate-800/80 border border-slate-700 text-sm rounded-lg px-3 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500">
+            <button onclick="resetZoom()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm rounded-lg border border-slate-600 transition shadow">রিসেট ভিউ</button>
         </div>
     </header>
 
@@ -69,20 +76,20 @@
         <div id="tree-viewport" class="transition-transform duration-75 ease-out flex flex-col items-center">
             
             <!-- Generation 1: পদ্মাশী সর্দার -->
-            <div class="family-card male px-6 py-3 rounded-xl text-center min-w-[200px]">
+            <div class="family-card male px-6 py-3 rounded-xl text-center min-w-[220px]">
                 <h3 class="font-bold text-lg text-blue-300">পদ্মাশী সর্দার</h3>
-                <p class="text-xs text-slate-400">১ম প্রজন্ম (মূল পুরুষ)</p>
+                <p class="text-xs text-slate-400">১ম প্রজন্ম (মূল পূর্বপুরুষ)</p>
             </div>
 
             <!-- Vertical Line -->
-            <div class="tree-line-vertical h-10"></div>
+            <div class="tree-line-vertical h-12"></div>
 
-            <!-- Generation 2 Branch Connector -->
+            <!-- Generation 2 Branch Connector Bar -->
             <div class="flex items-center">
-                <div class="tree-line-horizontal w-[600px]"></div>
+                <div class="tree-line-horizontal w-[700px]"></div>
             </div>
 
-            <div class="flex justify-between w-[640px] relative">
+            <div class="flex justify-between w-[760px] relative">
                 <!-- Branch vertical connectors to 2nd Gen -->
                 <div class="absolute -top-6 left-0 right-0 flex justify-around px-8">
                     <div class="tree-line-vertical h-6"></div>
@@ -90,9 +97,9 @@
                     <div class="tree-line-vertical h-6"></div>
                 </div>
 
-                <!-- Generation 2: আকালি সর্দার -->
+                <!-- Generation 2: আকালি সর্দার ও তার শাখা -->
                 <div class="flex flex-col items-center">
-                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[140px]">
+                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[150px]">
                         <h4 class="font-semibold text-blue-300 text-sm">আকালি সর্দার</h4>
                         <p class="text-[10px] text-slate-400">২য় প্রজন্ম</p>
                     </div>
@@ -100,39 +107,39 @@
 
                 <!-- Generation 2: ইসু সর্দার ও তার শাখা -->
                 <div class="flex flex-col items-center">
-                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[140px]">
+                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[150px]">
                         <h4 class="font-semibold text-blue-300 text-sm">ইসু সর্দার</h4>
                         <p class="text-[10px] text-slate-400">২য় প্রজন্ম</p>
                     </div>
                     <div class="tree-line-vertical h-6"></div>
-                    <div class="tree-line-horizontal w-48"></div>
-                    <div class="flex justify-between w-48 relative pt-4">
+                    <div class="tree-line-horizontal w-56"></div>
+                    <div class="flex justify-between w-56 relative pt-4">
                         <div class="absolute -top-2 left-0 right-0 flex justify-around px-2">
                             <div class="tree-line-vertical h-2"></div>
                             <div class="tree-line-vertical h-2"></div>
                             <div class="tree-line-vertical h-2"></div>
                         </div>
-                        <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-xs text-blue-300">দোশর সর্দার</span>
+                        <div class="family-card male px-2.5 py-1.5 rounded-lg text-center">
+                            <span class="text-xs text-blue-300 font-medium">দোশর সর্দার</span>
                         </div>
-                        <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-xs text-blue-300">পেয়ার সর্দার</span>
+                        <div class="family-card male px-2.5 py-1.5 rounded-lg text-center">
+                            <span class="text-xs text-blue-300 font-medium">পেয়ার সর্দার</span>
                         </div>
-                        <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-xs text-blue-300">ফকির সর্দার</span>
+                        <div class="family-card male px-2.5 py-1.5 rounded-lg text-center">
+                            <span class="text-xs text-blue-300 font-medium">ফকির সর্দার</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Generation 2: কেসু সর্দার ও তার শাখা -->
                 <div class="flex flex-col items-center">
-                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[140px]">
+                    <div class="family-card male px-4 py-2.5 rounded-xl text-center min-w-[150px]">
                         <h4 class="font-semibold text-blue-300 text-sm">কেসু সর্দার</h4>
                         <p class="text-[10px] text-slate-400">২য় প্রজন্ম</p>
                     </div>
                     <div class="tree-line-vertical h-6"></div>
-                    <div class="tree-line-horizontal w-64"></div>
-                    <div class="flex justify-between w-64 relative pt-4">
+                    <div class="tree-line-horizontal w-72"></div>
+                    <div class="flex justify-between w-72 relative pt-4">
                         <div class="absolute -top-2 left-0 right-0 flex justify-around px-2">
                             <div class="tree-line-vertical h-2"></div>
                             <div class="tree-line-vertical h-2"></div>
@@ -141,19 +148,19 @@
                             <div class="tree-line-vertical h-2"></div>
                         </div>
                         <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-[11px] text-blue-300">আশারত</span>
+                            <span class="text-[11px] text-blue-300 font-medium">আশারত</span>
                         </div>
                         <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-[11px] text-blue-300">বসারত</span>
+                            <span class="text-[11px] text-blue-300 font-medium">বসারত</span>
                         </div>
                         <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-[11px] text-blue-300">ভুগল</span>
+                            <span class="text-[11px] text-blue-300 font-medium">ভুগল</span>
                         </div>
                         <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-[11px] text-blue-300">কসের</span>
+                            <span class="text-[11px] text-blue-300 font-medium">কসের</span>
                         </div>
                         <div class="family-card male px-2 py-1.5 rounded-lg text-center">
-                            <span class="text-[11px] text-blue-300">ইমান আলী</span>
+                            <span class="text-[11px] text-blue-300 font-medium">ইমান আলী</span>
                         </div>
                     </div>
                 </div>
@@ -163,7 +170,7 @@
         </div>
     </main>
 
-    <!-- Script to Initialize Panzoom and Auto-Fit -->
+    <!-- Script for Auto-Fit, Zoom, Pan & Search -->
     <script>
         const elem = document.getElementById('tree-viewport');
         const container = document.getElementById('container');
@@ -180,7 +187,7 @@
         // Enable mouse wheel zooming
         container.addEventListener('wheel', panzoom.zoomWithWheel);
 
-        // Function to Auto-Fit the Tree on Load
+        // Function to Auto-Fit the Tree on Load (Single Page View)
         function autoFitTree() {
             const containerRect = container.getBoundingClientRect();
             const elemRect = elem.getBoundingClientRect();
@@ -190,7 +197,6 @@
             const scaleX = containerRect.width / elemRect.width;
             const scaleY = containerRect.height / elemRect.height;
             
-            // Choose the smaller scale to fit entirely within the screen with safety margin
             let optimalScale = Math.min(scaleX, scaleY) * 0.85; 
             if (optimalScale > 1) optimalScale = 1; 
             if (optimalScale < 0.1) optimalScale = 0.1;
@@ -209,6 +215,21 @@
             setTimeout(autoFitTree, 150);
         });
         window.addEventListener('resize', autoFitTree);
+
+        // Simple Search filter logic from yesterday's requirements
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.family-card');
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (term === '' || text.includes(term)) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                } else {
+                    card.style.opacity = '0.3';
+                }
+            });
+        });
     </script>
 
 </body>
