@@ -71,15 +71,9 @@
         }
         .nav-action-btn.home-btn { background: #319795; color: white; border: none; }
 
-        /* এক পেজে অটো-ফিট ও কম্প্যাক্ট করার জন্য ট্রি ভিউপোর্ট এবং ফ্লেক্স লেআউট কাস্টমাইজেশন */
         .tree-viewport { 
-            flex: 1; 
-            padding: 15px 10px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start;
-            overflow-x: auto; 
-            width: 100%;
+            flex: 1; padding: 15px 10px; display: flex; justify-content: center; align-items: flex-start;
+            overflow-x: auto; width: 100%;
         }
 
         .tf-tree { width: 100%; display: flex; justify-content: center; }
@@ -98,7 +92,6 @@
             content: ''; position: absolute; top: 0; left: 50%; border-left: 1.5px solid #1e3d2f; width: 0; height: 12px;
         }
 
-        /* কম্প্যাক্ট কার্ড সাইজ যাতে এক পেজে সহজে ফিট হয় */
         .member-card {
             padding: 8px 10px; display: inline-flex; flex-direction: column; justify-content: center;
             align-items: center; border-radius: 6px; min-width: 110px; max-width: 150px; text-align: center;
@@ -111,7 +104,6 @@
         .member-name-bn { font-size: 0.8rem; font-weight: 700; line-height: 1.15; }
         .deceased-badge { font-size: 0.6rem; color: #e53e3e; }
         
-        /* ছোট এবং সুন্দর বাটন টেক্সট */
         .sub-tree-link {
             margin-top: 4px; background-color: #2b6cb0; color: #ffffff; border: none;
             padding: 2px 6px; border-radius: 3px; font-size: 0.62rem; cursor: pointer; font-weight: 600;
@@ -135,14 +127,45 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid #cbd5e0;
         }
 
+        /* প্রফাইল মডাল স্টাইল */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 3000;
+            padding: 15px;
         }
-        .modal-content { background: #ffffff; padding: 16px; border-radius: 8px; width: 280px; position: relative; font-size: 0.85rem; }
-        .modal-close { position: absolute; top: 6px; right: 10px; font-size: 1.2rem; cursor: pointer; color: #a0aec0; }
-        .status-badge { padding: 2px 6px; background-color: #c6f6d5; color: #22543d; border-radius: 8px; font-size: 0.68rem; display: inline-block; margin-top: 4px; font-weight: 600; }
+        .modal-content { 
+            background: #ffffff; padding: 20px; border-radius: 12px; width: 100%; max-width: 450px; 
+            max-height: 90vh; overflow-y: auto; position: relative; font-size: 0.85rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+        }
+        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 1.4rem; cursor: pointer; color: #a0aec0; z-index: 10; }
+        
+        .profile-header-center { text-align: center; margin-bottom: 15px; }
+        .profile-img-box { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px auto; border: 2px solid #38a169; background-color: #edf2f7; display: flex; justify-content: center; align-items: center; }
+        .profile-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-img-placeholder { font-size: 1.8rem; color: #cbd5e0; }
+
+        .status-badge { padding: 2px 8px; background-color: #c6f6d5; color: #22543d; border-radius: 10px; font-size: 0.7rem; display: inline-block; margin-top: 4px; font-weight: 600; }
         .status-badge.deceased { background-color: #fed7d7; color: #742a2a; }
+
+        .profile-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; border-top: 1px solid #edf2f7; padding-top: 10px; }
+        .profile-info-item { font-size: 0.8rem; }
+        .profile-info-item.full-width { grid-column: span 2; }
+        .clickable-link { color: #2b6cb0; cursor: pointer; text-decoration: underline; font-weight: 600; }
+        .clickable-link:hover { color: #2c5282; }
+
+        /* গ্যালারি স্টাইল */
+        .gallery-section { margin-top: 12px; border-top: 1px solid #edf2f7; padding-top: 10px; }
+        .gallery-section h4 { font-size: 0.85rem; margin-bottom: 6px; color: #2d3748; }
+        .gallery-grid { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 5px; }
+        .gallery-thumb { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; cursor: pointer; border: 1px solid #cbd5e0; transition: transform 0.2s; }
+        .gallery-thumb:hover { transform: scale(1.05); }
+
+        /* লাইটবক্স / বড় ছবি দেখার মোডাল */
+        .lightbox-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 4000; flex-direction: column; }
+        .lightbox-content { max-width: 90%; max-height: 80vh; border-radius: 6px; object-fit: contain; }
+        .lightbox-close { position: absolute; top: 15px; right: 20px; color: white; font-size: 2rem; cursor: pointer; }
+        .lightbox-nav { display: flex; gap: 20px; margin-top: 15px; }
+        .lightbox-btn { background: #38a169; color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -177,6 +200,7 @@
         <div id="treeContainer"></div>
     </main>
 
+    <!-- সম্পূর্ণ বংশধারা জুম মডাল -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
             <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র</h2>
@@ -193,398 +217,455 @@
         </div>
     </div>
 
+    <!-- সদস্যের পূর্ণাঙ্গ প্রোফাইল মডাল -->
     <div id="memberModal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
-            <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 5px; margin-bottom: 8px;">
-                <h3 id="modalNameBn" style="font-size: 0.95rem;">নাম</h3>
+            
+            <div class="profile-header-center">
+                <div class="profile-img-box" id="modalImgContainer">
+                    <span class="profile-img-placeholder">👤</span>
+                </div>
+                <h3 id="modalNameBn" style="font-size: 1.05rem; font-weight: 700;">নাম</h3>
                 <span id="modalStatusBadge" class="status-badge">জীবিত</span>
             </div>
-            <div>
-                <p><strong>লিঙ্গ:</strong> <span id="modalGender">N/A</span></p>
-                <p><strong>পিতা:</strong> <span id="modalParent">N/A</span></p>
-                <p><strong>সন্তানাদি:</strong> <span id="modalChildrenCount">০ জন</span></p>
+
+            <div class="profile-info-grid">
+                <div class="profile-info-item"><strong>আইডি:</strong> <span id="modalIdNo">N/A</span></div>
+                <div class="profile-info-item"><strong>লিঙ্গ:</strong> <span id="modalGender">N/A</span></div>
+                <div class="profile-info-item"><strong>জন্ম তারিখ:</strong> <span id="modalDob">N/A</span></div>
+                <div class="profile-info-item" id="dodContainer"><strong>মৃত্যু তারিখ:</strong> <span id="modalDod">N/A</span></div>
+                <div class="profile-info-item"><strong>রক্তের গ্রুপ:</strong> <span id="modalBlood">N/A</span></div>
+                <div class="profile-info-item"><strong>মোবাইল:</strong> <span id="modalMobile">N/A</span></div>
+                <div class="profile-info-item"><strong>পেশা:</strong> <span id="modalOccupation">N/A</span></div>
+                <div class="profile-info-item"><strong>শিক্ষাগত যোগ্যতা:</strong> <span id="modalEducation">N/A</span></div>
+                <div class="profile-info-item"><strong>জন্মস্থান:</strong> <span id="modalBirthPlace">N/A</span></div>
+                <div class="profile-info-item"><strong>বর্তমান ঠিকানা:</strong> <span id="modalAddress">N/A</span></div>
+                <div class="profile-info-item"><strong>বৈবাহিক অবস্থা:</strong> <span id="modalMarital">N/A</span></div>
+                <div class="profile-info-item"><strong>স্বামী/স্ত্রী:</strong> <span id="modalSpouse" class="clickable-link">নেই</span></div>
+                <div class="profile-info-item"><strong>বাবা:</strong> <span id="modalFather" class="clickable-link">N/A</span></div>
+                <div class="profile-info-item"><strong>মা:</strong> <span id="modalMother" class="clickable-link">N/A</span></div>
+                <div class="profile-info-item full-width"><strong>সন্তানাদি:</strong> <span id="modalChildrenSummary">০ জন (ছেলে: ০, মেয়ে: ০)</span></div>
+                <div class="profile-info-item full-width" id="noteContainer"><strong>বিশেষ নোট:</strong> <span id="modalNote">N/A</span></div>
+            </div>
+
+            <!-- গ্যালারি সেকশন -->
+            <div class="gallery-section" id="modalGallerySection" style="display: none;">
+                <h4>ছবির গ্যালারি</h4>
+                <div class="gallery-grid" id="modalGalleryGrid"></div>
             </div>
         </div>
     </div>
 
+    <!-- গ্যালারি লাইটবক্স মডাল (ছবি বড় করে দেখার জন্য) -->
+    <div id="lightboxModal" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg">
+        <div class="lightbox-nav">
+            <button class="lightbox-btn" id="lightboxPrev">⬅ আগের</button>
+            <button class="lightbox-btn" id="lightboxNext">পরবর্তী ➡</button>
+        </div>
+    </div>
+
     <script>
+        // পূর্ণাঙ্গ ডেটাসেট কাঠামো (আপনার দেওয়া ২৫টি পয়েন্টের ফিল্ডসহ)
         const familyData = {
             id: "padmashi", nameBn: "পদ্মাশী সর্দার", gender: "male", isDeceased: false,
+            idNo: "S-001", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
+            occupation: "কৃষি", education: "অশিক্ষিত", mobile: "N/A", bloodGroup: "N/A",
+            maritalStatus: "বিবাহিত", spouse: null, father: null, mother: null, specialNote: "মূল পূর্বপুরুষ",
+            profilePhoto: "", gallery: [],
             children: [
                 {
                     id: "akali", nameBn: "আকালি সর্দার", gender: "male", isDeceased: false,
+                    idNo: "S-002", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
+                    occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
+                    maritalStatus: "বিবাহিত", spouse: null, father: { id: "padmashi", nameBn: "পদ্মাশী সর্দার" }, mother: null, specialNote: "",
+                    profilePhoto: "", gallery: [],
                     children: [
                         {
                             id: "isu", nameBn: "ঈসু সর্দার", gender: "male", isDeceased: false,
+                            idNo: "S-003", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
+                            occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
+                            maritalStatus: "বিবাহিত", spouse: null, father: { id: "akali", nameBn: "আকালি সর্দার" }, mother: null, specialNote: "",
+                            profilePhoto: "", gallery: [],
                             children: [
                                 {
                                     id: "doshor", nameBn: "দোশর সর্দার", gender: "male", isDeceased: false,
+                                    idNo: "S-004", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
+                                    occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
+                                    maritalStatus: "বিবাহিত", spouse: null, father: { id: "isu", nameBn: "ঈসু সর্দার" }, mother: null, specialNote: "",
+                                    profilePhoto: "", gallery: [],
                                     children: [
                                         {
                                             id: "banej", nameBn: "বানেজ সর্দার", gender: "male", isDeceased: false,
+                                            idNo: "S-005", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
+                                            occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
+                                            maritalStatus: "বিবাহিত", spouse: null, father: { id: "doshor", nameBn: "দোশর সর্দার" }, mother: null, specialNote: "",
+                                            profilePhoto: "", gallery: [],
                                             children: [
-                                                {id: "mhasin", nameBn: "মহাসিন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "abul", nameBn: "আবুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "amzad", nameBn: "আমজাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "reziya", nameBn: "রেজিয়া", gender: "female", isDeceased: false},
-                                                {id: "hafiya", nameBn: "হাফিয়া", gender: "female", isDeceased: false},
-                                                {id: "bulu", nameBn: "বুলু", gender: "female", isDeceased: false},
-                                                {id: "rashu", nameBn: "রাশু", gender: "female", isDeceased: false},
-                                                {id: "fojila", nameBn: "ফজিলা", gender: "female", isDeceased: false}
+                                                {id: "mhasin", nameBn: "মহাসিন সর্দার", gender: "male", isDeceased: false, idNo: "S-006", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "abul", nameBn: "আবুল সর্দার", gender: "male", isDeceased: false, idNo: "S-007", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "amzad", nameBn: "আমজাদ সর্দার", gender: "male", isDeceased: false, idNo: "S-008", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "reziya", nameBn: "রেজিয়া", gender: "female", isDeceased: false, idNo: "S-009", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "hafiya", nameBn: "হাফিয়া", gender: "female", isDeceased: false, idNo: "S-010", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "bulu", nameBn: "বুলু", gender: "female", isDeceased: false, idNo: "S-011", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "rashu", nameBn: "রাশু", gender: "female", isDeceased: false, idNo: "S-012", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}},
+                                                {id: "fojila", nameBn: "ফজিলা", gender: "female", isDeceased: false, idNo: "S-013", dob: "অজানা", father: {id: "banej", nameBn: "বানেজ সর্দার"}}
                                             ]
                                         },
                                         {
                                             id: "mokbul", nameBn: "মকবুল সর্দার", gender: "male", isDeceased: false,
+                                            idNo: "S-014", dob: "অজানা", father: { id: "doshor", nameBn: "দোশর সর্দার" },
                                             children: [
-                                                {id: "altaf", nameBn: "মৃত আলতাফ সর্দার", gender: "male", isDeceased: true},
-                                                {id: "robiul", nameBn: "রবিউল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "roshid", nameBn: "রশিদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "monowar", nameBn: "মনোয়ার", gender: "female", isDeceased: false},
-                                                {id: "ambiya", nameBn: "আম্বিয়া", gender: "female", isDeceased: false},
-                                                {id: "hashera", nameBn: "হাশেরা", gender: "female", isDeceased: false},
-                                                {id: "rekena", nameBn: "রেকেনা", gender: "female", isDeceased: false},
-                                                {id: "rushia", nameBn: "রুশিয়া", gender: "female", isDeceased: false},
-                                                {id: "lila", nameBn: "লীলা [নতুন]", gender: "female", isDeceased: false}
+                                                {id: "altaf", nameBn: "মৃত আলতাফ সর্দার", gender: "male", isDeceased: true, idNo: "S-015"},
+                                                {id: "robiul", nameBn: "রবিউল সর্দার", gender: "male", isDeceased: false, idNo: "S-016"},
+                                                {id: "roshid", nameBn: "রশিদ সর্দার", gender: "male", isDeceased: false, idNo: "S-017"},
+                                                {id: "monowar", nameBn: "মনোয়ার", gender: "female", isDeceased: false, idNo: "S-018"},
+                                                {id: "ambiya", nameBn: "আম্বিয়া", gender: "female", isDeceased: false, idNo: "S-019"},
+                                                {id: "hashera", nameBn: "হাশেরা", gender: "female", isDeceased: false, idNo: "S-020"},
+                                                {id: "rekena", nameBn: "রেকেনা", gender: "female", isDeceased: false, idNo: "S-021"},
+                                                {id: "rushia", nameBn: "রুশিয়া", gender: "female", isDeceased: false, idNo: "S-022"},
+                                                {id: "lila", nameBn: "লীলা [নতুন]", gender: "female", isDeceased: false, idNo: "S-023"}
                                             ]
                                         },
-                                        {id: "jaimon", nameBn: "জাইমন", gender: "female", isDeceased: false},
-                                        {id: "harija", nameBn: "হারিজা", gender: "female", isDeceased: false},
-                                        {id: "haiton", nameBn: "হাইতন", gender: "female", isDeceased: false}
+                                        {id: "jaimon", nameBn: "জাইমন", gender: "female", isDeceased: false, idNo: "S-024"},
+                                        {id: "harija", nameBn: "হারিজা", gender: "female", isDeceased: false, idNo: "S-025"},
+                                        {id: "haiton", nameBn: "হাইতন", gender: "female", isDeceased: false, idNo: "S-026"}
                                     ]
                                 },
                                 {
-                                    id: "peyar", nameBn: "পেয়ার সর্দার", gender: "male", isDeceased: false,
+                                    id: "peyar", nameBn: "পেয়ার সর্দার", gender: "male", isDeceased: false, idNo: "S-027",
                                     children: [
                                         {
-                                            id: "janu", nameBn: "জানু সর্দার", gender: "male", isDeceased: false,
+                                            id: "janu", nameBn: "জানু সর্দার", gender: "male", isDeceased: false, idNo: "S-028",
                                             children: [
-                                                {id: "jamshed", nameBn: "জামশেদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "fulu_jan", nameBn: "ফুলু জান", gender: "female", isDeceased: false},
-                                                {id: "majeda", nameBn: "মাজেদা খাতুন", gender: "female", isDeceased: false},
-                                                {id: "lulu_jan", nameBn: "লুলু জান", gender: "female", isDeceased: false},
-                                                {id: "khodijan", nameBn: "খদিজান", gender: "female", isDeceased: false}
+                                                {id: "jamshed", nameBn: "জামশেদ সর্দার", gender: "male", isDeceased: false, idNo: "S-029"},
+                                                {id: "fulu_jan", nameBn: "ফুলু জান", gender: "female", isDeceased: false, idNo: "S-030"},
+                                                {id: "majeda", nameBn: "মাজেদা খাতুন", gender: "female", isDeceased: false, idNo: "S-031"},
+                                                {id: "lulu_jan", nameBn: "লুলু জান", gender: "female", isDeceased: false, idNo: "S-032"},
+                                                {id: "khodijan", nameBn: "খদিজান", gender: "female", isDeceased: false, idNo: "S-033"}
                                             ]
                                         },
                                         {
-                                            id: "haran", nameBn: "হারান সর্দার", gender: "male", isDeceased: false,
+                                            id: "haran", nameBn: "হারান সর্দার", gender: "male", isDeceased: false, idNo: "S-034",
                                             children: [
-                                                {id: "jhontu", nameBn: "ঝন্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "siddik", nameBn: "সিদ্দিক সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jahangir", nameBn: "জাহাঙ্গীর সর্দার", gender: "male", isDeceased: false},
-                                                {id: "komejan", nameBn: "কমেজান", gender: "female", isDeceased: false},
-                                                {id: "mistujan", nameBn: "মিষ্টুজান", gender: "female", isDeceased: false},
-                                                {id: "balijan", nameBn: "বালীজান", gender: "female", isDeceased: false}
+                                                {id: "jhontu", nameBn: "ঝন্টু সর্দার", gender: "male", isDeceased: false, idNo: "S-035"},
+                                                {id: "siddik", nameBn: "সিদ্দিক সর্দার", gender: "male", isDeceased: false, idNo: "S-036"},
+                                                {id: "jahangir", nameBn: "জাহাঙ্গীর সর্দার", gender: "male", isDeceased: false, idNo: "S-037"},
+                                                {id: "komejan", nameBn: "কমেজান", gender: "female", isDeceased: false, idNo: "S-038"},
+                                                {id: "mistujan", nameBn: "মিষ্টুজান", gender: "female", isDeceased: false, idNo: "S-039"},
+                                                {id: "balijan", nameBn: "বালীজান", gender: "female", isDeceased: false, idNo: "S-040"}
                                             ]
                                         },
                                         {
-                                            id: "jaher", nameBn: "জাহের সর্দার", gender: "male", isDeceased: false,
+                                            id: "jaher", nameBn: "জাহের সর্দার", gender: "male", isDeceased: false, idNo: "S-041",
                                             children: [
-                                                {id: "sadhu", nameBn: "সাধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "modhu", nameBn: "মধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jadu", nameBn: "জাদু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "madina", nameBn: "মদিনা", gender: "female", isDeceased: false},
-                                                {id: "morjina", nameBn: "মরজিনা", gender: "female", isDeceased: false},
-                                                {id: "koriman", nameBn: "করিমন নেছা", gender: "female", isDeceased: false},
-                                                {id: "tarajam", nameBn: "তারাজাম", gender: "female", isDeceased: false}
+                                                {id: "sadhu", nameBn: "সাধু সর্দার", gender: "male", isDeceased: false, idNo: "S-042"},
+                                                {id: "modhu", nameBn: "মধু সর্দার", gender: "male", isDeceased: false, idNo: "S-043"},
+                                                {id: "jadu", nameBn: "জাদু সর্দার", gender: "male", isDeceased: false, idNo: "S-044"},
+                                                {id: "madina", nameBn: "মদিনা", gender: "female", isDeceased: false, idNo: "S-045"},
+                                                {id: "morjina", nameBn: "মরজিনা", gender: "female", isDeceased: false, idNo: "S-046"},
+                                                {id: "koriman", nameBn: "করিমন নেছা", gender: "female", isDeceased: false, idNo: "S-047"},
+                                                {id: "tarajam", nameBn: "তারাজাম", gender: "female", isDeceased: false, idNo: "S-048"}
                                             ]
                                         },
                                         {
-                                            id: "bhasha", nameBn: "ভাষা সর্দার", gender: "male", isDeceased: false,
+                                            id: "bhasha", nameBn: "ভাষা সর্দার", gender: "male", isDeceased: false, idNo: "S-049",
                                             children: [
-                                                {id: "moja", nameBn: "মোজা সর্দার", gender: "male", isDeceased: false},
-                                                {id: "moynu", nameBn: "মৃত মইনুদ্দিন", gender: "male", isDeceased: true},
-                                                {id: "ziarul", nameBn: "জিয়ারুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "samiyon", nameBn: "সামিয়ন", gender: "female", isDeceased: false}
+                                                {id: "moja", nameBn: "মোজা সর্দার", gender: "male", isDeceased: false, idNo: "S-050"},
+                                                {id: "moynu", nameBn: "মৃত মইনুদ্দিন", gender: "male", isDeceased: true, idNo: "S-051"},
+                                                {id: "ziarul", nameBn: "জিয়ারুল সর্দার", gender: "male", isDeceased: false, idNo: "S-052"},
+                                                {id: "samiyon", nameBn: "সামিয়ন", gender: "female", isDeceased: false, idNo: "S-053"}
                                             ]
                                         }
                                     ]
                                 },
                                 {
-                                    id: "fokir", nameBn: "ফকির সর্দার", gender: "male", isDeceased: false,
+                                    id: "fokir", nameBn: "ফকির সর্দার", gender: "male", isDeceased: false, idNo: "S-054",
                                     children: [
                                         {
-                                            id: "ajim", nameBn: "আজিম সর্দার", gender: "male", isDeceased: false,
+                                            id: "ajim", nameBn: "আজিম সর্দার", gender: "male", isDeceased: false, idNo: "S-055",
                                             children: [
-                                                {id: "jalal", nameBn: "জালাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "zia", nameBn: "জিয়া সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rotan", nameBn: "রতন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "yatan", nameBn: "ইয়াতন", gender: "female", isDeceased: false},
-                                                {id: "fukun", nameBn: "ফুকন", gender: "female", isDeceased: false},
-                                                {id: "tuklima", nameBn: "মৃত টুকলিমা", gender: "female", isDeceased: true}
+                                                {id: "jalal", nameBn: "জালাল সর্দার", gender: "male", isDeceased: false, idNo: "S-056"},
+                                                {id: "zia", nameBn: "জিয়া সর্দার", gender: "male", isDeceased: false, idNo: "S-057"},
+                                                {id: "rotan", nameBn: "রতন সর্দার", gender: "male", isDeceased: false, idNo: "S-058"},
+                                                {id: "yatan", nameBn: "ইয়াতন", gender: "female", isDeceased: false, idNo: "S-059"},
+                                                {id: "fukun", nameBn: "ফুকন", gender: "female", isDeceased: false, idNo: "S-060"},
+                                                {id: "tuklima", nameBn: "মৃত টুকলিমা", gender: "female", isDeceased: true, idNo: "S-061"}
                                             ]
                                         },
                                         {
-                                            id: "layeb", nameBn: "লায়েব সর্দার", gender: "male", isDeceased: false,
+                                            id: "layeb", nameBn: "লায়েব সর্দার", gender: "male", isDeceased: false, idNo: "S-062",
                                             children: [
-                                                {id: "dulal", nameBn: "মৃত দুলাল সর্দার", gender: "male", isDeceased: true},
-                                                {id: "alal", nameBn: "আলাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "helal", nameBn: "হেলাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "funka", nameBn: "ফুনকা", gender: "female", isDeceased: false},
-                                                {id: "firoza", nameBn: "ফিরোজা", gender: "female", isDeceased: false}
+                                                {id: "dulal", nameBn: "মৃত দুলাল সর্দার", gender: "male", isDeceased: true, idNo: "S-063"},
+                                                {id: "alal", nameBn: "আলাল সর্দার", gender: "male", isDeceased: false, idNo: "S-064"},
+                                                {id: "helal", nameBn: "হেলাল সর্দার", gender: "male", isDeceased: false, idNo: "S-065"},
+                                                {id: "funka", nameBn: "ফুনকা", gender: "female", isDeceased: false, idNo: "S-066"},
+                                                {id: "firoza", nameBn: "ফিরোজা", gender: "female", isDeceased: false, idNo: "S-067"}
                                             ]
                                         }
                                     ]
                                 },
-                                {id: "abeda", nameBn: "আবেদা খাতুন", gender: "female", isDeceased: false}
+                                {id: "abeda", nameBn: "আবেদা খাতুন", gender: "female", isDeceased: false, idNo: "S-068"}
                             ]
                         },
                         {
-                            id: "kesu", nameBn: "কেসু সর্দার", gender: "male", isDeceased: false,
+                            id: "kesu", nameBn: "কেসু সর্দার", gender: "male", isDeceased: false, idNo: "S-069",
                             children: [
                                 {
-                                    id: "asharat", nameBn: "আশারত সর্দার", gender: "male", isDeceased: false,
+                                    id: "asharat", nameBn: "আশারত সর্দার", gender: "male", isDeceased: false, idNo: "S-070",
                                     children: [
                                         {
-                                            id: "kukon", nameBn: "কুকন সর্দার", gender: "male", isDeceased: false,
+                                            id: "kukon", nameBn: "কুকন সর্দার", gender: "male", isDeceased: false, idNo: "S-071",
                                             children: [
-                                                {id: "hozrat", nameBn: "হযরত সর্দার", gender: "male", isDeceased: false},
-                                                {id: "hafez", nameBn: "হাফেজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "shahbaz", nameBn: "শাহবাজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sorejan", nameBn: "শরেজান", gender: "female", isDeceased: false},
-                                                {id: "mina", nameBn: "মীনা", gender: "female", isDeceased: false},
-                                                {id: "foima", nameBn: "ফইমা", gender: "female", isDeceased: false},
-                                                {id: "sukhejan", nameBn: "সুখেজান", gender: "female", isDeceased: false},
-                                                {id: "monjura", nameBn: "মঞ্জুরা [নতুন]", gender: "female", isDeceased: false}
+                                                {id: "hozrat", nameBn: "হযরত সর্দার", gender: "male", isDeceased: false, idNo: "S-072"},
+                                                {id: "hafez", nameBn: "হাফেজ সর্দার", gender: "male", isDeceased: false, idNo: "S-073"},
+                                                {id: "shahbaz", nameBn: "শাহবাজ সর্দার", gender: "male", isDeceased: false, idNo: "S-074"},
+                                                {id: "sorejan", nameBn: "শরেজান", gender: "female", isDeceased: false, idNo: "S-075"},
+                                                {id: "mina", nameBn: "মীনা", gender: "female", isDeceased: false, idNo: "S-076"},
+                                                {id: "foima", nameBn: "ফইমা", gender: "female", isDeceased: false, idNo: "S-077"},
+                                                {id: "sukhejan", nameBn: "সুখেজান", gender: "female", isDeceased: false, idNo: "S-078"},
+                                                {id: "monjura", nameBn: "মঞ্জুরা [নতুন]", gender: "female", isDeceased: false, idNo: "S-079"}
                                             ]
                                         },
                                         {
-                                            id: "elahi", nameBn: "এলাহী সর্দার", gender: "male", isDeceased: false,
+                                            id: "elahi", nameBn: "এলাহী সর্দার", gender: "male", isDeceased: false, idNo: "S-080",
                                             children: [
-                                                {id: "idris", nameBn: "ইদ্রিস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "alam", nameBn: "আলম সর্দার", gender: "male", isDeceased: false},
-                                                {id: "aulad", nameBn: "আউলাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ilef", nameBn: "ইলেফ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "zaharun", nameBn: "জাহারন", gender: "female", isDeceased: false},
-                                                {id: "tuhura1", nameBn: "তহুরা", gender: "female", isDeceased: false},
-                                                {id: "khaleda", nameBn: "খালেদা", gender: "female", isDeceased: false}
+                                                {id: "idris", nameBn: "ইদ্রিস সর্দার", gender: "male", isDeceased: false, idNo: "S-081"},
+                                                {id: "alam", nameBn: "আলম সর্দার", gender: "male", isDeceased: false, idNo: "S-082"},
+                                                {id: "aulad", nameBn: "আউলাদ সর্দার", gender: "male", isDeceased: false, idNo: "S-083"},
+                                                {id: "ilef", nameBn: "ইলেফ সর্দার", gender: "male", isDeceased: false, idNo: "S-084"},
+                                                {id: "zaharun", nameBn: "জাহারন", gender: "female", isDeceased: false, idNo: "S-085"},
+                                                {id: "tuhura1", nameBn: "তহুরা", gender: "female", isDeceased: false, idNo: "S-086"},
+                                                {id: "khaleda", nameBn: "খালেদা", gender: "female", isDeceased: false, idNo: "S-087"}
                                             ]
                                         }
                                     ]
                                 },
                                 {
-                                    id: "bosharat", nameBn: "বসারত সর্দার", gender: "male", isDeceased: false,
+                                    id: "bosharat", nameBn: "বসারত সর্দার", gender: "male", isDeceased: false, idNo: "S-088",
                                     children: [
                                         {
-                                            id: "shukot", nameBn: "শুকট সর্দার", gender: "male", isDeceased: false,
+                                            id: "shukot", nameBn: "শুকট সর্দার", gender: "male", isDeceased: false, idNo: "S-089",
                                             children: [
-                                                {id: "habil", nameBn: "মৃত হাবিল সর্দার", gender: "male", isDeceased: true},
-                                                {id: "hanif", nameBn: "মৃত হানিফ সর্দার", gender: "male", isDeceased: true},
-                                                {id: "bojlu", nameBn: "বজলু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kabil", nameBn: "কাবিল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "maleka", nameBn: "মালেকা", gender: "female", isDeceased: false},
-                                                {id: "hima", nameBn: "হিমা", gender: "female", isDeceased: false},
-                                                {id: "nima", nameBn: "নিমা", gender: "female", isDeceased: false}
+                                                {id: "habil", nameBn: "মৃত হাবিল সর্দার", gender: "male", isDeceased: true, idNo: "S-090"},
+                                                {id: "hanif", nameBn: "মৃত হানিফ সর্দার", gender: "male", isDeceased: true, idNo: "S-091"},
+                                                {id: "bojlu", nameBn: "বজলু সর্দার", gender: "male", isDeceased: false, idNo: "S-092"},
+                                                {id: "kabil", nameBn: "কাবিল সর্দার", gender: "male", isDeceased: false, idNo: "S-093"},
+                                                {id: "maleka", nameBn: "মালেকা", gender: "female", isDeceased: false, idNo: "S-094"},
+                                                {id: "hima", nameBn: "হিমা", gender: "female", isDeceased: false, idNo: "S-095"},
+                                                {id: "nima", nameBn: "নিমা", gender: "female", isDeceased: false, idNo: "S-096"}
                                             ]
                                         },
                                         {
-                                            id: "jolil", nameBn: "জলিল সর্দার", gender: "male", isDeceased: false,
+                                            id: "jolil", nameBn: "জলিল সর্দার", gender: "male", isDeceased: false, idNo: "S-097",
                                             children: [
-                                                {id: "mannan", nameBn: "মান্নান সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sadhu2", nameBn: "সাধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "modhu2", nameBn: "মধু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "anura", nameBn: "মৃত আনুরা", gender: "female", isDeceased: true},
-                                                {id: "nahera", nameBn: "নাহেরা", gender: "female", isDeceased: false},
-                                                {id: "fonuara", nameBn: "মৃত ফনুয়ারা", gender: "female", isDeceased: true}
+                                                {id: "mannan", nameBn: "মান্নান সর্দার", gender: "male", isDeceased: false, idNo: "S-098"},
+                                                {id: "sadhu2", nameBn: "সাধু সর্দার", gender: "male", isDeceased: false, idNo: "S-099"},
+                                                {id: "modhu2", nameBn: "মধু সর্দার", gender: "male", isDeceased: false, idNo: "S-100"},
+                                                {id: "anura", nameBn: "মৃত আনুরা", gender: "female", isDeceased: true, idNo: "S-101"},
+                                                {id: "nahera", nameBn: "নাহেরা", gender: "female", isDeceased: false, idNo: "S-102"},
+                                                {id: "fonuara", nameBn: "মৃত ফনুয়ারা", gender: "female", isDeceased: true, idNo: "S-103"}
                                             ]
                                         },
                                         {
-                                              id: "mohir", nameBn: "মহির সর্দার", gender: "male", isDeceased: false,
+                                              id: "mohir", nameBn: "মহির সর্দার", gender: "male", isDeceased: false, idNo: "S-104",
                                               children: [
-                                                  {id: "kamruzzaman", nameBn: "কামরুজ্জামান", gender: "male", isDeceased: false},
-                                                  {id: "shofikul", nameBn: "শফিকুল সর্দার", gender: "male", isDeceased: false},
-                                                  {id: "nasima", nameBn: "নাসিমা", gender: "female", isDeceased: false},
-                                                  {id: "modon", nameBn: "মদন", gender: "male", isDeceased: false},
-                                                  {id: "laki", nameBn: "লাকি", gender: "female", isDeceased: false},
-                                                  {id: "roksana", nameBn: "রোকসানা", gender: "female", isDeceased: false}
+                                                  {id: "kamruzzaman", nameBn: "কামরুজ্জামান", gender: "male", isDeceased: false, idNo: "S-105"},
+                                                  {id: "shofikul", nameBn: "শফিকুল সর্দার", gender: "male", isDeceased: false, idNo: "S-106"},
+                                                  {id: "nasima", nameBn: "নাসিমা", gender: "female", isDeceased: false, idNo: "S-107"},
+                                                  {id: "modon", nameBn: "মদন", gender: "male", isDeceased: false, idNo: "S-108"},
+                                                  {id: "laki", nameBn: "লাকি", gender: "female", isDeceased: false, idNo: "S-109"},
+                                                  {id: "roksana", nameBn: "রোকসানা", gender: "female", isDeceased: false, idNo: "S-110"}
                                               ]
                                         },
-                                        {id: "parijan", nameBn: "পরিজান", gender: "female", isDeceased: false},
-                                        {id: "jomela", nameBn: "জমেলা", gender: "female", isDeceased: false}
+                                        {id: "parijan", nameBn: "পরিজান", gender: "female", isDeceased: false, idNo: "S-111"},
+                                        {id: "jomela", nameBn: "জমেলা", gender: "female", isDeceased: false, idNo: "S-112"}
                                     ]
                                 },
                                 {
-                                    id: "bhugol", nameBn: "ভুগল সর্দার", gender: "male", isDeceased: false,
+                                    id: "bhugol", nameBn: "ভুগল সর্দার", gender: "male", isDeceased: false, idNo: "S-113",
                                     children: [
                                         {
-                                            id: "subol", nameBn: "সুবল সর্দার", gender: "male", isDeceased: false,
+                                            id: "subol", nameBn: "সুবল সর্দার", gender: "male", isDeceased: false, idNo: "S-114",
                                             children: [
-                                                {id: "moylal", nameBn: "ময়লাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "hobibar", nameBn: "হবিবার সর্দার", gender: "male", isDeceased: false},
-                                                {id: "motali", nameBn: "মতালি সর্দার", gender: "male", isDeceased: false},
-                                                {id: "lota", nameBn: "লতা জান", gender: "female", isDeceased: false},
-                                                {id: "khorki", nameBn: "খরকি", gender: "female", isDeceased: false},
-                                                {id: "sohura", nameBn: "সহুরা", gender: "female", isDeceased: false}
+                                                {id: "moylal", nameBn: "ময়লাল সর্দার", gender: "male", isDeceased: false, idNo: "S-115"},
+                                                {id: "hobibar", nameBn: "হবিবার সর্দার", gender: "male", isDeceased: false, idNo: "S-116"},
+                                                {id: "motali", nameBn: "মতালি সর্দার", gender: "male", isDeceased: false, idNo: "S-117"},
+                                                {id: "lota", nameBn: "লতা জান", gender: "female", isDeceased: false, idNo: "S-118"},
+                                                {id: "khorki", nameBn: "খরকি", gender: "female", isDeceased: false, idNo: "S-119"},
+                                                {id: "sohura", nameBn: "সহুরা", gender: "female", isDeceased: false, idNo: "S-120"}
                                             ]
                                         },
                                         {
-                                            id: "mojiborr", nameBn: "মজিবর সর্দার", gender: "male", isDeceased: false,
+                                            id: "mojiborr", nameBn: "মজিবর সর্দার", gender: "male", isDeceased: false, idNo: "S-121",
                                             children: [
-                                                {id: "nazrul", nameBn: "নজরুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jalal2", nameBn: "জালাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kamal", nameBn: "কামাল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ahad", nameBn: "আহাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "monowara", nameBn: "মনোয়ারা", gender: "female", isDeceased: false},
-                                                {id: "toslima", nameBn: "তসলিমা", gender: "female", isDeceased: false},
-                                                {id: "shadhina", nameBn: "স্বাধীনা", gender: "female", isDeceased: false}
+                                                {id: "nazrul", nameBn: "নজরুল সর্দার", gender: "male", isDeceased: false, idNo: "S-122"},
+                                                {id: "jalal2", nameBn: "জালাল সর্দার", gender: "male", isDeceased: false, idNo: "S-123"},
+                                                {id: "kamal", nameBn: "কামাল সর্দার", gender: "male", isDeceased: false, idNo: "S-124"},
+                                                {id: "ahad", nameBn: "আহাদ সর্দার", gender: "male", isDeceased: false, idNo: "S-125"},
+                                                {id: "monowara", nameBn: "মনোয়ারা", gender: "female", isDeceased: false, idNo: "S-126"},
+                                                {id: "toslima", nameBn: "তসলিমা", gender: "female", isDeceased: false, idNo: "S-127"},
+                                                {id: "shadhina", nameBn: "স্বাধীনা", gender: "female", isDeceased: false, idNo: "S-128"}
                                             ]
                                         },
                                         {
-                                            id: "mokles", nameBn: "মকলেস সর্দার", gender: "male", isDeceased: false,
+                                            id: "mokles", nameBn: "মকলেস সর্দার", gender: "male", isDeceased: false, idNo: "S-129",
                                             children: [
-                                                {id: "akman", nameBn: "আকমান সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ingraj", nameBn: "ইংরাজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "yakub", nameBn: "ইয়াকুব সর্দার", gender: "male", isDeceased: false},
-                                                {id: "anarul", nameBn: "আনারুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rese", nameBn: "রেসে", gender: "female", isDeceased: false},
-                                                {id: "rushy", nameBn: "রুশি", gender: "female", isDeceased: false},
-                                                {id: "farida", nameBn: "মৃত ফরিদা", gender: "female", isDeceased: true},
-                                                {id: "firo", nameBn: "ফিরো", gender: "female", isDeceased: false}
+                                                {id: "akman", nameBn: "আকমান সর্দার", gender: "male", isDeceased: false, idNo: "S-130"},
+                                                {id: "ingraj", nameBn: "ইংরাজ সর্দার", gender: "male", isDeceased: false, idNo: "S-131"},
+                                                {id: "yakub", nameBn: "ইয়াকুব সর্দার", gender: "male", isDeceased: false, idNo: "S-132"},
+                                                {id: "anarul", nameBn: "আনারুল সর্দার", gender: "male", isDeceased: false, idNo: "S-133"},
+                                                {id: "rese", nameBn: "রেসে", gender: "female", isDeceased: false, idNo: "S-134"},
+                                                {id: "rushy", nameBn: "রুশি", gender: "female", isDeceased: false, idNo: "S-135"},
+                                                {id: "farida", nameBn: "মৃত ফরিদা", gender: "female", isDeceased: true, idNo: "S-136"},
+                                                {id: "firo", nameBn: "ফিরো", gender: "female", isDeceased: false, idNo: "S-137"}
                                             ]
                                         },
                                         {
-                                            id: "saru", nameBn: "সারু সর্দার", gender: "male", isDeceased: false,
+                                            id: "saru", nameBn: "সারু সর্দার", gender: "male", isDeceased: false, idNo: "S-138",
                                             children: [
-                                                {id: "yadul", nameBn: "ইয়াদুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "yunus", nameBn: "ইউনুস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "beneyamin", nameBn: "মৃত বেনেয়ামিন", gender: "male", isDeceased: true},
-                                                {id: "ranjana", nameBn: "রঞ্জনা", gender: "female", isDeceased: false},
-                                                {id: "merina", nameBn: "মেরিনা", gender: "female", isDeceased: false}
+                                                {id: "yadul", nameBn: "ইয়াদুল সর্দার", gender: "male", isDeceased: false, idNo: "S-139"},
+                                                {id: "yunus", nameBn: "ইউনুস সর্দার", gender: "male", isDeceased: false, idNo: "S-140"},
+                                                {id: "beneyamin", nameBn: "মৃত বেনেয়ামিন", gender: "male", isDeceased: true, idNo: "S-141"},
+                                                {id: "ranjana", nameBn: "রঞ্জনা", gender: "female", isDeceased: false, idNo: "S-142"},
+                                                {id: "merina", nameBn: "মেরিনা", gender: "female", isDeceased: false, idNo: "S-143"}
                                             ]
                                         },
-                                        {id: "rohima", nameBn: "রহিমা", gender: "female", isDeceased: false},
-                                        {id: "zayeda", nameBn: "জায়েদা", gender: "female", isDeceased: false},
-                                        {id: "joygon", nameBn: "জয়গন নেসা", gender: "female", isDeceased: false}
+                                        {id: "rohima", nameBn: "রহিমা", gender: "female", isDeceased: false, idNo: "S-144"},
+                                        {id: "zayeda", nameBn: "জায়েদা", gender: "female", isDeceased: false, idNo: "S-145"},
+                                        {id: "joygon", nameBn: "জয়গন নেসা", gender: "female", isDeceased: false, idNo: "S-146"}
                                     ]
                                 },
                                 {
-                                    id: "koser", nameBn: "কসের সর্দার", gender: "male", isDeceased: false,
+                                    id: "koser", nameBn: "কসের সর্দার", gender: "male", isDeceased: false, idNo: "S-147",
                                     children: [
                                         {
-                                            id: "khalil", nameBn: "খলিল সর্দার", gender: "male", isDeceased: false,
+                                            id: "khalil", nameBn: "খলিল সর্দার", gender: "male", isDeceased: false, idNo: "S-148",
                                             children: [
-                                                {id: "refej", nameBn: "রেফেজ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kubir", nameBn: "কুবির সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jumir", nameBn: "জুমির সর্দার", gender: "male", isDeceased: false},
-                                                {id: "shajuddi", nameBn: "শাইজুদ্দি", gender: "male", isDeceased: false},
-                                                {id: "raziya", nameBn: "মৃত রাজিয়া", gender: "female", isDeceased: true}
+                                                {id: "refej", nameBn: "রেফেজ সর্দার", gender: "male", isDeceased: false, idNo: "S-149"},
+                                                {id: "kubir", nameBn: "কুবির সর্দার", gender: "male", isDeceased: false, idNo: "S-150"},
+                                                {id: "jumir", nameBn: "জুমির সর্দার", gender: "male", isDeceased: false, idNo: "S-151"},
+                                                {id: "shajuddi", nameBn: "শাইজুদ্দি", gender: "male", isDeceased: false, idNo: "S-152"},
+                                                {id: "raziya", nameBn: "মৃত রাজিয়া", gender: "female", isDeceased: true, idNo: "S-153"}
                                             ]
                                         },
                                         {
-                                            id: "nurl", nameBn: "নুরল সর্দার", gender: "male", isDeceased: false,
+                                            id: "nurl", nameBn: "নুরল সর্দার", gender: "male", isDeceased: false, idNo: "S-154",
                                             children: [
-                                                {id: "waris", nameBn: "ওয়ারিস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "idris2", nameBn: "ইদ্রিস সর্দার", gender: "male", isDeceased: false},
-                                                {id: "apil", nameBn: "আপিল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "niharul", nameBn: "নিহারুল সর্দার", gender: "male", isDeceased: false}
+                                                {id: "waris", nameBn: "ওয়ারিস সর্দার", gender: "male", isDeceased: false, idNo: "S-155"},
+                                                {id: "idris2", nameBn: "ইদ্রিস সর্দার", gender: "male", isDeceased: false, idNo: "S-156"},
+                                                {id: "apil", nameBn: "আপিল সর্দার", gender: "male", isDeceased: false, idNo: "S-157"},
+                                                {id: "niharul", nameBn: "নিহারুল সর্দার", gender: "male", isDeceased: false, idNo: "S-158"}
                                             ]
                                         },
                                         {
-                                            id: "alim", nameBn: "আলিম সর্দার", gender: "male", isDeceased: false,
+                                            id: "alim", nameBn: "আলিম সর্দার", gender: "male", isDeceased: false, idNo: "S-159",
                                             children: [
-                                                {id: "ujjwal", nameBn: "উজ্জ্বল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rofikul", nameBn: "রফিকুল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "hesab", nameBn: "হিসাব সর্দার", gender: "male", isDeceased: false}
+                                                {id: "ujjwal", nameBn: "উজ্জ্বল সর্দার", gender: "male", isDeceased: false, idNo: "S-160"},
+                                                {id: "rofikul", nameBn: "রফিকুল সর্দার", gender: "male", isDeceased: false, idNo: "S-161"},
+                                                {id: "hesab", nameBn: "হিসাব সর্দার", gender: "male", isDeceased: false, idNo: "S-162"}
                                             ]
                                         },
                                         {
-                                            id: "tofezzol", nameBn: "তফেজ্জল সর্দার", gender: "male", isDeceased: false,
+                                            id: "tofezzol", nameBn: "তফেজ্জল সর্দার", gender: "male", isDeceased: false, idNo: "S-163",
                                             children: [
-                                                {id: "mohon", nameBn: "মহন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "koron", nameBn: "করণ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rofiya", nameBn: "রফিয়া", gender: "female", isDeceased: false},
-                                                {id: "tuhura2", nameBn: "তহুরা", gender: "female", isDeceased: false},
-                                                {id: "tahera", nameBn: "তাহেরা", gender: "female", isDeceased: false},
-                                                {id: "sultana", nameBn: "সুলতানা", gender: "female", isDeceased: false}
+                                                {id: "mohon", nameBn: "মহন সর্দার", gender: "male", isDeceased: false, idNo: "S-164"},
+                                                {id: "koron", nameBn: "করণ সর্দার", gender: "male", isDeceased: false, idNo: "S-165"},
+                                                {id: "rofiya", nameBn: "রফিয়া", gender: "female", isDeceased: false, idNo: "S-166"},
+                                                {id: "tuhura2", nameBn: "তহুরা", gender: "female", isDeceased: false, idNo: "S-167"},
+                                                {id: "tahera", nameBn: "তাহেরা", gender: "female", isDeceased: false, idNo: "S-168"},
+                                                {id: "sultana", nameBn: "সুলতানা", gender: "female", isDeceased: false, idNo: "S-169"}
                                             ]
                                         },
-                                        {id: "romela", nameBn: "রমেলা খাতুন", gender: "female", isDeceased: false}
+                                        {id: "romela", nameBn: "রমেলা খাতুন", gender: "female", isDeceased: false, idNo: "S-170"}
                                     ]
                                 },
                                 {
-                                    id: "iman_ali", nameBn: "ইমান আলী সর্দার", gender: "male", isDeceased: false,
+                                    id: "iman_ali", nameBn: "ইমান আলী সর্দার", gender: "male", isDeceased: false, idNo: "S-171",
                                     children: [
                                         {
-                                            id: "soleman", nameBn: "সলেমান সর্দার", gender: "male", isDeceased: false,
+                                            id: "soleman", nameBn: "সলেমান সর্দার", gender: "male", isDeceased: false, idNo: "S-172",
                                             children: [
-                                                {id: "pentu", nameBn: "পেন্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sentu", nameBn: "সেন্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "asad", nameBn: "আসাদ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jewel", nameBn: "জুয়েল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "sohel", nameBn: "সোহেল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rinku", nameBn: "রিংকু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "beli", nameBn: "বেলি", gender: "female", isDeceased: false},
-                                                {id: "selina", nameBn: "সেলিনা", gender: "female", isDeceased: false},
-                                                {id: "lovely", nameBn: "লাভলি", gender: "female", isDeceased: false},
-                                                {id: "rikta", nameBn: "রিক্তা", gender: "female", isDeceased: false},
-                                                {id: "pista", nameBn: "পিস্তা", gender: "female", isDeceased: false}
+                                                {id: "pentu", nameBn: "পেন্টু সর্দার", gender: "male", isDeceased: false, idNo: "S-173"},
+                                                {id: "sentu", nameBn: "সেন্টু সর্দার", gender: "male", isDeceased: false, idNo: "S-174"},
+                                                {id: "asad", nameBn: "আসাদ সর্দার", gender: "male", isDeceased: false, idNo: "S-175"},
+                                                {id: "jewel", nameBn: "জুয়েল সর্দার", gender: "male", isDeceased: false, idNo: "S-176"},
+                                                {id: "sohel", nameBn: "সোহেল সর্দার", gender: "male", isDeceased: false, idNo: "S-177"},
+                                                {id: "rinku", nameBn: "রিংকু সর্দার", gender: "male", isDeceased: false, idNo: "S-178"},
+                                                {id: "beli", nameBn: "বেলি", gender: "female", isDeceased: false, idNo: "S-179"},
+                                                {id: "selina", nameBn: "সেলিনা", gender: "female", isDeceased: false, idNo: "S-180"},
+                                                {id: "lovely", nameBn: "লাভলি", gender: "female", isDeceased: false, idNo: "S-181"},
+                                                {id: "rikta", nameBn: "রিক্তা", gender: "female", isDeceased: false, idNo: "S-182"},
+                                                {id: "pista", nameBn: "পিস্তা", gender: "female", isDeceased: false, idNo: "S-183"}
                                             ]
                                         },
                                         {
-                                            id: "abdus_samad", nameBn: "আব্দুস সামাদ সর্দার", gender: "male", isDeceased: false,
+                                            id: "abdus_samad", nameBn: "আব্দুস সামাদ সর্দার", gender: "male", isDeceased: false, idNo: "S-184",
                                             children: [
-                                                {id: "roknuzzaman", nameBn: "রোকনুজ্জামান", gender: "male", isDeceased: false},
-                                                {id: "hasanuzzaman", nameBn: "হাসানুজ্জামান", gender: "male", isDeceased: false},
-                                                {id: "tanim", nameBn: "মৃত তানিম", gender: "male", isDeceased: true},
-                                                {id: "sumon", nameBn: "সুমন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "reena", nameBn: "রীনা", gender: "female", isDeceased: false},
-                                                {id: "bina", nameBn: "বিনা", gender: "female", isDeceased: false},
-                                                {id: "tina", nameBn: "টিনা", gender: "female", isDeceased: false}
+                                                {id: "roknuzzaman", nameBn: "রোকনুজ্জামান", gender: "male", isDeceased: false, idNo: "S-185"},
+                                                {id: "hasanuzzaman", nameBn: "হাসানুজ্জামান", gender: "male", isDeceased: false, idNo: "S-186"},
+                                                {id: "tanim", nameBn: "মৃত তানিম", gender: "male", isDeceased: true, idNo: "S-187"},
+                                                {id: "sumon", nameBn: "সুমন সর্দার", gender: "male", isDeceased: false, idNo: "S-188"},
+                                                {id: "reena", nameBn: "রীনা", gender: "female", isDeceased: false, idNo: "S-189"},
+                                                {id: "bina", nameBn: "বিনা", gender: "female", isDeceased: false, idNo: "S-190"},
+                                                {id: "tina", nameBn: "টিনা", gender: "female", isDeceased: false, idNo: "S-191"}
                                             ]
                                         },
                                         {
-                                            id: "jamal", nameBn: "জামাল সর্দার", gender: "male", isDeceased: false,
+                                            id: "jamal", nameBn: "জামাল সর্দার", gender: "male", isDeceased: false, idNo: "S-192",
                                             children: [
-                                                {id: "mamun", nameBn: "মামুন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "masum", nameBn: "মাসুম সর্দার", gender: "male", isDeceased: false},
-                                                {id: "mousum", nameBn: "মৌসুম সর্দার", gender: "male", isDeceased: false},
-                                                {id: "kusum", nameBn: "কুসুম সর্দার", gender: "female", isDeceased: false},
-                                                {id: "panna", nameBn: "পান্না সর্দার", gender: "male", isDeceased: false},
-                                                {id: "nantu", nameBn: "নান্টু সর্দার", gender: "male", isDeceased: false},
-                                                {id: "mithon", nameBn: "মিঠন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "tuton", nameBn: "টুটন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "choton", nameBn: "ছোটন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "jahanara", nameBn: "জাহানারা", gender: "female", isDeceased: false},
-                                                {id: "sathi", nameBn: "সাথি", gender: "female", isDeceased: false}
+                                                {id: "mamun", nameBn: "মামুন সর্দার", gender: "male", isDeceased: false, idNo: "S-193"},
+                                                {id: "masum", nameBn: "মাসুম সর্দার", gender: "male", isDeceased: false, idNo: "S-194"},
+                                                {id: "mousum", nameBn: "মৌসুম সর্দার", gender: "male", isDeceased: false, idNo: "S-195"},
+                                                {id: "kusum", nameBn: "কুসুম সর্দার", gender: "female", isDeceased: false, idNo: "S-196"},
+                                                {id: "panna", nameBn: "পান্না সর্দার", gender: "male", isDeceased: false, idNo: "S-197"},
+                                                {id: "nantu", nameBn: "নান্টু সর্দার", gender: "male", isDeceased: false, idNo: "S-198"},
+                                                {id: "mithon", nameBn: "মিঠন সর্দার", gender: "male", isDeceased: false, idNo: "S-199"},
+                                                {id: "tuton", nameBn: "টুটন সর্দার", gender: "male", isDeceased: false, idNo: "S-200"},
+                                                {id: "choton", nameBn: "ছোটন সর্দার", gender: "male", isDeceased: false, idNo: "S-201"},
+                                                {id: "jahanara", nameBn: "জাহানারা", gender: "female", isDeceased: false, idNo: "S-202"},
+                                                {id: "sathi", nameBn: "সাথি", gender: "female", isDeceased: false, idNo: "S-203"}
                                             ]
                                         },
                                         {
-                                            id: "rustom", nameBn: "রুস্তম সর্দার", gender: "male", isDeceased: false,
+                                            id: "rustom", nameBn: "রুস্তম সর্দার", gender: "male", isDeceased: false, idNo: "S-204",
                                             children: [
-                                                {id: "rezaul", nameBn: "রেজাউল সর্দার", gender: "male", isDeceased: false},
-                                                {id: "manik", nameBn: "মানিক সর্দার", gender: "male", isDeceased: false},
-                                                {id: "arif", nameBn: "আরিফ সর্দার", gender: "male", isDeceased: false},
-                                                {id: "ripon", nameBn: "রিপন সর্দার", gender: "male", isDeceased: false},
-                                                {id: "rozina", nameBn: "রোজিনা", gender: "female", isDeceased: false},
-                                                {id: "ruma", nameBn: "রুমা", gender: "female", isDeceased: false}
+                                                {id: "rezaul", nameBn: "রেজাউল সর্দার", gender: "male", isDeceased: false, idNo: "S-205"},
+                                                {id: "manik", nameBn: "মানিক সর্দার", gender: "male", isDeceased: false, idNo: "S-206"},
+                                                {id: "arif", nameBn: "আরিফ সর্দার", gender: "male", isDeceased: false, idNo: "S-207"},
+                                                {id: "ripon", nameBn: "রিপন সর্দার", gender: "male", isDeceased: false, idNo: "S-208"},
+                                                {id: "rozina", nameBn: "রোজিনা", gender: "female", isDeceased: false, idNo: "S-209"},
+                                                {id: "ruma", nameBn: "রুমা", gender: "female", isDeceased: false, idNo: "S-210"}
                                             ]
                                         },
                                         {
-                                            id: "akbor", nameBn: "আকবর সর্দার", gender: "male", isDeceased: false,
+                                            id: "akbor", nameBn: "আকবর সর্দার", gender: "male", isDeceased: false, idNo: "S-211",
                                             children: [
-                                                {id: "shuvro", nameBn: "শুভ্র", gender: "male", isDeceased: false},
-                                                {id: "onto", nameBn: "অন্ত", gender: "male", isDeceased: false},
-                                                {id: "afifa", nameBn: "আফিফা", gender: "female", isDeceased: false}
+                                                {id: "shuvro", nameBn: "শুভ্র", gender: "male", isDeceased: false, idNo: "S-212"},
+                                                {id: "onto", nameBn: "অন্ত", gender: "male", isDeceased: false, idNo: "S-213"},
+                                                {id: "afifa", nameBn: "আফিফা", gender: "female", isDeceased: false, idNo: "S-214"}
                                             ]
                                         },
                                         {
-                                            id: "mahatab", nameBn: "মাহাতাব উদ্দিন", gender: "male", isDeceased: false,
+                                            id: "mahatab", nameBn: "মাহাতাব উদ্দিন", gender: "male", isDeceased: false, idNo: "S-215",
                                             children: [
-                                                {id: "al_mehedi", nameBn: "আল-মেহেদী", gender: "male", isDeceased: false},
-                                                {id: "abu_sayed", nameBn: "আবু সাঈদ", gender: "male", isDeceased: false},
-                                                {id: "moriyom", nameBn: "মরিয়ম খাতুন", gender: "female", isDeceased: false},
-                                                {id: "popi", nameBn: "মৃত পপি", gender: "female", isDeceased: true},
-                                                {id: "merina2", nameBn: "মেরিনা খাতুন", gender: "female", isDeceased: false}
+                                                {id: "al_mehedi", nameBn: "আল-মেহেদী", gender: "male", isDeceased: false, idNo: "S-216"},
+                                                {id: "abu_sayed", nameBn: "আবু সাঈদ", gender: "male", isDeceased: false, idNo: "S-217"},
+                                                {id: "moriyom", nameBn: "মরিয়ম খাতুন", gender: "female", isDeceased: false, idNo: "S-218"},
+                                                {id: "popi", nameBn: "মৃত পপি", gender: "female", isDeceased: true, idNo: "S-219"},
+                                                {id: "merina2", nameBn: "মেরিনা খাতুন", gender: "female", isDeceased: false, idNo: "S-220"}
                                             ]
                                         },
-                                        {id: "nehar", nameBn: "নেহার", gender: "female", isDeceased: false},
-                                        {id: "sokina", nameBn: "সকিনা", gender: "female", isDeceased: false},
-                                        {id: "shohida", nameBn: "শহিদা", gender: "female", isDeceased: false},
-                                        {id: "shahanur", nameBn: "শাহানূর", gender: "female", isDeceased: false},
-                                        {id: "kajol", nameBn: "কাজল", gender: "female", isDeceased: false}
+                                        {id: "nehar", nameBn: "নেহার", gender: "female", isDeceased: false, idNo: "S-221"},
+                                        {id: "sokina", nameBn: "সকিনা", gender: "female", isDeceased: false, idNo: "S-222"},
+                                        {id: "shohida", nameBn: "শহিদা", gender: "female", isDeceased: false, idNo: "S-223"},
+                                        {id: "shahanur", nameBn: "শাহানূর", gender: "female", isDeceased: false, idNo: "S-224"},
+                                        {id: "kajol", nameBn: "কাজল", gender: "female", isDeceased: false, idNo: "S-225"}
                                     ]
                                 },
-                                {id: "salejan", nameBn: "সালেজান", gender: "female", isDeceased: false}
+                                {id: "salejan", nameBn: "সালেজান", gender: "female", isDeceased: false, idNo: "S-226"}
                             ]
                         }
                     ]
@@ -594,6 +675,8 @@
 
         let historyStack = [familyData];
         let currentRootNode = familyData;
+        let currentGalleryImages = [];
+        let currentGalleryIndex = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
             renderCurrentTree();
@@ -668,7 +751,6 @@
             const genderClass = node.gender === 'female' ? 'female' : 'male';
             const deceasedBadge = node.isDeceased ? '<span class="deceased-badge">(মৃত)</span>' : '';
 
-            // প্রধান বা বর্তমান নির্বাচিত ব্যক্তির বক্সে "প্রধান:" শব্দ বাদ দিয়ে শুধু নাম রাখা হয়েছে
             return `
                 <li>
                     <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
@@ -748,7 +830,7 @@
             const memberObj = findMemberById(familyData, id);
             const parentObj = findParentById(familyData, id);
             if (memberObj) {
-                showMemberDetailsModal(memberObj, parentObj ? parentObj.nameBn : 'মূল পূর্বপুরুষ');
+                showMemberDetailsModal(memberObj, parentObj);
             }
         }
 
@@ -774,20 +856,164 @@
             return null;
         }
 
-        function showMemberDetailsModal(member, parentName = 'N/A') {
+        // পূর্ণাঙ্গ প্রোফাইল মডাল ডাটা ফিলআপ করার ফাংশন
+        function showMemberDetailsModal(member, parentObj) {
             const modal = document.getElementById('memberModal');
+            
+            // ছবি সেটআপ
+            const imgContainer = document.getElementById('modalImgContainer');
+            if (member.profilePhoto) {
+                imgContainer.innerHTML = `<img src="${member.profilePhoto}" alt="${member.nameBn}">`;
+            } else {
+                imgContainer.innerHTML = `<span class="profile-img-placeholder">👤</span>`;
+            }
+
             document.getElementById('modalNameBn').textContent = member.nameBn;
 
             const badge = document.getElementById('modalStatusBadge');
             badge.textContent = member.isDeceased ? 'মৃত' : 'জীবিত';
             badge.className = member.isDeceased ? 'status-badge deceased' : 'status-badge';
 
+            document.getElementById('modalIdNo').textContent = member.idNo || 'N/A';
             document.getElementById('modalGender').textContent = member.gender === 'female' ? 'নারী' : 'পুরুষ';
-            document.getElementById('modalParent').textContent = parentName;
-            document.getElementById('modalChildrenCount').textContent = `${member.children ? member.children.length : 0} জন`;
+            document.getElementById('modalDob').textContent = member.dob || 'N/A';
+            
+            // মৃত্যুর তারিখ হ্যান্ডলিং
+            const dodContainer = document.getElementById('dodContainer');
+            if (member.isDeceased && member.dod) {
+                document.getElementById('modalDod').textContent = member.dod;
+                dodContainer.style.display = 'block';
+            } else if (member.isDeceased) {
+                document.getElementById('modalDod').textContent = 'প্রযোজ্য নয়';
+                dodContainer.style.display = 'block';
+            } else {
+                dodContainer.style.display = 'none';
+            }
+
+            document.getElementById('modalBlood').textContent = member.bloodGroup || 'N/A';
+            document.getElementById('modalMobile').textContent = member.mobile || 'N/A';
+            document.getElementById('modalOccupation').textContent = member.occupation || 'N/A';
+            document.getElementById('modalEducation').textContent = member.education || 'N/A';
+            document.getElementById('modalBirthPlace').textContent = member.birthPlace || 'N/A';
+            document.getElementById('modalAddress').textContent = member.currentAddress || 'N/A';
+            document.getElementById('modalMarital').textContent = member.maritalStatus || 'N/A';
+
+            // স্বামী/স্ত্রী ক্লিকযোগ্য লিঙ্ক
+            const spouseElem = document.getElementById('modalSpouse');
+            if (member.spouse && member.spouse.id) {
+                spouseElem.textContent = member.spouse.nameBn;
+                spouseElem.className = "clickable-link";
+                spouseElem.onclick = () => {
+                    modal.style.display = 'none';
+                    onCardClick(member.spouse.id);
+                };
+            } else {
+                spouseElem.textContent = 'নেই';
+                spouseElem.className = "";
+                spouseElem.onclick = null;
+            }
+
+            // বাবা ক্লিকযোগ্য লিঙ্ক
+            const fatherElem = document.getElementById('modalFather');
+            if (parentObj) {
+                fatherElem.textContent = parentObj.nameBn;
+                fatherElem.className = "clickable-link";
+                fatherElem.onclick = () => {
+                    modal.style.display = 'none';
+                    onCardClick(parentObj.id);
+                };
+            } else if (member.father && member.father.id) {
+                fatherElem.textContent = member.father.nameBn;
+                fatherElem.className = "clickable-link";
+                fatherElem.onclick = () => {
+                    modal.style.display = 'none';
+                    onCardClick(member.father.id);
+                };
+            } else {
+                fatherElem.textContent = 'মূল পূর্বপুরুষ';
+                fatherElem.className = "";
+                fatherElem.onclick = null;
+            }
+
+            // মা 
+            const motherElem = document.getElementById('modalMother');
+            if (member.mother && member.mother.nameBn) {
+                motherElem.textContent = member.mother.nameBn;
+                if (member.mother.id) {
+                    motherElem.className = "clickable-link";
+                    motherElem.onclick = () => {
+                        modal.style.display = 'none';
+                        onCardClick(member.mother.id);
+                    };
+                }
+            } else {
+                motherElem.textContent = 'N/A';
+                motherElem.className = "";
+                motherElem.onclick = null;
+            }
+
+            // সন্তানাদির সংখ্যা ও হিসাব (ছেলে কয়টা, মেয়ে কয়টা)
+            let totalChildren = 0;
+            let sonsCount = 0;
+            let daughtersCount = 0;
+            if (member.children && member.children.length > 0) {
+                totalChildren = member.children.length;
+                sonsCount = member.children.filter(c => c.gender === 'male').length;
+                daughtersCount = member.children.filter(c => c.gender === 'female').length;
+            }
+            document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
+
+            // বিশেষ নোট
+            const noteContainer = document.getElementById('noteContainer');
+            if (member.specialNote) {
+                document.getElementById('modalNote').textContent = member.specialNote;
+                noteContainer.style.display = 'block';
+            } else {
+                noteContainer.style.display = 'none';
+            }
+
+            // গ্যালারি ছবি লোড করা
+            const gallerySection = document.getElementById('modalGallerySection');
+            const galleryGrid = document.getElementById('modalGalleryGrid');
+            if (member.gallery && member.gallery.length > 0) {
+                currentGalleryImages = member.gallery;
+                galleryGrid.innerHTML = member.gallery.map((imgSrc, idx) => `
+                    <img src="${imgSrc}" class="gallery-thumb" onclick="openLightbox(${idx})">
+                `).join('');
+                gallerySection.style.display = 'block';
+            } else {
+                gallerySection.style.display = 'none';
+            }
 
             modal.style.display = 'flex';
         }
+
+        // লাইটবক্স গ্যালারি কন্ট্রোল
+        function openLightbox(index) {
+            currentGalleryIndex = index;
+            const lightbox = document.getElementById('lightboxModal');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = currentGalleryImages[currentGalleryIndex];
+            lightbox.style.display = 'flex';
+        }
+
+        document.getElementById('lightboxClose').addEventListener('click', () => {
+            document.getElementById('lightboxModal').style.display = 'none';
+        });
+
+        document.getElementById('lightboxNext').addEventListener('click', () => {
+            if (currentGalleryImages.length > 0) {
+                currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+                document.getElementById('lightboxImg').src = currentGalleryImages[currentGalleryIndex];
+            }
+        });
+
+        document.getElementById('lightboxPrev').addEventListener('click', () => {
+            if (currentGalleryImages.length > 0) {
+                currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+                document.getElementById('lightboxImg').src = currentGalleryImages[currentGalleryIndex];
+            }
+        });
 
         function renderFullTreeModal(node) {
             if (!node) return '';
