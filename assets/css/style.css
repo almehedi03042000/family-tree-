@@ -135,16 +135,14 @@ body {
     background-color: #16a34a;
 }
 
-/* Viewport for Tree (সংশোধিত: স্ক্রিনের বাইরে যাওয়া রোধ ও স্ক্রোল করার ব্যবস্থা) */
+/* Viewport for Tree - কম্প্যাক্ট ও স্ক্রোলিং এর ব্যবস্থা */
 .tree-viewport {
     flex: 1;
-    overflow-x: auto; /* ডানে-বামে স্ক্রিন পার হয়ে গেলে স্ক্রোলবার আসবে */
-    overflow-y: auto; /* উপরে-নিচে স্ক্রোল করার জন্য */
+    overflow: auto;
     padding: 30px;
-    box-sizing: border-box;
     width: 100%;
-    display: block; /* ফ্লেক্সের বদলে ব্লক করা হয়েছে যাতে সম্পূর্ণ এরিয়া জুড়ে স্ক্রোল কাজ করে */
-    white-space: nowrap; /* ট্রি যেন ভেঙে না যায়, প্রয়োজনমতো হরিজন্টাল স্পেস নেয় */
+    display: block;
+    white-space: nowrap;
     text-align: center;
 }
 
@@ -156,7 +154,7 @@ body {
 
 /* Tree Structure (Org Chart) */
 .tf-tree {
-    font-size: 1rem;
+    font-size: 0.9rem;
     display: inline-block;
     margin: 0 auto;
     text-align: center;
@@ -178,7 +176,7 @@ body {
     flex-direction: column;
     align-items: center;
     position: relative;
-    padding: 20px 5px 0 5px;
+    padding: 20px 4px 0 4px;
     transition: all 0.5s;
 }
 
@@ -229,9 +227,10 @@ body {
     height: 20px;
 }
 
+/* প্রতিটি প্রোফাইল কার্ডের সুনির্দিষ্ট ও অভিন্ন সাইজ */
 .tf-tree li div.member-card {
     border: 2px solid #cbd5e1;
-    padding: 10px 15px;
+    padding: 8px 10px;
     text-align: center;
     background: #fff;
     border-radius: 8px;
@@ -239,10 +238,16 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease-in-out;
-    min-width: 130px;
-    max-width: 180px; /* কার্ড যেন অতিরিক্ত বড় না হয় */
-    white-space: normal; /* কার্ডের ভেতরের লেখা ভেঙে নিচে নামবে */
-    word-wrap: break-word;
+    
+    /* সব কার্ডের সাইজ নিখুঁতভাবে সমান করার মাপ */
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+    height: 85px; 
+    min-height: 85px;
+    max-height: 85px;
+    
+    overflow: hidden;
     position: relative;
 }
 
@@ -268,29 +273,39 @@ body {
     border-color: #94a3b8;
 }
 
+/* নাম বড় হলে কার্ডের ভেতরে মানানসই রাখার ও কেটে যাওয়ার হাত থেকে বাঁচানোর নিয়ম */
 .member-name-bn {
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 .member-name-en {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #64748b;
     margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 .sub-tree-link {
     display: block;
-    margin: 8px auto 0 auto;
-    font-size: 0.7rem;
+    margin: 4px auto 0 auto;
+    font-size: 0.65rem;
     background-color: #0284c7;
     color: white;
     border: none;
-    padding: 3px 8px;
+    padding: 2px 6px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .sub-tree-link:hover {
@@ -454,7 +469,6 @@ body {
 .lightbox-btn:hover {
     background: rgba(255, 255, 255, 0.4);
 }
-
 /* মোবাইল ডিভাইসের জন্য অতিরিক্ত রেসপন্সিভ স্টাইল */
 @media screen and (max-width: 768px) {
     .tf-tree {
