@@ -254,14 +254,18 @@
         let currentGalleryImages = [];
         let currentGalleryIndex = 0;
 
-        // family.json ফাইল থেকে ডাটা ফেচ করে অ্যাপ ইনিশিয়ালাইজ করা
-        async function loadFamilyData() {
-            try {
-                const response = await fetch('family.json');
-                if (!response.ok) {
-                    throw new Error('Family data could not be loaded.');
-                }
-                familyData = await response.json();
+     // family.json ফাইল থেকে ডাটা ফেচ করে অ্যাপ ইনিশিয়ালাইজ করা
+async function loadFamilyData() {
+    try {
+        const response = await fetch('data/family.json');
+        if (!response.ok) {
+            throw new Error('Family data could not be loaded.');
+        }
+        familyData = await response.json();
+    } catch (error) {
+        console.error('Error loading family data:', error);
+    }
+}
                 
                 // ডাটা লোড হওয়ার পর ইনিশিয়াল সেটআপ
                 historyStack = [familyData];
