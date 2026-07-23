@@ -247,31 +247,29 @@
         </div>
     </div>
 
-    <script>
+   <script>
         let familyData = null;
         let historyStack = [];
         let currentRootNode = null;
         let currentGalleryImages = [];
         let currentGalleryIndex = 0;
 
-     // family.json ফাইল থেকে ডাটা ফেচ করে অ্যাপ ইনিশিয়ালাইজ করা
-async function loadFamilyData() {
-    try {
-        const response = await fetch('data/family.json');
-        if (!response.ok) {
-            throw new Error('Family data could not be loaded.');
-        }
-        familyData = await response.json();
-    } catch (error) {
-        console.error('Error loading family data:', error);
-    }
-}
+        // family.json ফাইল থেকে ডাটা ফেচ করে অ্যাপ ইনিশিয়ালাইজ করা
+        async function loadFamilyData() {
+            try {
+                const response = await fetch('data/family.json');
+                if (!response.ok) {
+                    throw new Error('Family data could not be loaded.');
+                }
+                familyData = await response.json();
                 
-                // ডাটা লোড হওয়ার পর ইনিশিয়াল সেটআপ
+                // ডাটা সফলভাবে লোড হওয়ার পর ইনিশিয়াল সেটআপ
                 historyStack = [familyData];
                 currentRootNode = familyData;
 
-                history.replaceState({ pageIndex: 0 }, "");
+                if (history.state === null) {
+                    history.replaceState({ pageIndex: 0 }, "");
+                }
 
                 renderCurrentTree();
                 setupSearch();
@@ -280,7 +278,7 @@ async function loadFamilyData() {
 
             } catch (error) {
                 console.error('Error loading family data:', error);
-                document.getElementById('treeContainer').innerHTML = '<p style="color: red; text-align: center; margin-top: 20px;">পরিবারের ডাটা লোড করতে সমস্যা হয়েছে। দয়া করে লোকাল সার্ভার (Live Server) ব্যবহার করে রান করুন।</p>';
+                document.getElementById('treeContainer').innerHTML = '<p style="color: red; text-align: center; margin-top: 20px;">পরিবারের ডাটা লোড করতে সমস্যা হয়েছে। দয়া করে সঠিক পাথ বা লাইভ সার্ভার চেক করুন।</p>';
             }
         }
 
@@ -306,31 +304,23 @@ async function loadFamilyData() {
                 const zoomModal = document.getElementById('zoomModal');
                 const lightboxModal = document.getElementById('lightboxModal');
 
-                // যদি কোনো মডাল খোলা থাকে, আগে তা বন্ধ হবে
                 if (lightboxModal.style.display === 'flex') {
                     lightboxModal.style.display = 'none';
-                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
                     return;
                 }
                 if (memberModal.style.display === 'flex') {
                     memberModal.style.display = 'none';
-                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
                     return;
                 }
                 if (zoomModal.style.display === 'flex') {
                     zoomModal.style.display = 'none';
-                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
                     return;
                 }
 
-                // যদি সাব-ট্রি বা পেজে থাকে, তবে আগের পেজে ফিরে যাবে
                 if (historyStack.length > 1) {
                     historyStack.pop();
                     currentRootNode = historyStack[historyStack.length - 1];
                     renderCurrentTree();
-                } else {
-                    // একদম হোম পেজে থাকলে ব্রাউজার হিস্ট্রি মেইনটেইন করার জন্য স্টেট রি-পুশ করা
-                    history.pushState({ pageIndex: 0 }, "");
                 }
             });
         });
@@ -340,7 +330,6 @@ async function loadFamilyData() {
                 historyStack.pop();
                 currentRootNode = historyStack[historyStack.length - 1];
                 renderCurrentTree();
-                // ব্রাউজারের হিস্ট্রি ব্যাক করা
                 window.history.back();
             }
         }
@@ -401,6 +390,7 @@ async function loadFamilyData() {
         }
 
         function renderHomeLevelHTML() {
+            if (!familyData || !familyData.children) return '';
             const akaliNode = familyData.children[0];
             const isuNode = akaliNode.children[0];
             const kesuNode = akaliNode.children[1];
@@ -465,7 +455,6 @@ async function loadFamilyData() {
             if (targetNode) {
                 currentRootNode = targetNode;
                 historyStack.push(targetNode);
-                // নতুন পেজে যাওয়ার সময় ব্রাউজারে হিস্ট্রি স্টেট যোগ করা
                 history.pushState({ pageIndex: historyStack.length - 1 }, "");
                 renderCurrentTree();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -531,7 +520,7 @@ async function loadFamilyData() {
             
             const dodContainer = document.getElementById('dodContainer');
             if (member.isDeceased) {
-                document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
+                document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
                 dodContainer.style.display = 'block';
             } else {
                 dodContainer.style.display = 'none';
@@ -604,7 +593,7 @@ async function loadFamilyData() {
                 sonsCount = member.children.filter(c => c.gender === 'male').length;
                 daughtersCount = member.children.filter(c => c.gender === 'female').length;
             }
-            document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
+            document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
 
             const noteContainer = document.getElementById('noteContainer');
             if (member.specialNote) {
@@ -614,189 +603,82 @@ async function loadFamilyData() {
                 noteContainer.style.display = 'none';
             }
 
-            const gallerySection = document.getElementById('modalGallerySection');
-            const galleryGrid = document.getElementById('modalGalleryGrid');
-            if (member.gallery && member.gallery.length > 0) {
-                currentGalleryImages = member.gallery;
-                galleryGrid.innerHTML = member.gallery.map((imgSrc, idx) => `
-                    <img src="${imgSrc}" class="gallery-thumb" onclick="openLightbox(${idx})">
-                `).join('');
-                gallerySection.style.display = 'block';
-            } else {
-                gallerySection.style.display = 'none';
-            }
-
             modal.style.display = 'flex';
+        }
+
+        function setupModalEvents() {
+            const modal = document.getElementById('memberModal');
+            const closeBtn = document.getElementById('modalClose');
+            closeBtn.onclick = () => { modal.style.display = 'none'; };
+            window.onclick = (event) => {
+                if (event.target === modal) modal.style.display = 'none';
+            };
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.trim().toLowerCase();
+                if (!query) {
+                    searchResults.style.display = 'none';
+                    searchResults.innerHTML = '';
+                    return;
+                }
+
+                const allMembers = [];
+                collectAllMembers(familyData, allMembers);
+
+                const matches = allMembers.filter(m => 
+                    (m.nameBn && m.nameBn.toLowerCase().includes(query)) || 
+                    (m.nameEn && m.nameEn.toLowerCase().includes(query)) ||
+                    (m.idNo && m.idNo.toLowerCase().includes(query))
+                );
+
+                if (matches.length > 0) {
+                    searchResults.innerHTML = matches.map(m => `
+                        <div class="search-result-item" onclick="selectSearchResult('${m.id}')">
+                            <strong>${m.nameBn}</strong> (${m.nameEn || 'N/A'}) - আইডি: ${m.idNo || 'N/A'}
+                        </div>
+                    `).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.innerHTML = `<div class="search-result-item" style="cursor: default;">কোনো ফলাফল পাওয়া যায়নি</div>`;
+                    searchResults.style.display = 'block';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-box')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        function collectAllMembers(node, list) {
+            if (!node) return;
+            list.push(node);
+            if (node.children) {
+                node.children.forEach(child => collectAllMembers(child, list));
+            }
+        }
+
+        function selectSearchResult(id) {
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+            onCardClick(id);
+        }
+
+        function setupPannableZoomTree() {
+            // জুম ও প্যান রিলেটেড ফাংশনালিটি যদি প্রয়োজন হয় এখানে রাখা হয়েছে
         }
 
         function openLightbox(index) {
             currentGalleryIndex = index;
             const lightbox = document.getElementById('lightboxModal');
-            const lightboxImg = document.getElementById('lightboxImg');
-            lightboxImg.src = currentGalleryImages[currentGalleryIndex];
+            const img = document.getElementById('lightboxImg');
+            img.src = currentGalleryImages[currentGalleryIndex];
             lightbox.style.display = 'flex';
         }
-
-        document.getElementById('lightboxClose').addEventListener('click', () => {
-            document.getElementById('lightboxModal').style.display = 'none';
-        });
-
-        document.getElementById('lightboxNext').addEventListener('click', () => {
-            if (currentGalleryImages.length > 0) {
-                currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
-                document.getElementById('lightboxImg').src = currentGalleryImages[currentGalleryIndex];
-            }
-        });
-
-        document.getElementById('lightboxPrev').addEventListener('click', () => {
-            if (currentGalleryImages.length > 0) {
-                currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-                document.getElementById('lightboxImg').src = currentGalleryImages[currentGalleryIndex];
-            }
-        });
-
-        function renderFullTreeModal(node) {
-            if (!node) return '';
-            if (node.children && node.children.length > 0) {
-                const childItems = node.children.map(child => renderFullTreeModal(child)).join('');
-                return `<li>${getCardHTML(node)}<ul>${childItems}</ul></li>`;
-            } else {
-                return `<li>${getCardHTML(node)}</li>`;
-            }
-        }
-
-        let zoomScale = 0.2;
-        let pointX = 0;
-        let pointY = 0;
-        let startX = 0;
-        let startY = 0;
-        let isPanning = false;
-
-        function openZoomTreeModal() {
-            if (!familyData) return;
-            const zoomModal = document.getElementById('zoomModal');
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeModal(familyData)}</ul></div>`;
-            zoomModal.style.display = 'flex';
-            
-            const viewport = document.getElementById('zoomViewport');
-            zoomScale = 0.2; 
-            pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
-            pointY = 20;
-            updateTransform();
-        }
-
-        function updateTransform() {
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.style.transform = `translate(${pointX}px, ${pointY}px) scale(${zoomScale})`;
-        }
-
-        function setupPannableZoomTree() {
-            const zoomViewport = document.getElementById('zoomViewport');
-            const zoomModal = document.getElementById('zoomModal');
-
-            document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
-            document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.1, 2.0); updateTransform(); });
-            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.08); updateTransform(); });
-            document.getElementById('zoomResetBtn').addEventListener('click', () => { 
-                zoomScale = 0.2; 
-                pointX = (zoomViewport.clientWidth - document.getElementById('zoomContent').offsetWidth * zoomScale) / 2;
-                pointY = 20; 
-                updateTransform(); 
-            });
-
-            const startPan = (e) => {
-                isPanning = true;
-                startX = (e.clientX || e.touches[0].clientX) - pointX;
-                startY = (e.clientY || e.touches[0].clientY) - pointY;
-            };
-
-            const doPan = (e) => {
-                if (!isPanning) return;
-                e.preventDefault();
-                pointX = (e.clientX || e.touches[0].clientX) - startX;
-                pointY = (e.clientY || e.touches[0].clientY) - startY;
-                updateTransform();
-            };
-
-            const stopPan = () => isPanning = false;
-
-            zoomViewport.addEventListener('mousedown', startPan);
-            window.addEventListener('mousemove', doPan);
-            window.addEventListener('mouseup', stopPan);
-
-            zoomViewport.addEventListener('touchstart', startPan, { passive: true });
-            window.addEventListener('touchmove', doPan, { passive: false });
-            window.addEventListener('touchend', stopPan);
-
-            document.getElementById('downloadPdfBtn').addEventListener('click', () => {
-                const element = document.getElementById('zoomContent');
-                const opt = {
-                    margin: 0.2,
-                    filename: 'পদ্মাশী_সর্দারের_বংশধারা.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
-                };
-                html2pdf().set(opt).from(element).save();
-            });
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const searchResults = document.getElementById('searchResults');
-
-            const performSearch = () => {
-                if (!familyData) return;
-                const query = searchInput.value.trim().toLowerCase();
-                searchResults.innerHTML = '';
-                if (!query) { searchResults.style.display = 'none'; return; }
-
-                const matches = [];
-                searchMembersRecursive(familyData, query, matches);
-
-                if (matches.length > 0) {
-                    searchResults.style.display = 'block';
-                    matches.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'search-result-item';
-                        div.innerHTML = `<strong>${item.nameBn}</strong> (${item.nameEn || ''})`;
-                        div.addEventListener('click', () => {
-                            currentRootNode = item;
-                            historyStack.push(item);
-                            history.pushState({ pageIndex: historyStack.length - 1 }, "");
-                            renderCurrentTree();
-                            searchResults.style.display = 'none';
-                            searchInput.value = '';
-                        });
-                        searchResults.appendChild(div);
-                    });
-                } else {
-                    searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি</div>';
-                }
-            };
-
-            searchInput.addEventListener('input', performSearch);
-            searchBtn.addEventListener('click', performSearch);
-        }
-
-        function searchMembersRecursive(node, query, results) {
-            if (!node) return;
-            if (node.nameBn.toLowerCase().includes(query) || (node.nameEn && node.nameEn.toLowerCase().includes(query))) {
-                results.push(node);
-            }
-            if (node.children) {
-                node.children.forEach(child => searchMembersRecursive(child, query, results));
-            }
-        }
-
-        function setupModalEvents() {
-            const modal = document.getElementById('memberModal');
-            document.getElementById('modalClose').addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-        }
     </script>
-</body>
-</html>
