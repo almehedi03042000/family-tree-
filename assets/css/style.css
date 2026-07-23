@@ -474,3 +474,32 @@ body {
 .lightbox-btn:hover {
     background: rgba(255, 255, 255, 0.4);
 }
+
+/* বড় ফ্যামিলি ট্রির চাইল্ড লিস্টগুলোকে কম্প্যাক্ট ও উলম্ব দুই কলামে রাখার জন্য */
+.tf-tree ul {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 15px !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+.tf-tree li {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    padding-top: 20px !important;
+}
+
+/* অতিরিক্ত ডানে ছড়িয়ে পড়া রোধ করতে এবং কম্প্যাক্ট রাখতে */
+.tree-viewport {
+    align-items: center !important;
+}
+
+#treeContainer {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    justify-content: center !important;
+}
