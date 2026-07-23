@@ -50,15 +50,6 @@
         .search-result-item { padding: 6px 10px; cursor: pointer; font-size: 0.8rem; color: #f7fafc; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .search-result-item:hover { background-color: rgba(56, 161, 105, 0.3); }
 
-        .overview-card-container { padding: 12px 15px 0 15px; display: flex; justify-content: center; }
-        .overview-box {
-            background: linear-gradient(135deg, #1e3d2f 0%, #2b6cb0 100%); color: white; padding: 10px 20px;
-            border-radius: 8px; display: flex; flex-direction: column; align-items: center; width: 100%;
-            max-width: 400px; box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2); cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .overview-box h3 { font-size: 1rem; font-weight: 700; }
-        .overview-box .click-subtext { font-size: 0.75rem; color: #e2e8f0; margin-top: 2px; }
-
         .nav-banner {
             background: #ffffff; padding: 8px 20px; display: flex; align-items: center;
             justify-content: space-between; border-bottom: 1px solid #e2e8f0; margin-top: 10px; flex-wrap: wrap; gap: 8px;
@@ -110,25 +101,6 @@
         }
         .sub-tree-link:hover { background-color: #2c5282; }
 
-        /* কম্প্যাক্ট উলম্ব তালিকা বিন্যাস (বেশি সন্তান বা মেয়েদের জন্য) */
-        .compact-vertical-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: center;
-            margin-top: 8px;
-            position: relative;
-        }
-        .compact-vertical-grid::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            width: 1.5px;
-            height: 8px;
-            background-color: #1e3d2f;
-        }
-
         .zoom-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.95); display: none; flex-direction: column; z-index: 2000;
@@ -146,7 +118,6 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid #cbd5e0;
         }
 
-       /* প্রোফাইল মডাল স্টাইল */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 3000;
@@ -159,7 +130,7 @@
         .modal-close { position: absolute; top: 10px; right: 15px; font-size: 1.4rem; cursor: pointer; color: #a0aec0; z-index: 10; }
         
         .profile-header-center { text-align: center; margin-bottom: 15px; }
-        .profile-img-box { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px auto; border: 2px solid #38a169; background-color: #edf2f7; display: flex; justify-content: center; align-items: center; cursor: pointer; } /* এখানে cursor: pointer যুক্ত করা হলো */
+        .profile-img-box { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px auto; border: 2px solid #38a169; background-color: #edf2f7; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         .profile-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .profile-img-placeholder { font-size: 1.8rem; color: #cbd5e0; }
 
@@ -171,14 +142,13 @@
         .profile-info-item.full-width { grid-column: span 2; }
         .clickable-link { color: #2b6cb0; cursor: pointer; text-decoration: underline; font-weight: 600; }
         .clickable-link:hover { color: #2c5282; }
-        /* গ্যালারি স্টাইল */
+
         .gallery-section { margin-top: 12px; border-top: 1px solid #edf2f7; padding-top: 10px; }
         .gallery-section h4 { font-size: 0.85rem; margin-bottom: 6px; color: #2d3748; }
         .gallery-grid { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 5px; }
         .gallery-thumb { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; cursor: pointer; border: 1px solid #cbd5e0; transition: transform 0.2s; }
         .gallery-thumb:hover { transform: scale(1.05); }
 
-        /* লাইটবক্স / বড় ছবি দেখার মডাল */
         .lightbox-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 4000; flex-direction: column; }
         .lightbox-content { max-width: 90%; max-height: 80vh; border-radius: 6px; object-fit: contain; }
         .lightbox-close { position: absolute; top: 15px; right: 20px; color: white; font-size: 2rem; cursor: pointer; }
@@ -199,13 +169,6 @@
         </div>
     </header>
 
-    <div class="overview-card-container">
-        <div class="overview-box" id="openZoomTreeBox">
-            <h3>📌 সম্পূর্ণ বংশধারা ম্যাপ</h3>
-            <span class="click-subtext">জুম করে দেখতে ক্লিক করুন</span>
-        </div>
-    </div>
-
     <div class="nav-banner">
         <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ</div>
         <div class="nav-buttons-group">
@@ -218,7 +181,7 @@
         <div id="treeContainer"></div>
     </main>
 
-    <!-- সম্পূর্ণ বংশধারা জুম মডাল (মোবাইল ফ্রেন্ডলি ও গুগল ম্যাপের মতো) -->
+    <!-- সম্পূর্ণ বংশধারা জুম মডাল -->
     <div id="zoomModal" class="zoom-modal-overlay">
         <div class="zoom-modal-header">
             <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র</h2>
@@ -267,7 +230,6 @@
                 <div class="profile-info-item full-width" id="noteContainer"><strong>বিশেষ নোট:</strong> <span id="modalNote">N/A</span></div>
             </div>
 
-            <!-- গ্যালারি সেকশন -->
             <div class="gallery-section" id="modalGallerySection" style="display: none;">
                 <h4>ছবির গ্যালারি</h4>
                 <div class="gallery-grid" id="modalGalleryGrid"></div>
@@ -275,7 +237,7 @@
         </div>
     </div>
 
-    <!-- গ্যালারি লাইটবক্স মডাল (ছবি বড় করে দেখার জন্য) -->
+    <!-- গ্যালারি লাইটবক্স মডাল -->
     <div id="lightboxModal" class="lightbox-modal">
         <span class="lightbox-close" id="lightboxClose">&times;</span>
         <img class="lightbox-content" id="lightboxImg">
@@ -286,7 +248,6 @@
     </div>
 
     <script>
-        // পূর্ণাঙ্গ ডেটাসেট (ইংরেজি নাম এবং সঠিক স্ট্যাটাস সহ)
         const familyData = {
             id: "padmashi", nameBn: "পদ্মাশী সর্দার", nameEn: "Padmashi Sardar", gender: "male", isDeceased: false,
             idNo: "S-001", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
@@ -410,7 +371,7 @@
                                                 {id: "rotan", nameBn: "রতন সর্দার", nameEn: "Rotan Sardar", gender: "male", isDeceased: false, idNo: "S-058"},
                                                 {id: "yatan", nameBn: "ইয়াতন", nameEn: "Yatan", gender: "female", isDeceased: false, idNo: "S-059"},
                                                 {id: "fukun", nameBn: "ফুকন", nameEn: "Fukun", gender: "female", isDeceased: false, idNo: "S-060"},
-                                                {id: "tuklima", nameBn: "টুকলিমা", nameEn: "Tuklima", gender: "female", isDeceased: true, idNo: "S-061"}
+                                                {id: "tuklima", nameBn: "টুকলিমা", nameEn: "Tuklima", gender: "true", isDeceased: true, idNo: "S-061"}
                                             ]
                                         },
                                         {
@@ -669,7 +630,8 @@
                                         {
                                             id: "mahatab", nameBn: "মাহাতাব উদ্দিন", nameEn: "Mahatab Uddin", gender: "male", isDeceased: false, idNo: "S-215",
                                             children: [
-                                                {id: "al_mehedi", nameBn: "আল-মেহেদী", nameEn: "Al-Mehedi", gender: "male", isDeceased: false, idNo: "S-216"},
+                                                
+                                                 {id: "al_mehedi", nameBn: "আল-মেহেদী", nameEn: "Al Mehedi", gender: "male", isDeceased: false, idNo: "S-216"},
                                                 {id: "abu_sayed", nameBn: "আবু সাঈদ", nameEn: "Abu Sayed", gender: "male", isDeceased: false, idNo: "S-217"},
                                                 {id: "moriyom", nameBn: "মরিয়ম খাতুন", nameEn: "Moriyom Khatun", gender: "female", isDeceased: false, idNo: "S-218"},
                                                 {id: "popi", nameBn: "পপি", nameEn: "Popi", gender: "female", isDeceased: true, idNo: "S-219"},
@@ -697,29 +659,69 @@
         let currentGalleryIndex = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
+            // ব্রাউজারের হিস্টরিতে ইনিশিয়াল স্টেট পুশ করা
+            history.replaceState({ pageIndex: 0 }, "");
+
             renderCurrentTree();
             setupSearch();
             setupModalEvents();
             setupPannableZoomTree();
 
             document.getElementById('prevPageBtn').addEventListener('click', () => {
-                if (historyStack.length > 1) {
-                    historyStack.pop();
-                    currentRootNode = historyStack[historyStack.length - 1];
-                    renderCurrentTree();
-                }
+                goBackPage();
             });
 
             document.getElementById('homeBtn').addEventListener('click', () => {
                 historyStack = [familyData];
                 currentRootNode = familyData;
+                history.pushState({ pageIndex: historyStack.length - 1 }, "");
                 renderCurrentTree();
             });
 
-            document.getElementById('openZoomTreeBox').addEventListener('click', () => {
-                openZoomTreeModal();
+            // ব্রাউজারের ব্যাক বাটন হ্যান্ডেল করার জন্য popstate ইভেন্ট
+            window.addEventListener('popstate', (event) => {
+                const memberModal = document.getElementById('memberModal');
+                const zoomModal = document.getElementById('zoomModal');
+                const lightboxModal = document.getElementById('lightboxModal');
+
+                // যদি কোনো মডাল খোলা থাকে, আগে তা বন্ধ হবে
+                if (lightboxModal.style.display === 'flex') {
+                    lightboxModal.style.display = 'none';
+                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
+                    return;
+                }
+                if (memberModal.style.display === 'flex') {
+                    memberModal.style.display = 'none';
+                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
+                    return;
+                }
+                if (zoomModal.style.display === 'flex') {
+                    zoomModal.style.display = 'none';
+                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
+                    return;
+                }
+
+                // যদি সাব-ট্রি বা পেজে থাকে, তবে আগের পেজে ফিরে যাবে
+                if (historyStack.length > 1) {
+                    historyStack.pop();
+                    currentRootNode = historyStack[historyStack.length - 1];
+                    renderCurrentTree();
+                } else {
+                    // একদম হোম পেজে থাকলে ব্রাউজার হিস্ট্রি মেইনটেইন করার জন্য স্টেট রি-পুশ করা
+                    history.pushState({ pageIndex: 0 }, "");
+                }
             });
         });
+
+        function goBackPage() {
+            if (historyStack.length > 1) {
+                historyStack.pop();
+                currentRootNode = historyStack[historyStack.length - 1];
+                renderCurrentTree();
+                // ব্রাউজারের হিস্ট্রি ব্যাক করা
+                window.history.back();
+            }
+        }
 
         function getCardHTML(node) {
             const deceasedClass = node.isDeceased ? 'deceased' : '';
@@ -733,11 +735,9 @@
             `;
         }
 
-        // উলম্ব কম্প্যাক্ট বিন্যাস রেন্ডার করার হেল্পার
         function renderChildrenSmart(childrenList) {
             if (!childrenList || childrenList.length === 0) return '';
             
-            // যদি সন্তানের সংখ্যা ৪ বা তার বেশি হয়, তবে প্রথম কয়টি পাশাপাশি রেখে বাকিগুলো নিচে কম্প্যাক্ট উলম্ব আকারে সাজানো যেতে পারে, অথবা সব চাইল্ড স্ট্যান্ডার্ড ট্রি লিস্টে থাকে
             const childNodesHTML = childrenList.map(child => {
                 const hasGrandChildren = child.children && child.children.length > 0;
                 let linkBtn = '';
@@ -842,6 +842,8 @@
             if (targetNode) {
                 currentRootNode = targetNode;
                 historyStack.push(targetNode);
+                // নতুন পেজে যাওয়ার সময় ব্রাউজারে হিস্ট্রি স্টেট যোগ করা
+                history.pushState({ pageIndex: historyStack.length - 1 }, "");
                 renderCurrentTree();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -880,19 +882,19 @@
         function showMemberDetailsModal(member, parentObj) {
             const modal = document.getElementById('memberModal');
             
-           const imgContainer = document.getElementById('modalImgContainer');
-if (member.profilePhoto) {
-    imgContainer.innerHTML = `<img src="${member.profilePhoto}" alt="${member.nameBn}" style="cursor: pointer;">`;
-    imgContainer.style.cursor = 'pointer';
-    imgContainer.onclick = () => {
-        currentGalleryImages = [member.profilePhoto];
-        openLightbox(0);
-    };
-} else {
-    imgContainer.innerHTML = `<span class="profile-img-placeholder">👤</span>`;
-    imgContainer.style.cursor = 'default';
-    imgContainer.onclick = null;
-}
+            const imgContainer = document.getElementById('modalImgContainer');
+            if (member.profilePhoto) {
+                imgContainer.innerHTML = `<img src="${member.profilePhoto}" alt="${member.nameBn}" style="cursor: pointer;">`;
+                imgContainer.style.cursor = 'pointer';
+                imgContainer.onclick = () => {
+                    currentGalleryImages = [member.profilePhoto];
+                    openLightbox(0);
+                };
+            } else {
+                imgContainer.innerHTML = `<span class="profile-img-placeholder">👤</span>`;
+                imgContainer.style.cursor = 'default';
+                imgContainer.onclick = null;
+            }
 
             document.getElementById('modalNameBn').textContent = `${member.nameBn} (${member.nameEn || ''})`;
 
@@ -1138,6 +1140,7 @@ if (member.profilePhoto) {
                         div.addEventListener('click', () => {
                             currentRootNode = item;
                             historyStack.push(item);
+                            history.pushState({ pageIndex: historyStack.length - 1 }, "");
                             renderCurrentTree();
                             searchResults.style.display = 'none';
                             searchInput.value = '';
