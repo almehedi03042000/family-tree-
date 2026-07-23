@@ -135,25 +135,25 @@ body {
     background-color: #16a34a;
 }
 
-/* Viewport for Tree - স্ক্রিনের বাইরে যাওয়া ঠেকাতে এবং স্ক্রোল নিশ্চিত করতে */
+/* Viewport for Tree - স্ক্রিনের ভেতরে রাখতে ফ্লেক্স ও প্রপার স্ক্রোলিং */
 .tree-viewport {
     flex: 1;
-    overflow: auto !important;
+    overflow: auto;
     padding: 40px 20px;
     width: 100%;
     box-sizing: border-box;
-    display: block;
-    text-align: center;
-    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #treeContainer {
-    display: inline-block;
-    min-width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
-/* Tree Structure (Org Chart) */
+/* Tree Structure (Org Chart) - কম্প্যাক্ট লেআউট */
 .tf-tree {
     font-size: 0.85rem;
     display: inline-block;
@@ -167,9 +167,11 @@ body {
     transition: all 0.5s;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* অনেক শাখা থাকলে যেন নিচে নেমে আসে, স্ক্রিনের বাইরে না যায় */
     list-style-type: none;
     margin: 0;
     padding-left: 0;
+    gap: 10px; /* শাখাগুলোর মাঝে নির্দিষ্ট দূরত্ব */
 }
 
 .tf-tree li {
@@ -177,7 +179,7 @@ body {
     flex-direction: column;
     align-items: center;
     position: relative;
-    padding: 20px 3px 0 3px;
+    padding: 20px 2px 0 2px;
     transition: all 0.5s;
 }
 
@@ -228,7 +230,7 @@ body {
     height: 20px;
 }
 
-/* সব প্রোফাইল কার্ডের সাইজ একদম সুনির্দিষ্ট ও সমান করার কোড */
+/* প্রতিটি প্রোফাইল কার্ডের সাইজ কঠোরভাবে নির্দিষ্ট ও সমান */
 .tf-tree li div.member-card {
     border: 2px solid #cbd5e1;
     padding: 6px 8px;
@@ -237,23 +239,22 @@ body {
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08);
     transition: all 0.2s ease-in-out;
     
-    /* ফিক্সড সাইজ - কোনো কার্ড ছোট বা বড় হবে না */
-    width: 130px !important;
-    min-width: 130px !important;
-    max-width: 130px !important;
+    /* ফিক্সড সাইজ: সব বক্স একদম সমান হবে */
+    width: 125px !important;
+    min-width: 125px !important;
+    max-width: 125px !important;
     height: 75px !important;
     min-height: 75px !important;
     max-height: 75px !important;
     
     overflow: hidden !important;
     position: relative;
-    white-space: nowrap !important;
 }
 
 .tf-tree li div.member-card:hover {
@@ -278,10 +279,10 @@ body {
     border-color: #94a3b8;
 }
 
-/* নামের সাইজ ও ওভারফ্লো কন্ট্রোল যাতে কার্ডের ভেতরেই আটকে থাকে */
+/* নাম বড় হলে বক্সের ভেতরেই মানানসই রাখার নিয়ম */
 .member-name-bn {
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #1e293b;
     width: 100%;
     overflow: hidden;
@@ -292,7 +293,6 @@ body {
 .member-name-en {
     font-size: 0.65rem;
     color: #64748b;
-    margin-top: 2px;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -301,16 +301,16 @@ body {
 
 .sub-tree-link {
     display: inline-block;
-    margin-top: 3px;
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     background-color: #0284c7;
     color: white;
     border: none;
-    padding: 1px 5px;
+    padding: 2px 6px;
     border-radius: 3px;
     cursor: pointer;
     font-weight: 600;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .sub-tree-link:hover {
