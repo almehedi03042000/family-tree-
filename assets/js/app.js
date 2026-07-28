@@ -115,7 +115,7 @@ const fullSardarData = [
   { id: "75", name: "কুকন সর্দার", nameEn: "Kukon Sardar", gender: "male", fatherId: "69" },
   { id: "76", name: "এলাহী সর্দার", nameEn: "Elahi Sardar", gender: "male", fatherId: "69" },
 
-  // কুকন সর্দারের সন্তানরা (নাতি-নাতনি)
+  // কুকন সর্দারের সন্তানরা
   { id: "192", name: "হযরত", nameEn: "Hazrat", gender: "male", fatherId: "75" },
   { id: "193", name: "হাফেজ", nameEn: "Hafez", gender: "male", fatherId: "75" },
   { id: "194", name: "শাহবাজ", nameEn: "Shahbaj", gender: "male", fatherId: "75" },
@@ -124,7 +124,7 @@ const fullSardarData = [
   { id: "197", name: "ফইমা", nameEn: "Foima", gender: "female", fatherId: "75" },
   { id: "198", name: "সুখেজান", nameEn: "Sukhejan", gender: "female", fatherId: "75" },
 
-  // এলাহী সর্দারের সন্তানরা (নাতি-নাতনি)
+  // এলাহী সর্দারের সন্তানরা
   { id: "199", name: "ইদ্রিস", nameEn: "Idris", gender: "male", fatherId: "76" },
   { id: "200", name: "আলম", nameEn: "Alam", gender: "male", fatherId: "76" },
   { id: "201", name: "আউলাদ", nameEn: "Aulad", gender: "male", fatherId: "76" },
@@ -140,7 +140,7 @@ const fullSardarData = [
   { id: "80", name: "পরিজান", nameEn: "Porijan", gender: "female", fatherId: "70" },
   { id: "81", name: "জমেলা", nameEn: "Jomela", gender: "female", fatherId: "70" },
 
-  // শুকোট সর্দারের সন্তানরা (নাতি-নাতনি)
+  // শুকোট সর্দারের সন্তানরা
   { id: "206", name: "হাবিল", nameEn: "Habil", gender: "male", fatherId: "77" },
   { id: "207", name: "হানিফ", nameEn: "Hanif", gender: "male", fatherId: "77" },
   { id: "208", name: "বজলু", nameEn: "Bojlu", gender: "male", fatherId: "77" },
@@ -149,7 +149,7 @@ const fullSardarData = [
   { id: "211", name: "হিমা", nameEn: "Hima", gender: "female", fatherId: "77" },
   { id: "212", name: "নিমা", nameEn: "Nima", gender: "female", fatherId: "77" },
 
-  // জলিল সর্দারের সন্তানরা (নাতি-নাতনি)
+  // জলিল সর্দারের সন্তানরা
   { id: "213", name: "মান্নান", nameEn: "Mannan", gender: "male", fatherId: "78" },
   { id: "214", name: "সাধু", nameEn: "Sadhu", gender: "male", fatherId: "78" },
   { id: "215", name: "মধু", nameEn: "Modhu", gender: "male", fatherId: "78" },
@@ -157,7 +157,7 @@ const fullSardarData = [
   { id: "217", name: "নাহেরা", nameEn: "Nahera", gender: "female", fatherId: "78" },
   { id: "218", name: "ফনুয়ারা", nameEn: "Fonuwara", gender: "female", fatherId: "78" },
 
-  // মহীর উদ্দিন সর্দারের সন্তানরা (নাতি-নাতনি)
+  // মহীর উদ্দিন সর্দারের সন্তানরা
   { id: "219", name: "কামরুজ্জামান", nameEn: "Kamruzzaman", gender: "male", fatherId: "79" },
   { id: "220", name: "শফিকুল", nameEn: "Shofikul", gender: "male", fatherId: "79" },
   { id: "221", name: "নাসিমা", nameEn: "Nasima", gender: "female", fatherId: "79" },
@@ -281,7 +281,7 @@ const fullSardarData = [
   { id: "170", name: "কুসুম সর্দার", nameEn: "Kusum Sardar", gender: "male", fatherId: "140" },
   { id: "171", name: "পান্না সর্দার", nameEn: "Panna Sardar", gender: "male", fatherId: "140" },
   { id: "172", name: "নান্টু সর্দার", nameEn: "Nantu Sardar", gender: "male", fatherId: "140" },
-  { id: "173", name: "মিঠন সর্দার", nameEn: "Mithon Sardar", gender: "male", fatherId: "173" },
+  { id: "173", name: "মিঠন সর্দার", nameEn: "Mithon Sardar", gender: "male", fatherId: "140" },
   { id: "174", name: "টুটন সর্দার", nameEn: "Tuton Sardar", gender: "male", fatherId: "140" },
   { id: "175", name: "ছোটন সর্দার", nameEn: "Choton Sardar", gender: "male", fatherId: "140" },
   { id: "176", name: "জাহানারা", nameEn: "Jahanara", gender: "female", fatherId: "140" },
@@ -290,7 +290,7 @@ const fullSardarData = [
   { id: "178", name: "রেজাউল সর্দার", nameEn: "Rejaul Sardar", gender: "male", fatherId: "141" },
   { id: "179", name: "মানিক সর্দার", nameEn: "Manik Sardar", gender: "male", fatherId: "141" },
   { id: "180", name: "আরিফ সর্দার", nameEn: "Arif Sardar", gender: "male", fatherId: "141" },
-  { id: "181", name: "রিপন সর্দার", nameEn: "Ripon Sardar", gender: "male", fatherId: "141" },
+  { id: "181", name: "রিপন সর্দার", nameEn: "Ripon Sardar", gender: "male", fatherId: "181" },
   { id: "182", name: "রোজিনা", nameEn: "Rojina", gender: "female", fatherId: "141" },
   { id: "183", name: "রুমা", nameEn: "Ruma", gender: "female", fatherId: "141" },
 
