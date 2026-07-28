@@ -4,14 +4,11 @@
 
 let familyData = [];
 let currentRootId = "1"; // ডিফল্ট পদ্মাশী সর্দার
+let rootHistory = []; // নেভিগেশন ট্র্যাকিং এর জন্য হিস্ট্রি স্ট্যাক
 let svg, g, zoomHandler;
 let isAdminLoggedIn = false;
-const ADMIN_PASSWORD = "ampmhd@@@03042000"; // ডিফল্ট পাসওয়ার্ড
+const ADMIN_PASSWORD = "ampmhd@@@03042000"; 
 
-const DEFAULT_MALE_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SardarMaleAvatar&backgroundColor=b6e3f4";
-const DEFAULT_FEMALE_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SardarFemaleAvatar&backgroundColor=ffdfbf";
-
-// ১৮৬ জন সদস্যের সম্পূর্ণ ডাটাবেজ
 const fullSardarData = [
     { id: "1", name: "পদ্মাশী সর্দার", nameEn: "Padmashi Sardar", gender: "male", fatherId: null, motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
     { id: "2", name: "আকালি সর্দার", nameEn: "Akali Sardar", gender: "male", fatherId: "1", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
@@ -116,7 +113,7 @@ const fullSardarData = [
     { id: "101", name: "মেরিনা", nameEn: "Merina", gender: "female", fatherId: "96", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
     { id: "102", name: "রহিমা", nameEn: "Rohima", gender: "female", fatherId: "71", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
     { id: "103", name: "জায়েদা", nameEn: "Jayeda", gender: "female", fatherId: "71", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
-    { id: "104", name: "জয়গন নেসা", nameEn: "Joygon Nesa", gender: "female", fatherId: "71", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
+    { id: "104", name: "জয়গন নেছা", nameEn: "Joygon Nesa", gender: "female", fatherId: "71", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
     { id: "105", name: "কসের সর্দার", nameEn: "Koser Sardar", gender: "male", fatherId: "70", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
     { id: "106", name: "খলিল সর্দার", nameEn: "Kholil Sardar", gender: "male", fatherId: "105", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
     { id: "107", name: "রেফেজ সর্দার", nameEn: "Refej Sardar", gender: "male", fatherId: "106", motherId: null, dob: "", dod: "", bloodGroup: "", address: "", occupation: "", education: "", bio: "", gallery: [], photo: "" },
@@ -208,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTree();
     setupEventListeners();
     setupSearchEngine();
+    setupHistoryEngine(); // মোবাইল/ব্রাউজার ব্যাক বাটন হ্যান্ডলিং
 });
 
 function loadFamilyData() {
@@ -300,6 +298,15 @@ function drawOrthogonalLink(d) {
     return `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;
 }
 
+function changeRoot(newRootId) {
+    if (currentRootId !== newRootId) {
+        rootHistory.push(currentRootId);
+        currentRootId = newRootId;
+        window.history.pushState({ rootId: currentRootId, type: "tree" }, "");
+        renderTree();
+    }
+}
+
 function renderTree() {
     g.selectAll("*").remove();
 
@@ -307,9 +314,10 @@ function renderTree() {
     if (!root) return;
 
     const isMobile = window.innerWidth < 640;
-    const nodeWidth = isMobile ? 110 : 120;
-    const nodeHeight = isMobile ? 45 : 50;
-    const treeLayout = d3.tree().nodeSize([nodeWidth + 12, nodeHeight + 60]);
+    // চ্যাপ্টা শেপ এবং ফ্রন্ট রিডাবিলিটির জন্য সাইজ অ্যাডজাস্টমেন্ট
+    const nodeWidth = isMobile ? 125 : 135;
+    const nodeHeight = isMobile ? 48 : 52;
+    const treeLayout = d3.tree().nodeSize([nodeWidth + 14, nodeHeight + 55]);
 
     treeLayout(root);
 
@@ -330,6 +338,7 @@ function renderTree() {
         .attr("class", "node")
         .attr("transform", d => `translate(${d.x - nodeWidth / 2},${d.y - nodeHeight / 2})`);
 
+    // মেম্বার কার্ড বক্স
     node.append("rect")
         .attr("width", nodeWidth)
         .attr("height", d => hasChildren(d.data.id) ? nodeHeight + 18 : nodeHeight)
@@ -340,25 +349,29 @@ function renderTree() {
         .attr("class", "cursor-pointer")
         .on("click", (event, d) => openProfileModal(d.data.id));
 
+    // বাংলা নাম (বোল্ড ও বড় ফন্ট)
     node.append("text")
         .attr("x", nodeWidth / 2)
         .attr("y", 18)
         .attr("text-anchor", "middle")
-        .attr("font-weight", "bold")
-        .attr("font-size", isMobile ? "10px" : "11px")
-        .attr("fill", "#1e293b")
-        .attr("class", "cursor-pointer")
+        .attr("font-weight", "900")
+        .attr("font-size", isMobile ? "12px" : "13px")
+        .attr("fill", "#0f172a")
+        .attr("class", "cursor-pointer select-none")
         .on("click", (event, d) => openProfileModal(d.data.id))
         .text(d => d.data.name);
 
+    // ইংরেজি নাম (স্পষ্ট ও সুন্দর ফন্ট)
     node.append("text")
         .attr("x", nodeWidth / 2)
-        .attr("y", 32)
+        .attr("y", 33)
         .attr("text-anchor", "middle")
-        .attr("font-size", isMobile ? "8px" : "9px")
-        .attr("fill", "#64748b")
+        .attr("font-weight", "600")
+        .attr("font-size", isMobile ? "9px" : "10px")
+        .attr("fill", "#475569")
         .text(d => d.data.nameEn || (d.data.isDeceased ? "(মৃত)" : ""));
 
+    // বংশধারা বাটন (সাব-ট্রি নেভিগেশন)
     node.each(function(d) {
         if (hasChildren(d.data.id)) {
             const btnGroup = d3.select(this)
@@ -366,8 +379,7 @@ function renderTree() {
                 .attr("class", "cursor-pointer")
                 .on("click", (e) => {
                     e.stopPropagation();
-                    currentRootId = d.data.id;
-                    renderTree();
+                    changeRoot(d.data.id);
                 });
 
             btnGroup.append("rect")
@@ -427,6 +439,43 @@ function resetZoom() {
     autoFitTree();
 }
 
+function isAnyModalOpen() {
+    const modals = ["profileModal", "adminDrawer", "adminLoginModal"];
+    return modals.some(id => {
+        const el = document.getElementById(id);
+        return el && !el.classList.contains("hidden");
+    });
+}
+
+function handleGlobalBack() {
+    if (isAnyModalOpen()) {
+        closeAllModals();
+        return true;
+    }
+    if (rootHistory.length > 0) {
+        currentRootId = rootHistory.pop();
+        renderTree();
+        return true;
+    }
+    return false;
+}
+
+function setupHistoryEngine() {
+    // ইনিশিয়াল স্টেট পুশ
+    window.history.replaceState({ rootId: currentRootId, type: "tree" }, "");
+
+    // মোবাইলের ফিজিক্যাল/সিস্টেম ব্যাক বাটন লিসেনার
+    window.addEventListener("popstate", (event) => {
+        if (isAnyModalOpen()) {
+            closeAllModals();
+            window.history.pushState({ rootId: currentRootId, type: "tree" }, "");
+        } else if (rootHistory.length > 0) {
+            currentRootId = rootHistory.pop();
+            renderTree();
+        }
+    });
+}
+
 function openProfileModal(id) {
     const m = familyData.find(item => item.id === id);
     if (!m) return;
@@ -459,9 +508,8 @@ function openProfileModal(id) {
     const viewSubtreeBtn = document.getElementById("viewSubtreeBtn");
     if (viewSubtreeBtn) {
         viewSubtreeBtn.onclick = () => {
-            currentRootId = m.id;
             closeAllModals();
-            renderTree();
+            changeRoot(m.id);
         };
     }
 
@@ -479,12 +527,18 @@ function openProfileModal(id) {
     }
 
     const modal = document.getElementById("profileModal");
-    if (modal) modal.classList.remove("hidden");
+    if (modal) {
+        modal.classList.remove("hidden");
+        window.history.pushState({ modal: true }, "");
+    }
 }
 
 function openEditForm(member) {
     const adminDrawer = document.getElementById("adminDrawer");
-    if (adminDrawer) adminDrawer.classList.remove("hidden");
+    if (adminDrawer) {
+        adminDrawer.classList.remove("hidden");
+        window.history.pushState({ drawer: true }, "");
+    }
     
     if (document.getElementById("editMemberId")) document.getElementById("editMemberId").value = member ? member.id : "";
     if (document.getElementById("formName")) document.getElementById("formName").value = member ? member.name : "";
@@ -602,6 +656,14 @@ function setupEventListeners() {
     const resetZoomBtn = document.getElementById("resetZoomBtn");
     if (resetZoomBtn) resetZoomBtn.onclick = resetZoom;
 
+    // স্ক্রিনের নিচের বামপাশের পূর্ববর্তী পেজ বাটন
+    const screenBackButton = document.getElementById("screenBackButton");
+    if (screenBackButton) {
+        screenBackButton.onclick = () => {
+            handleGlobalBack();
+        };
+    }
+
     const zoomInBtn = document.getElementById("zoomInBtn");
     if (zoomInBtn) zoomInBtn.onclick = () => svg.transition().duration(300).call(zoomHandler.scaleBy, 1.2);
 
@@ -612,7 +674,11 @@ function setupEventListeners() {
     if (adminLoginBtn) {
         adminLoginBtn.onclick = () => {
             if (!isAdminLoggedIn) {
-                document.getElementById("adminLoginModal").classList.remove("hidden");
+                const modal = document.getElementById("adminLoginModal");
+                if (modal) {
+                    modal.classList.remove("hidden");
+                    window.history.pushState({ adminLogin: true }, "");
+                }
             } else {
                 openEditForm(null);
             }
@@ -698,7 +764,7 @@ function renderList(items, box, inputElement) {
         row.className = "px-3 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700/50 flex justify-between items-center text-xs text-gray-700 dark:text-gray-200";
         row.innerHTML = `
             <div>
-                <span class="font-medium">${m.name}</span>
+                <span class="font-bold">${m.name}</span>
                 ${m.nameEn ? `<span class="text-[10px] text-gray-400 ml-1">(${m.nameEn})</span>` : ''}
             </div>
             <span class="text-[10px] px-1.5 py-0.5 rounded ${m.gender === 'male' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">${m.gender === "male" ? "পুরুষ" : "নারী"}</span>
@@ -708,8 +774,7 @@ function renderList(items, box, inputElement) {
             if (inputElement) inputElement.value = m.name;
             box.classList.add("hidden");
 
-            currentRootId = m.fatherId ? m.fatherId : m.id;
-            renderTree();
+            changeRoot(m.fatherId ? m.fatherId : m.id);
             openProfileModal(m.id);
         });
 
