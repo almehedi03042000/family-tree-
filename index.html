@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS (Corrected Path) -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-['Hind_Siliguri'] overflow-hidden h-screen w-screen flex flex-col select-none">
@@ -97,62 +97,62 @@
         </main>
     </div>
 
-   
    <!-- Profile Modal -->
-<div id="profileModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 dark:border-gray-700 transform transition-all">
-        <!-- Header / Background Banner -->
-        <div class="h-20 bg-gradient-to-r from-blue-600 to-indigo-600 relative">
-            <button id="closeProfileBtn" class="absolute top-3 right-3 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-1 transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-
-        <!-- Profile Body -->
-        <div class="px-5 pb-5 pt-0 relative">
-            <!-- Profile Photo -->
-            <div class="-mt-12 mb-3 flex justify-center">
-                <img id="modalPhoto" src="" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-white dark:border-gray-800 object-cover shadow-md bg-white">
-            </div>
-
-            <!-- Name & Status -->
-            <div class="text-center mb-4">
-                <h3 id="modalName" class="text-xl font-bold text-gray-800 dark:text-white"></h3>
-                <span id="modalStatus" class="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300"></span>
-            </div>
-
-            <!-- Details List -->
-            <div class="space-y-2.5 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-gray-700">
-                <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
-                    <span class="text-gray-400 dark:text-gray-400 font-medium">পিতা:</span>
-                    <span id="modalFather" class="font-semibold text-gray-800 dark:text-gray-200"></span>
-                </div>
-                <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
-                    <span class="text-gray-400 dark:text-gray-400 font-medium">পেশা:</span>
-                    <span id="modalOccupation" class="font-semibold text-gray-800 dark:text-gray-200"></span>
-                </div>
-                <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
-                    <span class="text-gray-400 dark:text-gray-400 font-medium">মোবাইল:</span>
-                    <span id="modalPhone" class="font-semibold text-gray-800 dark:text-gray-200"></span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-400 dark:text-gray-400 font-medium">ঠিকানা:</span>
-                    <span id="modalAddress" class="font-semibold text-gray-800 dark:text-gray-200"></span>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-4 space-y-2">
-                <button id="viewSubtreeBtn" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs transition-colors shadow-sm">
-                    এই সদস্যের বংশধারা দেখুন
+    <div id="profileModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 dark:border-gray-700 transform transition-all">
+            <!-- Header / Background Banner -->
+            <div class="h-20 bg-gradient-to-r from-blue-600 to-indigo-600 relative">
+                <button id="closeProfileBtn" class="absolute top-3 right-3 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-1 transition-all">
+                    <i class="fa-solid fa-xmark text-lg px-1"></i>
                 </button>
-                <button id="adminEditMemberBtn" class="w-full py-2 px-4 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl text-xs transition-colors hidden shadow-sm">
-                    তথ্য এডিট করুন (Admin)
-                </button>
+            </div>
+
+            <!-- Profile Body -->
+            <div class="px-5 pb-5 pt-0 relative">
+                <!-- Profile Photo -->
+                <div class="-mt-12 mb-3 flex justify-center">
+                    <img id="modalPhoto" src="" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-white dark:border-gray-800 object-cover shadow-md bg-white">
+                </div>
+
+                <!-- Name & Status -->
+                <div class="text-center mb-4">
+                    <h3 id="modalName" class="text-xl font-bold text-gray-800 dark:text-white"></h3>
+                    <span id="modalStatus" class="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300"></span>
+                </div>
+
+                <!-- Details List -->
+                <div class="space-y-2.5 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-gray-700">
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 dark:text-gray-400 font-medium">পিতা:</span>
+                        <span id="modalFather" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 dark:text-gray-400 font-medium">পেশা:</span>
+                        <span id="modalOccupation" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 dark:text-gray-400 font-medium">মোবাইল:</span>
+                        <span id="modalPhone" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 dark:text-gray-400 font-medium">ঠিকানা:</span>
+                        <span id="modalAddress" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-4 space-y-2">
+                    <button id="viewSubtreeBtn" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs transition-colors shadow-sm">
+                        এই সদস্যের বংশধারা দেখুন
+                    </button>
+                    <button id="adminEditMemberBtn" class="w-full py-2 px-4 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl text-xs transition-colors hidden shadow-sm">
+                        তথ্য এডিট করুন (Admin)
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
     <!-- Admin Login Modal -->
     <div id="adminLoginModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-900 w-full max-w-sm p-5 rounded-3xl shadow-2xl relative border border-gray-200 dark:border-gray-800">
@@ -225,8 +225,8 @@
 
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="font-medium text-gray-400">জন্ম তারিখ</label>
-                        <input type="date" id="formDob" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <label class="font-medium text-gray-400">মোবাইল</label>
+                        <input type="text" id="formPhone" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
                     <div>
                         <label class="font-medium text-gray-400">পেশা</label>
@@ -235,11 +235,19 @@
                 </div>
 
                 <div>
-                    <label class="font-medium text-gray-400">প্রোফাইল ছবি</label>
-                    <input type="file" id="formPhotoUpload" accept="image/*" class="w-full text-xs p-1 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <label class="font-medium text-gray-400">ঠিকানা</label>
+                    <input type="text" id="formAddress" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                 </div>
 
-                <button type="submit" class="w-full bg-amber-500 text-white py-2.5 rounded-xl font-bold hover:bg-amber-600 transition shadow-md shadow-amber-500/20">সংরক্ষণ করুন</button>
+                <div>
+                    <label class="font-medium text-gray-400">প্রোফাইল ছবি লিংক</label>
+                    <input type="text" id="formPhoto" placeholder="https://..." class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="submit" class="flex-1 bg-amber-500 text-white py-2.5 rounded-xl font-bold hover:bg-amber-600 transition shadow-md shadow-amber-500/20">সংরক্ষণ করুন</button>
+                    <button type="button" id="deleteMemberBtn" onclick="deleteCurrentMember()" class="bg-red-500/10 text-red-500 px-3 py-2.5 rounded-xl font-bold hover:bg-red-500/20 transition">মুছুন</button>
+                </div>
             </form>
 
             <div class="pt-3 border-t border-gray-200 dark:border-gray-800">
@@ -250,43 +258,6 @@
 
     <!-- Scripts -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!-- Corrected JS File Path -->
     <script src="assets/js/app.js"></script>
-    <!-- প্রোফাইল দেখার পপ-আপ মোডাল (Profile Modal) -->
-<div id="profileModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-gray-800 w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center relative border border-gray-100 dark:border-gray-700">
-        
-        <!-- বন্ধ করার বাটন -->
-        <button id="closeProfileBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-            <i class="fa-solid fa-xmark text-xl"></i>
-        </button>
-
-        <!-- প্রোফাইল ছবি -->
-        <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-blue-500 shadow-md">
-            <img id="modalPhoto" src="" alt="Profile Photo" class="w-full h-full object-cover">
-        </div>
-
-        <!-- নাম ও অন্যান্য তথ্য -->
-        <h3 id="modalName" class="text-xl font-bold text-gray-800 dark:text-white mb-1"></h3>
-        <p class="text-xs text-gray-500 mb-4">অবস্থা: <span id="modalStatus" class="font-semibold text-gray-700 dark:text-gray-300"></span></p>
-
-        <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-xl text-left text-xs space-y-2 mb-5">
-            <div class="flex justify-between">
-                <span class="text-gray-500 dark:text-gray-400">পিতার নাম:</span>
-                <span id="modalFather" class="font-semibold text-gray-800 dark:text-gray-200"></span>
-            </div>
-        </div>
-
-        <!-- অ্যাকশন বাটনসমূহ -->
-        <div class="flex gap-2">
-            <button id="viewSubtreeBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 px-3 rounded-xl font-medium transition">
-                বংশধারা দেখুন
-            </button>
-            <button id="adminEditMemberBtn" class="hidden bg-amber-500 hover:bg-amber-600 text-white text-xs py-2 px-3 rounded-xl font-medium transition">
-                সম্পাদনা (Edit)
-            </button>
-        </div>
-    </div>
-</div>
 </body>
 </html>
