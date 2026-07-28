@@ -232,5 +232,41 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Corrected JS File Path -->
     <script src="assets/js/app.js"></script>
+    <!-- প্রোফাইল দেখার পপ-আপ মোডাল (Profile Modal) -->
+<div id="profileModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center relative border border-gray-100 dark:border-gray-700">
+        
+        <!-- বন্ধ করার বাটন -->
+        <button id="closeProfileBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+
+        <!-- প্রোফাইল ছবি -->
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-blue-500 shadow-md">
+            <img id="modalPhoto" src="" alt="Profile Photo" class="w-full h-full object-cover">
+        </div>
+
+        <!-- নাম ও অন্যান্য তথ্য -->
+        <h3 id="modalName" class="text-xl font-bold text-gray-800 dark:text-white mb-1"></h3>
+        <p class="text-xs text-gray-500 mb-4">অবস্থা: <span id="modalStatus" class="font-semibold text-gray-700 dark:text-gray-300"></span></p>
+
+        <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-xl text-left text-xs space-y-2 mb-5">
+            <div class="flex justify-between">
+                <span class="text-gray-500 dark:text-gray-400">পিতার নাম:</span>
+                <span id="modalFather" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+            </div>
+        </div>
+
+        <!-- অ্যাকশন বাটনসমূহ -->
+        <div class="flex gap-2">
+            <button id="viewSubtreeBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 px-3 rounded-xl font-medium transition">
+                বংশধারা দেখুন
+            </button>
+            <button id="adminEditMemberBtn" class="hidden bg-amber-500 hover:bg-amber-600 text-white text-xs py-2 px-3 rounded-xl font-medium transition">
+                সম্পাদনা (Edit)
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
