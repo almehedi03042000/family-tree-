@@ -7,6 +7,7 @@ const ADMIN_PASSWORD = "ampmhd@@@03042000";
 
 // ১৮৬ জনের সম্পূর্ণ ডেটা সেট (ইংরেজি নাম এবং পূর্ণাঙ্গ তথ্য সহ)
 const familyData = [
+  {
   name: "পদ্মাশী সর্দার",
   children: [
     {
@@ -385,6 +386,7 @@ const familyData = [
       ]
     }
   ]
+  }
 ]
 
 document.addEventListener("DOMContentLoaded", () => {
