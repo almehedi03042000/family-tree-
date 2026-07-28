@@ -762,3 +762,89 @@ function saveHistory(id) {
     if (recentSearches.length > 5) recentSearches.pop();
     localStorage.setItem("sardarRecentSearches", JSON.stringify(recentSearches));
 }
+// ==========================================
+// AUTO-FIT TREE LOGIC (এক স্ক্রিনে মানিয়ে নেওয়ার জন্য)
+// ==========================================
+function autoFitTree() {
+    if (!g || !svg) return;
+    
+    setTimeout(() => {
+        const bbox = g.node().getBBox();
+        if (bbox.width === 0 || bbox.height === 0) return;
+
+        const svgNode = svg.node();
+        const width = svgNode.clientWidth || window.innerWidth;
+        const height = svgNode.clientHeight || window.innerHeight;
+
+        const padding = 60;
+        const scale = Math.min(
+            (width - padding) / bbox.width,
+            (height - padding) / bbox.height,
+            1.1
+        );
+
+        const translateX = (width - bbox.width * scale) / 2 - bbox.x * scale;
+        const translateY = 80;
+
+        svg.transition()
+            .duration(600)
+            .call(zoomHandler.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
+    }, 50);
+}
+
+// ==========================================
+// UPDATED PROFILE MODAL DISPLAY
+// ==========================================
+function openProfileModal(id) {
+    const m = familyData.find(item => item.id === id);
+    if (!m) return;
+
+    const nameEl = document.getElementById("modalName");
+    if (nameEl) nameEl.innerText = m.name;
+
+    const photoEl = document.getElementById("modalPhoto");
+    if (photoEl) photoEl.src = m.photo || (m.gender === "female" ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR);
+
+    const statusEl = document.getElementById("modalStatus");
+    if (statusEl) statusEl.innerText = m.isDeceased ? "মৃত" : "জীবিত";
+
+    const father = familyData.find(f => f.id === m.fatherId);
+    const fatherEl = document.getElementById("modalFather");
+    if (fatherEl) fatherEl.innerText = father ? father.name : "-";
+
+    // অতিরিক্ত তথ্য (পেশা, মোবাইল, ঠিকানা)
+    const occEl = document.getElementById("modalOccupation");
+    if (occEl) occEl.innerText = m.occupation || "তথ্য নেই";
+
+    const phoneEl = document.getElementById("modalPhone");
+    if (phoneEl) phoneEl.innerText = m.phone || "তথ্য নেই";
+
+    const addrEl = document.getElementById("modalAddress");
+    if (addrEl) addrEl.innerText = m.address || "তথ্য নেই";
+
+    // বাটন ইভেন্ট
+    const viewSubtreeBtn = document.getElementById("viewSubtreeBtn");
+    if (viewSubtreeBtn) {
+        viewSubtreeBtn.onclick = () => {
+            currentRootId = m.id;
+            closeAllModals();
+            renderTree();
+        };
+    }
+
+    const editBtn = document.getElementById("adminEditMemberBtn");
+    if (editBtn) {
+        if (isAdminLoggedIn) {
+            editBtn.classList.remove("hidden");
+            editBtn.onclick = () => {
+                closeAllModals();
+                openEditForm(m);
+            };
+        } else {
+            editBtn.classList.add("hidden");
+        }
+    }
+
+    const modal = document.getElementById("profileModal");
+    if (modal) modal.classList.remove("hidden");
+}
