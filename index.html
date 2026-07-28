@@ -22,15 +22,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-['Hind_Siliguri'] overflow-hidden h-screen w-screen flex flex-col select-none">
 
     <!-- Top Navigation Header -->
     <header class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-4 py-2.5 flex items-center justify-between z-30 shadow-sm shrink-0">
-        
-        <!-- Site Title & Logo -->
         <div class="flex items-center space-x-2 space-x-reverse">
             <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/30">
                 <i class="fa-solid fa-tree text-amber-500 text-lg"></i>
@@ -38,7 +35,6 @@
             <h1 class="text-lg font-bold tracking-tight text-gray-900 dark:text-white">সরদার বংশবৃক্ষ</h1>
         </div>
 
-        <!-- Top Statistics Display -->
         <div class="hidden sm:flex items-center space-x-3 space-x-reverse text-xs bg-gray-100 dark:bg-gray-800/80 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700">
             <div class="flex items-center space-x-1 space-x-reverse">
                 <span class="text-gray-500 dark:text-gray-400">মোট:</span>
@@ -56,7 +52,6 @@
             </div>
         </div>
 
-        <!-- Dual-Language Single Search Box -->
         <div class="relative w-44 sm:w-64">
             <div class="relative">
                 <input type="text" id="searchInput" placeholder="বাংলা বা ইংরেজি নাম..."
@@ -66,7 +61,6 @@
             <div id="searchSuggestionBox" class="hidden absolute left-0 right-0 top-full mt-2 bg-white dark:bg-gray-800 border rounded-lg shadow-xl max-h-60 overflow-y-auto z-50 text-left"></div>
         </div>
 
-        <!-- Action Controls -->
         <div class="flex items-center space-x-2 space-x-reverse">
             <button id="themeToggleBtn" title="Theme" class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition">
                 <i class="fa-solid fa-moon dark:hidden text-gray-600"></i>
@@ -89,15 +83,13 @@
             </button>
         </div>
 
-        <!-- Floating Tree Zoom Controls -->
+        <!-- Floating Controls -->
         <div class="absolute bottom-6 right-6 z-20 flex flex-col space-y-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
             <button id="zoomInBtn" title="Zoom In" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-plus text-xs"></i></button>
             <button id="zoomOutBtn" title="Zoom Out" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-minus text-xs"></i></button>
             <button id="resetZoomBtn" title="Reset View" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-expand text-xs"></i></button>
-            <button id="resetSubtreeBtn" title="Root Tree" class="hidden w-9 h-9 flex items-center justify-center bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 rounded-xl transition"><i class="fa-solid fa-sitemap text-xs"></i></button>
         </div>
 
-        <!-- SVG Family Tree Container -->
         <main id="treeContainer" class="w-full h-full cursor-grab active:cursor-grabbing relative overflow-hidden bg-gray-50 dark:bg-gray-950">
             <svg id="treeSvg" class="w-full h-full">
                 <g id="treeGroup"></g>
@@ -105,55 +97,78 @@
         </main>
     </div>
 
-    <!-- Profile Modal -->
+    <!-- Enhanced Profile Modal -->
     <div id="profileModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 dark:border-gray-700 transform transition-all">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 dark:border-gray-700 transform transition-all max-h-[90vh] flex flex-col">
             <!-- Header Banner -->
-            <div class="h-20 bg-gradient-to-r from-blue-600 to-indigo-600 relative">
+            <div class="h-20 bg-gradient-to-r from-blue-600 to-amber-600 relative shrink-0">
                 <button id="closeProfileBtn" class="absolute top-3 right-3 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-1 transition-all">
                     <i class="fa-solid fa-xmark text-lg px-1"></i>
                 </button>
             </div>
 
-            <!-- Profile Body -->
-            <div class="px-5 pb-5 pt-0 relative">
-                <!-- Profile Photo -->
-                <div class="-mt-12 mb-3 flex justify-center">
-                    <img id="modalPhoto" src="" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-white dark:border-gray-800 object-cover shadow-md bg-white">
+            <!-- Profile Content (Scrollable) -->
+            <div class="px-5 pb-5 pt-0 relative overflow-y-auto flex-1 space-y-4">
+                <!-- Profile Photo & Header -->
+                <div class="-mt-12 text-center">
+                    <img id="modalPhoto" src="" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-white dark:border-gray-800 object-cover shadow-md bg-white mx-auto">
+                    <h3 id="modalName" class="text-xl font-bold text-gray-800 dark:text-white mt-2"></h3>
+                    <p id="modalNameEn" class="text-xs text-amber-500 font-semibold"></p>
+                    <span id="modalStatus" class="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full"></span>
                 </div>
 
-                <!-- Name & Status -->
-                <div class="text-center mb-4">
-                    <h3 id="modalName" class="text-xl font-bold text-gray-800 dark:text-white"></h3>
-                    <span id="modalStatus" class="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300"></span>
-                </div>
-
-                <!-- Details List -->
-                <div class="space-y-2.5 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-gray-700">
+                <!-- Extended Information List -->
+                <div class="space-y-2 text-xs text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
                     <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
-                        <span class="text-gray-400 dark:text-gray-400 font-medium">পিতা:</span>
+                        <span class="text-gray-400 font-medium">পিতা:</span>
                         <span id="modalFather" class="font-semibold text-gray-800 dark:text-gray-200"></span>
                     </div>
                     <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
-                        <span class="text-gray-400 dark:text-gray-400 font-medium">পেশা:</span>
+                        <span class="text-gray-400 font-medium">মাতা:</span>
+                        <span id="modalMother" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 font-medium">রক্তের গ্রুপ:</span>
+                        <span id="modalBloodGroup" class="font-bold text-red-500"></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 font-medium">জন্ম তারিখ:</span>
+                        <span id="modalDob" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div id="dodRow" class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5 hidden">
+                        <span class="text-gray-400 font-medium">মৃত্যু তারিখ:</span>
+                        <span id="modalDod" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 font-medium">পেশা:</span>
                         <span id="modalOccupation" class="font-semibold text-gray-800 dark:text-gray-200"></span>
                     </div>
                     <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
-                        <span class="text-gray-400 dark:text-gray-400 font-medium">মোবাইল:</span>
+                        <span class="text-gray-400 font-medium">শিক্ষাগত যোগ্যতা:</span>
+                        <span id="modalEducation" class="font-semibold text-gray-800 dark:text-gray-200"></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-200/60 dark:border-gray-600/50 pb-1.5">
+                        <span class="text-gray-400 font-medium">মোবাইল:</span>
                         <span id="modalPhone" class="font-semibold text-gray-800 dark:text-gray-200"></span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-400 dark:text-gray-400 font-medium">ঠিকানা:</span>
+                        <span class="text-gray-400 font-medium">ঠিকানা:</span>
                         <span id="modalAddress" class="font-semibold text-gray-800 dark:text-gray-200"></span>
                     </div>
                 </div>
 
+                <!-- Biography/Bio Section -->
+                <div class="bg-gray-50 dark:bg-gray-700/50 p-3.5 rounded-2xl border border-gray-100 dark:border-gray-700">
+                    <h4 class="font-bold text-xs text-amber-500 mb-1">জীবনবৃত্তান্ত / বায়ো:</h4>
+                    <p id="modalBio" class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed"></p>
+                </div>
+
                 <!-- Action Buttons -->
-                <div class="mt-4 space-y-2">
-                    <button id="viewSubtreeBtn" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs transition-colors shadow-sm">
+                <div class="space-y-2 pt-2">
+                    <button id="viewSubtreeBtn" class="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition-colors shadow-md shadow-amber-500/20">
                         এই সদস্যের বংশধারা দেখুন
                     </button>
-                    <button id="adminEditMemberBtn" class="w-full py-2 px-4 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl text-xs transition-colors hidden shadow-sm">
+                    <button id="adminEditMemberBtn" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-colors hidden shadow-md">
                         তথ্য এডিট করুন (Admin)
                     </button>
                 </div>
@@ -181,10 +196,10 @@
         </div>
     </div>
 
-    <!-- Admin Control Panel Drawer -->
-    <div id="adminDrawer" class="hidden fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl flex flex-col border-l border-gray-200 dark:border-gray-800">
-        <div class="p-4 bg-amber-500 text-white flex justify-between items-center">
-            <h3 class="font-bold text-sm"><i class="fa-solid fa-sliders mr-2"></i>অ্যাডমিন প্যানেল</h3>
+    <!-- Admin Control Panel Drawer (Extended Form) -->
+    <div id="adminDrawer" class="hidden fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white dark:bg-gray-900 shadow-2xl flex flex-col border-l border-gray-200 dark:border-gray-800">
+        <div class="p-4 bg-amber-500 text-white flex justify-between items-center shrink-0">
+            <h3 class="font-bold text-sm"><i class="fa-solid fa-sliders mr-2"></i>অ্যাডমিন তথ্য প্যানেল</h3>
             <button id="closeAdminBtn" class="text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
         <div class="p-4 flex-1 overflow-y-auto space-y-4 text-xs">
@@ -198,8 +213,8 @@
                         <input type="text" id="formName" required class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
                     <div>
-                        <label class="font-medium text-gray-400">Name (English)</label>
-                        <input type="text" id="formNameEn" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <label class="font-medium text-gray-400">Name (English)*</label>
+                        <input type="text" id="formNameEn" required class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
                 </div>
 
@@ -233,12 +248,44 @@
 
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="font-medium text-gray-400">মোবাইল</label>
+                        <label class="font-medium text-gray-400">রক্তের গ্রুপ</label>
+                        <select id="formBloodGroup" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                            <option value="">নির্বাচন করুন</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-400">মোবাইল নম্বর</label>
                         <input type="text" id="formPhone" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-medium text-gray-400">জন্ম তারিখ</label>
+                        <input type="date" id="formDob" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-400">মৃত্যু তারিখ</label>
+                        <input type="date" id="formDod" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="font-medium text-gray-400">পেশা</label>
                         <input type="text" id="formOccupation" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-400">শিক্ষাগত যোগ্যতা</label>
+                        <input type="text" id="formEducation" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
                 </div>
 
@@ -248,8 +295,13 @@
                 </div>
 
                 <div>
-                    <label class="font-medium text-gray-400">প্রোফাইল ছবি লিংক</label>
+                    <label class="font-medium text-gray-400">প্রোফাইল ছবি লিংক (URL)</label>
                     <input type="text" id="formPhoto" placeholder="https://..." class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                </div>
+
+                <div>
+                    <label class="font-medium text-gray-400">জীবনবৃত্তান্ত / বায়ো</label>
+                    <textarea id="formBio" rows="3" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700" placeholder="সদস্য সম্পর্কে সংক্ষিপ্ত বর্ণনা..."></textarea>
                 </div>
 
                 <div class="flex gap-2 pt-2">
