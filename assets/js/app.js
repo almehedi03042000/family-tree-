@@ -1,5 +1,5 @@
 // ==========================================
-// শেঁকড় - ১ জেনারেশন নির্ভর বংশবৃক্ষ (Single Generation View)
+// শেঁকড় - বংশবৃক্ষ (Sardar Family Tree Engine)
 // ==========================================
 
 let familyData = [];
@@ -248,15 +248,33 @@ function initD3Canvas() {
     svg.call(zoomHandler);
 }
 
-function buildDirectChildrenHierarchy(rootId) {
+// ==========================================
+// হায়ারার্কি তৈরি (১ম পেজে ৩ প্রজন্ম, বাকিগুলোতে ২ প্রজন্ম)
+// ==========================================
+function buildHierarchy(rootId) {
     const rootItem = familyData.find(item => item.id === rootId);
     if (!rootItem) return null;
 
     let rootNode = { ...rootItem, children: [] };
-    const directChildren = familyData.filter(item => item.fatherId === rootId);
-    directChildren.forEach(child => {
-        rootNode.children.push({ ...child, children: [] });
-    });
+
+    // ১ম পেজে (পদ্মাশী সর্দার - Root ID "1") ৩টি প্রজন্ম
+    if (rootId === "1") {
+        const gen2 = familyData.filter(item => item.fatherId === rootId); // আকালি ও কেসু
+        gen2.forEach(child2 => {
+            let node2 = { ...child2, children: [] };
+            const gen3 = familyData.filter(item => item.fatherId === child2.id); // ইসু সর্দার ও অন্যান্য
+            gen3.forEach(child3 => {
+                node2.children.push({ ...child3, children: [] });
+            });
+            rootNode.children.push(node2);
+        });
+    } else {
+        // অন্যান্য পেজে ২ প্রজন্ম (পিতা ও সন্তানাদি)
+        const directChildren = familyData.filter(item => item.fatherId === rootId);
+        directChildren.forEach(child => {
+            rootNode.children.push({ ...child, children: [] });
+        });
+    }
 
     return d3.hierarchy(rootNode);
 }
@@ -265,7 +283,7 @@ function renderTree() {
     g.selectAll("*").remove();
     updateBreadcrumbs();
 
-    const root = buildDirectChildrenHierarchy(currentRootId);
+    const root = buildHierarchy(currentRootId);
     if (!root) return;
 
     const treeLayout = d3.tree().nodeSize([160, 130]);
@@ -379,9 +397,10 @@ function navigateTo(id) {
 }
 
 function resetZoom() {
+    const width = window.innerWidth;
     svg.transition().duration(400).call(
         zoomHandler.transform,
-        d3.zoomIdentity.translate(window.innerWidth / 2, 70).scale(1)
+        d3.zoomIdentity.translate(width / 2, 80).scale(1)
     );
 }
 
