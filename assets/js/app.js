@@ -385,7 +385,7 @@ const familyData = {
       ]
     }
   ]
-};
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     loadFamilyData();
