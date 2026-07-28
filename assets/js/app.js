@@ -160,7 +160,7 @@ document.getElementById("resetZoomBtn").onclick = resetZoom;
 
 function loadFamilyData() {
     const saved = localStorage.getItem("sardarFamilyTreeData");
-    familyData = saved ? JSON.parse(saved) : demoData;
+    familyData = (saved && JSON.parse(saved).length > 0) ? JSON.parse(saved) : demoData;
 }
 
 function saveFamilyData() {
