@@ -1,536 +1,219 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>শেকড় - ধাপে ধাপে বংশধারা</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <!-- সিএসএস ফাইল লিঙ্ক আপ -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>সরদার বংশবৃক্ষ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        amber: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-['Hind_Siliguri'] overflow-hidden h-screen w-screen flex flex-col select-none">
 
-    <header class="app-header">
-        <div class="header-left"><h1>🌳 শেকড়</h1></div>
-        <div class="header-controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="নাম খুঁজুন..." autocomplete="off">
-                <button id="searchBtn">খুঁজুন</button>
-                <div id="searchResults" class="search-results-dropdown"></div>
+    <header class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-4 py-2.5 flex items-center justify-between z-30 shadow-sm shrink-0">
+        
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/30">
+                <i class="fa-solid fa-tree text-amber-500 text-lg"></i>
             </div>
+            <h1 class="text-lg font-bold tracking-tight text-gray-900 dark:text-white">সরদার বংশবৃক্ষ</h1>
+        </div>
+
+        <div class="hidden sm:flex items-center space-x-3 space-x-reverse text-xs bg-gray-100 dark:bg-gray-800/80 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center space-x-1 space-x-reverse">
+                <span class="text-gray-500 dark:text-gray-400">মোট:</span>
+                <b id="topStatTotal" class="text-amber-500 font-bold">0</b>
+            </div>
+            <span class="text-gray-300 dark:text-gray-700">|</span>
+            <div class="flex items-center space-x-1 space-x-reverse">
+                <span class="text-gray-500 dark:text-gray-400">পুরুষ:</span>
+                <b id="topStatMale" class="text-blue-500 font-bold">0</b>
+            </div>
+            <span class="text-gray-300 dark:text-gray-700">|</span>
+            <div class="flex items-center space-x-1 space-x-reverse">
+                <span class="text-gray-500 dark:text-gray-400">নারী:</span>
+                <b id="topStatFemale" class="text-pink-500 font-bold">0</b>
+            </div>
+        </div>
+
+        <div class="relative w-44 sm:w-64">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="বাংলা বা ইংরেজি নাম..." 
+                       class="w-full bg-gray-100 dark:bg-gray-800 text-xs rounded-xl pl-8 pr-3 py-1.5 border border-transparent focus:border-amber-500 focus:bg-white dark:focus:bg-gray-900 outline-none transition shadow-inner">
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-gray-400 text-xs"></i>
+            </div>
+            <div id="searchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl max-h-56 overflow-y-auto z-50 divide-y divide-gray-100 dark:divide-gray-700/50"></div>
+        </div>
+
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <button id="themeToggleBtn" title="Theme" class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition">
+                <i class="fa-solid fa-moon dark:hidden text-gray-600"></i>
+                <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+            </button>
+            <button id="adminLoginBtn" title="Admin" class="w-8 h-8 rounded-lg bg-amber-500 text-white hover:bg-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 transition">
+                <i class="fa-solid fa-user-lock text-xs"></i>
+            </button>
         </div>
     </header>
 
-    <div class="nav-banner">
-        <div class="breadcrumb" id="breadcrumbText">📍 মূল পেজ</div>
-        <div class="nav-buttons-group">
-            <button class="nav-action-btn" id="prevPageBtn" style="display: none;">⬅ আগের পেজ</button>
-            <button class="nav-action-btn home-btn" id="homeBtn" style="display: none;">🏠 মূল হোম</button>
+    <div class="flex-1 relative overflow-hidden">
+        
+        <div class="absolute bottom-6 right-6 z-20 flex flex-col space-y-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
+            <button id="zoomInBtn" title="Zoom In" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-plus text-xs"></i></button>
+            <button id="zoomOutBtn" title="Zoom Out" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-minus text-xs"></i></button>
+            <button id="resetZoomBtn" title="Reset View" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-expand text-xs"></i></button>
+            <button id="resetSubtreeBtn" title="Root Tree" class="hidden w-9 h-9 flex items-center justify-center bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 rounded-xl transition"><i class="fa-solid fa-sitemap text-xs"></i></button>
         </div>
+
+        <main id="treeContainer" class="w-full h-full cursor-grab active:cursor-grabbing relative overflow-hidden bg-gray-50 dark:bg-gray-950">
+            <svg id="treeSvg" class="w-full h-full">
+                <g id="treeGroup"></g>
+            </svg>
+        </main>
     </div>
 
-    <main class="tree-viewport">
-        <div id="treeContainer"></div>
-    </main>
-
-    <!-- সম্পূর্ণ বংশধারা জুম মডাল -->
-    <div id="zoomModal" class="zoom-modal-overlay">
-        <div class="zoom-modal-header">
-            <h2>🔍 সম্পূর্ণ বংশধারার একক চিত্র</h2>
-            <div class="zoom-controls">
-                <button class="zoom-btn" id="zoomInBtn">➕</button>
-                <button class="zoom-btn" id="zoomOutBtn">➖</button>
-                <button class="zoom-btn" id="zoomResetBtn">🔄</button>
-                <button class="zoom-btn pdf-btn" id="downloadPdfBtn">📄 PDF</button>
-                <button class="zoom-close-btn" id="zoomCloseBtn">✖</button>
-            </div>
-        </div>
-        <div class="zoom-viewport" id="zoomViewport">
-            <div class="zoom-content" id="zoomContent"></div>
-        </div>
-    </div>
-
-    <!-- সদস্যের পূর্ণাঙ্গ প্রোফাইল মডাল -->
-    <div id="memberModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" id="modalClose">&times;</span>
-            
-            <div class="profile-header-center">
-                <div class="profile-img-box" id="modalImgContainer">
-                    <span class="profile-img-placeholder">👤</span>
+    <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col border border-gray-200 dark:border-gray-800">
+            <div class="relative bg-gradient-to-r from-amber-500 to-amber-600 h-24 p-4 flex items-end">
+                <button id="closeProfileBtn" class="absolute top-3 right-3 text-white bg-black/20 hover:bg-black/40 rounded-full w-7 h-7 flex items-center justify-center transition"><i class="fa-solid fa-xmark text-sm"></i></button>
+                <div class="flex items-center space-x-3 space-x-reverse transform translate-y-6">
+                    <img id="modalPhoto" src="" class="w-20 h-20 rounded-2xl border-4 border-white dark:border-gray-900 object-cover shadow-lg bg-amber-100">
+                    <div>
+                        <h2 id="modalName" class="text-lg font-bold text-gray-900 dark:text-white mt-6"></h2>
+                        <p id="modalNameEn" class="text-xs text-amber-100 dark:text-amber-200 italic"></p>
+                        <span id="modalBadge" class="text-[10px] px-2 py-0.5 rounded-full font-semibold mt-1 inline-block"></span>
+                    </div>
                 </div>
-                <h3 id="modalNameBn" style="font-size: 1.05rem; font-weight: 700;">নাম</h3>
-                <span id="modalStatusBadge" class="status-badge">জীবিত</span>
             </div>
-
-            <div class="profile-info-grid">
-                <div class="profile-info-item"><strong>আইডি:</strong> <span id="modalIdNo">N/A</span></div>
-                <div class="profile-info-item"><strong>লিঙ্গ:</strong> <span id="modalGender">N/A</span></div>
-                <div class="profile-info-item"><strong>জন্ম তারিখ:</strong> <span id="modalDob">N/A</span></div>
-                <div class="profile-info-item" id="dodContainer"><strong>মৃত্যু তারিখ:</strong> <span id="modalDod">N/A</span></div>
-                <div class="profile-info-item"><strong>রক্তের গ্রুপ:</strong> <span id="modalBlood">N/A</span></div>
-                <div class="profile-info-item"><strong>মোবাইল:</strong> <span id="modalMobile">N/A</span></div>
-                <div class="profile-info-item"><strong>পেশা:</strong> <span id="modalOccupation">N/A</span></div>
-                <div class="profile-info-item"><strong>শিক্ষাগত যোগ্যতা:</strong> <span id="modalEducation">N/A</span></div>
-                <div class="profile-info-item"><strong>জন্মস্থান:</strong> <span id="modalBirthPlace">N/A</span></div>
-                <div class="profile-info-item"><strong>বর্তমান ঠিকানা:</strong> <span id="modalAddress">N/A</span></div>
-                <div class="profile-info-item"><strong>বৈবাহিক অবস্থা:</strong> <span id="modalMarital">N/A</span></div>
-                <div class="profile-info-item"><strong>স্বামী/স্ত্রী:</strong> <span id="modalSpouse" class="clickable-link">নেই</span></div>
-                <div class="profile-info-item"><strong>বাবা:</strong> <span id="modalFather" class="clickable-link">N/A</span></div>
-                <div class="profile-info-item"><strong>মা:</strong> <span id="modalMother" class="clickable-link">N/A</span></div>
-                <div class="profile-info-item full-width"><strong>সন্তানাদি:</strong> <span id="modalChildrenSummary">০ জন (ছেলে: ০, মেয়ে: ০)</span></div>
-                <div class="profile-info-item full-width" id="noteContainer"><strong>বিশেষ নোট:</strong> <span id="modalNote">N/A</span></div>
-            </div>
-
-            <div class="gallery-section" id="modalGallerySection" style="display: none;">
-                <h4>ছবির গ্যালারি</h4>
-                <div class="gallery-grid" id="modalGalleryGrid"></div>
+            <div class="p-5 pt-10 overflow-y-auto space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-3 bg-gray-50 dark:bg-gray-800/50 p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800">
+                    <div><span class="text-gray-400">জন্ম:</span> <span id="modalDob" class="font-medium">-</span></div>
+                    <div><span class="text-gray-400">মৃত্যু:</span> <span id="modalDod" class="font-medium">-</span></div>
+                    <div><span class="text-gray-400">পেশা:</span> <span id="modalOccupation" class="font-medium">-</span></div>
+                    <div><span class="text-gray-400">অবস্থা:</span> <span id="modalStatus" class="font-medium">-</span></div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800/50 p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 space-y-1.5">
+                    <h4 class="font-bold text-amber-500 text-[11px] uppercase">পারিবারিক সম্পর্ক</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><span class="text-gray-400">পিতা:</span> <span id="modalFather" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-400">মাতা:</span> <span id="modalMother" class="font-semibold">-</span></div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-gray-800">
+                    <button id="adminEditMemberBtn" class="hidden bg-amber-500 text-white px-3 py-1.5 rounded-xl font-medium hover:bg-amber-600 transition"><i class="fa-solid fa-pen-to-square mr-1"></i> এডিট করুন</button>
+                    <button id="viewSubtreeBtn" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-xl font-semibold hover:opacity-90 transition">শাখাট্রি দেখুন</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- গ্যালারি লাইটবক্স মডাল -->
-    <div id="lightboxModal" class="lightbox-modal">
-        <span class="lightbox-close" id="lightboxClose">&times;</span>
-        <img class="lightbox-content" id="lightboxImg">
-        <div class="lightbox-nav">
-            <button class="lightbox-btn" id="lightboxPrev">⬅ আগের</button>
-            <button class="lightbox-btn" id="lightboxNext">পরবর্তী ➡</button>
+    <div id="adminLoginModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-sm p-5 rounded-3xl shadow-2xl relative border border-gray-200 dark:border-gray-800">
+            <button id="closeAdminLoginBtn" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-4">
+                <div class="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-2 text-amber-500">
+                    <i class="fa-solid fa-user-shield text-xl"></i>
+                </div>
+                <h3 class="text-base font-bold">অ্যাডমিন লগইন</h3>
+            </div>
+            <form id="adminLoginForm" class="space-y-3">
+                <div>
+                    <label class="text-[11px] font-medium text-gray-400">পাসওয়ার্ড</label>
+                    <input type="password" id="adminPassword" required placeholder="••••••••" class="w-full text-xs p-2.5 rounded-xl border dark:bg-gray-800 dark:border-gray-700 mt-1 outline-none focus:border-amber-500">
+                </div>
+                <button type="submit" class="w-full bg-amber-500 text-white py-2.5 rounded-xl text-xs font-bold hover:bg-amber-600 transition shadow-lg shadow-amber-500/20">লগইন</button>
+            </form>
         </div>
     </div>
 
-    <script>
-        let familyData = null;
-        let historyStack = [];
-        let currentRootNode = null;
-        let currentGalleryImages = [];
-        let currentGalleryIndex = 0;
-
-        async function loadFamilyData() {
-            try {
-                const response = await fetch('data/family.json');
-                if (!response.ok) {
-                    throw new Error('Family data could not be loaded.');
-                }
-                familyData = await response.json();
+    <div id="adminDrawer" class="hidden fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl flex flex-col border-l border-gray-200 dark:border-gray-800">
+        <div class="p-4 bg-amber-500 text-white flex justify-between items-center">
+            <h3 class="font-bold text-sm"><i class="fa-solid fa-sliders mr-2"></i>অ্যাডমিন প্যানেল</h3>
+            <button id="closeAdminBtn" class="text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <div class="p-4 flex-1 overflow-y-auto space-y-4 text-xs">
+            <form id="memberForm" class="space-y-3">
+                <h4 class="font-bold text-[11px] uppercase tracking-wider text-amber-500" id="formTitle">নতুন সদস্য যোগ করুন</h4>
+                <input type="hidden" id="editMemberId">
                 
-                historyStack = [familyData];
-                currentRootNode = familyData;
-
-                if (history.state === null) {
-                    history.replaceState({ pageIndex: 0 }, "");
-                }
-
-                renderCurrentTree();
-                setupSearch();
-                setupModalEvents();
-                setupLightboxEvents();
-
-            } catch (error) {
-                console.error('Error loading family data:', error);
-                document.getElementById('treeContainer').innerHTML = '<p style="color: red; text-align: center; margin-top: 20px;">পরিবারের ডাটা লোড করতে সমস্যা হয়েছে।</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadFamilyData();
-
-            document.getElementById('prevPageBtn').addEventListener('click', () => {
-                goBackPage();
-            });
-
-            document.getElementById('homeBtn').addEventListener('click', () => {
-                if (!familyData) return;
-                historyStack = [familyData];
-                currentRootNode = familyData;
-                history.pushState({ pageIndex: historyStack.length - 1 }, "");
-                renderCurrentTree();
-            });
-
-            window.addEventListener('popstate', (event) => {
-                if (!familyData) return;
-                const memberModal = document.getElementById('memberModal');
-                const zoomModal = document.getElementById('zoomModal');
-                const lightboxModal = document.getElementById('lightboxModal');
-
-                if (lightboxModal.style.display === 'flex') {
-                    lightboxModal.style.display = 'none';
-                    return;
-                }
-                if (memberModal.style.display === 'flex') {
-                    memberModal.style.display = 'none';
-                    return;
-                }
-                if (zoomModal.style.display === 'flex') {
-                    zoomModal.style.display = 'none';
-                    return;
-                }
-
-                if (historyStack.length > 1) {
-                    historyStack.pop();
-                    currentRootNode = historyStack[historyStack.length - 1];
-                    renderCurrentTree();
-                }
-            });
-        });
-
-        function goBackPage() {
-            if (historyStack.length > 1) {
-                historyStack.pop();
-                currentRootNode = historyStack[historyStack.length - 1];
-                renderCurrentTree();
-                window.history.back();
-            }
-        }
-
-        function renderChildrenSmart(childrenList) {
-            if (!childrenList || childrenList.length === 0) return '';
-            
-            const childNodesHTML = childrenList.map(child => {
-                const hasGrandChildren = child.children && child.children.length > 0;
-                let linkBtn = '';
-                
-                if (hasGrandChildren) {
-                    linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">বংশধারা দেখুন</button>`;
-                }
-
-                const deceasedClass = child.isDeceased ? 'deceased' : '';
-                const genderClass = child.gender === 'female' ? 'female' : 'male';
-
-                return `
-                    <li>
-                        <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${child.id}')">
-                            <div class="member-name-bn">${child.nameBn}</div>
-                            <div class="member-name-en">${child.nameEn || ''}</div>
-                            ${linkBtn}
-                        </div>
-                    </li>
-                `;
-            }).join('');
-
-            return `<ul>${childNodesHTML}</ul>`;
-        }
-
-        function renderNodeHTML(node) {
-            if (!node) return '';
-            return `
-                <li>
-                    <div class="member-card ${node.gender === 'female' ? 'female' : 'male'} ${node.isDeceased ? 'deceased' : ''}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
-                        <div class="member-name-bn" style="font-size: 0.85rem;">${node.nameBn}</div>
-                        <div class="member-name-en">${node.nameEn || ''}</div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-medium text-gray-400">নাম (বাংলায়)*</label>
+                        <input type="text" id="formName" required class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
-                    ${renderChildrenSmart(node.children)}
-                </li>
-            `;
-        }
-
-        function renderHomeLevelHTML() {
-            if (!familyData || !familyData.children) return '';
-            const akaliNode = familyData.children[0];
-            const isuNode = akaliNode.children[0];
-            const kesuNode = akaliNode.children[1];
-
-            return `
-                <li>
-                    <div class="member-card male" onclick="onCardClick('${familyData.id}')">
-                        <div class="member-name-bn">${familyData.nameBn}</div>
-                        <div class="member-name-en">${familyData.nameEn}</div>
+                    <div>
+                        <label class="font-medium text-gray-400">Name (English)</label>
+                        <input type="text" id="formNameEn" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     </div>
-                    <ul>
-                        <li>
-                            <div class="member-card male" onclick="onCardClick('${akaliNode.id}')">
-                                <div class="member-name-bn">${akaliNode.nameBn}</div>
-                                <div class="member-name-en">${akaliNode.nameEn}</div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="member-card male" onclick="onCardClick('${isuNode.id}')">
-                                        <div class="member-name-bn">${isuNode.nameBn}</div>
-                                        <div class="member-name-en">${isuNode.nameEn}</div>
-                                        <button class="sub-tree-link" onclick="navigateToSubTree('${isuNode.id}', event)">বংশধারা দেখুন</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="member-card male" onclick="onCardClick('${kesuNode.id}')">
-                                        <div class="member-name-bn">${kesuNode.nameBn}</div>
-                                        <div class="member-name-en">${kesuNode.nameEn}</div>
-                                        <button class="sub-tree-link" onclick="navigateToSubTree('${kesuNode.id}', event)">বংশধারা দেখুন</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            `;
-        }
+                </div>
 
-        function renderCurrentTree() {
-            if (!familyData) return;
-            const container = document.getElementById('treeContainer');
-            const breadcrumb = document.getElementById('breadcrumbText');
-            const prevBtn = document.getElementById('prevPageBtn');
-            const homeBtn = document.getElementById('homeBtn');
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-medium text-gray-400">লিঙ্গ*</label>
+                        <select id="formGender" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                            <option value="male">পুরুষ</option>
+                            <option value="female">নারী</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-400">অবস্থা</label>
+                        <select id="formIsDeceased" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                            <option value="false">জীবিত</option>
+                            <option value="true">মৃত</option>
+                        </select>
+                    </div>
+                </div>
 
-            if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 পদ্মাশী সর্দার ➔ আকালী সর্দার ➔ ঈসু ও কেসু সর্দার';
-                prevBtn.style.display = 'none';
-                homeBtn.style.display = 'none';
-                container.innerHTML = `<div class="tf-tree"><ul>${renderHomeLevelHTML()}</ul></div>`;
-            } else {
-                breadcrumb.textContent = `📍 ${currentRootNode.nameBn}-এর বংশধরগণ`;
-                prevBtn.style.display = 'inline-flex';
-                homeBtn.style.display = 'inline-flex';
-                container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
-            }
-        }
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-medium text-gray-400">পিতা</label>
+                        <select id="formFather" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"></select>
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-400">মাতা</label>
+                        <select id="formMother" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"></select>
+                    </div>
+                </div>
 
-        function navigateToSubTree(id, event) {
-            if (event) event.stopPropagation();
-            const targetNode = findMemberById(familyData, id);
-            if (targetNode) {
-                currentRootNode = targetNode;
-                historyStack.push(targetNode);
-                history.pushState({ pageIndex: historyStack.length - 1 }, "");
-                renderCurrentTree();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-medium text-gray-400">জন্ম তারিখ</label>
+                        <input type="date" id="formDob" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-400">পেশা</label>
+                        <input type="text" id="formOccupation" class="w-full text-xs p-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    </div>
+                </div>
 
-        function onCardClick(id) {
-            const memberObj = findMemberById(familyData, id);
-            const parentObj = findParentById(familyData, id);
-            if (memberObj) {
-                showMemberDetailsModal(memberObj, parentObj);
-            }
-        }
+                <div>
+                    <label class="font-medium text-gray-400">প্রোফাইল ছবি</label>
+                    <input type="file" id="formPhotoUpload" accept="image/*" class="w-full text-xs p-1 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                </div>
 
-        function findMemberById(root, id) {
-            if (!root) return null;
-            if (root.id === id) return root;
-            if (root.children) {
-                for (let child of root.children) {
-                    const found = findMemberById(child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        }
+                <button type="submit" class="w-full bg-amber-500 text-white py-2.5 rounded-xl font-bold hover:bg-amber-600 transition shadow-md shadow-amber-500/20">সংরক্ষণ করুন</button>
+            </form>
 
-        function findParentById(root, id) {
-            if (!root || !root.children) return null;
-            for (let child of root.children) {
-                if (child.id === id) return root;
-                const found = findParentById(child, id);
-                if (found) return found;
-            }
-            return null;
-        }
+            <div class="pt-3 border-t border-gray-200 dark:border-gray-800">
+                <button id="adminLogoutBtn" class="w-full bg-red-500/10 text-red-500 py-2 rounded-xl font-bold hover:bg-red-500/20 transition">অ্যাডমিন লগআউট</button>
+            </div>
+        </div>
+    </div>
 
-        function showMemberDetailsModal(member, parentObj) {
-            const modal = document.getElementById('memberModal');
-            
-            const imgContainer = document.getElementById('modalImgContainer');
-            if (member.profilePhoto) {
-                imgContainer.innerHTML = `<img src="${member.profilePhoto}" alt="${member.nameBn}" style="cursor: pointer;">`;
-                imgContainer.style.cursor = 'pointer';
-                imgContainer.onclick = () => {
-                    currentGalleryImages = [member.profilePhoto];
-                    openLightbox(0);
-                };
-            } else {
-                imgContainer.innerHTML = `<span class="profile-img-placeholder">👤</span>`;
-                imgContainer.style.cursor = 'default';
-                imgContainer.onclick = null;
-            }
-
-            document.getElementById('modalNameBn').textContent = `${member.nameBn} (${member.nameEn || ''})`;
-
-            const badge = document.getElementById('modalStatusBadge');
-            badge.textContent = member.isDeceased ? 'মৃত' : 'জীবিত';
-            badge.className = member.isDeceased ? 'status-badge deceased' : 'status-badge';
-
-            document.getElementById('modalIdNo').textContent = member.idNo || 'N/A';
-            document.getElementById('modalGender').textContent = member.gender === 'female' ? 'নারী' : 'পুরুষ';
-            document.getElementById('modalDob').textContent = member.dob || 'N/A';
-            
-            const dodContainer = document.getElementById('dodContainer');
-            if (member.isDeceased) {
-                document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
-                dodContainer.style.display = 'block';
-            } else {
-                dodContainer.style.display = 'none';
-            }
-
-            document.getElementById('modalBlood').textContent = member.bloodGroup || 'N/A';
-            document.getElementById('modalMobile').textContent = member.mobile || 'N/A';
-            document.getElementById('modalOccupation').textContent = member.occupation || 'N/A';
-            document.getElementById('modalEducation').textContent = member.education || 'N/A';
-            document.getElementById('modalBirthPlace').textContent = member.birthPlace || 'N/A';
-            document.getElementById('modalAddress').textContent = member.currentAddress || 'N/A';
-            document.getElementById('modalMarital').textContent = member.maritalStatus || 'N/A';
-
-            const spouseElem = document.getElementById('modalSpouse');
-            if (member.spouse && member.spouse.id) {
-                spouseElem.textContent = member.spouse.nameBn;
-                spouseElem.className = "clickable-link";
-                spouseElem.onclick = () => {
-                    modal.style.display = 'none';
-                    onCardClick(member.spouse.id);
-                };
-            } else {
-                spouseElem.textContent = 'নেই';
-                spouseElem.className = "";
-                spouseElem.onclick = null;
-            }
-
-            const fatherElem = document.getElementById('modalFather');
-            if (parentObj) {
-                fatherElem.textContent = parentObj.nameBn;
-                fatherElem.className = "clickable-link";
-                fatherElem.onclick = () => {
-                    modal.style.display = 'none';
-                    onCardClick(parentObj.id);
-                };
-            } else if (member.father && member.father.id) {
-                fatherElem.textContent = member.father.nameBn;
-                fatherElem.className = "clickable-link";
-                fatherElem.onclick = () => {
-                    modal.style.display = 'none';
-                    onCardClick(member.father.id);
-                };
-            } else {
-                fatherElem.textContent = 'মূল পূর্বপুরুষ';
-                fatherElem.className = "";
-                fatherElem.onclick = null;
-            }
-
-            const motherElem = document.getElementById('modalMother');
-            if (member.mother && member.mother.nameBn) {
-                motherElem.textContent = member.mother.nameBn;
-                if (member.mother.id) {
-                    motherElem.className = "clickable-link";
-                    motherElem.onclick = () => {
-                        modal.style.display = 'none';
-                        onCardClick(member.mother.id);
-                    };
-                }
-            } else {
-                motherElem.textContent = 'N/A';
-                motherElem.className = "";
-                motherElem.onclick = null;
-            }
-
-            let totalChildren = 0;
-            let sonsCount = 0;
-            let daughtersCount = 0;
-            if (member.children && member.children.length > 0) {
-                totalChildren = member.children.length;
-                sonsCount = member.children.filter(c => c.gender === 'male').length;
-                daughtersCount = member.children.filter(c => c.gender === 'female').length;
-            }
-            document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
-
-            const noteContainer = document.getElementById('noteContainer');
-            if (member.specialNote) {
-                document.getElementById('modalNote').textContent = member.specialNote;
-                noteContainer.style.display = 'block';
-            } else {
-                noteContainer.style.display = 'none';
-            }
-
-            modal.style.display = 'flex';
-        }
-
-        function setupModalEvents() {
-            const modal = document.getElementById('memberModal');
-            const closeBtn = document.getElementById('modalClose');
-            closeBtn.onclick = () => { modal.style.display = 'none'; };
-            window.onclick = (event) => {
-                if (event.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        function setupLightboxEvents() {
-            const lightbox = document.getElementById('lightboxModal');
-            const closeBtn = document.getElementById('lightboxClose');
-            
-            closeBtn.onclick = () => {
-                lightbox.style.display = 'none';
-            };
-
-            window.addEventListener('click', (event) => {
-                if (event.target === lightbox) {
-                    lightbox.style.display = 'none';
-                }
-            });
-        }
-
-        function openLightbox(index) {
-            currentGalleryIndex = index;
-            const lightbox = document.getElementById('lightboxModal');
-            const img = document.getElementById('lightboxImg');
-            img.src = currentGalleryImages[currentGalleryIndex];
-            lightbox.style.display = 'flex';
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-
-            searchInput.addEventListener('input', () => {
-                const query = searchInput.value.trim().toLowerCase();
-                if (!query) {
-                    searchResults.style.display = 'none';
-                    searchResults.innerHTML = '';
-                    return;
-                }
-
-                const allMembers = [];
-                collectAllMembers(familyData, allMembers);
-
-                const matches = allMembers.filter(m => 
-                    (m.nameBn && m.nameBn.toLowerCase().includes(query)) || 
-                    (m.nameEn && m.nameEn.toLowerCase().includes(query)) ||
-                    (m.idNo && m.idNo.toLowerCase().includes(query))
-                );
-
-                if (matches.length > 0) {
-                    searchResults.innerHTML = matches.map(m => `
-                        <div class="search-result-item" onclick="selectSearchResult('${m.id}')">
-                            <strong>${m.nameBn}</strong> (${m.nameEn || 'N/A'}) - আইডি: ${m.idNo || 'N/A'}
-                        </div>
-                    `).join('');
-                    searchResults.style.display = 'block';
-                } else {
-                    searchResults.innerHTML = `<div class="search-result-item" style="cursor: default;">কোনো ফলাফল পাওয়া যায়নি</div>`;
-                    searchResults.style.display = 'block';
-                }
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.search-box')) {
-                    searchResults.style.display = 'none';
-                }
-            });
-        }
-
-        function collectAllMembers(node, list) {
-            if (!node) return;
-            list.push(node);
-            if (node.children) {
-                node.children.forEach(child => collectAllMembers(child, list));
-            }
-        }
-
-        function selectSearchResult(id) {
-            document.getElementById('searchResults').style.display = 'none';
-            document.getElementById('searchInput').value = '';
-            onCardClick(id);
-        }
-    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
