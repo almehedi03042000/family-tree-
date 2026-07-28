@@ -111,16 +111,59 @@ const fullSardarData = [
   { id: "73", name: "ইমান আলী সর্দার", nameEn: "Iman Ali Sardar", gender: "male", fatherId: "4" },
   { id: "74", name: "সালেজান", nameEn: "Salejan", gender: "female", fatherId: "4" },
 
-  // ---------- আশারত সর্দারের সন্তানরা ----------
+  // ---------- আশারত সর্দারের ছেলে ও নাতিনাতনি ----------
   { id: "75", name: "কুকন সর্দার", nameEn: "Kukon Sardar", gender: "male", fatherId: "69" },
   { id: "76", name: "এলাহী সর্দার", nameEn: "Elahi Sardar", gender: "male", fatherId: "69" },
 
-  // ---------- বসারত সর্দারের সন্তানরা ----------
+  // কুকন সর্দারের সন্তানরা (নাতি-নাতনি)
+  { id: "192", name: "হযরত", nameEn: "Hazrat", gender: "male", fatherId: "75" },
+  { id: "193", name: "হাফেজ", nameEn: "Hafez", gender: "male", fatherId: "75" },
+  { id: "194", name: "শাহবাজ", nameEn: "Shahbaj", gender: "male", fatherId: "75" },
+  { id: "195", name: "শরেজান", nameEn: "Shorejan", gender: "female", fatherId: "75" },
+  { id: "196", name: "মীনা", nameEn: "Mina", gender: "female", fatherId: "75" },
+  { id: "197", name: "ফইমা", nameEn: "Foima", gender: "female", fatherId: "75" },
+  { id: "198", name: "সুখেজান", nameEn: "Sukhejan", gender: "female", fatherId: "75" },
+
+  // এলাহী সর্দারের সন্তানরা (নাতি-নাতনি)
+  { id: "199", name: "ইদ্রিস", nameEn: "Idris", gender: "male", fatherId: "76" },
+  { id: "200", name: "আলম", nameEn: "Alam", gender: "male", fatherId: "76" },
+  { id: "201", name: "আউলাদ", nameEn: "Aulad", gender: "male", fatherId: "76" },
+  { id: "202", name: "ইলেফ", nameEn: "Ilef", gender: "male", fatherId: "76" },
+  { id: "203", name: "জাহারন", nameEn: "Jaharan", gender: "female", fatherId: "76" },
+  { id: "204", name: "তহুরা", nameEn: "Tohura", gender: "female", fatherId: "76" },
+  { id: "205", name: "খালেদা", nameEn: "Khaleda", gender: "female", fatherId: "76" },
+
+  // ---------- বসারত সর্দারের ছেলে ও নাতিনাতনি ----------
   { id: "77", name: "শুকোট সর্দার", nameEn: "Shukot Sardar", gender: "male", fatherId: "70" },
   { id: "78", name: "জলিল সর্দার", nameEn: "Jalil Sardar", gender: "male", fatherId: "70" },
   { id: "79", name: "মহীর উদ্দিন সর্দার", nameEn: "Mohir Uddin Sardar", gender: "male", fatherId: "70" },
   { id: "80", name: "পরিজান", nameEn: "Porijan", gender: "female", fatherId: "70" },
   { id: "81", name: "জমেলা", nameEn: "Jomela", gender: "female", fatherId: "70" },
+
+  // শুকোট সর্দারের সন্তানরা (নাতি-নাতনি)
+  { id: "206", name: "হাবিল", nameEn: "Habil", gender: "male", fatherId: "77" },
+  { id: "207", name: "হানিফ", nameEn: "Hanif", gender: "male", fatherId: "77" },
+  { id: "208", name: "বজলু", nameEn: "Bojlu", gender: "male", fatherId: "77" },
+  { id: "209", name: "কাবিল", nameEn: "Kabil", gender: "male", fatherId: "77" },
+  { id: "210", name: "মালেকা", nameEn: "Maleka", gender: "female", fatherId: "77" },
+  { id: "211", name: "হিমা", nameEn: "Hima", gender: "female", fatherId: "77" },
+  { id: "212", name: "নিমা", nameEn: "Nima", gender: "female", fatherId: "77" },
+
+  // জলিল সর্দারের সন্তানরা (নাতি-নাতনি)
+  { id: "213", name: "মান্নান", nameEn: "Mannan", gender: "male", fatherId: "78" },
+  { id: "214", name: "সাধু", nameEn: "Sadhu", gender: "male", fatherId: "78" },
+  { id: "215", name: "মধু", nameEn: "Modhu", gender: "male", fatherId: "78" },
+  { id: "216", name: "আনুরা", nameEn: "Anura", gender: "female", fatherId: "78" },
+  { id: "217", name: "নাহেরা", nameEn: "Nahera", gender: "female", fatherId: "78" },
+  { id: "218", name: "ফনুয়ারা", nameEn: "Fonuwara", gender: "female", fatherId: "78" },
+
+  // মহীর উদ্দিন সর্দারের সন্তানরা (নাতি-নাতনি)
+  { id: "219", name: "কামরুজ্জামান", nameEn: "Kamruzzaman", gender: "male", fatherId: "79" },
+  { id: "220", name: "শফিকুল", nameEn: "Shofikul", gender: "male", fatherId: "79" },
+  { id: "221", name: "নাসিমা", nameEn: "Nasima", gender: "female", fatherId: "79" },
+  { id: "222", name: "মদন", nameEn: "Modon", gender: "male", fatherId: "79" },
+  { id: "223", name: "লাকি", nameEn: "Laki", gender: "female", fatherId: "79" },
+  { id: "224", name: "রোকসানা", nameEn: "Roksana", gender: "female", fatherId: "79" },
 
   // ---------- ভুগল সর্দারের সন্তানরা ----------
   { id: "82", name: "সুবল সর্দার", nameEn: "Subol Sardar", gender: "male", fatherId: "71" },
@@ -211,9 +254,7 @@ const fullSardarData = [
   { id: "147", name: "শাহানূর", nameEn: "Shahanur", gender: "female", fatherId: "73" },
   { id: "148", name: "কাজল", nameEn: "Kajol", gender: "female", fatherId: "73" },
 
-  // ===== ইমান আলী সর্দারের নতুন যুক্তকৃত সঠিক নাতি-নাতনিরা =====
-
-  // ১. সলেমান সর্দারের সন্তানরা
+  // ===== ইমান আলী সর্দারের সন্তান ও নাতিনাতনিরা =====
   { id: "149", name: "পেন্টু সর্দার", nameEn: "Pentu Sardar", gender: "male", fatherId: "138" },
   { id: "150", name: "সেন্টু সর্দার", nameEn: "Sentu Sardar", gender: "male", fatherId: "138" },
   { id: "151", name: "আসাদ সর্দার", nameEn: "Asad Sardar", gender: "male", fatherId: "138" },
@@ -226,7 +267,6 @@ const fullSardarData = [
   { id: "158", name: "রিক্তা", nameEn: "Rikta", gender: "female", fatherId: "138" },
   { id: "159", name: "পিস্তা", nameEn: "Pista", gender: "female", fatherId: "138" },
 
-  // ২. আব্দুস সামাদ সর্দারের সন্তানরা
   { id: "160", name: "রোকনুজ্জামান রানা", nameEn: "Roknuzzaman Rana", gender: "male", fatherId: "139" },
   { id: "161", name: "হাসানুজ্জামান রাজা", nameEn: "Hasanuzzaman Raja", gender: "male", fatherId: "139" },
   { id: "162", name: "মৃত তানিম হাসান রাঙ্গা", nameEn: "Late Tanim Hasan Ranga", gender: "male", fatherId: "139" },
@@ -235,20 +275,18 @@ const fullSardarData = [
   { id: "165", name: "বিনা", nameEn: "Bina", gender: "female", fatherId: "139" },
   { id: "166", name: "টিনা", nameEn: "Tina", gender: "female", fatherId: "139" },
 
-  // ৩. জামাল সর্দারের সন্তানরা
   { id: "167", name: "মামুন সর্দার", nameEn: "Mamun Sardar", gender: "male", fatherId: "140" },
   { id: "168", name: "মাসুম সর্দার", nameEn: "Masum Sardar", gender: "male", fatherId: "140" },
   { id: "169", name: "মৌসুম সর্দার", nameEn: "Mousum Sardar", gender: "male", fatherId: "140" },
   { id: "170", name: "কুসুম সর্দার", nameEn: "Kusum Sardar", gender: "male", fatherId: "140" },
   { id: "171", name: "পান্না সর্দার", nameEn: "Panna Sardar", gender: "male", fatherId: "140" },
   { id: "172", name: "নান্টু সর্দার", nameEn: "Nantu Sardar", gender: "male", fatherId: "140" },
-  { id: "173", name: "মিঠন সর্দার", nameEn: "Mithon Sardar", gender: "male", fatherId: "140" },
+  { id: "173", name: "মিঠন সর্দার", nameEn: "Mithon Sardar", gender: "male", fatherId: "173" },
   { id: "174", name: "টুটন সর্দার", nameEn: "Tuton Sardar", gender: "male", fatherId: "140" },
   { id: "175", name: "ছোটন সর্দার", nameEn: "Choton Sardar", gender: "male", fatherId: "140" },
   { id: "176", name: "জাহানারা", nameEn: "Jahanara", gender: "female", fatherId: "140" },
   { id: "177", name: "সাথি", nameEn: "Sathi", gender: "female", fatherId: "140" },
 
-  // ৪. রুস্তম সর্দারের সন্তানরা
   { id: "178", name: "রেজাউল সর্দার", nameEn: "Rejaul Sardar", gender: "male", fatherId: "141" },
   { id: "179", name: "মানিক সর্দার", nameEn: "Manik Sardar", gender: "male", fatherId: "141" },
   { id: "180", name: "আরিফ সর্দার", nameEn: "Arif Sardar", gender: "male", fatherId: "141" },
@@ -256,12 +294,10 @@ const fullSardarData = [
   { id: "182", name: "রোজিনা", nameEn: "Rojina", gender: "female", fatherId: "141" },
   { id: "183", name: "রুমা", nameEn: "Ruma", gender: "female", fatherId: "141" },
 
-  // ৫. আকবর সর্দারের সন্তানরা
   { id: "184", name: "শুভ্র", nameEn: "Shubhro", gender: "male", fatherId: "142" },
   { id: "185", name: "অন্ত", nameEn: "Anto", gender: "male", fatherId: "142" },
   { id: "186", name: "আফিফা", nameEn: "Afifa", gender: "female", fatherId: "142" },
 
-  // ৬. মাহাতাব উদ্দিন সর্দারের সন্তানরা
   { id: "187", name: "আল-মেহেদী", nameEn: "Al-Mehedi", gender: "male", fatherId: "143" },
   { id: "188", name: "আবু সাঈদ", nameEn: "Abu Sayeed", gender: "male", fatherId: "143" },
   { id: "189", name: "মরিয়ম খাতুন", nameEn: "Moriyom Khatun", gender: "female", fatherId: "143" },
