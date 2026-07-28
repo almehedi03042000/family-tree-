@@ -7,9 +7,6 @@ let currentRootId = "1"; // ১ম পেজের রুট: পদ্মাশ
 let svg, g, zoomHandler;
 let recentSearches = JSON.parse(localStorage.getItem("sardarRecentSearches")) || [];
 
-const DEFAULT_MALE_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SardarMaleAvatar&backgroundColor=b6e3f4";
-const DEFAULT_FEMALE_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SardarFemaleAvatar&backgroundColor=ffdfbf";
-
 // ১৮৬ জন সদস্যের মূল বংশলতিকা ডাটাবেজ
 const fullSardarData = [
     // ১ম প্রজন্ম
@@ -225,7 +222,7 @@ const fullSardarData = [
     { id: "183", name: "শহিদা", gender: "female", fatherId: "129" },
     { id: "184", name: "শাহানূর", gender: "female", fatherId: "129" },
     { id: "185", name: "কাজল", gender: "female", fatherId: "129" },
-    { id: "186", name: "সালেجان", gender: "female", fatherId: "70" }
+    { id: "186", name: "সালেজান", gender: "female", fatherId: "70" }
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -233,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initD3Canvas();
     updateStatistics();
     renderTree();
-    setupSearchSuggestions();
+    setupSearchEngine(); // ডায়নামিক সার্চ চালু করা হচ্ছে
 });
 
 function updateStatistics() {
@@ -257,14 +254,13 @@ function initD3Canvas() {
     svg.call(zoomHandler);
 }
 
-// ১ম পেজে শুধুমাত্র ৩টি প্রজন্ম (পদ্মাশী -> আকালি -> ইসু ও কেসু) এবং পরবর্তী পেজগুলোতে ১টি জেনারেশন
+// ১ম পেজে ৩টি প্রজন্ম স্থির রাখা
 function buildTreeHierarchy(rootId) {
     const rootItem = familyData.find(item => item.id === rootId);
     if (!rootItem) return null;
 
     let rootNode = { ...rootItem, children: [] };
     
-    // যদি ১ম পেজ (পদ্মাশী সর্দার) হয়, তবে ৩টি প্রজন্ম একসাথে বিল্ড করবে
     if (rootId === "1") {
         const gen2 = familyData.filter(item => item.fatherId === "1"); // আকালি
         gen2.forEach(child2 => {
@@ -276,7 +272,6 @@ function buildTreeHierarchy(rootId) {
             rootNode.children.push(child2Node);
         });
     } else {
-        // অন্যান্য ক্ষেত্রে শুধুমাত্র তার সন্তানাদি (১ প্রজন্ম) দেখাবে
         const directChildren = familyData.filter(item => item.fatherId === rootId);
         directChildren.forEach(child => {
             rootNode.children.push({ ...child, children: [] });
@@ -315,7 +310,6 @@ function renderTree() {
         .attr("class", "node")
         .attr("transform", d => `translate(${d.x - 65},${d.y - 35})`);
 
-    // কার্ডের ব্যাকগ্রাউন্ড
     node.append("rect")
         .attr("width", 130)
         .attr("height", d => hasChildren(d.data.id) ? 68 : 48)
@@ -324,7 +318,6 @@ function renderTree() {
         .attr("stroke", d => d.data.gender === "male" ? "#1d4ed8" : "#ec4899")
         .attr("stroke-width", 2);
 
-    // নাম (বাংলা)
     node.append("text")
         .attr("x", 65)
         .attr("y", 20)
@@ -334,7 +327,6 @@ function renderTree() {
         .attr("fill", "#0f172a")
         .text(d => d.data.name);
 
-    // নাম (ইংরেজি / স্ট্যাটাস)
     node.append("text")
         .attr("x", 65)
         .attr("y", 34)
@@ -343,7 +335,6 @@ function renderTree() {
         .attr("fill", "#64748b")
         .text(d => d.data.nameEn || (d.data.isDeceased ? "(মৃত)" : ""));
 
-    // "বংশধারা দেখতে ক্লিক করুন" বাটন
     node.each(function(d) {
         if (hasChildren(d.data.id) && d.data.id !== currentRootId) {
             const btnGroup = d3.select(this)
@@ -413,42 +404,35 @@ function resetZoom() {
 }
 
 // ==========================================
-// স্মার্ট সার্চ ও অক্ষর ভিত্তিক অটো-সাজেশন
+// ১০০% ফিক্সড - স্মার্ট সার্চ ও সার্চ হিস্ট্রি
 // ==========================================
-function setupSearchSuggestions() {
-    const searchInput = document.querySelector('input[placeholder*="নাম খুঁজুন"]');
-    if (!searchInput) return;
+function setupSearchEngine() {
+    const searchInput = document.getElementById("searchInput") || document.querySelector('input[type="text"]');
+    const suggestionBox = document.getElementById("searchSuggestionBox");
 
-    // সাজেশন বক্স ডায়নামিক তৈরি
-    let suggestionBox = document.getElementById("searchSuggestionBox");
-    if (!suggestionBox) {
-        suggestionBox = document.createElement("div");
-        suggestionBox.id = "searchSuggestionBox";
-        suggestionBox.className = "absolute z-50 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto w-full mt-1 hidden text-left text-sm";
-        searchInput.parentNode.style.position = "relative";
-        searchInput.parentNode.appendChild(suggestionBox);
-    }
+    if (!searchInput || !suggestionBox) return;
 
-    // ইনপুট টাইপ করলে (অক্ষর অনুসারে সাজেশন)
+    // ১. অক্ষর টাইপ করলে সাজেশন
     searchInput.addEventListener("input", (e) => {
         const query = e.target.value.trim().toLowerCase();
-        if (!query) {
-            showRecentSearches(suggestionBox);
+        
+        if (query === "") {
+            showHistory(suggestionBox);
             return;
         }
 
-        const matches = familyData.filter(m => m.name.toLowerCase().includes(query));
-        renderSuggestions(matches, suggestionBox, searchInput, false);
+        const filtered = familyData.filter(m => m.name.toLowerCase().includes(query));
+        renderList(filtered, suggestionBox, searchInput, false);
     });
 
-    // সার্চ বক্সে ক্লিক করলে (পূর্বের সার্চ করা নাম প্রদর্শন)
+    // ২. সার্চ বক্সে ক্লিক করলেই পূর্বের সার্চ হিস্ট্রি দেখাবে
     searchInput.addEventListener("focus", () => {
-        if (!searchInput.value.trim()) {
-            showRecentSearches(suggestionBox);
+        if (searchInput.value.trim() === "") {
+            showHistory(suggestionBox);
         }
     });
 
-    // বাইরে ক্লিক করলে সাজেশন বন্ধ
+    // ৩. বাহিরে ক্লিক করলে সাজেশন বক্স লুকাতে
     document.addEventListener("click", (e) => {
         if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
             suggestionBox.classList.add("hidden");
@@ -456,47 +440,52 @@ function setupSearchSuggestions() {
     });
 }
 
-function showRecentSearches(box) {
+// হিস্ট্রি প্রদর্শন
+function showHistory(box) {
     if (recentSearches.length === 0) {
         box.classList.add("hidden");
         return;
     }
-    const recentItems = familyData.filter(m => recentSearches.includes(m.id));
-    renderSuggestions(recentItems, box, null, true);
+    const historyMembers = familyData.filter(m => recentSearches.includes(m.id));
+    renderList(historyMembers, box, null, true);
 }
 
-function renderSuggestions(items, box, searchInput, isHistory) {
+// লিস্ট রেন্ডার করা
+function renderList(items, box, inputElement, isHistory) {
     if (items.length === 0) {
         box.classList.add("hidden");
         return;
     }
 
-    box.innerHTML = isHistory ? `<div class="p-2 text-xs font-bold text-gray-400 bg-gray-50 border-b">🕒 সাম্প্রতিক সার্চসমূহ:</div>` : "";
+    box.innerHTML = isHistory 
+        ? `<div class="px-3 py-1.5 text-xs font-bold text-gray-400 bg-gray-50 border-b">🕒 সাম্প্রতিক সার্চসমূহ</div>` 
+        : "";
 
     items.slice(0, 10).forEach(m => {
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "p-2 hover:bg-blue-50 cursor-pointer border-b flex justify-between items-center text-gray-800";
-        itemDiv.innerHTML = `<span><strong>${m.name}</strong></span> <span class="text-xs text-gray-400">${m.gender === "male" ? "পুরুষ" : "নারী"}</span>`;
-        
-        itemDiv.addEventListener("click", () => {
-            saveRecentSearch(m.id);
-            if (searchInput) searchInput.value = m.name;
+        const row = document.createElement("div");
+        row.className = "px-3 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 flex justify-between items-center text-sm text-gray-700";
+        row.innerHTML = `<span><strong>${m.name}</strong></span> <span class="text-xs text-gray-400">${m.gender === "male" ? "পুরুষ" : "নারী"}</span>`;
+
+        row.addEventListener("click", () => {
+            saveHistory(m.id);
+            if (inputElement) inputElement.value = m.name;
             box.classList.add("hidden");
-            
-            // সার্চকৃত মেম্বারের প্যারেন্ট ধরে ট্রি লোড করা
-            currentRootId = m.fatherId || m.id;
+
+            // সরাসরি ওই মেম্বারের কাছে বা তার বাবার শাখায় ট্রি নেভিগেট করবে
+            currentRootId = m.fatherId ? m.fatherId : m.id;
             renderTree();
         });
 
-        box.appendChild(itemDiv);
+        box.appendChild(row);
     });
 
     box.classList.remove("hidden");
 }
 
-function saveRecentSearch(id) {
+// লোকালেইজড হিস্ট্রি সেভ করা
+function saveHistory(id) {
     recentSearches = recentSearches.filter(item => item !== id);
-    recentSearches.unshift(id);
-    if (recentSearches.length > 5) recentSearches.pop(); // লাস্ট ৫টি সাম্প্রতিক সার্চ রাখবে
+    recentSearches.unshift(id); // নতুন সার্চকে সবার উপরে রাখা
+    if (recentSearches.length > 5) recentSearches.pop(); // সর্বোচ্চ ৫টি সার্চ হিস্ট্রি জমা থাকবে
     localStorage.setItem("sardarRecentSearches", JSON.stringify(recentSearches));
 }
