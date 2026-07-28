@@ -936,13 +936,14 @@ function openProfileModal(id) {
 }
 
 // ==========================================
-// ৩. এডমিন এডিট ফর্ম ও সেভ করার লজিক
+// ৩. এডমিন এডিট ফর্ম, সেভ ও ডিলিট করার লজিক
 // ==========================================
 function openEditForm(member) {
     const adminDrawer = document.getElementById("adminDrawer");
     if (adminDrawer) adminDrawer.classList.remove("hidden");
     
-    if (document.getElementById("formMemberId")) document.getElementById("formMemberId").value = member.id;
+    // index.html-এর সঠিক আইডি 'editMemberId' ব্যবহার করা হয়েছে
+    if (document.getElementById("editMemberId")) document.getElementById("editMemberId").value = member.id;
     if (document.getElementById("formName")) document.getElementById("formName").value = member.name || "";
     if (document.getElementById("formNameEn")) document.getElementById("formNameEn").value = member.nameEn || "";
     if (document.getElementById("formGender")) document.getElementById("formGender").value = member.gender || "male";
@@ -953,12 +954,17 @@ function openEditForm(member) {
     if (document.getElementById("formOccupation")) document.getElementById("formOccupation").value = member.occupation || "";
     if (document.getElementById("formPhone")) document.getElementById("formPhone").value = member.phone || "";
     if (document.getElementById("formAddress")) document.getElementById("formAddress").value = member.address || "";
+
+    // ড্রয়ারের টাইটেল আপডেট
+    const formTitle = document.getElementById("formTitle");
+    if (formTitle) formTitle.innerText = "তথ্য এডিট / কাটছাঁট করুন";
 }
 
 function saveMemberForm(event) {
     if (event) event.preventDefault();
 
-    const id = document.getElementById("formMemberId") ? document.getElementById("formMemberId").value : "";
+    // সঠিক আইডি 'editMemberId' ধরা হয়েছে
+    const id = document.getElementById("editMemberId") ? document.getElementById("editMemberId").value : "";
     const name = document.getElementById("formName") ? document.getElementById("formName").value.trim() : "";
     const nameEn = document.getElementById("formNameEn") ? document.getElementById("formNameEn").value.trim() : "";
     const gender = document.getElementById("formGender") ? document.getElementById("formGender").value : "male";
@@ -976,6 +982,7 @@ function saveMemberForm(event) {
     }
 
     if (id) {
+        // বিদ্যমান সদস্যের তথ্য আপডেট
         const index = familyData.findIndex(m => m.id === id);
         if (index !== -1) {
             familyData[index] = { 
@@ -985,7 +992,8 @@ function saveMemberForm(event) {
             };
         }
     } else {
-        const newId = (familyData.length + 1).toString();
+        // নতুন সদস্য যোগ
+        const newId = Date.now().toString();
         familyData.push({ 
             id: newId, name, nameEn, gender, fatherId, isDeceased, photo,
             occupation, phone, address
@@ -994,5 +1002,23 @@ function saveMemberForm(event) {
 
     saveFamilyData();
     closeAllModals();
+    if (typeof renderTree === "function") renderTree(); // স্ক্রিনের বংশবৃক্ষ আপডেট
     alert("তথ্য সফলভাবে সেভ হয়েছে!");
+}
+
+// ৪. সদস্য কাটছাঁট / ডিলিট করার লজিক
+function deleteCurrentMember() {
+    const id = document.getElementById("editMemberId") ? document.getElementById("editMemberId").value : "";
+    if (!id) {
+        alert("কোনো সদস্য সিলেক্ট করা হয়নি!");
+        return;
+    }
+
+    if (confirm("আপনি কি নিশ্চিত যে এই সদস্যকে বংশবৃক্ষ থেকে মুছে ফেলতে চান?")) {
+        familyData = familyData.filter(m => m.id !== id);
+        saveFamilyData();
+        closeAllModals();
+        if (typeof renderTree === "function") renderTree(); // স্ক্রিনের বংশবৃক্ষ আপডেট
+        alert("সদস্যকে সফলভাবে মুছে ফেলা হয়েছে!");
+    }
 }
