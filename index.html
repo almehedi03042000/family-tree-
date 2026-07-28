@@ -56,7 +56,7 @@
             </div>
         </div>
 
-       <!-- Dual-Language Single Search Box -->
+        <!-- Dual-Language Single Search Box -->
         <div class="relative w-44 sm:w-64">
             <div class="relative">
                 <input type="text" id="searchInput" placeholder="বাংলা বা ইংরেজি নাম..."
@@ -81,7 +81,15 @@
     <!-- Main Workspace Canvas -->
     <div class="flex-1 relative overflow-hidden">
         
-        <!-- Floating Tree Controls -->
+        <!-- Bottom Left Floating Back Button -->
+        <div class="absolute bottom-6 left-6 z-20">
+            <button id="screenBackButton" title="পূর্ববর্তী পেজ" class="flex items-center space-x-2 space-x-reverse px-3.5 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md text-gray-700 dark:text-gray-200 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 hover:bg-amber-500 hover:text-white dark:hover:bg-amber-500 transition duration-200">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span class="text-xs font-bold">পূর্ববর্তী পেজ</span>
+            </button>
+        </div>
+
+        <!-- Floating Tree Zoom Controls -->
         <div class="absolute bottom-6 right-6 z-20 flex flex-col space-y-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
             <button id="zoomInBtn" title="Zoom In" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-plus text-xs"></i></button>
             <button id="zoomOutBtn" title="Zoom Out" class="w-9 h-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition text-gray-700 dark:text-gray-200"><i class="fa-solid fa-minus text-xs"></i></button>
@@ -97,10 +105,10 @@
         </main>
     </div>
 
-   <!-- Profile Modal -->
+    <!-- Profile Modal -->
     <div id="profileModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 dark:border-gray-700 transform transition-all">
-            <!-- Header / Background Banner -->
+            <!-- Header Banner -->
             <div class="h-20 bg-gradient-to-r from-blue-600 to-indigo-600 relative">
                 <button id="closeProfileBtn" class="absolute top-3 right-3 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-1 transition-all">
                     <i class="fa-solid fa-xmark text-lg px-1"></i>
