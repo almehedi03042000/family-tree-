@@ -404,15 +404,18 @@ function resetZoom() {
 }
 
 // ==========================================
-// ১০০% ফিক্সড - স্মার্ট সার্চ ও সার্চ হিস্ট্রি
+// সার্চ সাজেশন ও হিস্ট্রি ইঞ্জিন (ফিক্সড)
 // ==========================================
 function setupSearchEngine() {
-    const searchInput = document.getElementById("searchInput") || document.querySelector('input[type="text"]');
+    const searchInput = document.getElementById("searchInput");
     const suggestionBox = document.getElementById("searchSuggestionBox");
 
-    if (!searchInput || !suggestionBox) return;
+    if (!searchInput || !suggestionBox) {
+        console.error("Search input or suggestion box not found!");
+        return;
+    }
 
-    // ১. অক্ষর টাইপ করলে সাজেশন
+    // ১. নাম টাইপ করার সময় সাজেশন দেখাবে
     searchInput.addEventListener("input", (e) => {
         const query = e.target.value.trim().toLowerCase();
         
@@ -421,18 +424,23 @@ function setupSearchEngine() {
             return;
         }
 
-        const filtered = familyData.filter(m => m.name.toLowerCase().includes(query));
+        // নাম (বাংলা/ইংরেজি) দিয়ে ফিল্টার
+        const filtered = familyData.filter(m => 
+            (m.name && m.name.toLowerCase().includes(query)) || 
+            (m.nameEn && m.nameEn.toLowerCase().includes(query))
+        );
+        
         renderList(filtered, suggestionBox, searchInput, false);
     });
 
-    // ২. সার্চ বক্সে ক্লিক করলেই পূর্বের সার্চ হিস্ট্রি দেখাবে
+    // ২. সার্চ বক্সে ক্লিক করলেই সার্চ হিস্ট্রি দেখাবে
     searchInput.addEventListener("focus", () => {
         if (searchInput.value.trim() === "") {
             showHistory(suggestionBox);
         }
     });
 
-    // ৩. বাহিরে ক্লিক করলে সাজেশন বক্স লুকাতে
+    // ৩. বাহিরে ক্লিক করলে সাজেশন বক্স বন্ধ হবে
     document.addEventListener("click", (e) => {
         if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
             suggestionBox.classList.add("hidden");
@@ -440,8 +448,9 @@ function setupSearchEngine() {
     });
 }
 
-// হিস্ট্রি প্রদর্শন
+// হিস্ট্রি দেখানো
 function showHistory(box) {
+    let recentSearches = JSON.parse(localStorage.getItem("sardarRecentSearches")) || [];
     if (recentSearches.length === 0) {
         box.classList.add("hidden");
         return;
@@ -450,7 +459,7 @@ function showHistory(box) {
     renderList(historyMembers, box, null, true);
 }
 
-// লিস্ট রেন্ডার করা
+// লিস্ট প্রদর্শন করা
 function renderList(items, box, inputElement, isHistory) {
     if (items.length === 0) {
         box.classList.add("hidden");
@@ -458,22 +467,30 @@ function renderList(items, box, inputElement, isHistory) {
     }
 
     box.innerHTML = isHistory 
-        ? `<div class="px-3 py-1.5 text-xs font-bold text-gray-400 bg-gray-50 border-b">🕒 সাম্প্রতিক সার্চসমূহ</div>` 
+        ? `<div class="px-3 py-1.5 text-[10px] font-bold text-gray-400 bg-gray-50 dark:bg-gray-700/50 border-b dark:border-gray-700">🕒 সাম্প্রতিক সার্চসমূহ</div>` 
         : "";
 
-    items.slice(0, 10).forEach(m => {
+    items.slice(0, 8).forEach(m => {
         const row = document.createElement("div");
-        row.className = "px-3 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 flex justify-between items-center text-sm text-gray-700";
-        row.innerHTML = `<span><strong>${m.name}</strong></span> <span class="text-xs text-gray-400">${m.gender === "male" ? "পুরুষ" : "নারী"}</span>`;
+        row.className = "px-3 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700/50 flex justify-between items-center text-xs text-gray-700 dark:text-gray-200";
+        row.innerHTML = `
+            <div>
+                <span class="font-medium">${m.name}</span>
+                ${m.nameEn ? `<span class="text-[10px] text-gray-400 ml-1">(${m.nameEn})</span>` : ''}
+            </div>
+            <span class="text-[10px] px-1.5 py-0.5 rounded ${m.gender === 'male' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">${m.gender === "male" ? "পুরুষ" : "নারী"}</span>
+        `;
 
         row.addEventListener("click", () => {
             saveHistory(m.id);
             if (inputElement) inputElement.value = m.name;
             box.classList.add("hidden");
 
-            // সরাসরি ওই মেম্বারের কাছে বা তার বাবার শাখায় ট্রি নেভিগেট করবে
-            currentRootId = m.fatherId ? m.fatherId : m.id;
-            renderTree();
+            // গাছের ওই ব্যক্তির কাছে নিয়ে যাবে
+            if (typeof currentRootId !== 'undefined') {
+                currentRootId = m.fatherId ? m.fatherId : m.id;
+                if (typeof renderTree === 'function') renderTree();
+            }
         });
 
         box.appendChild(row);
@@ -482,10 +499,11 @@ function renderList(items, box, inputElement, isHistory) {
     box.classList.remove("hidden");
 }
 
-// লোকালেইজড হিস্ট্রি সেভ করা
+// হিস্ট্রি সেভ করা
 function saveHistory(id) {
+    let recentSearches = JSON.parse(localStorage.getItem("sardarRecentSearches")) || [];
     recentSearches = recentSearches.filter(item => item !== id);
-    recentSearches.unshift(id); // নতুন সার্চকে সবার উপরে রাখা
-    if (recentSearches.length > 5) recentSearches.pop(); // সর্বোচ্চ ৫টি সার্চ হিস্ট্রি জমা থাকবে
+    recentSearches.unshift(id);
+    if (recentSearches.length > 5) recentSearches.pop();
     localStorage.setItem("sardarRecentSearches", JSON.stringify(recentSearches));
 }
