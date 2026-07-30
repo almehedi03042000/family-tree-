@@ -308,6 +308,7 @@ const fullSardarData = [
 
 document.addEventListener("DOMContentLoaded", () => {
     loadFamilyData();
+    initTheme();
     initD3Canvas();
     updateStatistics();
     populateFormOptions();
@@ -333,6 +334,27 @@ function saveFamilyData() {
     updateStatistics();
     populateFormOptions();
     renderTree();
+}
+
+// ==========================================
+// ✅ ডে-নাইট / ডার্ক মোড লজিক
+// ==========================================
+function initTheme() {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+            const isDark = document.documentElement.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
+    }
 }
 
 function updateStatistics() {
@@ -417,7 +439,7 @@ function changeRoot(newRootId) {
     }
 }
 
-// ✅ পূর্ববর্তী পেজের জন্য ব্যাক বাটন ফাংশন
+// ✅ পূর্ববর্তী পেজ বাটন সচল
 function goBack() {
     if (rootHistory.length > 0) {
         currentRootId = rootHistory.pop();
@@ -631,15 +653,16 @@ function setupEventListeners() {
     const closeBtn = document.getElementById("closeProfileModal");
     if (closeBtn) closeBtn.addEventListener("click", closeAllModals);
 
-    // ✅ ব্যাক বাটন অ্যাক্টিভেট করা হলো
     const backBtn = document.getElementById("backBtn");
     if (backBtn) backBtn.addEventListener("click", goBack);
 
-    // ✅ রিসেট জুম বাটন
     const resetBtn = document.getElementById("resetZoomBtn");
     if (resetBtn) resetBtn.addEventListener("click", resetZoom);
 }
 
+// ==========================================
+// ✅ সার্চ সাজেশন এবং ডাইনামিক ফিল্টার
+// ==========================================
 function setupSearchEngine() {
     const searchInput = document.getElementById("searchInput");
     const searchResults = document.getElementById("searchResults");
@@ -661,11 +684,11 @@ function setupSearchEngine() {
         );
 
         if (matches.length === 0) {
-            searchResults.innerHTML = `<div class="p-3 text-sm text-gray-500 dark:text-gray-400">কোনো তথ্য পাওয়া যায়নি</div>`;
+            searchResults.innerHTML = `<div class="p-3 text-sm text-gray-500 dark:text-gray-400 text-center">কোনো সদস্য পাওয়া যায়নি</div>`;
         } else {
             matches.forEach(m => {
                 const item = document.createElement("div");
-                item.className = "p-2.5 hover:bg-sky-50 dark:hover:bg-slate-700 cursor-pointer border-b border-gray-100 dark:border-slate-700 flex justify-between items-center";
+                item.className = "p-2.5 hover:bg-sky-50 dark:hover:bg-slate-700 cursor-pointer border-b border-gray-100 dark:border-slate-700 flex justify-between items-center transition";
                 item.innerHTML = `
                     <div>
                         <p class="font-bold text-sm text-slate-800 dark:text-slate-100">${m.name}</p>
@@ -683,20 +706,26 @@ function setupSearchEngine() {
         }
         searchResults.classList.remove("hidden");
     });
+
+    document.addEventListener("click", (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add("hidden");
+        }
+    });
 }
 
 // ==========================================
-// ✅ অ্যাডমিন প্যানেল ইভেন্ট হ্যান্ডলারস (সম্পূর্ণ কার্যকরী)
+// ✅ এডমিন প্যানেল ইভেন্ট হ্যান্ডলারস
 // ==========================================
 function setupAdminHandlers() {
     const adminToggleBtn = document.getElementById("adminToggleBtn");
     const adminLoginModal = document.getElementById("adminLoginModal");
     const adminDrawer = document.getElementById("adminDrawer");
     const closeAdminDrawer = document.getElementById("closeAdminDrawer");
+    const closeAdminLoginModal = document.getElementById("closeAdminLoginModal");
     const adminLoginForm = document.getElementById("adminLoginForm");
     const adminPasswordInput = document.getElementById("adminPasswordInput");
 
-    // এডমিন বাটনে ক্লিক করলে লগইন অথবা ড্রয়ার খোলা
     if (adminToggleBtn) {
         adminToggleBtn.addEventListener("click", () => {
             if (isAdminLoggedIn) {
@@ -707,14 +736,18 @@ function setupAdminHandlers() {
         });
     }
 
-    // এডমিন ড্রয়ার বন্ধ করা
     if (closeAdminDrawer) {
         closeAdminDrawer.addEventListener("click", () => {
             if (adminDrawer) adminDrawer.classList.add("hidden");
         });
     }
 
-    // এডমিন পাসওয়ার্ড সাবমিট
+    if (closeAdminLoginModal) {
+        closeAdminLoginModal.addEventListener("click", () => {
+            if (adminLoginModal) adminLoginModal.classList.add("hidden");
+        });
+    }
+
     if (adminLoginForm) {
         adminLoginForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -730,7 +763,6 @@ function setupAdminHandlers() {
         });
     }
 
-    // নতুন সদস্য যোগ করার ফর্ম হ্যান্ডলার
     const addMemberForm = document.getElementById("addMemberForm");
     if (addMemberForm) {
         addMemberForm.addEventListener("submit", (e) => {
@@ -765,7 +797,6 @@ function setupAdminHandlers() {
         });
     }
 
-    // সদস্য এডিট বা ডিলিট সিলেক্ট ড্রপডাউন পরিবর্তন
     const editMemberSelect = document.getElementById("editMemberSelect");
     if (editMemberSelect) {
         editMemberSelect.addEventListener("change", (e) => {
@@ -785,7 +816,6 @@ function setupAdminHandlers() {
         });
     }
 
-    // তথ্য আপডেট ফর্ম সাবমিট
     const editMemberForm = document.getElementById("editMemberForm");
     if (editMemberForm) {
         editMemberForm.addEventListener("submit", (e) => {
@@ -824,7 +854,6 @@ function setupAdminHandlers() {
         });
     }
 
-    // সদস্য মুছে ফেলার বাটন (Delete Member)
     const deleteMemberBtn = document.getElementById("deleteMemberBtn");
     if (deleteMemberBtn) {
         deleteMemberBtn.addEventListener("click", () => {
