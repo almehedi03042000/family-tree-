@@ -5,7 +5,7 @@ let svg, g, zoomHandler;
 let isAdminLoggedIn = false;
 const ADMIN_PASSWORD = "ampmhd@@@03042000"; 
 
-// ২২২৪ জনের সম্পূর্ণ ডেটা সেট
+// ২২৪ জনের সম্পূর্ণ ডেটা সেট
 const fullSardarData = [
   // ================= মূল মূলধারা =================
   { id: "1", name: "পদ্মাশী সর্দার", nameEn: "Padmashi Sardar", gender: "male", fatherId: null },
@@ -310,10 +310,12 @@ document.addEventListener("DOMContentLoaded", () => {
     loadFamilyData();
     initD3Canvas();
     updateStatistics();
+    populateFormOptions();
     renderTree();
     setupEventListeners();
     setupSearchEngine();
     setupHistoryEngine();
+    setupAdminHandlers();
 });
 
 function loadFamilyData() {
@@ -363,7 +365,6 @@ function getCustomAvatar(member) {
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&backgroundColor=b6e3f4`;
 }
 
-// ✅ আপনার চাহিদা অনুযায়ী পেজ ও জেনারেশন ফিল্টার লজিক
 function buildHierarchy(rootId) {
     const rootItem = familyData.find(item => item.id === rootId);
     if (!rootItem) return null;
@@ -377,23 +378,17 @@ function buildHierarchy(rootId) {
         return [...males, ...females];
     }
 
-    // ১. প্রথম পেজে (পদ্মাশী সর্দার): কেবল ৩টি জেনারেশন থাকবে
     if (rootId === "1") {
-        const gen2 = getSortedChildren(rootId); // আকালি সর্দার
-        
+        const gen2 = getSortedChildren(rootId);
         gen2.forEach(child2 => {
             let node2 = { ...child2, children: [] };
-            const gen3 = getSortedChildren(child2.id); // ইসু ও কেসু সর্দার
-            
+            const gen3 = getSortedChildren(child2.id);
             gen3.forEach(child3 => {
                 node2.children.push({ ...child3, children: [] });
             });
-            
             rootNode.children.push(node2);
         });
-    } 
-    // ২. বাকি সব পেজে: কেবল ২ জেনারেশন দেখাবে (বাবা ও তার সন্তানরা)
-    else {
+    } else {
         const directChildren = getSortedChildren(rootId);
         directChildren.forEach(child => {
             rootNode.children.push({ ...child, children: [] });
@@ -422,6 +417,17 @@ function changeRoot(newRootId) {
     }
 }
 
+// ✅ পূর্ববর্তী পেজের জন্য ব্যাক বাটন ফাংশন
+function goBack() {
+    if (rootHistory.length > 0) {
+        currentRootId = rootHistory.pop();
+        renderTree();
+    } else if (currentRootId !== "1") {
+        currentRootId = "1";
+        renderTree();
+    }
+}
+
 function renderTree() {
     g.selectAll("*").remove();
 
@@ -432,14 +438,12 @@ function renderTree() {
     const nodeWidth = isMobile ? 120 : 135;
     const nodeHeight = isMobile ? 50 : 55;
 
-    // ✅ D3 নোড স্পেসিং ফ্লেক্সিবল করা হলো যাতে কেসু সর্দারের ৬ জন সন্তান পাশাপাশি সুন্দরভাবে ধরে যায়
     const treeLayout = d3.tree()
         .nodeSize([nodeWidth + 20, nodeHeight + 60])
         .separation((a, b) => (a.parent === b.parent ? 1.1 : 1.3));
 
     treeLayout(root);
 
-    // ট্রি লিংক ড্র করা
     g.selectAll(".link")
         .data(root.links())
         .enter()
@@ -450,7 +454,6 @@ function renderTree() {
         .attr("stroke-width", 2)
         .attr("d", drawOrthogonalLink);
 
-    // ট্রি নোড তৈরি
     const node = g.selectAll(".node")
         .data(root.descendants())
         .enter()
@@ -458,7 +461,6 @@ function renderTree() {
         .attr("class", "node")
         .attr("transform", d => `translate(${d.x - nodeWidth / 2},${d.y - nodeHeight / 2})`);
 
-    // কার্ড বক্স
     node.append("rect")
         .attr("width", nodeWidth)
         .attr("height", d => hasChildren(d.data.id) ? nodeHeight + 18 : nodeHeight)
@@ -469,7 +471,6 @@ function renderTree() {
         .attr("class", "cursor-pointer")
         .on("click", (event, d) => openProfileModal(d.data.id));
 
-    // বাংলা নাম
     node.append("text")
         .attr("x", nodeWidth / 2)
         .attr("y", 19)
@@ -481,7 +482,6 @@ function renderTree() {
         .on("click", (event, d) => openProfileModal(d.data.id))
         .text(d => d.data.name);
 
-    // ইংরেজি নাম
     node.append("text")
         .attr("x", nodeWidth / 2)
         .attr("y", 35)
@@ -493,7 +493,6 @@ function renderTree() {
         .on("click", (event, d) => openProfileModal(d.data.id))
         .text(d => d.data.nameEn || (d.data.isDeceased ? "(Late)" : ""));
 
-    // বংশধারা বাটন
     node.each(function(d) {
         if (hasChildren(d.data.id)) {
             const btnGroup = d3.select(this)
@@ -631,6 +630,14 @@ function closeAllModals() {
 function setupEventListeners() {
     const closeBtn = document.getElementById("closeProfileModal");
     if (closeBtn) closeBtn.addEventListener("click", closeAllModals);
+
+    // ✅ ব্যাক বাটন অ্যাক্টিভেট করা হলো
+    const backBtn = document.getElementById("backBtn");
+    if (backBtn) backBtn.addEventListener("click", goBack);
+
+    // ✅ রিসেট জুম বাটন
+    const resetBtn = document.getElementById("resetZoomBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetZoom);
 }
 
 function setupSearchEngine() {
@@ -678,4 +685,214 @@ function setupSearchEngine() {
     });
 }
 
-function populateFormOptions() {}
+// ==========================================
+// ✅ অ্যাডমিন প্যানেল ইভেন্ট হ্যান্ডলারস (সম্পূর্ণ কার্যকরী)
+// ==========================================
+function setupAdminHandlers() {
+    const adminToggleBtn = document.getElementById("adminToggleBtn");
+    const adminLoginModal = document.getElementById("adminLoginModal");
+    const adminDrawer = document.getElementById("adminDrawer");
+    const closeAdminDrawer = document.getElementById("closeAdminDrawer");
+    const adminLoginForm = document.getElementById("adminLoginForm");
+    const adminPasswordInput = document.getElementById("adminPasswordInput");
+
+    // এডমিন বাটনে ক্লিক করলে লগইন অথবা ড্রয়ার খোলা
+    if (adminToggleBtn) {
+        adminToggleBtn.addEventListener("click", () => {
+            if (isAdminLoggedIn) {
+                if (adminDrawer) adminDrawer.classList.remove("hidden");
+            } else {
+                if (adminLoginModal) adminLoginModal.classList.remove("hidden");
+            }
+        });
+    }
+
+    // এডমিন ড্রয়ার বন্ধ করা
+    if (closeAdminDrawer) {
+        closeAdminDrawer.addEventListener("click", () => {
+            if (adminDrawer) adminDrawer.classList.add("hidden");
+        });
+    }
+
+    // এডমিন পাসওয়ার্ড সাবমিট
+    if (adminLoginForm) {
+        adminLoginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (adminPasswordInput.value === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                adminPasswordInput.value = "";
+                closeAllModals();
+                if (adminDrawer) adminDrawer.classList.remove("hidden");
+                alert("এডমিন হিসেবে সফলভাবে লগইন করেছেন!");
+            } else {
+                alert("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
+            }
+        });
+    }
+
+    // নতুন সদস্য যোগ করার ফর্ম হ্যান্ডলার
+    const addMemberForm = document.getElementById("addMemberForm");
+    if (addMemberForm) {
+        addMemberForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("addName") ? document.getElementById("addName").value.trim() : "";
+            const nameEn = document.getElementById("addNameEn") ? document.getElementById("addNameEn").value.trim() : "";
+            const gender = document.getElementById("addGender") ? document.getElementById("addGender").value : "male";
+            const fatherId = document.getElementById("addFatherId") ? document.getElementById("addFatherId").value : null;
+            const motherId = document.getElementById("addMotherId") ? document.getElementById("addMotherId").value : null;
+            const bloodGroup = document.getElementById("addBloodGroup") ? document.getElementById("addBloodGroup").value : "";
+            const dob = document.getElementById("addDob") ? document.getElementById("addDob").value : "";
+            const isDeceased = document.getElementById("addIsDeceased") ? document.getElementById("addIsDeceased").checked : false;
+
+            if (!name) {
+                alert("দয়া করে নাম প্রদান করুন");
+                return;
+            }
+
+            const photoInput = document.getElementById("addPhoto");
+            let photoUrl = "";
+
+            if (photoInput && photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoUrl = e.target.result;
+                    saveNewMember(name, nameEn, gender, fatherId, motherId, bloodGroup, dob, isDeceased, photoUrl);
+                };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else {
+                saveNewMember(name, nameEn, gender, fatherId, motherId, bloodGroup, dob, isDeceased, "");
+            }
+        });
+    }
+
+    // সদস্য এডিট বা ডিলিট সিলেক্ট ড্রপডাউন পরিবর্তন
+    const editMemberSelect = document.getElementById("editMemberSelect");
+    if (editMemberSelect) {
+        editMemberSelect.addEventListener("change", (e) => {
+            const memberId = e.target.value;
+            if (!memberId) return;
+            const m = familyData.find(item => item.id === memberId);
+            if (!m) return;
+
+            if (document.getElementById("editName")) document.getElementById("editName").value = m.name || "";
+            if (document.getElementById("editNameEn")) document.getElementById("editNameEn").value = m.nameEn || "";
+            if (document.getElementById("editGender")) document.getElementById("editGender").value = m.gender || "male";
+            if (document.getElementById("editFatherId")) document.getElementById("editFatherId").value = m.fatherId || "";
+            if (document.getElementById("editMotherId")) document.getElementById("editMotherId").value = m.motherId || "";
+            if (document.getElementById("editBloodGroup")) document.getElementById("editBloodGroup").value = m.bloodGroup || "";
+            if (document.getElementById("editDob")) document.getElementById("editDob").value = m.dob || "";
+            if (document.getElementById("editIsDeceased")) document.getElementById("editIsDeceased").checked = !!m.isDeceased;
+        });
+    }
+
+    // তথ্য আপডেট ফর্ম সাবমিট
+    const editMemberForm = document.getElementById("editMemberForm");
+    if (editMemberForm) {
+        editMemberForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const memberId = editMemberSelect ? editMemberSelect.value : "";
+            if (!memberId) {
+                alert("দয়া করে একজন সদস্য নির্বাচন করুন");
+                return;
+            }
+
+            const index = familyData.findIndex(item => item.id === memberId);
+            if (index !== -1) {
+                familyData[index].name = document.getElementById("editName").value.trim();
+                familyData[index].nameEn = document.getElementById("editNameEn").value.trim();
+                familyData[index].gender = document.getElementById("editGender").value;
+                familyData[index].fatherId = document.getElementById("editFatherId").value || null;
+                familyData[index].motherId = document.getElementById("editMotherId").value || null;
+                familyData[index].bloodGroup = document.getElementById("editBloodGroup").value;
+                familyData[index].dob = document.getElementById("editDob").value;
+                familyData[index].isDeceased = document.getElementById("editIsDeceased").checked;
+
+                const photoInput = document.getElementById("editPhoto");
+                if (photoInput && photoInput.files && photoInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        familyData[index].photo = e.target.result;
+                        saveFamilyData();
+                        alert("সদস্যের তথ্য সফলভাবে আপডেট হয়েছে!");
+                    };
+                    reader.readAsDataURL(photoInput.files[0]);
+                } else {
+                    saveFamilyData();
+                    alert("সদস্যের তথ্য সফলভাবে আপডেট হয়েছে!");
+                }
+            }
+        });
+    }
+
+    // সদস্য মুছে ফেলার বাটন (Delete Member)
+    const deleteMemberBtn = document.getElementById("deleteMemberBtn");
+    if (deleteMemberBtn) {
+        deleteMemberBtn.addEventListener("click", () => {
+            const memberId = editMemberSelect ? editMemberSelect.value : "";
+            if (!memberId) {
+                alert("দয়া করে মুছে ফেলার জন্য সদস্য নির্বাচন করুন");
+                return;
+            }
+
+            if (confirm("আপনি কি নিশ্চিত যে এই সদস্যকে মুছে ফেলতে চান?")) {
+                familyData = familyData.filter(item => item.id !== memberId);
+                saveFamilyData();
+                alert("সদস্যকে সফলভাবে মুছে ফেলা হয়েছে!");
+            }
+        });
+    }
+}
+
+function saveNewMember(name, nameEn, gender, fatherId, motherId, bloodGroup, dob, isDeceased, photo) {
+    const newId = (Date.now()).toString();
+    const newMember = {
+        id: newId,
+        name: name,
+        nameEn: nameEn,
+        gender: gender,
+        fatherId: fatherId || null,
+        motherId: motherId || null,
+        bloodGroup: bloodGroup,
+        dob: dob,
+        isDeceased: isDeceased,
+        photo: photo
+    };
+
+    familyData.push(newMember);
+    saveFamilyData();
+    const addMemberForm = document.getElementById("addMemberForm");
+    if (addMemberForm) addMemberForm.reset();
+    alert("নতুন সদস্য সফলভাবে যোগ করা হয়েছে!");
+}
+
+function populateFormOptions() {
+    const addFather = document.getElementById("addFatherId");
+    const addMother = document.getElementById("addMotherId");
+    const editSelect = document.getElementById("editMemberSelect");
+    const editFather = document.getElementById("editFatherId");
+    const editMother = document.getElementById("editMotherId");
+
+    const fathers = familyData.filter(m => m.gender === "male");
+    const mothers = familyData.filter(m => m.gender === "female");
+
+    let fatherOptions = `<option value="">পিতা নির্বাচন করুন (ঐচ্ছিক)</option>`;
+    fathers.forEach(f => {
+        fatherOptions += `<option value="${f.id}">${f.name} (${f.nameEn || f.id})</option>`;
+    });
+
+    let motherOptions = `<option value="">মাতা নির্বাচন করুন (ঐচ্ছিক)</option>`;
+    mothers.forEach(m => {
+        motherOptions += `<option value="${m.id}">${m.name} (${m.nameEn || m.id})</option>`;
+    });
+
+    let allOptions = `<option value="">সদস্য নির্বাচন করুন</option>`;
+    familyData.forEach(m => {
+        allOptions += `<option value="${m.id}">${m.name} (${m.nameEn || m.id})</option>`;
+    });
+
+    if (addFather) addFather.innerHTML = fatherOptions;
+    if (addMother) addMother.innerHTML = motherOptions;
+    if (editSelect) editSelect.innerHTML = allOptions;
+    if (editFather) editFather.innerHTML = fatherOptions;
+    if (editMother) editMother.innerHTML = motherOptions;
+}
