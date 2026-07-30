@@ -362,32 +362,39 @@ function getCustomAvatar(member) {
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&backgroundColor=b6e3f4`;
 }
 
+// ✅ আপনার লজিক ঠিক রেখে কেসু সর্দারের সব সন্তান দেখানোর নিখুঁত ফাংশন
 function buildHierarchy(rootId) {
     const rootItem = familyData.find(item => item.id === rootId);
     if (!rootItem) return null;
 
     let rootNode = { ...rootItem, children: [] };
 
-    function getSortedChildren(parentId) {
-        const children = familyData.filter(item => item.fatherId === parentId);
-        const males = children.filter(c => c.gender === "male");
-        const females = children.filter(c => c.gender === "female");
-        return [...males, ...females];
-    }
-
+    // ১. ১ম পেজ (পদ্মাশী সর্দার): ১মা, ২য় এবং ৩য় জেনারেশন পর্যন্ত দেখাবে
     if (rootId === "1") {
-        const gen2 = getSortedChildren(rootId);
+        const gen2 = familyData.filter(item => item.fatherId === rootId);
+        
         gen2.forEach(child2 => {
             let node2 = { ...child2, children: [] };
-            const gen3 = getSortedChildren(child2.id);
+            
+            // সন্তানদের পুরুষ ও মহিলা ফিল্টার করে আনা
+            const gen3 = familyData.filter(item => item.fatherId === child2.id);
+            
             gen3.forEach(child3 => {
                 node2.children.push({ ...child3, children: [] });
             });
+            
             rootNode.children.push(node2);
         });
-    } else {
-        const directChildren = getSortedChildren(rootId);
-        directChildren.forEach(child => {
+    } 
+    // ২. বাকি সব পেজে: শুধু বাবা এবং তার সন্তানরা (২ জেনারেশন) দেখাবে
+    else {
+        const directChildren = familyData.filter(item => item.fatherId === rootId);
+        
+        const males = directChildren.filter(c => c.gender === "male");
+        const females = directChildren.filter(c => c.gender === "female");
+        const sortedChildren = [...males, ...females];
+
+        sortedChildren.forEach(child => {
             rootNode.children.push({ ...child, children: [] });
         });
     }
