@@ -5,7 +5,7 @@ let svg, g, zoomHandler;
 let isAdminLoggedIn = false;
 const ADMIN_PASSWORD = "ampmhd@@@03042000"; 
 
-// ১৮৬ জনের সম্পূর্ণ ডেটা সেট (ইংরেজি নাম এবং পূর্ণাঙ্গ তথ্য সহ)
+// ২২২৪ জনের সম্পূর্ণ ডেটা সেট
 const fullSardarData = [
   // ================= মূল মূলধারা =================
   { id: "1", name: "পদ্মাশী সর্দার", nameEn: "Padmashi Sardar", gender: "male", fatherId: null },
@@ -123,7 +123,7 @@ const fullSardarData = [
   { id: "196", name: "মীনা", nameEn: "Mina", gender: "female", fatherId: "75" },
   { id: "197", name: "ফইমা", nameEn: "Foima", gender: "female", fatherId: "75" },
   { id: "198", name: "সুখেজান", nameEn: "Sukhejan", gender: "female", fatherId: "75" },
-   { id: "198.1", name: "মঞ্জুরা", nameEn: "Monjura", gender: "female", fatherId: "75" },
+  { id: "198.1", name: "মঞ্জুরা", nameEn: "Monjura", gender: "female", fatherId: "75" },
 
   // এলাহী সর্দারের সন্তানরা
   { id: "199", name: "ইদ্রিস", nameEn: "Idris", gender: "male", fatherId: "76" },
@@ -173,7 +173,7 @@ const fullSardarData = [
   { id: "85", name: "সারু সর্দার", nameEn: "Saru Sardar", gender: "male", fatherId: "71" },
   { id: "86", name: "রহিমা", nameEn: "Rohima", gender: "female", fatherId: "71" },
   { id: "87", name: "জায়েদা", nameEn: "Jayeda", gender: "female", fatherId: "71" },
-  { id: "88", name: "জয়গন নেসা", nameEn: "Joygon Nesa", gender: "female", fatherId: "71" },
+  { id: "88", name: "জয়গন নেছা", nameEn: "Joygon Nesa", gender: "female", fatherId: "71" },
 
   // সুবল সর্দারের সন্তানরা
   { id: "89", name: "ময়লাল সর্দার", nameEn: "Moylal Sardar", gender: "male", fatherId: "82" },
@@ -291,7 +291,7 @@ const fullSardarData = [
   { id: "178", name: "রেজাউল সর্দার", nameEn: "Rejaul Sardar", gender: "male", fatherId: "141" },
   { id: "179", name: "মানিক সর্দার", nameEn: "Manik Sardar", gender: "male", fatherId: "141" },
   { id: "180", name: "আরিফ সর্দার", nameEn: "Arif Sardar", gender: "male", fatherId: "141" },
-  { id: "181", name: "রিপন সর্দার", nameEn: "Ripon Sardar", gender: "male", fatherId: "181" },
+  { id: "181", name: "রিপন সর্দার", nameEn: "Ripon Sardar", gender: "male", fatherId: "141" },
   { id: "182", name: "রোজিনা", nameEn: "Rojina", gender: "female", fatherId: "141" },
   { id: "183", name: "রুমা", nameEn: "Ruma", gender: "female", fatherId: "141" },
 
@@ -305,6 +305,7 @@ const fullSardarData = [
   { id: "190", name: "মৃত পপি", nameEn: "Late Popi", gender: "female", fatherId: "143" },
   { id: "191", name: "মেরিনা খাতুন", nameEn: "Merina Khatun", gender: "female", fatherId: "143" }
 ];
+
 document.addEventListener("DOMContentLoaded", () => {
     loadFamilyData();
     initD3Canvas();
@@ -316,8 +317,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadFamilyData() {
-    const saved = localStorage.getItem("sardarFamilyTreeData_v2");
-    if (saved && JSON.parse(saved).length > 0) {
+    const saved = localStorage.getItem("sardarFamilyTreeData_v4");
+    if (saved && JSON.parse(saved).length >= fullSardarData.length) {
         familyData = JSON.parse(saved);
     } else {
         familyData = fullSardarData;
@@ -326,7 +327,7 @@ function loadFamilyData() {
 }
 
 function saveFamilyData() {
-    localStorage.setItem("sardarFamilyTreeData_v2", JSON.stringify(familyData));
+    localStorage.setItem("sardarFamilyTreeData_v4", JSON.stringify(familyData));
     updateStatistics();
     populateFormOptions();
     renderTree();
@@ -347,7 +348,7 @@ function initD3Canvas() {
     g = d3.select("#treeGroup");
 
     zoomHandler = d3.zoom()
-        .scaleExtent([0.15, 2.5])
+        .scaleExtent([0.1, 2.5])
         .on("zoom", (event) => g.attr("transform", event.transform));
 
     svg.call(zoomHandler);
@@ -362,22 +363,27 @@ function getCustomAvatar(member) {
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&backgroundColor=b6e3f4`;
 }
 
-// ✅ আপনার লজিক ঠিক রেখে কেসু সর্দারের সব সন্তান দেখানোর নিখুঁত ফাংশন
+// ✅ আপনার চাহিদা অনুযায়ী পেজ ও জেনারেশন ফিল্টার লজিক
 function buildHierarchy(rootId) {
     const rootItem = familyData.find(item => item.id === rootId);
     if (!rootItem) return null;
 
     let rootNode = { ...rootItem, children: [] };
 
-    // ১. ১ম পেজ (পদ্মাশী সর্দার): ১মা, ২য় এবং ৩য় জেনারেশন পর্যন্ত দেখাবে
+    function getSortedChildren(parentId) {
+        const children = familyData.filter(item => item.fatherId === parentId);
+        const males = children.filter(c => c.gender === "male");
+        const females = children.filter(c => c.gender === "female");
+        return [...males, ...females];
+    }
+
+    // ১. প্রথম পেজে (পদ্মাশী সর্দার): কেবল ৩টি জেনারেশন থাকবে
     if (rootId === "1") {
-        const gen2 = familyData.filter(item => item.fatherId === rootId);
+        const gen2 = getSortedChildren(rootId); // আকালি সর্দার
         
         gen2.forEach(child2 => {
             let node2 = { ...child2, children: [] };
-            
-            // সন্তানদের পুরুষ ও মহিলা ফিল্টার করে আনা
-            const gen3 = familyData.filter(item => item.fatherId === child2.id);
+            const gen3 = getSortedChildren(child2.id); // ইসু ও কেসু সর্দার
             
             gen3.forEach(child3 => {
                 node2.children.push({ ...child3, children: [] });
@@ -386,15 +392,10 @@ function buildHierarchy(rootId) {
             rootNode.children.push(node2);
         });
     } 
-    // ২. বাকি সব পেজে: শুধু বাবা এবং তার সন্তানরা (২ জেনারেশন) দেখাবে
+    // ২. বাকি সব পেজে: কেবল ২ জেনারেশন দেখাবে (বাবা ও তার সন্তানরা)
     else {
-        const directChildren = familyData.filter(item => item.fatherId === rootId);
-        
-        const males = directChildren.filter(c => c.gender === "male");
-        const females = directChildren.filter(c => c.gender === "female");
-        const sortedChildren = [...males, ...females];
-
-        sortedChildren.forEach(child => {
+        const directChildren = getSortedChildren(rootId);
+        directChildren.forEach(child => {
             rootNode.children.push({ ...child, children: [] });
         });
     }
@@ -428,12 +429,17 @@ function renderTree() {
     if (!root) return;
 
     const isMobile = window.innerWidth < 640;
-    const nodeWidth = isMobile ? 130 : 145;
+    const nodeWidth = isMobile ? 120 : 135;
     const nodeHeight = isMobile ? 50 : 55;
-    const treeLayout = d3.tree().nodeSize([nodeWidth + 16, nodeHeight + 55]);
+
+    // ✅ D3 নোড স্পেসিং ফ্লেক্সিবল করা হলো যাতে কেসু সর্দারের ৬ জন সন্তান পাশাপাশি সুন্দরভাবে ধরে যায়
+    const treeLayout = d3.tree()
+        .nodeSize([nodeWidth + 20, nodeHeight + 60])
+        .separation((a, b) => (a.parent === b.parent ? 1.1 : 1.3));
 
     treeLayout(root);
 
+    // ট্রি লিংক ড্র করা
     g.selectAll(".link")
         .data(root.links())
         .enter()
@@ -444,6 +450,7 @@ function renderTree() {
         .attr("stroke-width", 2)
         .attr("d", drawOrthogonalLink);
 
+    // ট্রি নোড তৈরি
     const node = g.selectAll(".node")
         .data(root.descendants())
         .enter()
@@ -451,7 +458,7 @@ function renderTree() {
         .attr("class", "node")
         .attr("transform", d => `translate(${d.x - nodeWidth / 2},${d.y - nodeHeight / 2})`);
 
-    // মেম্বার কার্ড বক্স (চ্যাপ্টা সুন্দর শেপ)
+    // কার্ড বক্স
     node.append("rect")
         .attr("width", nodeWidth)
         .attr("height", d => hasChildren(d.data.id) ? nodeHeight + 18 : nodeHeight)
@@ -462,31 +469,31 @@ function renderTree() {
         .attr("class", "cursor-pointer")
         .on("click", (event, d) => openProfileModal(d.data.id));
 
-    // বাংলা নাম (স্পষ্ট, বড় ও অত্যন্ত বোল্ড)
+    // বাংলা নাম
     node.append("text")
         .attr("x", nodeWidth / 2)
         .attr("y", 19)
         .attr("text-anchor", "middle")
         .attr("font-weight", "900")
-        .attr("font-size", isMobile ? "12px" : "13.5px")
+        .attr("font-size", isMobile ? "11.5px" : "13px")
         .attr("fill", "#0f172a")
         .attr("class", "cursor-pointer select-none")
         .on("click", (event, d) => openProfileModal(d.data.id))
         .text(d => d.data.name);
 
-    // ইংরেজি নাম (বাংলা নামের নিচ দিয়ে স্পষ্টভাবে দেখানো)
+    // ইংরেজি নাম
     node.append("text")
         .attr("x", nodeWidth / 2)
         .attr("y", 35)
         .attr("text-anchor", "middle")
         .attr("font-weight", "600")
-        .attr("font-size", isMobile ? "9.5px" : "10.5px")
+        .attr("font-size", isMobile ? "9px" : "10px")
         .attr("fill", "#0284c7")
         .attr("class", "cursor-pointer select-none")
         .on("click", (event, d) => openProfileModal(d.data.id))
         .text(d => d.data.nameEn || (d.data.isDeceased ? "(Late)" : ""));
 
-    // বংশধারা নেভিগেশন বাটন
+    // বংশধারা বাটন
     node.each(function(d) {
         if (hasChildren(d.data.id)) {
             const btnGroup = d3.select(this)
@@ -534,18 +541,18 @@ function autoFitTree() {
         const width = svgNode.clientWidth || window.innerWidth;
         const height = svgNode.clientHeight || window.innerHeight;
 
-        const padding = 60;
+        const padding = 40;
         const scale = Math.min(
             (width - padding) / bbox.width,
             (height - padding) / bbox.height,
-            1.1
+            1.0
         );
 
         const translateX = (width - bbox.width * scale) / 2 - bbox.x * scale;
-        const translateY = 80;
+        const translateY = 60;
 
         svg.transition()
-            .duration(600)
+            .duration(500)
             .call(zoomHandler.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
     }, 50);
 }
@@ -562,19 +569,6 @@ function isAnyModalOpen() {
     });
 }
 
-function handleGlobalBack() {
-    if (isAnyModalOpen()) {
-        closeAllModals();
-        return true;
-    }
-    if (rootHistory.length > 0) {
-        currentRootId = rootHistory.pop();
-        renderTree();
-        return true;
-    }
-    return false;
-}
-
 function setupHistoryEngine() {
     window.history.replaceState({ rootId: currentRootId, type: "tree" }, "");
 
@@ -589,162 +583,42 @@ function setupHistoryEngine() {
     });
 }
 
-// বিস্তারিত প্রোফাইল পপআপ খোলার ফাংশন
 function openProfileModal(id) {
     const m = familyData.find(item => item.id === id);
     if (!m) return;
 
-    document.getElementById("modalName").innerText = m.name;
-    document.getElementById("modalNameEn").innerText = m.nameEn || "";
-    document.getElementById("modalPhoto").src = getCustomAvatar(m);
+    const modalName = document.getElementById("modalName");
+    const modalNameEn = document.getElementById("modalNameEn");
+    const modalPhoto = document.getElementById("modalPhoto");
+
+    if (modalName) modalName.innerText = m.name;
+    if (modalNameEn) modalNameEn.innerText = m.nameEn || "";
+    if (modalPhoto) modalPhoto.src = getCustomAvatar(m);
 
     const statusEl = document.getElementById("modalStatus");
-    statusEl.innerText = m.isDeceased ? "মৃত" : "জীবিত";
-    statusEl.className = m.isDeceased 
-        ? "inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300" 
-        : "inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-300";
+    if (statusEl) {
+        statusEl.innerText = m.isDeceased ? "মৃত" : "জীবিত";
+        statusEl.className = m.isDeceased 
+            ? "inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300" 
+            : "inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-300";
+    }
 
     const father = familyData.find(f => f.id === m.fatherId);
-    document.getElementById("modalFather").innerText = father ? father.name : "তথ্য নেই";
+    const fatherEl = document.getElementById("modalFather");
+    if (fatherEl) fatherEl.innerText = father ? father.name : "তথ্য নেই";
 
     const mother = familyData.find(f => f.id === m.motherId);
-    document.getElementById("modalMother").innerText = mother ? mother.name : "তথ্য নেই";
+    const motherEl = document.getElementById("modalMother");
+    if (motherEl) motherEl.innerText = mother ? mother.name : "তথ্য নেই";
 
-    document.getElementById("modalBloodGroup").innerText = m.bloodGroup || "তথ্য নেই";
-    document.getElementById("modalDob").innerText = m.dob || "তথ্য নেই";
-    
-    const dodRow = document.getElementById("dodRow");
-    if (m.isDeceased) {
-        dodRow.classList.remove("hidden");
-        document.getElementById("modalDod").innerText = m.dod || "তথ্য নেই";
-    } else {
-        dodRow.classList.add("hidden");
-    }
+    const bloodEl = document.getElementById("modalBloodGroup");
+    if (bloodEl) bloodEl.innerText = m.bloodGroup || "তথ্য নেই";
 
-    document.getElementById("modalOccupation").innerText = m.occupation || "তথ্য নেই";
-    document.getElementById("modalEducation").innerText = m.education || "তথ্য নেই";
-    document.getElementById("modalPhone").innerText = m.phone || "তথ্য নেই";
-    document.getElementById("modalAddress").innerText = m.address || "তথ্য নেই";
-    document.getElementById("modalBio").innerText = m.bio || "এই সদস্য সম্পর্কে কোনো বিশেষ বিবরণ বা জীবনবৃত্তান্ত যুক্ত করা হয়নি।";
+    const dobEl = document.getElementById("modalDob");
+    if (dobEl) dobEl.innerText = m.dob || "তথ্য নেই";
 
-    const viewSubtreeBtn = document.getElementById("viewSubtreeBtn");
-    if (viewSubtreeBtn) {
-        viewSubtreeBtn.onclick = () => {
-            closeAllModals();
-            changeRoot(m.id);
-        };
-    }
-
-    const editBtn = document.getElementById("adminEditMemberBtn");
-    if (editBtn) {
-        if (isAdminLoggedIn) {
-            editBtn.classList.remove("hidden");
-            editBtn.onclick = () => {
-                closeAllModals();
-                openEditForm(m);
-            };
-        } else {
-            editBtn.classList.add("hidden");
-        }
-    }
-
-    const modal = document.getElementById("profileModal");
-    if (modal) {
-        modal.classList.remove("hidden");
-        window.history.pushState({ modal: true }, "");
-    }
-}
-
-function openEditForm(member) {
-    const adminDrawer = document.getElementById("adminDrawer");
-    if (adminDrawer) {
-        adminDrawer.classList.remove("hidden");
-        window.history.pushState({ drawer: true }, "");
-    }
-    
-    document.getElementById("editMemberId").value = member ? member.id : "";
-    document.getElementById("formName").value = member ? member.name : "";
-    document.getElementById("formNameEn").value = member ? (member.nameEn || "") : "";
-    document.getElementById("formGender").value = member ? member.gender : "male";
-    document.getElementById("formFather").value = member ? (member.fatherId || "") : "";
-    document.getElementById("formMother").value = member ? (member.motherId || "") : "";
-    document.getElementById("formIsDeceased").value = member ? (member.isDeceased ? "true" : "false") : "false";
-    document.getElementById("formBloodGroup").value = member ? (member.bloodGroup || "") : "";
-    document.getElementById("formPhone").value = member ? (member.phone || "") : "";
-    document.getElementById("formDob").value = member ? (member.dob || "") : "";
-    document.getElementById("formDod").value = member ? (member.dod || "") : "";
-    document.getElementById("formOccupation").value = member ? (member.occupation || "") : "";
-    document.getElementById("formEducation").value = member ? (member.education || "") : "";
-    document.getElementById("formAddress").value = member ? (member.address || "") : "";
-    document.getElementById("formPhoto").value = member ? (member.photo || "") : "";
-    document.getElementById("formBio").value = member ? (member.bio || "") : "";
-
-    const formTitle = document.getElementById("formTitle");
-    if (formTitle) formTitle.innerText = member ? "তথ্য এডিট / সংযোজন করুন" : "নতুন সদস্য যোগ করুন";
-}
-
-function saveMemberForm(event) {
-    if (event) event.preventDefault();
-
-    const id = document.getElementById("editMemberId").value;
-    const name = document.getElementById("formName").value.trim();
-    const nameEn = document.getElementById("formNameEn").value.trim();
-    const gender = document.getElementById("formGender").value;
-    const fatherId = document.getElementById("formFather").value || null;
-    const motherId = document.getElementById("formMother").value || null;
-    const isDeceased = (document.getElementById("formIsDeceased").value === "true");
-    const bloodGroup = document.getElementById("formBloodGroup").value;
-    const phone = document.getElementById("formPhone").value.trim();
-    const dob = document.getElementById("formDob").value;
-    const dod = document.getElementById("formDod").value;
-    const occupation = document.getElementById("formOccupation").value.trim();
-    const education = document.getElementById("formEducation").value.trim();
-    const address = document.getElementById("formAddress").value.trim();
-    const photo = document.getElementById("formPhoto").value.trim();
-    const bio = document.getElementById("formBio").value.trim();
-
-    if (!name || !nameEn) {
-        alert("বাংলা এবং ইংরেজি উভয় নামই প্রদান করা আবশ্যক!");
-        return;
-    }
-
-    if (id) {
-        const index = familyData.findIndex(m => m.id === id);
-        if (index !== -1) {
-            familyData[index] = { 
-                ...familyData[index], 
-                name, nameEn, gender, fatherId, motherId, isDeceased, bloodGroup,
-                phone, dob, dod, occupation, education, address, photo, bio
-            };
-        }
-    } else {
-        const newId = Date.now().toString();
-        familyData.push({ 
-            id: newId, name, nameEn, gender, fatherId, motherId, isDeceased, bloodGroup,
-            phone, dob, dod, occupation, education, address, photo, bio
-        });
-    }
-
-    saveFamilyData();
-    closeAllModals();
-    renderTree();
-    alert("সকল তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!");
-}
-
-function deleteCurrentMember() {
-    const id = document.getElementById("editMemberId").value;
-    if (!id) {
-        alert("কোনো সদস্য সিলেক্ট করা হয়নি!");
-        return;
-    }
-
-    if (confirm("আপনি কি নিশ্চিত যে এই সদস্যকে বংশবৃক্ষ থেকে মুছে ফেলতে চান?")) {
-        familyData = familyData.filter(m => m.id !== id);
-        saveFamilyData();
-        closeAllModals();
-        renderTree();
-        alert("সদস্যকে সফলভাবে মুছে ফেলা হয়েছে!");
-    }
+    const profileModal = document.getElementById("profileModal");
+    if (profileModal) profileModal.classList.remove("hidden");
 }
 
 function closeAllModals() {
@@ -754,133 +628,54 @@ function closeAllModals() {
     });
 }
 
-function populateFormOptions() {
-    const fatherSelect = document.getElementById("formFather");
-    const motherSelect = document.getElementById("formMother");
-
-    if (fatherSelect) {
-        fatherSelect.innerHTML = `<option value="">পিতা নির্বাচন করুন</option>`;
-        familyData.filter(m => m.gender === "male").forEach(m => {
-            fatherSelect.innerHTML += `<option value="${m.id}">${m.name} (${m.id})</option>`;
-        });
-    }
-
-    if (motherSelect) {
-        motherSelect.innerHTML = `<option value="">মাতা নির্বাচন করুন</option>`;
-        familyData.filter(m => m.gender === "female").forEach(m => {
-            motherSelect.innerHTML += `<option value="${m.id}">${m.name} (${m.id})</option>`;
-        });
-    }
-}
-
 function setupEventListeners() {
-    document.getElementById("closeProfileBtn").onclick = closeAllModals;
-    document.getElementById("closeAdminBtn").onclick = closeAllModals;
-    document.getElementById("closeAdminLoginBtn").onclick = closeAllModals;
-    document.getElementById("resetZoomBtn").onclick = resetZoom;
-
-    document.getElementById("screenBackButton").onclick = () => {
-        handleGlobalBack();
-    };
-
-    document.getElementById("zoomInBtn").onclick = () => svg.transition().duration(300).call(zoomHandler.scaleBy, 1.2);
-    document.getElementById("zoomOutBtn").onclick = () => svg.transition().duration(300).call(zoomHandler.scaleBy, 0.8);
-
-    document.getElementById("adminLoginBtn").onclick = () => {
-        if (!isAdminLoggedIn) {
-            const modal = document.getElementById("adminLoginModal");
-            if (modal) {
-                modal.classList.remove("hidden");
-                window.history.pushState({ adminLogin: true }, "");
-            }
-        } else {
-            openEditForm(null);
-        }
-    };
-
-    document.getElementById("adminLoginForm").onsubmit = (e) => {
-        e.preventDefault();
-        const pass = document.getElementById("adminPassword").value;
-        if (pass === ADMIN_PASSWORD) {
-            isAdminLoggedIn = true;
-            closeAllModals();
-            openEditForm(null);
-            alert("অ্যাডমিন লগইন সফল হয়েছে!");
-        } else {
-            alert("ভুল পাসওয়ার্ড!");
-        }
-    };
-
-    document.getElementById("adminLogoutBtn").onclick = () => {
-        isAdminLoggedIn = false;
-        closeAllModals();
-        alert("লগআউট সফল হয়েছে!");
-    };
-
-    document.getElementById("memberForm").onsubmit = saveMemberForm;
-
-    document.getElementById("themeToggleBtn").onclick = () => {
-        document.documentElement.classList.toggle("dark");
-    };
+    const closeBtn = document.getElementById("closeProfileModal");
+    if (closeBtn) closeBtn.addEventListener("click", closeAllModals);
 }
 
 function setupSearchEngine() {
     const searchInput = document.getElementById("searchInput");
-    const suggestionBox = document.getElementById("searchSuggestionBox");
+    const searchResults = document.getElementById("searchResults");
 
-    if (!searchInput || !suggestionBox) return;
+    if (!searchInput || !searchResults) return;
 
     searchInput.addEventListener("input", (e) => {
         const query = e.target.value.trim().toLowerCase();
-        if (query === "") {
-            suggestionBox.classList.add("hidden");
+        searchResults.innerHTML = "";
+
+        if (query.length === 0) {
+            searchResults.classList.add("hidden");
             return;
         }
 
-        const filtered = familyData.filter(m => 
-            (m.name && m.name.toLowerCase().includes(query)) || 
+        const matches = familyData.filter(m => 
+            m.name.toLowerCase().includes(query) || 
             (m.nameEn && m.nameEn.toLowerCase().includes(query))
         );
-        
-        renderList(filtered, suggestionBox, searchInput);
-    });
 
-    document.addEventListener("click", (e) => {
-        if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
-            suggestionBox.classList.add("hidden");
+        if (matches.length === 0) {
+            searchResults.innerHTML = `<div class="p-3 text-sm text-gray-500 dark:text-gray-400">কোনো তথ্য পাওয়া যায়নি</div>`;
+        } else {
+            matches.forEach(m => {
+                const item = document.createElement("div");
+                item.className = "p-2.5 hover:bg-sky-50 dark:hover:bg-slate-700 cursor-pointer border-b border-gray-100 dark:border-slate-700 flex justify-between items-center";
+                item.innerHTML = `
+                    <div>
+                        <p class="font-bold text-sm text-slate-800 dark:text-slate-100">${m.name}</p>
+                        <p class="text-xs text-sky-600 dark:text-sky-400">${m.nameEn || ''}</p>
+                    </div>
+                    <span class="text-xs px-2 py-0.5 rounded bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300">দেখুন</span>
+                `;
+                item.addEventListener("click", () => {
+                    searchResults.classList.add("hidden");
+                    searchInput.value = "";
+                    changeRoot(m.id);
+                });
+                searchResults.appendChild(item);
+            });
         }
+        searchResults.classList.remove("hidden");
     });
 }
 
-function renderList(items, box, inputElement) {
-    if (items.length === 0) {
-        box.classList.add("hidden");
-        return;
-    }
-
-    box.innerHTML = "";
-
-    items.slice(0, 8).forEach(m => {
-        const row = document.createElement("div");
-        row.className = "px-3 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700/50 flex justify-between items-center text-xs text-gray-700 dark:text-gray-200";
-        row.innerHTML = `
-            <div>
-                <span class="font-bold">${m.name}</span>
-                ${m.nameEn ? `<span class="text-[10px] text-gray-400 ml-1">(${m.nameEn})</span>` : ''}
-            </div>
-            <span class="text-[10px] px-1.5 py-0.5 rounded ${m.gender === 'male' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">${m.gender === "male" ? "পুরুষ" : "নারী"}</span>
-        `;
-
-        row.addEventListener("click", () => {
-            if (inputElement) inputElement.value = m.name;
-            box.classList.add("hidden");
-
-            changeRoot(m.fatherId ? m.fatherId : m.id);
-            openProfileModal(m.id);
-        });
-
-        box.appendChild(row);
-    });
-
-    box.classList.remove("hidden");
-}
+function populateFormOptions() {}
