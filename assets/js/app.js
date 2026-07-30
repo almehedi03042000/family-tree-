@@ -123,6 +123,7 @@ const fullSardarData = [
   { id: "196", name: "মীনা", nameEn: "Mina", gender: "female", fatherId: "75" },
   { id: "197", name: "ফইমা", nameEn: "Foima", gender: "female", fatherId: "75" },
   { id: "198", name: "সুখেজান", nameEn: "Sukhejan", gender: "female", fatherId: "75" },
+   { id: "198.1", name: "মঞ্জুরা", nameEn: "Monjura", gender: "female", fatherId: "75" },
 
   // এলাহী সর্দারের সন্তানরা
   { id: "199", name: "ইদ্রিস", nameEn: "Idris", gender: "male", fatherId: "76" },
