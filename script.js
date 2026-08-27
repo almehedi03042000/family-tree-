@@ -3,7 +3,7 @@ const familyData = {
     idNo: "S-001", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
     occupation: "কৃষি", education: "অশিক্ষিত", mobile: "N/A", bloodGroup: "N/A",
     maritalStatus: "বিবাহিত", spouse: null, father: null, mother: null, specialNote: "মূল পূর্বপুরুষ",
-    profilePhoto: "https://ibb.co/vxQ2hY1J", gallery: [],
+    profilePhoto: "https://i.ibb.co/3yMtvz10/akbor.jpg", gallery: [],
     children: [
         {
             id: "akali", nameBn: "আকালী সর্দার", nameEn: "Akali Sardar", gender: "male", isDeceased: false,
@@ -17,7 +17,7 @@ const familyData = {
                     idNo: "S-003", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
                     occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
                     maritalStatus: "বিবাহিত", spouse: null, father: { id: "akali", nameBn: "আকালী সর্দার" }, mother: null, specialNote: "",
-                    profilePhoto: "", gallery: [],
+                    profilePhoto: "https://ibb.co/9m0jDbgb", gallery: [],
                     children: [
                         {
                             id: "doshor", nameBn: "দোশর সর্দার", nameEn: "Doshor Sardar", gender: "male", isDeceased: false,
@@ -121,7 +121,7 @@ const familyData = {
                                         {id: "rotan", nameBn: "রতন সর্দার", nameEn: "Rotan Sardar", gender: "male", isDeceased: false, idNo: "S-058"},
                                         {id: "yatan", nameBn: "ইয়াতন", nameEn: "Yatan", gender: "female", isDeceased: false, idNo: "S-059"},
                                         {id: "fukun", nameBn: "ফুকন", nameEn: "Fukun", gender: "female", isDeceased: false, idNo: "S-060"},
-                                        {id: "tuklima", nameBn: "টুকলিমা", nameEn: "Tuklima", gender: "female", isDeceased: true, idNo: "S-061"}
+                                        {id: "tuklima", nameBn: "টুকলিমা", nameEn: "Tuklima", gender: "true", isDeceased: true, idNo: "S-061"}
                                     ]
                                 },
                                 {
@@ -380,7 +380,8 @@ const familyData = {
                                 {
                                     id: "mahatab", nameBn: "মাহাতাব উদ্দিন", nameEn: "Mahatab Uddin", gender: "male", isDeceased: false, idNo: "S-215",
                                     children: [
-                                        {id: "al_mehedi", nameBn: "আল-মেহেদী", nameEn: "Al-Mehedi", gender: "male", isDeceased: false, idNo: "S-216"},
+                                        
+                                         {id: "al_mehedi", nameBn: "আল-মেহেদী", nameEn: "Al Mehedi", gender: "male", isDeceased: false, idNo: "S-216"},
                                         {id: "abu_sayed", nameBn: "আবু সাঈদ", nameEn: "Abu Sayed", gender: "male", isDeceased: false, idNo: "S-217"},
                                         {id: "moriyom", nameBn: "মরিয়ম খাতুন", nameEn: "Moriyom Khatun", gender: "female", isDeceased: false, idNo: "S-218"},
                                         {id: "popi", nameBn: "পপি", nameEn: "Popi", gender: "female", isDeceased: true, idNo: "S-219"},
@@ -398,481 +399,528 @@ const familyData = {
                     ]
                 }
             ]
-        };
+        }
+    ]
+};
 
-        let historyStack = [familyData];
-        let currentRootNode = familyData;
-        let currentGalleryImages = [];
-        let currentGalleryIndex = 0;
+let historyStack = [familyData];
+let currentRootNode = familyData;
+let currentGalleryImages = [];
+let currentGalleryIndex = 0;
 
-        document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    // ব্রাউজারের হিস্টরিতে ইনিশিয়াল স্টেট পুশ করা
+    history.replaceState({ pageIndex: 0 }, "");
+
+    renderCurrentTree();
+    setupSearch();
+    setupModalEvents();
+    setupPannableZoomTree();
+
+    document.getElementById('prevPageBtn').addEventListener('click', () => {
+        goBackPage();
+    });
+
+    document.getElementById('homeBtn').addEventListener('click', () => {
+        historyStack = [familyData];
+        currentRootNode = familyData;
+        history.pushState({ pageIndex: historyStack.length - 1 }, "");
+        renderCurrentTree();
+    });
+
+    // ব্রাউজারের ব্যাক বাটন হ্যান্ডেল করার জন্য popstate ইভেন্ট
+    window.addEventListener('popstate', (event) => {
+        const memberModal = document.getElementById('memberModal');
+        const zoomModal = document.getElementById('zoomModal');
+        const lightboxModal = document.getElementById('lightboxModal');
+
+        // যদি কোনো মডাল খোলা থাকে, আগে তা বন্ধ হবে
+        if (lightboxModal.style.display === 'flex') {
+            lightboxModal.style.display = 'none';
+            history.pushState({ pageIndex: historyStack.length - 1 }, "");
+            return;
+        }
+        if (memberModal.style.display === 'flex') {
+            memberModal.style.display = 'none';
+            history.pushState({ pageIndex: historyStack.length - 1 }, "");
+            return;
+        }
+        if (zoomModal.style.display === 'flex') {
+            zoomModal.style.display = 'none';
+            history.pushState({ pageIndex: historyStack.length - 1 }, "");
+            return;
+        }
+
+        // যদি সাব-ট্রি বা পেজে থাকে, তবে আগের পেজে ফিরে যাবে
+        if (historyStack.length > 1) {
+            historyStack.pop();
+            currentRootNode = historyStack[historyStack.length - 1];
             renderCurrentTree();
-            setupSearch();
-            setupModalEvents();
-            setupPannableZoomTree();
+        } else {
+            // একদম হোম পেজে থাকলে ব্রাউজার হিস্ট্রি মেইনটেইন করার জন্য স্টেট রি-পুশ করা
+            history.pushState({ pageIndex: 0 }, "");
+        }
+    });
+});
 
-            document.getElementById('prevPageBtn').addEventListener('click', () => {
-                if (historyStack.length > 1) {
-                    historyStack.pop();
-                    currentRootNode = historyStack[historyStack.length - 1];
-                    renderCurrentTree();
-                }
-            });
+function goBackPage() {
+    if (historyStack.length > 1) {
+        historyStack.pop();
+        currentRootNode = historyStack[historyStack.length - 1];
+        renderCurrentTree();
+        // ব্রাউজারের হিস্ট্রি ব্যাক করা
+        window.history.back();
+    }
+}
 
-            document.getElementById('homeBtn').addEventListener('click', () => {
-                historyStack = [familyData];
-                currentRootNode = familyData;
-                renderCurrentTree();
-            });
+function getCardHTML(node) {
+    const deceasedClass = node.isDeceased ? 'deceased' : '';
+    const genderClass = node.gender === 'female' ? 'female' : 'male';
 
-            document.getElementById('openZoomTreeBox').addEventListener('click', () => {
-                openZoomTreeModal();
-            });
-        });
+    return `
+        <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')">
+            <div class="member-name-bn">${node.nameBn}</div>
+            <div class="member-name-en">${node.nameEn || ''}</div>
+        </div>
+    `;
+}
 
-        function getCardHTML(node) {
-            const deceasedClass = node.isDeceased ? 'deceased' : '';
-            const genderClass = node.gender === 'female' ? 'female' : 'male';
+function renderChildrenSmart(childrenList) {
+    if (!childrenList || childrenList.length === 0) return '';
+    
+    const childNodesHTML = childrenList.map(child => {
+        const hasGrandChildren = child.children && child.children.length > 0;
+        let linkBtn = '';
+        
+        if (hasGrandChildren) {
+            linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">
+                বংশধারা দেখুন
+            </button>`;
+        }
 
-            return `
-                <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')">
-                    <div class="member-name-bn">${node.nameBn}</div>
-                    <div class="member-name-en">${node.nameEn || ''}</div>
+        const deceasedClass = child.isDeceased ? 'deceased' : '';
+        const genderClass = child.gender === 'female' ? 'female' : 'male';
+
+        return `
+            <li>
+                <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${child.id}')">
+                    <div class="member-name-bn">${child.nameBn}</div>
+                    <div class="member-name-en">${child.nameEn || ''}</div>
+                    ${linkBtn}
                 </div>
-            `;
-        }
+            </li>
+        `;
+    }).join('');
 
-        function renderChildrenSmart(childrenList) {
-            if (!childrenList || childrenList.length === 0) return '';
-            
-            const childNodesHTML = childrenList.map(child => {
-                const hasGrandChildren = child.children && child.children.length > 0;
-                let linkBtn = '';
-                
-                if (hasGrandChildren) {
-                    linkBtn = `<button class="sub-tree-link" onclick="navigateToSubTree('${child.id}', event)">
-                        বংশধারা দেখুন
-                    </button>`;
-                }
+    return `<ul>${childNodesHTML}</ul>`;
+}
 
-                const deceasedClass = child.isDeceased ? 'deceased' : '';
-                const genderClass = child.gender === 'female' ? 'female' : 'male';
+function renderNodeHTML(node) {
+    if (!node) return '';
+    return `
+        <li>
+            <div class="member-card ${node.gender === 'female' ? 'female' : 'male'} ${node.isDeceased ? 'deceased' : ''}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
+                <div class="member-name-bn" style="font-size: 0.85rem;">${node.nameBn}</div>
+                <div class="member-name-en">${node.nameEn || ''}</div>
+            </div>
+            ${renderChildrenSmart(node.children)}
+        </li>
+    `;
+}
 
-                return `
-                    <li>
-                        <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${child.id}')">
-                            <div class="member-name-bn">${child.nameBn}</div>
-                            <div class="member-name-en">${child.nameEn || ''}</div>
-                            ${linkBtn}
-                        </div>
-                    </li>
-                `;
-            }).join('');
+function renderHomeLevelHTML() {
+    const akaliNode = familyData.children[0];
+    const isuNode = akaliNode.children[0];
+    const kesuNode = akaliNode.children[1];
 
-            return `<ul>${childNodesHTML}</ul>`;
-        }
-
-        function renderNodeHTML(node) {
-            if (!node) return '';
-            return `
+    return `
+        <li>
+            <div class="member-card male" onclick="onCardClick('${familyData.id}')">
+                <div class="member-name-bn">${familyData.nameBn}</div>
+                <div class="member-name-en">${familyData.nameEn}</div>
+            </div>
+            <ul>
                 <li>
-                    <div class="member-card ${node.gender === 'female' ? 'female' : 'male'} ${node.isDeceased ? 'deceased' : ''}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
-                        <div class="member-name-bn" style="font-size: 0.85rem;">${node.nameBn}</div>
-                        <div class="member-name-en">${node.nameEn || ''}</div>
-                    </div>
-                    ${renderChildrenSmart(node.children)}
-                </li>
-            `;
-        }
-
-        function renderHomeLevelHTML() {
-            const akaliNode = familyData.children[0];
-            const isuNode = akaliNode.children[0];
-            const kesuNode = akaliNode.children[1];
-
-            return `
-                <li>
-                    <div class="member-card male" onclick="onCardClick('${familyData.id}')">
-                        <div class="member-name-bn">${familyData.nameBn}</div>
-                        <div class="member-name-en">${familyData.nameEn}</div>
+                    <div class="member-card male" onclick="onCardClick('${akaliNode.id}')">
+                        <div class="member-name-bn">${akaliNode.nameBn}</div>
+                        <div class="member-name-en">${akaliNode.nameEn}</div>
                     </div>
                     <ul>
                         <li>
-                            <div class="member-card male" onclick="onCardClick('${akaliNode.id}')">
-                                <div class="member-name-bn">${akaliNode.nameBn}</div>
-                                <div class="member-name-en">${akaliNode.nameEn}</div>
+                            <div class="member-card male" onclick="onCardClick('${isuNode.id}')">
+                                <div class="member-name-bn">${isuNode.nameBn}</div>
+                                <div class="member-name-en">${isuNode.nameEn}</div>
+                                <button class="sub-tree-link" onclick="navigateToSubTree('${isuNode.id}', event)">বংশধারা দেখুন</button>
                             </div>
-                            <ul>
-                                <li>
-                                    <div class="member-card male" onclick="onCardClick('${isuNode.id}')">
-                                        <div class="member-name-bn">${isuNode.nameBn}</div>
-                                        <div class="member-name-en">${isuNode.nameEn}</div>
-                                        <button class="sub-tree-link" onclick="navigateToSubTree('${isuNode.id}', event)">বংশধারা দেখুন</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="member-card male" onclick="onCardClick('${kesuNode.id}')">
-                                        <div class="member-name-bn">${kesuNode.nameBn}</div>
-                                        <div class="member-name-en">${kesuNode.nameEn}</div>
-                                        <button class="sub-tree-link" onclick="navigateToSubTree('${kesuNode.id}', event)">বংশধারা দেখুন</button>
-                                    </div>
-                                </li>
-                            </ul>
+                        </li>
+                        <li>
+                            <div class="member-card male" onclick="onCardClick('${kesuNode.id}')">
+                                <div class="member-name-bn">${kesuNode.nameBn}</div>
+                                <div class="member-name-en">${kesuNode.nameEn}</div>
+                                <button class="sub-tree-link" onclick="navigateToSubTree('${kesuNode.id}', event)">বংশধারা দেখুন</button>
+                            </div>
                         </li>
                     </ul>
                 </li>
-            `;
+            </ul>
+        </li>
+    `;
+}
+
+function renderCurrentTree() {
+    const container = document.getElementById('treeContainer');
+    const breadcrumb = document.getElementById('breadcrumbText');
+    const prevBtn = document.getElementById('prevPageBtn');
+    const homeBtn = document.getElementById('homeBtn');
+
+    if (currentRootNode.id === familyData.id) {
+        breadcrumb.textContent = '📍 পদ্মাশী সর্দার ➔ আকালী সর্দার ➔ ঈসু ও কেসু সর্দার';
+        prevBtn.style.display = 'none';
+        homeBtn.style.display = 'none';
+        container.innerHTML = `<div class="tf-tree"><ul>${renderHomeLevelHTML()}</ul></div>`;
+    } else {
+        breadcrumb.textContent = `📍 ${currentRootNode.nameBn}-এর বংশধরগণ`;
+        prevBtn.style.display = 'inline-flex';
+        homeBtn.style.display = 'inline-flex';
+        container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
+    }
+}
+
+function navigateToSubTree(id, event) {
+    if (event) event.stopPropagation();
+    const targetNode = findMemberById(familyData, id);
+    if (targetNode) {
+        currentRootNode = targetNode;
+        historyStack.push(targetNode);
+        // নতুন পেজে যাওয়ার সময় ব্রাউজারে হিস্ট্রি স্টেট যোগ করা
+        history.pushState({ pageIndex: historyStack.length - 1 }, "");
+        renderCurrentTree();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function onCardClick(id) {
+    const memberObj = findMemberById(familyData, id);
+    const parentObj = findParentById(familyData, id);
+    if (memberObj) {
+        showMemberDetailsModal(memberObj, parentObj);
+    }
+}
+
+function findMemberById(root, id) {
+    if (root.id === id) return root;
+    if (root.children) {
+        for (let child of root.children) {
+            const found = findMemberById(child, id);
+            if (found) return found;
         }
+    }
+    return null;
+}
 
-        function renderCurrentTree() {
-            const container = document.getElementById('treeContainer');
-            const breadcrumb = document.getElementById('breadcrumbText');
-            const prevBtn = document.getElementById('prevPageBtn');
-            const homeBtn = document.getElementById('homeBtn');
-
-            if (currentRootNode.id === familyData.id) {
-                breadcrumb.textContent = '📍 পদ্মাশী সর্দার ➔ আকালী সর্দার ➔ ঈসু ও কেসু সর্দার';
-                prevBtn.style.display = 'none';
-                homeBtn.style.display = 'none';
-                container.innerHTML = `<div class="tf-tree"><ul>${renderHomeLevelHTML()}</ul></div>`;
-            } else {
-                breadcrumb.textContent = `📍 ${currentRootNode.nameBn}-এর বংশধরগণ`;
-                prevBtn.style.display = 'inline-flex';
-                homeBtn.style.display = 'inline-flex';
-                container.innerHTML = `<div class="tf-tree"><ul>${renderNodeHTML(currentRootNode)}</ul></div>`;
-            }
+function findParentById(root, id) {
+    if (root.children) {
+        for (let child of root.children) {
+            if (child.id === id) return root;
+            const found = findParentById(child, id);
+            if (found) return found;
         }
+    }
+    return null;
+}
 
-        function navigateToSubTree(id, event) {
-            if (event) event.stopPropagation();
-            const targetNode = findMemberById(familyData, id);
-            if (targetNode) {
-                currentRootNode = targetNode;
-                historyStack.push(targetNode);
-                renderCurrentTree();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+function showMemberDetailsModal(member, parentObj) {
+    const modal = document.getElementById('memberModal');
+    
+    const imgContainer = document.getElementById('modalImgContainer');
+    if (member.profilePhoto) {
+        imgContainer.innerHTML = `<img src="${member.profilePhoto}" alt="${member.nameBn}" style="cursor: pointer;">`;
+        imgContainer.style.cursor = 'pointer';
+        imgContainer.onclick = () => {
+            currentGalleryImages = [member.profilePhoto];
+            openLightbox(0);
+        };
+    } else {
+        imgContainer.innerHTML = `<span class="profile-img-placeholder">👤</span>`;
+        imgContainer.style.cursor = 'default';
+        imgContainer.onclick = null;
+    }
+
+    document.getElementById('modalNameBn').textContent = `${member.nameBn} (${member.nameEn || ''})`;
+
+    const badge = document.getElementById('modalStatusBadge');
+    badge.textContent = member.isDeceased ? 'মৃত' : 'জীবিত';
+    badge.className = member.isDeceased ? 'status-badge deceased' : 'status-badge';
+
+    document.getElementById('modalIdNo').textContent = member.idNo || 'N/A';
+    document.getElementById('modalGender').textContent = member.gender === 'female' ? 'নারী' : 'পুরুষ';
+    document.getElementById('modalDob').textContent = member.dob || 'N/A';
+    
+    const dodContainer = document.getElementById('dodContainer');
+    if (member.isDeceased) {
+        document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
+        dodContainer.style.display = 'block';
+    } else {
+        dodContainer.style.display = 'none';
+    }
+
+    document.getElementById('modalBlood').textContent = member.bloodGroup || 'N/A';
+    document.getElementById('modalMobile').textContent = member.mobile || 'N/A';
+    document.getElementById('modalOccupation').textContent = member.occupation || 'N/A';
+    document.getElementById('modalEducation').textContent = member.education || 'N/A';
+    document.getElementById('modalBirthPlace').textContent = member.birthPlace || 'N/A';
+    document.getElementById('modalAddress').textContent = member.currentAddress || 'N/A';
+    document.getElementById('modalMarital').textContent = member.maritalStatus || 'N/A';
+
+    const spouseElem = document.getElementById('modalSpouse');
+    if (member.spouse && member.spouse.id) {
+        spouseElem.textContent = member.spouse.nameBn;
+        spouseElem.className = "clickable-link";
+        spouseElem.onclick = () => {
+            modal.style.display = 'none';
+            onCardClick(member.spouse.id);
+        };
+    } else {
+        spouseElem.textContent = 'নেই';
+        spouseElem.className = "";
+        spouseElem.onclick = null;
+    }
+
+    const fatherElem = document.getElementById('modalFather');
+    if (parentObj) {
+        fatherElem.textContent = parentObj.nameBn;
+        fatherElem.className = "clickable-link";
+        fatherElem.onclick = () => {
+            modal.style.display = 'none';
+            onCardClick(parentObj.id);
+        };
+    } else if (member.father && member.father.id) {
+        fatherElem.textContent = member.father.nameBn;
+        fatherElem.className = "clickable-link";
+        fatherElem.onclick = () => {
+            modal.style.display = 'none';
+            onCardClick(member.father.id);
+        };
+    } else {
+        fatherElem.textContent = 'মূল পূর্বপুরুষ';
+        fatherElem.className = "";
+        fatherElem.onclick = null;
+    }
+
+    const motherElem = document.getElementById('modalMother');
+    if (member.mother && member.mother.nameBn) {
+        motherElem.textContent = member.mother.nameBn;
+        if (member.mother.id) {
+            motherElem.className = "clickable-link";
+            motherElem.onclick = () => {
+                modal.style.display = 'none';
+                onCardClick(member.mother.id);
+            };
         }
+    } else {
+        motherElem.textContent = 'N/A';
+        motherElem.className = "";
+        motherElem.onclick = null;
+    }
 
-        function onCardClick(id) {
-            const memberObj = findMemberById(familyData, id);
-            const parentObj = findParentById(familyData, id);
-            if (memberObj) {
-                showMemberDetailsModal(memberObj, parentObj);
-            }
+    let totalChildren = 0;
+    let sonsCount = 0;
+    let daughtersCount = 0;
+    if (member.children && member.children.length > 0) {
+        totalChildren = member.children.length;
+        sonsCount = member.children.filter(c => c.gender === 'male').length;
+        daughtersCount = member.children.filter(c => c.gender === 'female').length;
+    }
+    document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
+
+    const noteContainer = document.getElementById('noteContainer');
+    if (member.specialNote) {
+        document.getElementById('modalNote').textContent = member.specialNote;
+        noteContainer.style.display = 'block';
+    } else {
+        noteContainer.style.display = 'none';
+    }
+
+    const gallerySection = document.getElementById('modalGallerySection');
+    const galleryGrid = document.getElementById('modalGalleryGrid');
+    if (member.gallery && member.gallery.length > 0) {
+        currentGalleryImages = member.gallery;
+        galleryGrid.innerHTML = member.gallery.map((imgSrc, idx) => `
+            <img src="${imgSrc}" class="gallery-thumb" onclick="openLightbox(${idx})">
+        `).join('');
+        gallerySection.style.display = 'block';
+    } else {
+        gallerySection.style.display = 'none';
+    }
+
+    modal.style.display = 'flex';
+}
+
+function openLightbox(index) {
+    currentGalleryIndex = index;
+    const lightbox = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    lightboxImg.src = currentGalleryImages[currentGalleryIndex];
+    lightbox.style.display = 'flex';
+}
+
+function setupModalEvents() {
+    const modal = document.getElementById('memberModal');
+    const closeBtn = document.getElementById('modalClose');
+
+    closeBtn.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
+    };
+}
 
-        function findMemberById(root, id) {
-            if (root.id === id) return root;
-            if (root.children) {
-                for (let child of root.children) {
-                    const found = findMemberById(child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        }
+function renderFullTreeModal(node) {
+    if (!node) return '';
+    if (node.children && node.children.length > 0) {
+        const childItems = node.children.map(child => renderFullTreeModal(child)).join('');
+        return `<li>${getCardHTML(node)}<ul>${childItems}</ul></li>`;
+    } else {
+        return `<li>${getCardHTML(node)}</li>`;
+    }
+}
 
-        function findParentById(root, id) {
-            if (root.children) {
-                for (let child of root.children) {
-                    if (child.id === id) return root;
-                    const found = findParentById(child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        }
+let zoomScale = 0.2;
+let pointX = 0;
+let pointY = 0;
+let startX = 0;
+let startY = 0;
+let isPanning = false;
 
-        function showMemberDetailsModal(member, parentObj) {
-            const modal = document.getElementById('memberModal');
-            
-            const imgContainer = document.getElementById('modalImgContainer');
-            if (member.profilePhoto) {
-                imgContainer.innerHTML = `<img src="${member.profilePhoto}" alt="${member.nameBn}" style="cursor: pointer;">`;
-                imgContainer.style.cursor = 'pointer';
-                imgContainer.onclick = () => {
-                    currentGalleryImages = [member.profilePhoto];
-                    openLightbox(0);
-                };
-            } else {
-                imgContainer.innerHTML = `<span class="profile-img-placeholder">👤</span>`;
-                imgContainer.style.cursor = 'default';
-                imgContainer.onclick = null;
-            }
+function openZoomTreeModal() {
+    const zoomModal = document.getElementById('zoomModal');
+    const zoomContent = document.getElementById('zoomContent');
+    zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeModal(familyData)}</ul></div>`;
+    zoomModal.style.display = 'flex';
+    
+    const viewport = document.getElementById('zoomViewport');
+    zoomScale = 0.2; 
+    pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
+    pointY = 20;
+    updateTransform();
+}
 
-            document.getElementById('modalNameBn').textContent = `${member.nameBn} (${member.nameEn || ''})`;
+function updateTransform() {
+    const zoomContent = document.getElementById('zoomContent');
+    zoomContent.style.transform = `translate(${pointX}px, ${pointY}px) scale(${zoomScale})`;
+}
 
-            const badge = document.getElementById('modalStatusBadge');
-            badge.textContent = member.isDeceased ? 'মৃত' : 'জীবিত';
-            badge.className = member.isDeceased ? 'status-badge deceased' : 'status-badge';
+function setupPannableZoomTree() {
+    const zoomViewport = document.getElementById('zoomViewport');
+    const zoomModal = document.getElementById('zoomModal');
 
-            document.getElementById('modalIdNo').textContent = member.idNo || 'N/A';
-            document.getElementById('modalGender').textContent = member.gender === 'female' ? 'নারী' : 'পুরুষ';
-            document.getElementById('modalDob').textContent = member.dob || 'N/A';
-            
-            const dodContainer = document.getElementById('dodContainer');
-            if (member.isDeceased) {
-                document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
-                dodContainer.style.display = 'block';
-            } else {
-                dodContainer.style.display = 'none';
-            }
+    document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
+    document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.1, 2.0); updateTransform(); });
+    document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.08); updateTransform(); });
+    document.getElementById('zoomResetBtn').addEventListener('click', () => { 
+        zoomScale = 0.2; 
+        pointX = (zoomViewport.clientWidth - document.getElementById('zoomContent').offsetWidth * zoomScale) / 2;
+        pointY = 20; 
+        updateTransform(); 
+    });
 
-            document.getElementById('modalBlood').textContent = member.bloodGroup || 'N/A';
-            document.getElementById('modalMobile').textContent = member.mobile || 'N/A';
-            document.getElementById('modalOccupation').textContent = member.occupation || 'N/A';
-            document.getElementById('modalEducation').textContent = member.education || 'N/A';
-            document.getElementById('modalBirthPlace').textContent = member.birthPlace || 'N/A';
-            document.getElementById('modalAddress').textContent = member.currentAddress || 'N/A';
-            document.getElementById('modalMarital').textContent = member.maritalStatus || 'N/A';
+    const startPan = (e) => {
+        isPanning = true;
+        startX = (e.clientX || e.touches[0].clientX) - pointX;
+        startY = (e.clientY || e.touches[0].clientY) - pointY;
+    };
 
-            const spouseElem = document.getElementById('modalSpouse');
-            if (member.spouse && member.spouse.id) {
-                spouseElem.textContent = member.spouse.nameBn;
-                spouseElem.className = "clickable-link";
-                spouseElem.onclick = () => {
-                    modal.style.display = 'none';
-                    onCardClick(member.spouse.id);
-                };
-            } else {
-                spouseElem.textContent = 'নেই';
-                spouseElem.className = "";
-                spouseElem.onclick = null;
-            }
+    const doPan = (e) => {
+        if (!isPanning) return;
+        e.preventDefault();
+        pointX = (e.clientX || e.touches[0].clientX) - startX;
+        pointY = (e.clientY || e.touches[0].clientY) - startY;
+        updateTransform();
+    };
 
-            const fatherElem = document.getElementById('modalFather');
-            if (parentObj) {
-                fatherElem.textContent = parentObj.nameBn;
-                fatherElem.className = "clickable-link";
-                fatherElem.onclick = () => {
-                    modal.style.display = 'none';
-                    onCardClick(parentObj.id);
-                };
-            } else if (member.father && member.father.id) {
-                fatherElem.textContent = member.father.nameBn;
-                fatherElem.className = "clickable-link";
-                fatherElem.onclick = () => {
-                    modal.style.display = 'none';
-                    onCardClick(member.father.id);
-                };
-            } else {
-                fatherElem.textContent = 'মূল পূর্বপুরুষ';
-                fatherElem.className = "";
-                fatherElem.onclick = null;
-            }
+    const stopPan = () => isPanning = false;
 
-            const motherElem = document.getElementById('modalMother');
-            if (member.mother && member.mother.nameBn) {
-                motherElem.textContent = member.mother.nameBn;
-                if (member.mother.id) {
-                    motherElem.className = "clickable-link";
-                    motherElem.onclick = () => {
-                        modal.style.display = 'none';
-                        onCardClick(member.mother.id);
-                    };
-                }
-            } else {
-                motherElem.textContent = 'N/A';
-                motherElem.className = "";
-                motherElem.onclick = null;
-            }
+    zoomViewport.addEventListener('mousedown', startPan);
+    window.addEventListener('mousemove', doPan);
+    window.addEventListener('mouseup', stopPan);
 
-            let totalChildren = 0;
-            let sonsCount = 0;
-            let daughtersCount = 0;
-            if (member.children && member.children.length > 0) {
-                totalChildren = member.children.length;
-                sonsCount = member.children.filter(c => c.gender === 'male').length;
-                daughtersCount = member.children.filter(c => c.gender === 'female').length;
-            }
-            document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
+    zoomViewport.addEventListener('touchstart', startPan, { passive: true });
+    window.addEventListener('touchmove', doPan, { passive: false });
+    window.addEventListener('touchend', stopPan);
 
-            const noteContainer = document.getElementById('noteContainer');
-            if (member.specialNote) {
-                document.getElementById('modalNote').textContent = member.specialNote;
-                noteContainer.style.display = 'block';
-            } else {
-                noteContainer.style.display = 'none';
-            }
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+        const element = document.getElementById('zoomContent');
+        const opt = {
+            margin: 0.2,
+            filename: 'পদ্মাশী_সর্দারের_বংশধারা.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
+    });
+}
 
-            const gallerySection = document.getElementById('modalGallerySection');
-            const galleryGrid = document.getElementById('modalGalleryGrid');
-            if (member.gallery && member.gallery.length > 0) {
-                currentGalleryImages = member.gallery;
-                galleryGrid.innerHTML = member.gallery.map((imgSrc, idx) => `
-                    <img src="${imgSrc}" class="gallery-thumb" onclick="openLightbox(${idx})">
-                `).join('');
-                gallerySection.style.display = 'block';
-            } else {
-                gallerySection.style.display = 'none';
-            }
+function searchMembersRecursive(root, query, matches) {
+    if (!root) return;
+    const matchBn = root.nameBn && root.nameBn.toLowerCase().includes(query);
+    const matchEn = root.nameEn && root.nameEn.toLowerCase().includes(query);
+    if (matchBn || matchEn) {
+        matches.push(root);
+    }
+    if (root.children && root.children.length > 0) {
+        root.children.forEach(child => searchMembersRecursive(child, query, matches));
+    }
+}
 
-            modal.style.display = 'flex';
-        }
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchResults = document.getElementById('searchResults');
 
-        function openLightbox(index) {
-            currentGalleryIndex = index;
-            const lightbox = document.getElementById('lightboxModal');
-            const lightboxImg = document.getElementById('lightboxImg');
-            lightboxImg.src = currentGalleryImages[currentGalleryIndex];
-            lightbox.style.display = 'flex';
-        }
+    const performSearch = () => {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResults.innerHTML = '';
+        if (!query) { searchResults.style.display = 'none'; return; }
 
-        document.getElementById('lightboxClose').addEventListener('click', () => {
-            document.getElementById('lightboxModal').style.display = 'none';
-        });
+        const matches = [];
+        searchMembersRecursive(familyData, query, matches);
 
-        document.getElementById('lightboxNext').addEventListener('click', () => {
-            if (currentGalleryImages.length > 0) {
-                currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
-                document.getElementById('lightboxImg').src = currentGalleryImages[currentGalleryIndex];
-            }
-        });
-
-        document.getElementById('lightboxPrev').addEventListener('click', () => {
-            if (currentGalleryImages.length > 0) {
-                currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-                document.getElementById('lightboxImg').src = currentGalleryImages[currentGalleryIndex];
-            }
-        });
-
-        function renderFullTreeModal(node) {
-            if (!node) return '';
-            if (node.children && node.children.length > 0) {
-                const childItems = node.children.map(child => renderFullTreeModal(child)).join('');
-                return `<li>${getCardHTML(node)}<ul>${childItems}</ul></li>`;
-            } else {
-                return `<li>${getCardHTML(node)}</li>`;
-            }
-        }
-
-        let zoomScale = 0.2;
-        let pointX = 0;
-        let pointY = 0;
-        let startX = 0;
-        let startY = 0;
-        let isPanning = false;
-
-        function openZoomTreeModal() {
-            const zoomModal = document.getElementById('zoomModal');
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.innerHTML = `<div class="tf-tree"><ul>${renderFullTreeModal(familyData)}</ul></div>`;
-            zoomModal.style.display = 'flex';
-            
-            const viewport = document.getElementById('zoomViewport');
-            zoomScale = 0.2; 
-            pointX = (viewport.clientWidth - zoomContent.offsetWidth * zoomScale) / 2;
-            pointY = 20;
-            updateTransform();
-        }
-
-        function updateTransform() {
-            const zoomContent = document.getElementById('zoomContent');
-            zoomContent.style.transform = `translate(${pointX}px, ${pointY}px) scale(${zoomScale})`;
-        }
-
-        function setupPannableZoomTree() {
-            const zoomViewport = document.getElementById('zoomViewport');
-            const zoomModal = document.getElementById('zoomModal');
-
-            document.getElementById('zoomCloseBtn').addEventListener('click', () => zoomModal.style.display = 'none');
-            document.getElementById('zoomInBtn').addEventListener('click', () => { zoomScale = Math.min(zoomScale + 0.1, 2.0); updateTransform(); });
-            document.getElementById('zoomOutBtn').addEventListener('click', () => { zoomScale = Math.max(zoomScale - 0.05, 0.08); updateTransform(); });
-            document.getElementById('zoomResetBtn').addEventListener('click', () => { 
-                zoomScale = 0.2; 
-                pointX = (zoomViewport.clientWidth - document.getElementById('zoomContent').offsetWidth * zoomScale) / 2;
-                pointY = 20; 
-                updateTransform(); 
+        if (matches.length > 0) {
+            searchResults.style.display = 'block';
+            matches.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.innerHTML = `<strong>${item.nameBn}</strong> (${item.nameEn || ''})`;
+                div.addEventListener('click', () => {
+                    currentRootNode = item;
+                    historyStack.push(item);
+                    history.pushState({ pageIndex: historyStack.length - 1 }, "");
+                    renderCurrentTree();
+                    searchResults.style.display = 'none';
+                    searchInput.value = '';
+                });
+                searchResults.appendChild(div);
             });
-
-            const startPan = (e) => {
-                isPanning = true;
-                startX = (e.clientX || e.touches[0].clientX) - pointX;
-                startY = (e.clientY || e.touches[0].clientY) - pointY;
-            };
-
-            const doPan = (e) => {
-                if (!isPanning) return;
-                e.preventDefault();
-                pointX = (e.clientX || e.touches[0].clientX) - startX;
-                pointY = (e.clientY || e.touches[0].clientY) - startY;
-                updateTransform();
-            };
-
-            const stopPan = () => isPanning = false;
-
-            zoomViewport.addEventListener('mousedown', startPan);
-            window.addEventListener('mousemove', doPan);
-            window.addEventListener('mouseup', stopPan);
-
-            zoomViewport.addEventListener('touchstart', startPan, { passive: true });
-            window.addEventListener('touchmove', doPan, { passive: false });
-            window.addEventListener('touchend', stopPan);
-
-            document.getElementById('downloadPdfBtn').addEventListener('click', () => {
-                const element = document.getElementById('zoomContent');
-                const opt = {
-                    margin: 0.2,
-                    filename: 'পদ্মাশী_সর্দারের_বংশধারা.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
-                };
-                html2pdf().set(opt).from(element).save();
-            });
+        } else {
+            searchResults.style.display = 'block';
+            searchResults.innerHTML = '<div class="search-result-item">কোন তথ্য পাওয়া যায়নি</div>';
         }
+    };
 
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const searchResults = document.getElementById('searchResults');
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') performSearch();
+        else performSearch();
+    });
 
-            const performSearch = () => {
-                const query = searchInput.value.trim().toLowerCase();
-                searchResults.innerHTML = '';
-                if (!query) { searchResults.style.display = 'none'; return; }
-
-                const matches = [];
-                searchMembersRecursive(familyData, query, matches);
-
-                if (matches.length > 0) {
-                    searchResults.style.display = 'block';
-                    matches.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'search-result-item';
-                        div.innerHTML = `<strong>${item.nameBn}</strong> (${item.nameEn || ''})`;
-                        div.addEventListener('click', () => {
-                            currentRootNode = item;
-                            historyStack.push(item);
-                            renderCurrentTree();
-                            searchResults.style.display = 'none';
-                            searchInput.value = '';
-                        });
-                        searchResults.appendChild(div);
-                    });
-                } else {
-                    searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div class="search-result-item">কোনো সদস্য পাওয়া যায়নি</div>';
-                }
-            };
-
-            searchInput.addEventListener('input', performSearch);
-            searchBtn.addEventListener('click', performSearch);
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box')) {
+            searchResults.style.display = 'none';
         }
-
-        function searchMembersRecursive(node, query, results) {
-            if (!node) return;
-            if (node.nameBn.toLowerCase().includes(query) || (node.nameEn && node.nameEn.toLowerCase().includes(query))) {
-                results.push(node);
-            }
-            if (node.children) {
-                node.children.forEach(child => searchMembersRecursive(child, query, results));
-            }
-        }
-
-        function setupModalEvents() {
-            const modal = document.getElementById('memberModal');
-            document.getElementById('modalClose').addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-        }
+    });
+}
