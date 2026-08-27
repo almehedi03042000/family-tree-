@@ -3,7 +3,7 @@ const familyData = {
     idNo: "S-001", dob: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
     occupation: "কৃষি", education: "অশিক্ষিত", mobile: "N/A", bloodGroup: "N/A",
     maritalStatus: "বিবাহিত", spouse: null, father: null, mother: null, specialNote: "মূল পূর্বপুরুষ",
-    profilePhoto: "https://ibb.co/S760bKct", gallery: [],
+    profilePhoto: "<a href="https://ibb.co/S760bKct"><img src="https://i.ibb.co/YTN8mtXc/akbor.jpg" alt="akbor" border="0" /></a>", gallery: [],
     children: [
         {
             id: "akali", nameBn: "আকালী সর্দার", nameEn: "Akali Sardar", gender: "male", isDeceased: false,
