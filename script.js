@@ -469,9 +469,13 @@ function goBackPage() {
 function getCardHTML(node) {
     const deceasedClass = node.isDeceased ? 'deceased' : '';
     const genderClass = node.gender === 'female' ? 'female' : 'male';
+    const photoHTML = node.profilePhoto 
+        ? `<div class="card-photo-box"><img src="${node.profilePhoto}" alt="${node.nameBn}" class="card-avatar"></div>`
+        : '';
 
     return `
         <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${node.id}')">
+            ${photoHTML}
             <div class="member-name-bn">${node.nameBn}</div>
             <div class="member-name-en">${node.nameEn || ''}</div>
         </div>
@@ -493,10 +497,14 @@ function renderChildrenSmart(childrenList) {
 
         const deceasedClass = child.isDeceased ? 'deceased' : '';
         const genderClass = child.gender === 'female' ? 'female' : 'male';
+        const photoHTML = child.profilePhoto 
+            ? `<div class="card-photo-box"><img src="${child.profilePhoto}" alt="${child.nameBn}" class="card-avatar"></div>`
+            : '';
 
         return `
             <li>
                 <div class="member-card ${genderClass} ${deceasedClass}" onclick="onCardClick('${child.id}')">
+                    ${photoHTML}
                     <div class="member-name-bn">${child.nameBn}</div>
                     <div class="member-name-en">${child.nameEn || ''}</div>
                     ${linkBtn}
@@ -510,9 +518,14 @@ function renderChildrenSmart(childrenList) {
 
 function renderNodeHTML(node) {
     if (!node) return '';
+    const photoHTML = node.profilePhoto 
+        ? `<div class="card-photo-box"><img src="${node.profilePhoto}" alt="${node.nameBn}" class="card-avatar"></div>`
+        : '';
+
     return `
         <li>
             <div class="member-card ${node.gender === 'female' ? 'female' : 'male'} ${node.isDeceased ? 'deceased' : ''}" onclick="onCardClick('${node.id}')" style="border-width: 2px;">
+                ${photoHTML}
                 <div class="member-name-bn" style="font-size: 0.85rem;">${node.nameBn}</div>
                 <div class="member-name-en">${node.nameEn || ''}</div>
             </div>
@@ -526,21 +539,37 @@ function renderHomeLevelHTML() {
     const isuNode = akaliNode.children[0];
     const kesuNode = akaliNode.children[1];
 
+    const padmashiPhoto = familyData.profilePhoto 
+        ? `<div class="card-photo-box"><img src="${familyData.profilePhoto}" alt="${familyData.nameBn}" class="card-avatar"></div>`
+        : '';
+    const akaliPhoto = akaliNode.profilePhoto 
+        ? `<div class="card-photo-box"><img src="${akaliNode.profilePhoto}" alt="${akaliNode.nameBn}" class="card-avatar"></div>`
+        : '';
+    const isuPhoto = isuNode.profilePhoto 
+        ? `<div class="card-photo-box"><img src="${isuNode.profilePhoto}" alt="${isuNode.nameBn}" class="card-avatar"></div>`
+        : '';
+    const kesuPhoto = kesuNode.profilePhoto 
+        ? `<div class="card-photo-box"><img src="${kesuNode.profilePhoto}" alt="${kesuNode.nameBn}" class="card-avatar"></div>`
+        : '';
+
     return `
         <li>
             <div class="member-card male" onclick="onCardClick('${familyData.id}')">
+                ${padmashiPhoto}
                 <div class="member-name-bn">${familyData.nameBn}</div>
                 <div class="member-name-en">${familyData.nameEn}</div>
             </div>
             <ul>
                 <li>
                     <div class="member-card male" onclick="onCardClick('${akaliNode.id}')">
+                        ${akaliPhoto}
                         <div class="member-name-bn">${akaliNode.nameBn}</div>
                         <div class="member-name-en">${akaliNode.nameEn}</div>
                     </div>
                     <ul>
                         <li>
                             <div class="member-card male" onclick="onCardClick('${isuNode.id}')">
+                                ${isuPhoto}
                                 <div class="member-name-bn">${isuNode.nameBn}</div>
                                 <div class="member-name-en">${isuNode.nameEn}</div>
                                 <button class="sub-tree-link" onclick="navigateToSubTree('${isuNode.id}', event)">বংশধারা দেখুন</button>
@@ -548,6 +577,7 @@ function renderHomeLevelHTML() {
                         </li>
                         <li>
                             <div class="member-card male" onclick="onCardClick('${kesuNode.id}')">
+                                ${kesuPhoto}
                                 <div class="member-name-bn">${kesuNode.nameBn}</div>
                                 <div class="member-name-en">${kesuNode.nameEn}</div>
                                 <button class="sub-tree-link" onclick="navigateToSubTree('${kesuNode.id}', event)">বংশধারা দেখুন</button>
@@ -650,7 +680,7 @@ function showMemberDetailsModal(member, parentObj) {
     
     const dodContainer = document.getElementById('dodContainer');
     if (member.isDeceased) {
-        document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
+        document.getElementById('modalDod').textContent = member.dod || 'প্রযোজ্য নয়';
         dodContainer.style.display = 'block';
     } else {
         dodContainer.style.display = 'none';
@@ -731,7 +761,7 @@ function showMemberDetailsModal(member, parentObj) {
         sonsCount = member.children.filter(c => c.gender === 'male').length;
         daughtersCount = member.children.filter(c => c.gender === 'female').length;
     }
-    document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
+    document.getElementById('modalChildrenSummary').textContent = `${totalChildren} জন (ছেলে: ${sonsCount}, মেয়ে: ${daughtersCount})`;
 
     const noteContainer = document.getElementById('noteContainer');
     if (member.specialNote) {
@@ -908,7 +938,7 @@ function setupSearch() {
             });
         } else {
             searchResults.style.display = 'block';
-            searchResults.innerHTML = '<div class="search-result-item">কোন তথ্য পাওয়া যায়নি</div>';
+            searchResults.innerHTML = '<div class="search-result-item">কোন তথ্য পাওয়া যায়নি</div>';
         }
     };
 
