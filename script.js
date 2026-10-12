@@ -3,7 +3,7 @@ const familyData = {
     idNo: "S-001", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
     occupation: "কৃষি", education: "অশিক্ষিত", mobile: "N/A", bloodGroup: "N/A",
     maritalStatus: "বিবাহিত", spouse: null, father: null, mother: null, specialNote: "মূল পূর্বপুরুষ",
-    profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1791814856/arif.jpg", gallery: [],
+    profilePhoto: "", gallery: [],
     children: [
         {
             id: "akali", nameBn: "আকালী সর্দার", nameEn: "Akali Sardar", gender: "male", isDeceased: false,
@@ -17,7 +17,7 @@ const familyData = {
                     idNo: "S-003", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
                     occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
                     maritalStatus: "বিবাহিত", spouse: null, father: { id: "akali", nameBn: "আকালী সর্দার" }, mother: null, specialNote: "",
-                    profilePhoto: "https://ibb.co/9m0jDbgb", gallery: [],
+                    profilePhoto: "", gallery: [],
                     children: [
                         {
                             id: "doshor", nameBn: "দোশর সর্দার", nameEn: "Doshor Sardar", gender: "male", isDeceased: false,
