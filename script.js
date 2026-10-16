@@ -595,30 +595,91 @@ const familyData = {
     ]}
                                     ]
                                 },
-                     {
-            id: "tofezzol", nameBn: "তফেজ্জল সর্দার", nameEn: "Tofezzol Sardar", gender: "male", isDeceased: false, idNo: "S-163", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: null, mother: null, specialNote: "", profilePhoto: "", gallery: [],
+           {
+    id: "tofezzol", 
+    nameBn: "তফেজ্জল সর্দার", 
+    nameEn: "Tofezzol Sardar", 
+    gender: "male", 
+    isDeceased: false, 
+    idNo: "S-163", 
+    dob: "অজানা", 
+    dod: "অজানা", 
+    birthPlace: "অজানা", 
+    currentAddress: "অজানা", 
+    occupation: "অজানা", 
+    education: "অজানা", 
+    mobile: "N/A", 
+    bloodGroup: "N/A", 
+    maritalStatus: "অজানা", 
+    spouse: null, 
+    father: null, 
+    mother: null, 
+    specialNote: "", 
+    profilePhoto: "", 
+    gallery: [],
+    children: [
+        {
+            id: "mohon", 
+            nameBn: "মহন সর্দার", 
+            nameEn: "Mohon Sardar", 
+            gender: "male", 
+            isDeceased: false, 
+            idNo: "S-164", 
+            dob: "অজানা", 
+            dod: "অজানা", 
+            birthPlace: "অজানা", 
+            currentAddress: "অজানা", 
+            occupation: "অজানা", 
+            education: "অজানা", 
+            mobile: "N/A", 
+            bloodGroup: "N/A", 
+            maritalStatus: "অজানা", 
+            spouse: null, 
+            father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, 
+            mother: null, 
+            specialNote: "", 
+            profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1791814868/mohon.jpg", 
+            gallery: [], 
             children: [
-                {
-                    id: "mohon", nameBn: "মহন সর্দার", nameEn: "Mohon Sardar", gender: "male", isDeceased: false, idNo: "S-164", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1791814868/mohon.jpg", gallery: [], children: [
-                        {id: "maria_mohon", nameBn: "মারিয়া", nameEn: "Maria", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                        {id: "mahi_mohon", nameBn: "মাহি", nameEn: "Mahi", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                        {id: "maisha_mohon", nameBn: "মাইশা", nameEn: "Maisha", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                        {id: "masfiya_mohon", nameBn: "মাসফিয়া", nameEn: "Masfiya", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
-                    ]
-                },
-                {
-                    id: "koron", nameBn: "করণ সর্দার", nameEn: "Koron Sardar", gender: "male", isDeceased: false, idNo: "S-165", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1791814866/koron.jpg", gallery: [], children: [
-                        {id: "abdullah_koron", nameBn: "আব্দুল্লাহ সর্দার", nameEn: "Abdullah Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "koron", nameBn: "করণ সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                        {id: "humaira_koron", nameBn: "হুমাইরা", nameEn: "Humaira", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "koron", nameBn: "করণ সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
-                    ]
-                },
-                {id: "rokiya", nameBn: "রকিয়া", nameEn: "Rokiya", gender: "female", isDeceased: false, idNo: "S-166", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                {id: "tuhura2", nameBn: "তহুরা", nameEn: "Tuhura", gender: "female", isDeceased: false, idNo: "S-167", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                {id: "tahera", nameBn: "তাহেরা", nameEn: "Tahera", gender: "female", isDeceased: false, idNo: "S-168", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
-                {id: "sultana", nameBn: "সুলতানা", nameEn: "Sultana", gender: "female", isDeceased: false, idNo: "S-169", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
+                {id: "maria_mohon", nameBn: "মারিয়া", nameEn: "Maria", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+                {id: "mahi_mohon", nameBn: "মাহি", nameEn: "Mahi", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+                {id: "maisha_mohon", nameBn: "মাইশা", nameEn: "Maisha", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+                {id: "masfiya_mohon", nameBn: "মাসফিয়া", nameEn: "Masfiya", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "mohon", nameBn: "মহন সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
             ]
         },
-                                {id: "romela", nameBn: "রমেলা খাতুন", nameEn: "Romela Khatun", gender: "female", isDeceased: false, idNo: "S-170", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: null, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
+        {
+            id: "koron", 
+            nameBn: "করণ সর্দার", 
+            nameEn: "Koron Sardar", 
+            gender: "male", 
+            isDeceased: false, 
+            idNo: "S-165", 
+            dob: "অজানা", 
+            dod: "অজানা", 
+            birthPlace: "অজানা", 
+            currentAddress: "অজানা", 
+            occupation: "অজানা", 
+            education: "অজানা", 
+            mobile: "N/A", 
+            bloodGroup: "N/A", 
+            maritalStatus: "অজানা", 
+            spouse: null, 
+            father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, 
+            mother: null, 
+            specialNote: "", 
+            profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1791814866/koron.jpg", 
+            gallery: [], 
+            children: [
+                {id: "abdullah_koron", nameBn: "আব্দুল্লাহ সর্দার", nameEn: "Abdullah Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "koron", nameBn: "করণ সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+                {id: "humaira_koron", nameBn: "হুমাইরা", nameEn: "Humaira", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "koron", nameBn: "করণ সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
+            ]
+        },
+        {id: "rokiya", nameBn: "রকিয়া", nameEn: "Rokiya", gender: "female", isDeceased: false, idNo: "S-166", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+        {id: "tuhura2", nameBn: "তহুরা", nameEn: "Tuhura", gender: "female", isDeceased: false, idNo: "S-167", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+        {id: "tahera", nameBn: "তাহেরা", nameEn: "Tahera", gender: "female", isDeceased: false, idNo: "S-168", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
+        {id: "sultana", nameBn: "সুলতানা", nameEn: "Sultana", gender: "female", isDeceased: false, idNo: "S-169", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "tofezzol", nameBn: "তফেজ্জল সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
+    ]
+}                      {id: "romela", nameBn: "রমেলা খাতুন", nameEn: "Romela Khatun", gender: "female", isDeceased: false, idNo: "S-170", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: null, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []}
                             ]
                         },
                         {
