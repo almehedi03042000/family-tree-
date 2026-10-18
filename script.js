@@ -1387,28 +1387,7 @@ function setupSearch() {
         else performSearch();
     });
 
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-box')) {
-            searchResults.style.display = 'none';
-        }
-    });
-}
-// তথ্য ও ছবি যোগ/সংশোধন মোডাল ওপেন ও ক্লোজ লজিক
-document.addEventListener('DOMContentLoaded', () => {
-    const addInfoBtn = document.getElementById('addInfoBtn');
-    const infoModal = document.getElementById('infoModal');
-    const closeInfoModal = document.getElementById('closeInfoModal');
-
-    if (addInfoBtn && infoModal && closeInfoModal) {
-        addInfoBtn.addEventListener('click', () => {
-            infoModal.style.display = 'flex';
-        });
-
-        closeInfoModal.addEventListener('click', () => {
-            infoModal.style.display = 'none';
-        });
-
-       document.addEventListener('click', (e) => {
+   document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-box')) {
             searchResults.style.display = 'none';
         }
@@ -1416,30 +1395,26 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 // ==========================================
-// তথ্য ও ছবি যোগ/সংশোধন মোডাল কন্ট্রোল (সংশোধিত)
+// তথ্য ও ছবি যোগ/সংশোধন মোডাল কন্ট্রোল (চূড়ান্ত ও পরিষ্কার কোড)
 // ==========================================
-// ==========================================
-// তথ্য ও ছবি যোগ/সংশোধন মোডাল কন্ট্রোল (সুরক্ষিত কোড)
-// ==========================================
-(function() {
-    var btn = document.getElementById('addInfoBtn');
-    var modal = document.getElementById('infoModal');
-    var closeBtn = document.getElementById('closeInfoModal');
+const addInfoBtn = document.getElementById('addInfoBtn');
+const infoModal = document.getElementById('infoModal');
+const closeInfoModal = document.getElementById('closeInfoModal');
 
-    if (btn && modal) {
-        btn.onclick = function() {
-            modal.style.display = 'flex';
-        };
-    }
-
-    if (closeBtn && modal) {
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
-        };
-    }
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
+if (addInfoBtn && infoModal) {
+    addInfoBtn.addEventListener('click', () => {
+        infoModal.style.display = 'flex';
     });
+}
+
+if (closeInfoModal && infoModal) {
+    closeInfoModal.addEventListener('click', () => {
+        infoModal.style.display = 'none';
+    });
+}
+
+window.addEventListener('click', (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = 'none';
+    }
+});
