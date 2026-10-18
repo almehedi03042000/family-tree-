@@ -901,7 +901,7 @@ function goBackPage() {
         historyStack.pop();
         currentRootNode = historyStack[historyStack.length - 1];
         renderCurrentTree();
-        window.history.back();
+       
     }
 }
 
