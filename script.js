@@ -1408,10 +1408,34 @@ document.addEventListener('DOMContentLoaded', () => {
             infoModal.style.display = 'none';
         });
 
-        window.addEventListener('click', (event) => {
-            if (event.target === infoModal) {
-                infoModal.style.display = 'none';
-            }
-        });
+       document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box')) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+
+// ==========================================
+// তথ্য ও ছবি যোগ/সংশোধন মোডাল কন্ট্রোল (সংশোধিত)
+// ==========================================
+const addInfoBtn = document.getElementById('addInfoBtn');
+const infoModal = document.getElementById('infoModal');
+const closeInfoModal = document.getElementById('closeInfoModal');
+
+if (addInfoBtn && infoModal) {
+    addInfoBtn.addEventListener('click', () => {
+        infoModal.style.display = 'flex';
+    });
+}
+
+if (closeInfoModal && infoModal) {
+    closeInfoModal.addEventListener('click', () => {
+        infoModal.style.display = 'none';
+    });
+}
+
+window.addEventListener('click', (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = 'none';
     }
 });
