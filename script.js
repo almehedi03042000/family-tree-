@@ -1393,3 +1393,25 @@ function setupSearch() {
         }
     });
 }
+// তথ্য ও ছবি যোগ/সংশোধন মোডাল ওপেন ও ক্লোজ লজিক
+document.addEventListener('DOMContentLoaded', () => {
+    const addInfoBtn = document.getElementById('addInfoBtn');
+    const infoModal = document.getElementById('infoModal');
+    const closeInfoModal = document.getElementById('closeInfoModal');
+
+    if (addInfoBtn && infoModal && closeInfoModal) {
+        addInfoBtn.addEventListener('click', () => {
+            infoModal.style.display = 'flex';
+        });
+
+        closeInfoModal.addEventListener('click', () => {
+            infoModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === infoModal) {
+                infoModal.style.display = 'none';
+            }
+        });
+    }
+});
