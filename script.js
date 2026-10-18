@@ -892,9 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
             historyStack.pop();
             currentRootNode = historyStack[historyStack.length - 1];
             renderCurrentTree();
-        } else {
-            history.pushState({ pageIndex: 0 }, "");
-        }
+        } 
     });
 });
 
