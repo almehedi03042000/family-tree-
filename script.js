@@ -875,17 +875,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (lightboxModal.style.display === 'flex') {
             lightboxModal.style.display = 'none';
-            history.pushState({ pageIndex: historyStack.length - 1 }, "");
             return;
         }
         if (memberModal.style.display === 'flex') {
             memberModal.style.display = 'none';
-            history.pushState({ pageIndex: historyStack.length - 1 }, "");
+           
             return;
         }
         if (zoomModal.style.display === 'flex') {
             zoomModal.style.display = 'none';
-            history.pushState({ pageIndex: historyStack.length - 1 }, "");
+          
             return;
         }
 
