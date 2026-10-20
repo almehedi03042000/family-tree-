@@ -1,33 +1,33 @@
 const familyData = {
-    id: "padmashi", nameBn: "পদ্মাশী সর্দার", nameEn: "Padmashi Sardar", gender: "male", isDeceased: false,
+    id: "padmashi", nameBn: "পদ্মাশী সর্দার", nameEn: "Padmashi Sardar", gender: "male", isDeceased: true,
     idNo: "S-001", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
     occupation: "কৃষি", education: "অশিক্ষিত", mobile: "N/A", bloodGroup: "N/A",
     maritalStatus: "বিবাহিত", spouse: null, father: null, mother: null, specialNote: "মূল পূর্বপুরুষ",
     profilePhoto: "", gallery: [],
     children: [
         {
-            id: "akali", nameBn: "আকালী সর্দার", nameEn: "Akali Sardar", gender: "male", isDeceased: false,
+            id: "akali", nameBn: "আকালী সর্দার", nameEn: "Akali Sardar", gender: "male", isDeceased: true,
             idNo: "S-002", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
             occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
             maritalStatus: "বিবাহিত", spouse: null, father: { id: "padmashi", nameBn: "পদ্মাশী সর্দার" }, mother: null, specialNote: "",
             profilePhoto: "", gallery: [],
             children: [
                 {
-                    id: "isu", nameBn: "ঈসু সর্দার", nameEn: "Isu Sardar", gender: "male", isDeceased: false,
+                    id: "isu", nameBn: "ঈসু সর্দার", nameEn: "Isu Sardar", gender: "male", isDeceased: true,
                     idNo: "S-003", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
                     occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
                     maritalStatus: "বিবাহিত", spouse: null, father: { id: "akali", nameBn: "আকালী সর্দার" }, mother: null, specialNote: "",
                     profilePhoto: "", gallery: [],
                     children: [
                         {
-                            id: "doshor", nameBn: "দোশর সর্দার", nameEn: "Doshor Sardar", gender: "male", isDeceased: false,
+                            id: "doshor", nameBn: "দোশর সর্দার", nameEn: "Doshor Sardar", gender: "male", isDeceased: true,
                             idNo: "S-004", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
                             occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
                             maritalStatus: "বিবাহিত", spouse: null, father: { id: "isu", nameBn: "ঈসু সর্দার" }, mother: null, specialNote: "",
                             profilePhoto: "", gallery: [],
                             children: [
                                 {
-                                    id: "banej", nameBn: "বানেজ সর্দার", nameEn: "Banej Sardar", gender: "male", isDeceased: false,
+                                    id: "banej", nameBn: "বানেজ সর্দার", nameEn: "Banej Sardar", gender: "male", isDeceased: true,
                                     idNo: "S-005", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা",
                                     occupation: "কৃষি", education: "অজানা", mobile: "N/A", bloodGroup: "N/A",
                                     maritalStatus: "বিবাহিত", spouse: null, father: { id: "doshor", nameBn: "দোশর সর্দার" }, mother: null, specialNote: "",
@@ -56,9 +56,9 @@ const familyData = {
                                         {id: "amzad", nameBn: "আমজাদ সর্দার", nameEn: "Amzad Sardar", gender: "male", isDeceased: false, idNo: "S-008", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "banej", nameBn: "বানেজ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1791814857/amjad.jpg", gallery: [],
                                          children: [{id: "rubel_amzad", nameBn: "রুবেল সর্দার", nameEn: "Rubel Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "vurkapara", currentAddress: "Rajshahi", occupation: "Doctor", education: "MBBS(RM)", mobile: "01723939460", bloodGroup: "N/A", maritalStatus: "married", spouse: "Asha", father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792321259/rubel.jpg", gallery: [], children: []},
         {id: "rasel_amzad", nameBn: "রাসেল সর্দার", nameEn: "Rasel Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "vurkapara", currentAddress: "Rajshahi", occupation: "Job at (BTCL)", education: "Bsc in EEE", mobile: "01767967206", bloodGroup: "N/A", maritalStatus: "marride", spouse: null, father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792321258/rasel.jpg", gallery: [], children: []},
-        {id: "sojol_amzad", nameBn: "সজল সর্দার", nameEn: "Sojol Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792325010/shajal.jpg", gallery: [], children: []},
-        {id: "asma_amzad", nameBn: "আসমা", nameEn: "Asma", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792321257/asma.jpg", gallery: [], children: []},
-        {id: "shayla_amzad", nameBn: "শায়লা", nameEn: "Shayla", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792321260/shaila.jpg", gallery: [], children: []}
+        {id: "sojol_amzad", nameBn: "সজল সর্দার", nameEn: "Sojol Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "vurkapara", currentAddress: "Rajshahi", occupation: "student", education: "B.sc(hons)RU", mobile: "01782139049", bloodGroup: "N/A", maritalStatus: "Unmarried", spouse: null, father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792325010/shajal.jpg", gallery: [], children: []},
+        {id: "asma_amzad", nameBn: "আসমা", nameEn: "Asma", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "vurkapara", currentAddress: "Ishwardi", occupation: "Primary school teacher", education: "M.A", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "married", spouse: "Sumon", father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792321257/asma.jpg", gallery: [], children: []},
+        {id: "shayla_amzad", nameBn: "শায়লা", nameEn: "Shayla", gender: "female", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "vurkapara", currentAddress: "Rajshahi", occupation: "Student", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "Unmarried", spouse: null, father: {id: "amzad", nameBn: "আমজাদ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792321260/shaila.jpg", gallery: [], children: []}
     ]},
                                         {id: "reziya", nameBn: "রেজিয়া", nameEn: "Reziya", gender: "female", isDeceased: false, idNo: "S-009", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "banej", nameBn: "বানেজ সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
                                         {id: "hafiya", nameBn: "হাফিয়া", nameEn: "Hafiya", gender: "female", isDeceased: false, idNo: "S-010", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "banej", nameBn: "বানেজ সর্দার"}, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: []},
@@ -68,7 +68,7 @@ const familyData = {
                                     ]
                                 },
                                 {
-                                    id: "mokbul", nameBn: "মকবুল সর্দার", nameEn: "Mokbul Sardar", gender: "male", isDeceased: false,
+                                    id: "mokbul", nameBn: "মকবুল সর্দার", nameEn: "Mokbul Sardar", gender: "male", isDeceased: true,
                                     idNo: "S-014", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: { id: "doshor", nameBn: "দোশর সর্দার" }, mother: null, specialNote: "", profilePhoto: "", gallery: [],
                                     children: [
                                         {id: "altaf", nameBn: "আলতাফ সর্দার", nameEn: "Altaf Sardar", gender: "male", isDeceased: true, idNo: "S-015", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: null, mother: null, specialNote: "", profilePhoto: "", gallery: [], children: [{id: "ashik_altaf", nameBn: "আশিক সর্দার", nameEn: "Ashik Sardar", gender: "male", isDeceased: false, idNo: "", dob: "অজানা", dod: "অজানা", birthPlace: "অজানা", currentAddress: "অজানা", occupation: "অজানা", education: "অজানা", mobile: "N/A", bloodGroup: "N/A", maritalStatus: "অজানা", spouse: null, father: {id: "altaf", nameBn: "আলতাফ সর্দার"}, mother: null, specialNote: "", profilePhoto: "https://res.cloudinary.com/nxdybqro/image/upload/v1792214780/ashik.jpg", gallery: [], children: []},
